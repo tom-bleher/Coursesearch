@@ -168,6 +168,10 @@ const searchInput = document.getElementById('search');
 let searchTimeout = null;
 const searchDelay = 200;
 
+// Add these variables at the top of the file, after the existing constants
+let initialLayout = null;
+let initialNodePositions = null;
+
 function performSearch(searchTerm) {
     if (!searchTerm) {
         // End any existing batch before reset
@@ -316,7 +320,181 @@ const updateTextScaling = _.throttle(() => {
 // Add zoom handler
 cy.on('zoom', updateTextScaling);
 
-// Update the reset view function to ensure proper reset sequence
+// Add these variables before the handleNodeClick function
+let lastClickedNode = null;
+let clickTimeout = null;
+const doubleClickDelay = 300; // milliseconds
+
+// Function to handle node clicks
+function handleNodeClick(event) {
+    const clickedNode = event.target;
+    
+    // If clicking background, reset view
+    if (event.target === cy) {
+        resetView();
+        lastClickedNode = null;
+        if (clickTimeout) {
+            clearTimeout(clickTimeout);
+            clickTimeout = null;
+        }
+        return;
+    }
+    
+    if (!clickedNode.isNode()) return;
+    
+    // Handle double click
+    if (lastClickedNode === clickedNode && clickTimeout) {
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+        lastClickedNode = null;
+        resetView();
+        return;
+    }
+    
+    // Set up for potential double click
+    if (clickTimeout) {
+        clearTimeout(clickTimeout);
+    }
+    
+    lastClickedNode = clickedNode;
+    clickTimeout = setTimeout(() => {
+        // Single click behavior
+        const courseId = clickedNode.id();
+        const courses = currentCourses;
+        
+        cy.startBatch();
+        
+        // First, hide all elements
+        cy.elements().addClass('hidden');
+        
+        // Get all prerequisites
+        const prerequisites = getAllPrerequisites(courseId, courses);
+        
+        // Create a collection of visible elements
+        const visibleElements = cy.collection();
+        visibleElements.merge(clickedNode);
+        
+        // Show and highlight the target course
+        clickedNode.removeClass('hidden').style({
+            'background-color': '#FFF3E0',
+            'border-width': '2.5px',
+            'border-color': '#F57C00',
+            'color': '#E65100',
+            'opacity': 1
+        });
+        
+        // Show and highlight prerequisites
+        prerequisites.forEach(prereqId => {
+            const prereqNode = cy.getElementById(prereqId);
+            prereqNode.removeClass('hidden').style({
+                'background-color': '#E3F2FD',
+                'border-width': '2px',
+                'border-color': '#1976D2',
+                'color': '#0D47A1',
+                'opacity': 1
+            });
+            visibleElements.merge(prereqNode);
+            
+            // Show and highlight edges between prerequisites
+            const edgesToHighlight = cy.edges().filter(edge => {
+                const sourceId = edge.source().id();
+                const targetId = edge.target().id();
+                return (prerequisites.has(sourceId) && prerequisites.has(targetId)) ||
+                       (prerequisites.has(sourceId) && targetId === courseId) ||
+                       (sourceId === courseId && prerequisites.has(targetId));
+            });
+            
+            edgesToHighlight.removeClass('hidden').style({
+                'line-color': '#1976D2',
+                'target-arrow-color': '#1976D2',
+                'opacity': 1
+            });
+            
+            visibleElements.merge(edgesToHighlight);
+        });
+        
+        // Calculate optimal layout parameters based on visible elements
+        const nodeCount = visibleElements.nodes().length;
+        const branchingFactor = Math.max(
+            ...visibleElements.nodes().map(node => 
+                Math.max(node.outgoers('node').length, node.incomers('node').length)
+            )
+        );
+        
+        // Adjust spacing based on the number of nodes and branching factor
+        const baseSpacing = Math.min(
+            Math.max(30, cy.width() / (nodeCount * (1 + branchingFactor * 0.3))),
+            60
+        );
+        
+        const horizontalSpacing = baseSpacing * (1 / Math.sqrt(branchingFactor));
+        const verticalSpacing = baseSpacing * 1.5;
+        
+        // Apply layout to visible elements
+        const layout = visibleElements.layout({
+            name: 'dagre',
+            rankDir: 'TB',
+            padding: 30,
+            spacingFactor: 1 + (1 / nodeCount),
+            animate: true,
+            animationDuration: 300,
+            rankSep: verticalSpacing,
+            nodeSep: horizontalSpacing,
+            ranker: 'tight-tree',
+            edgeSep: horizontalSpacing * 0.3,
+            align: 'DL'
+        });
+        
+        layout.run();
+        
+        // Fit the view to the visible elements after layout completes
+        setTimeout(() => {
+            cy.fit(visibleElements, 50);
+            updateTextScaling();
+        }, 350);
+        
+        cy.endBatch();
+        clickTimeout = null;
+    }, doubleClickDelay);
+}
+
+// Remove the old tap handler and add the new one
+cy.on('tap', handleNodeClick);
+
+// Add handler to clear click state when dragging/zooming
+cy.on('viewport', () => {
+    if (clickTimeout) {
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+    }
+    lastClickedNode = null;
+});
+
+// Function to get all prerequisites recursively
+function getAllPrerequisites(courseId, courses) {
+    const course = courses.find(c => c.id === courseId);
+    if (!course) return new Set();
+    
+    const prerequisites = new Set();
+    
+    // Add direct prerequisites
+    course.prereqs.forEach(prereq => {
+        prerequisites.add(prereq);
+        // Recursively add prerequisites of prerequisites
+        getAllPrerequisites(prereq, courses).forEach(p => prerequisites.add(p));
+    });
+    
+    // Add corequisites and their prerequisites
+    course.coreqs.forEach(coreq => {
+        prerequisites.add(coreq);
+        // Recursively add prerequisites of corequisites
+        getAllPrerequisites(coreq, courses).forEach(p => prerequisites.add(p));
+    });
+    
+    return prerequisites;
+}
+
+// Update the resetView function to restore exact initial positions
 function resetView() {
     cy.startBatch();
     
@@ -328,12 +506,13 @@ function resetView() {
     // Reset visibility first
     cy.elements().removeClass('hidden');
     
-    // Reset node styles to default gray
+    // Reset node styles to default gray with full opacity
     cy.nodes().style({
         'background-color': '#F5F5F5',
         'border-width': '1.5px',
         'border-color': '#78909C',
-        'color': '#455A64'
+        'color': '#455A64',
+        'opacity': 1
     });
     
     // Reset edge styles with black arrows
@@ -347,29 +526,44 @@ function resetView() {
         });
     });
 
+    // Restore the exact initial positions of all nodes with animation
+    if (initialNodePositions) {
+        cy.nodes().forEach(node => {
+            const pos = initialNodePositions[node.id()];
+            if (pos) {
+                node.animate({
+                    position: pos,
+                    duration: 300,
+                    easing: 'ease-in-out-cubic'
+                });
+            }
+        });
+    }
+    
+    // Perform view reset operations after animation
+    setTimeout(() => {
+        cy.fit(40);
+        updateTextScaling();
+        // Update minZoom to match current zoom level
+        cy.minZoom(cy.zoom());
+    }, 350);
+    
     cy.endBatch();
-    
-    // Perform view reset operations outside of batch
-    cy.fit(40);
-    updateTextScaling();
-    
-    // Update minZoom to match current zoom level
-    cy.minZoom(cy.zoom());
 }
 
-// Update the updateGraph function to include text scaling
+// Update the updateGraph function to store initial positions
 function updateGraph(courseType) {
-    const courses = courseType === 'math' ? courses_math : courses_physics;
+    currentCourses = courseType === 'math' ? courses_math : courses_physics;
     document.querySelector('h1').textContent = courseType === 'math' ? 'עץ התואר במתמטיקה' : 'עץ התואר בפיזיקה';
     
     const elements = {
-        nodes: courses.map(course => ({
+        nodes: currentCourses.map(course => ({
             data: {
                 id: course.id,
                 label: course.id
             }
         })),
-        edges: courses.flatMap(course => [
+        edges: currentCourses.flatMap(course => [
             ...course.prereqs.map(prereq => ({
                 data: {
                     source: prereq,
@@ -402,7 +596,8 @@ function updateGraph(courseType) {
         60
     );
     
-    cy.layout({
+    // Store the initial layout parameters
+    initialLayout = {
         name: 'dagre',
         rankDir: 'TB',
         padding: 50,
@@ -412,7 +607,19 @@ function updateGraph(courseType) {
         nodeSep: optimalSpacing * 1.2,
         ranker: 'network-simplex',
         edgeSep: optimalSpacing * 0.6
-    }).run();
+    };
+    
+    // Apply the initial layout
+    cy.layout(initialLayout).run();
+
+    // Store the initial positions of all nodes
+    initialNodePositions = {};
+    cy.nodes().forEach(node => {
+        initialNodePositions[node.id()] = {
+            x: node.position('x'),
+            y: node.position('y')
+        };
+    });
 
     // Apply the same styling as reset view
     cy.nodes().style({
@@ -422,7 +629,7 @@ function updateGraph(courseType) {
         'color': '#455A64'
     });
     
-    // Update edge styles with new black arrows
+    // Update edge styles with black arrows
     cy.edges().forEach(edge => {
         const type = edge.data('type');
         edge.style({
