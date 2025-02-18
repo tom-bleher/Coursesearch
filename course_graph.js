@@ -69,7 +69,8 @@ const courses_physics = [
     {"id": "תורת השדות 2", "name": {"he": "תורת השדות 2", "en": "Field Theory 2"}, "prereqs": ["תורת השדות 1"], "coreqs": [], "category": "field_theory"},
     {"id": "תורת השדות 3", "name": {"he": "תורת השדות 3", "en": "Field Theory 3"}, "prereqs": ["תורת השדות 1", "תורת השדות 2"], "coreqs": [], "category": "field_theory"},
     {"id": "תורת החלקיקים 1", "name": {"he": "תורת החלקיקים 1", "en": "Particle Physics 1"}, "prereqs": ["תורת השדות 1"], "coreqs": [], "category": "particle_physics"},
-    {"id": "תורת החלקיקים 2", "name": {"he": "תורת החלקיקים 2", "en": "Particle Physics 2"}, "prereqs": ["תורת החלקיקים 1"], "coreqs": [], "category": "particle_physics"}
+    {"id": "תורת החלקיקים 2", "name": {"he": "תורת החלקיקים 2", "en": "Particle Physics 2"}, "prereqs": ["תורת החלקיקים 1"], "coreqs": [], "category": "particle_physics"},
+    {"id": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "name": {"he": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "en": "Introduction to Plasma Physics and Controlled Nuclear Fusion"}, "prereqs": [], "coreqs": [], "category": "plasma_physics"}
 ];
 
 // Prepare the elements for Cytoscape
