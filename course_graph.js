@@ -70,7 +70,16 @@ const courses_physics = [
     {"id": "תורת השדות 3", "name": {"he": "תורת השדות 3", "en": "Field Theory 3"}, "prereqs": ["תורת השדות 1", "תורת השדות 2"], "coreqs": [], "category": "field_theory"},
     {"id": "תורת החלקיקים 1", "name": {"he": "תורת החלקיקים 1", "en": "Particle Physics 1"}, "prereqs": ["תורת השדות 1"], "coreqs": [], "category": "particle_physics"},
     {"id": "תורת החלקיקים 2", "name": {"he": "תורת החלקיקים 2", "en": "Particle Physics 2"}, "prereqs": ["תורת החלקיקים 1"], "coreqs": [], "category": "particle_physics"},
-    {"id": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "name": {"he": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "en": "Introduction to Plasma Physics and Controlled Nuclear Fusion"}, "prereqs": [], "coreqs": [], "category": "plasma_physics"}
+    {"id": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "name": {"he": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "en": "Introduction to Plasma Physics and Controlled Nuclear Fusion"}, "prereqs": [], "coreqs": [], "category": "plasma_physics"},
+    {"id": "1מעבדה בפיזיקה א", "name": {"he": "מעבדה בפיזיקה 1א", "en": "Laboratory in Physics 1A"}, "prereqs": [], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה א2", "name": {"he": "מעבדה בפיזיקה 2א", "en": "Laboratory in Physics 2A"}, "prereqs": ["1מעבדה בפיזיקה א"], "coreqs": [], "category": "laboratory"},
+    {"id": "1מעבדה בפיזיקה ב", "name": {"he": "1מעבדה בפיזיקה ב", "en": "Laboratory in Physics B"}, "prereqs": ["מעבדה בפיזיקה א2"], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה ב2", "name": {"he": "מעבדה בפיזיקה ב2", "en": "Laboratory in Physics B2"}, "prereqs": ["1מעבדה בפיזיקה ב"], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה ג1", "name": {"he": "מעבדה בפיזיקה ג1", "en": "Laboratory in Physics C1"}, "prereqs": ["2מעבדה בפיזיקה ב"], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה ג2", "name": {"he": "מעבדה בפיזיקה ג2", "en": "Laboratory in Physics C2"}, "prereqs": ["מעבדה בפיזיקה ג1"], "coreqs": [], "category": "laboratory"},
+    {"id": "תורת האינפורמציה ופיזיקה קוונטית", "name": {"he": "תורת האינפורמציה ופיזיקה קוונטית", "en": "Quantum Information and Quantum Physics"}, "prereqs": [""], "coreqs": [], "category": "quantum"},
+    {"id": "מבוא לאינטראקציה בין אור לחומר", "name": {"he": "מבוא לאינטראקציה בין אור לחומר, שליטה קוהרנטית", "en": "Introduction to Light-Matter Interaction and Coherent Control"}, "prereqs": ["גלים"], "coreqs": [], "category": "quantum"},
+    {"id": "מבוא למדעי הנתונים", "name": {"he": "מבוא למדעי הנתונים", "en": "Introduction to Data Science"}, "prereqs": [], "coreqs": [], "category": "computing"}
 ];
 
 // Prepare the elements for Cytoscape
