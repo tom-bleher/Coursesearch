@@ -54,23 +54,26 @@
             align-items: center;
             gap: 0.5rem;
             flex-wrap: wrap;
+            height: 36px;
         }
         .toggle-container {
             display: flex;
             gap: 1rem;
             align-items: center;
-            padding: 0.5rem;
             background-color: #f0f0f0;
             border-radius: 4px;
+            height: 36px;
+            padding: 0;
         }
         .toggle-label {
             display: flex;
             align-items: center;
             gap: 0.25rem;
             cursor: pointer;
-            padding: 0.25rem 0.5rem;
+            padding: 0 0.75rem;
             border-radius: 4px;
             transition: background-color 0.2s;
+            height: 36px;
         }
         .toggle-label:hover {
             background-color: #e0e0e0;
@@ -93,11 +96,12 @@
             align-items: center;
             margin: 8px 0;
             color: #2c3e50;
+            gap: 8px;
         }
         .legend-line {
             width: 30px;
             height: 2px;
-            margin-left: 10px;
+            margin-left: 0;
         }
         .solid {
             border-top: 2px solid #2c3e50;
@@ -108,12 +112,14 @@
         button {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
-            padding: 8px 12px;
-            margin: 4px;
+            padding: 0 12px;
             border-radius: 4px;
             cursor: pointer;
             color: #2c3e50;
             transition: all 0.2s;
+            height: 36px;
+            line-height: 36px;
+            margin: 0;
         }
         button:hover {
             background-color: #e9ecef;
@@ -125,11 +131,79 @@
         }
         #search {
             width: 200px;
-            padding: 8px;
-            margin: 4px;
+            padding: 0 8px;
             border: 1px solid #dee2e6;
             border-radius: 4px;
             direction: rtl;
+            height: 36px;
+            line-height: 36px;
+            margin: 0;
+        }
+        .info-icon {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            background-color: #1976D2;
+            border-radius: 4px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin: 0;
+        }
+
+        .info-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1001;
+            max-width: 500px;
+            width: 90%;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .info-popup h2 {
+            margin-top: 0;
+            color: #1976D2;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .info-popup p {
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #666;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
         }
     </style>
 </head>
@@ -147,6 +221,7 @@
             </div>
             <input type="text" id="search" placeholder="חיפוש קורס...">
             <button onclick="resetView()">איפוס תצוגה</button>
+            <div class="info-icon">i</div>
         </div>
         <div class="legend">
             <div class="legend-item">
@@ -160,6 +235,37 @@
         </div>
     </div>
     <div id="cy"></div>
+
+    <div class="popup-overlay"></div>
+    <div class="info-popup">
+        <div class="close-popup">×</div>
+        <h2>איך להשתמש במפת הקורסים</h2>
+        <p><strong>תצוגה כללית:</strong> המפה מציגה את כל הקורסים ואת הקשרים ביניהם. חיצים מלאים מייצגים קורסי קדם, וחיצים מקווקווים מייצגים קורסים מקבילים.</p>
+        <p><strong>חיפוש קורס:</strong> הקלד את שם הקורס בשדה החיפוש כדי למצוא אותו במפה.</p>
+        <p><strong>בחירת קורס:</strong> לחץ על קורס כדי לראות את כל קורסי הקדם הנדרשים עבורו. לחיצה כפולה על אותו קורס או על הרקע תחזיר את התצוגה המלאה.</p>
+        <p><strong>מעבר בין תארים:</strong> השתמש בכפתורים כדי לעבור בין תצוגת קורסי המתמטיקה והפיזיקה.</p>
+        <p><strong>התמצאות:</strong> ניתן להזיז את המפה על ידי גרירה ולשנות את גודל התצוגה באמצעות גלגלת העכבר.</p>
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #e1e4e8;">
+        <p style="color: #666; font-size: 0.9em;">האתר עדיין בפיתוח ואנו מצטערים מראש על באגים כאלו ואחרים.</p>
+        <p style="color: #666; font-size: 0.9em;">ליצירת קשר: <a href="mailto:tombleher@tauex.tau.ac.il" style="color: #1976D2; text-decoration: none;">tombleher@tauex.tau.ac.il</a></p>
+    </div>
+
     <script src="course_graph.js"></script>
+    <script>
+        document.querySelector('.info-icon').addEventListener('click', () => {
+            document.querySelector('.info-popup').style.display = 'block';
+            document.querySelector('.popup-overlay').style.display = 'block';
+        });
+
+        document.querySelector('.close-popup').addEventListener('click', () => {
+            document.querySelector('.info-popup').style.display = 'none';
+            document.querySelector('.popup-overlay').style.display = 'none';
+        });
+
+        document.querySelector('.popup-overlay').addEventListener('click', () => {
+            document.querySelector('.info-popup').style.display = 'none';
+            document.querySelector('.popup-overlay').style.display = 'none';
+        });
+    </script>
 </body>
 </html> 
