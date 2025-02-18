@@ -35,7 +35,15 @@ const courses_math = [
     {"id": "הסתברות למתמטיקאים", "name": {"he": "הסתברות למתמטיקאים", "en": "Probability for Mathematicians"}, "prereqs": ["ממשיות", "מבוא להסתברות"], "coreqs": [], "category": "probability"},
     {"id": "משחקי בורל", "name": {"he": "משחקי בורל", "en": "Borel Games"}, "prereqs": ["הסתברות למתמטיקאים"], "coreqs": [], "category": "probability"},
     {"id": "מבוא לתהליכים מקריים", "name": {"he": "מבוא לתהליכים מקריים", "en": "Introduction to Stochastic Processes"}, "prereqs": ["הסתברות למתמטיקאים"], "coreqs": [], "category": "probability"},
-    {"id": "תורת הקבוצות", "name": {"he": "תורת הקבוצות", "en": "Set Theory"}, "prereqs": ["לינארית 1", "חדוא 1"], "coreqs": [], "category": "foundations"}
+    {"id": "תורת הקבוצות", "name": {"he": "תורת הקבוצות", "en": "Set Theory"}, "prereqs": ["לינארית 1", "חדוא 1"], "coreqs": [], "category": "foundations"},
+    {"id": "פיזיקה למתמטיקאים", "name": {"he": "פיזיקה למתמטיקאים", "en": "Physics for Mathematicians"}, "prereqs": ["ODE", "חדוא 3"], "coreqs": ["חדוא 4"], "category": "physics"},
+    {"id": "דיפוזיה על רשתות", "name": {"he": "דיפוזיה על רשתות", "en": "Diffusion on Networks"}, "prereqs": ["ODE", "אנליזה נומרית", "מבוא להסתברות"], "coreqs": [], "category": "applications"},
+    {"id": "יסודות מתמטיים ללמידת מכונה", "name": {"he": "יסודות מתמטיים ללמידת מכונה", "en": "Mathematical Foundations of Machine Learning"}, "prereqs": ["לינארית 2", "חדוא 2"], "coreqs": [], "category": "applications"},
+    {"id": "תיאוריה סטטיסטית", "name": {"he": "תיאוריה סטטיסטית", "en": "Statistical Theory"}, "prereqs": ["הסתברות למתמטיקאים"], "coreqs": [], "category": "probability"},
+    {"id": "חקר ביצועים 1", "name": {"he": "חקר ביצועים 1", "en": "Operations Research 1"}, "prereqs": ["חדוא 1", "לינארית 1"], "coreqs": [], "category": "applications"},
+    {"id": "חישוביות על פי אלגברה ליניארית", "name": {"he": "חישוביות על פי אלגברה ליניארית", "en": "Mathematics of Computation via Linear Algebra"}, "prereqs": ["לינארית 1"], "coreqs": ["מודלים חישוביים"], "category": "computer_science"},
+    {"id": "מודלים חישוביים", "name": {"he": "מודלים חישוביים", "en": "Computational Models"}, "prereqs": ["מבוא מורחב למדמ״ח", "מבוא לתורת הקבוצות"], "coreqs": ["מבוא להסתברות"], "category": "computer_science"},
+    {"id": "מבוא לאופטימיזציה לא ליניארית", "name": {"he": "מבוא לאופטימיזציה לא ליניארית", "en": "Introduction to Nonlinear Optimization"}, "prereqs": ["חדוא 2", "לינארית 2"], "coreqs": [], "category": "applications"},
 ];
 
 const courses_physics = [
@@ -71,15 +79,16 @@ const courses_physics = [
     {"id": "תורת החלקיקים 1", "name": {"he": "תורת החלקיקים 1", "en": "Particle Physics 1"}, "prereqs": ["תורת השדות 1"], "coreqs": [], "category": "particle_physics"},
     {"id": "תורת החלקיקים 2", "name": {"he": "תורת החלקיקים 2", "en": "Particle Physics 2"}, "prereqs": ["תורת החלקיקים 1"], "coreqs": [], "category": "particle_physics"},
     {"id": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "name": {"he": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "en": "Introduction to Plasma Physics and Controlled Nuclear Fusion"}, "prereqs": [], "coreqs": [], "category": "plasma_physics"},
-    {"id": "1מעבדה בפיזיקה א", "name": {"he": "1מעבדה בפיזיקה א", "en": "Laboratory in Physics 1A"}, "prereqs": [], "coreqs": [], "category": "laboratory"},
-    {"id": "מעבדה בפיזיקה א2", "name": {"he": "2מעבדה בפיזיקה א", "en": "Laboratory in Physics 2A"}, "prereqs": ["1מעבדה בפיזיקה א"], "coreqs": [], "category": "laboratory"},
-    {"id": "1מעבדה בפיזיקה ב", "name": {"he": "1מעבדה בפיזיקה ב", "en": "Laboratory in Physics B1"}, "prereqs": ["מעבדה בפיזיקה א2"], "coreqs": [], "category": "laboratory"},
-    {"id": "מעבדה בפיזיקה ב2", "name": {"he": "מעבדה בפיזיקה ב2", "en": "Laboratory in Physics B2"}, "prereqs": ["1מעבדה בפיזיקה ב"], "coreqs": [], "category": "laboratory"},
-    {"id": "מעבדה בפיזיקה ג1", "name": {"he": "מעבדה בפיזיקה ג1", "en": "Laboratory in Physics C1"}, "prereqs": ["2מעבדה בפיזיקה ב"], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה א1", "name": {"he": "מעבדה בפיזיקה א1", "en": "Laboratory in Physics 1A"}, "prereqs": [], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה א2", "name": {"he": "מעבדה בפיזיקה א2", "en": "Laboratory in Physics 2A"}, "prereqs": ["מעבדה בפיזיקה א1"], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה ב1", "name": {"he": "מעבדה בפיזיקה ב1", "en": "Laboratory in Physics B1"}, "prereqs": ["מעבדה בפיזיקה א2"], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה ב2", "name": {"he": "מעבדה בפיזיקה ב2", "en": "Laboratory in Physics B2"}, "prereqs": ["מעבדה בפיזיקה ב1"], "coreqs": [], "category": "laboratory"},
+    {"id": "מעבדה בפיזיקה ג1", "name": {"he": "מעבדה בפיזיקה ג1", "en": "Laboratory in Physics C1"}, "prereqs": ["מעבדה בפיזיקה ב2"], "coreqs": [], "category": "laboratory"},
     {"id": "מעבדה בפיזיקה ג2", "name": {"he": "מעבדה בפיזיקה ג2", "en": "Laboratory in Physics C2"}, "prereqs": ["מעבדה בפיזיקה ג1"], "coreqs": [], "category": "laboratory"},
-    {"id": "תורת האינפורמציה ופיזיקה קוונטית", "name": {"he": "תורת האינפורמציה ופיזיקה קוונטית", "en": "Quantum Information and Quantum Physics"}, "prereqs": [""], "coreqs": [], "category": "quantum"},
+    {"id": "תורת האינפורמציה ופיזיקה קוונטית", "name": {"he": "תורת האינפורמציה ופיזיקה קוונטית", "en": "Information theory and Quantum Physics"}, "prereqs": [], "coreqs": [], "category": "quantum"},
     {"id": "מבוא לאינטראקציה בין אור לחומר", "name": {"he": "מבוא לאינטראקציה בין אור לחומר, שליטה קוהרנטית", "en": "Introduction to Light-Matter Interaction and Coherent Control"}, "prereqs": ["גלים"], "coreqs": [], "category": "quantum"},
     {"id": "מבוא למדעי הנתונים", "name": {"he": "מבוא למדעי הנתונים", "en": "Introduction to Data Science"}, "prereqs": [], "coreqs": [], "category": "computing"}
+
 ];
 
 // Prepare the elements for Cytoscape
@@ -425,11 +434,9 @@ function handleNodeClick(event) {
         
         // Calculate optimal layout parameters based on visible elements
         const nodeCount = visibleElements.nodes().length;
-        const branchingFactor = Math.max(
-            ...visibleElements.nodes().map(node => 
-                Math.max(node.outgoers('node').length, node.incomers('node').length)
-            )
-        );
+        const branchingFactor = Math.max(...visibleElements.nodes().map(node => 
+            Math.max(node.outgoers('node').length, node.incomers('node').length)
+        ));
         
         // Adjust spacing based on the number of nodes and branching factor
         const baseSpacing = Math.min(
@@ -573,22 +580,43 @@ function updateGraph(courseType) {
                 label: course.id
             }
         })),
-        edges: currentCourses.flatMap(course => [
-            ...course.prereqs.map(prereq => ({
-                data: {
-                    source: prereq,
-                    target: course.id,
-                    type: 'prereq'
+        edges: currentCourses.flatMap(course => {
+            // Create a Set to track unique edges
+            const edges = new Set();
+            const result = [];
+            
+            // Add prerequisite edges
+            course.prereqs.forEach(prereq => {
+                const edge = `${prereq}->${course.id}`;
+                if (!edges.has(edge)) {
+                    edges.add(edge);
+                    result.push({
+                        data: {
+                            source: prereq,
+                            target: course.id,
+                            type: 'prereq'
+                        }
+                    });
                 }
-            })),
-            ...course.coreqs.map(coreq => ({
-                data: {
-                    source: coreq,
-                    target: course.id,
-                    type: 'coreq'
+            });
+            
+            // Add corequisite edges
+            course.coreqs.forEach(coreq => {
+                const edge = `${coreq}->${course.id}`;
+                if (!edges.has(edge)) {
+                    edges.add(edge);
+                    result.push({
+                        data: {
+                            source: coreq,
+                            target: course.id,
+                            type: 'coreq'
+                        }
+                    });
                 }
-            }))
-        ])
+            });
+            
+            return result;
+        })
     };
 
     cy.startBatch();
