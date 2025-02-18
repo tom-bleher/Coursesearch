@@ -39,22 +39,22 @@ const courses_math = [
 ];
 
 const courses_physics = [
-    {"id": "אלגברה לינארית", "name": {"he": "אלגברה לינארית", "en": "Linear Algebra for Physics"}, "prereqs": [], "coreqs": [], "category": "mathematics"},
+    {"id": "אלגברה לינארית לפיזיקאים", "name": {"he": "אלגברה לינארית לפיזיקאים", "en": "Linear Algebra for Physics"}, "prereqs": [], "coreqs": [], "category": "mathematics"},
     {"id": "קלאסית 1", "name": {"he": "קלאסית 1", "en": "Classical Physics 1"}, "prereqs": [], "coreqs": [], "category": "classical_physics"},
     {"id": "קלאסית 2", "name": {"he": "קלאסית 2", "en": "Classical Physics 2"}, "prereqs": ["קלאסית 1"], "coreqs": ["ממפיס 2", "יחסות פרטית"], "category": "classical_physics"},
     {"id": "מבוא לתרמודינמיקה ומצבי צבירה", "name": {"he": "מבוא לתרמודינמיקה ומצבי צבירה", "en": "Introduction to Thermodynamics and States of Matter"}, "prereqs": ["ממפיס 1", "קלאסית 1"], "coreqs": [], "category": "thermodynamics"},
     {"id": "מחשבים לפיזיקאים", "name": {"he": "מחשבים לפיזיקאים", "en": "Computing for Physicists"}, "prereqs": [], "coreqs": [], "category": "computing"},
     {"id": "יחסות פרטית", "name": {"he": "יחסות פרטית", "en": "Special Relativity"}, "prereqs": ["קלאסית 1"], "coreqs": [], "category": "relativity"},
     {"id": "הסתברות וסטטיסטיקה", "name": {"he": "הסתברות וסטטיסטיקה", "en": "Probability and Statistics"}, "prereqs": [], "coreqs": [], "category": "mathematics"},
-    {"id": "ממפיס 1", "name": {"he": "ממפיס 1", "en": "Mathematical Methods in Physics 1"}, "prereqs": [], "coreqs": ["אלגברה לינארית"], "category": "mathematics"},
-    {"id": "ממפיס 2", "name": {"he": "ממפיס 2", "en": "Mathematical Methods in Physics 2"}, "prereqs": ["ממפיס 1", "אלגברה לינארית"], "coreqs": [], "category": "mathematics"},
+    {"id": "ממפיס 1", "name": {"he": "ממפיס 1", "en": "Mathematical Methods in Physics 1"}, "prereqs": [], "coreqs": ["אלגברה לינארית לפיזיקאים"], "category": "mathematics"},
+    {"id": "ממפיס 2", "name": {"he": "ממפיס 2", "en": "Mathematical Methods in Physics 2"}, "prereqs": ["ממפיס 1", "אלגברה לינארית לפיזיקאים"], "coreqs": [], "category": "mathematics"},
     {"id": "גלים", "name": {"he": "גלים", "en": "Waves"}, "prereqs": ["קלאסית 1", "קלאסית 2"], "coreqs": ["שיטות בפיזיקה עיונית 1"], "category": "waves"},
     {"id": "קוונטים 1", "name": {"he": "קוונטים 1", "en": "Quantum Physics 1"}, "prereqs": ["מכניקה אנליטית", "גלים", "שיטות בפיזיקה עיונית 1"], "coreqs": ["הסתברות וסטטיסטיקה"], "category": "quantum"},
-    {"id": "מכניקה אנליטית", "name": {"he": "מכניקה אנליטית", "en": "Analytical Mechanics"}, "prereqs": ["קלאסית 1", "ממפיס 1", "ממפיס 2", "אלגברה לינארית"], "coreqs": ["שיטות בפיזיקה עיונית 1"], "category": "classical_physics"},
+    {"id": "מכניקה אנליטית", "name": {"he": "מכניקה אנליטית", "en": "Analytical Mechanics"}, "prereqs": ["קלאסית 1", "ממפיס 1", "ממפיס 2", "אלגברה לינארית לפיזיקאים"], "coreqs": ["שיטות בפיזיקה עיונית 1"], "category": "classical_physics"},
     {"id": "פיזיקה סטטיסטית", "name": {"he": "פיזיקה סטטיסטית", "en": "Statistical Physics"}, "prereqs": ["מבוא לתרמודינמיקה ומצבי צבירה", "הסתברות וסטטיסטיקה"], "coreqs": ["קוונטים 1"], "category": "statistical_physics"},
-    {"id": "שיטות נומריות", "name": {"he": "שיטות נומריות", "en": "Numerical Methods"}, "prereqs": ["מחשבים לפיזיקאים", "אלגברה לינארית"], "coreqs": [], "category": "computing"},
-    {"id": "שיטות בפיזיקה עיונית 1", "name": {"he": "שיטות בפיזיקה עיונית 1", "en": "Methods in Theoretical Physics 1"}, "prereqs": ["ממפיס 1", "ממפיס 2", "אלגברה לינארית"], "coreqs": [], "category": "theoretical_physics"},
-    {"id": "שיטות בפיזיקה עיונית 2", "name": {"he": "שיטות בפיזיקה עיונית 2", "en": "Methods in Theoretical Physics 2"}, "prereqs": ["שיטות בפיזיקה עיונית 1", "ממפיס 1", "ממפיס 2", "אלגברה לינארית"], "coreqs": [], "category": "theoretical_physics"},
+    {"id": "שיטות נומריות", "name": {"he": "שיטות נומריות", "en": "Numerical Methods"}, "prereqs": ["מחשבים לפיזיקאים", "אלגברה לינארית לפיזיקאים"], "coreqs": [], "category": "computing"},
+    {"id": "שיטות בפיזיקה עיונית 1", "name": {"he": "שיטות בפיזיקה עיונית 1", "en": "Methods in Theoretical Physics 1"}, "prereqs": ["ממפיס 1", "ממפיס 2", "אלגברה לינארית לפיזיקאים"], "coreqs": [], "category": "theoretical_physics"},
+    {"id": "שיטות בפיזיקה עיונית 2", "name": {"he": "שיטות בפיזיקה עיונית 2", "en": "Methods in Theoretical Physics 2"}, "prereqs": ["שיטות בפיזיקה עיונית 1", "ממפיס 1", "ממפיס 2", "אלגברה לינארית לפיזיקאים"], "coreqs": [], "category": "theoretical_physics"},
     {"id": "קוונטים 2", "name": {"he": "קוונטים 2", "en": "Quantum Physics 2"}, "prereqs": ["קוונטים 1"], "coreqs": [], "category": "quantum"},
     {"id": "מבוא למצב מוצק", "name": {"he": "מבוא למצב מוצק", "en": "Introduction to Solid State Physics"}, "prereqs": ["פיזיקה סטטיסטית", "קוונטים 1"], "coreqs": ["קוונטים 2"], "category": "solid_state"},
     {"id": "מבוא לאסטרופיזיקה", "name": {"he": "מבוא לאסטרופיזיקה", "en": "Introduction to Astrophysics"}, "prereqs": ["מכניקה אנליטית", "יחסות פרטית", "קוונטים 1"], "coreqs": [], "category": "astrophysics"},
@@ -220,8 +220,59 @@ function performSearch(searchTerm) {
     // Create a collection of all visible elements
     const visibleElements = matches.union(connectedEdges).union(neighbors);
     
-    // Center and fit the view on visible elements with padding
-    cy.fit(visibleElements, 50);
+    // Apply layout only to visible elements
+    const containerWidth = cy.width();
+    const containerHeight = cy.height();
+    const visibleNodes = visibleElements.nodes();
+    const visibleNodeCount = visibleNodes.length;
+    
+    // Calculate branching factor
+    const maxOutDegree = Math.max(...visibleNodes.map(node => node.outgoers('node').length));
+    const maxInDegree = Math.max(...visibleNodes.map(node => node.incomers('node').length));
+    const branchingFactor = Math.max(maxOutDegree, maxInDegree);
+    
+    // Adjust spacing based on branching factor and node count
+    const baseSpacing = Math.min(
+        Math.max(15, containerWidth / (visibleNodeCount * (1 + branchingFactor * 0.3))),
+        35
+    );
+    
+    // More aggressive spacing reduction for higher branching
+    const horizontalSpacing = baseSpacing * (1 / Math.sqrt(branchingFactor));
+    const verticalSpacing = baseSpacing * 1.5;
+    
+    // Calculate padding based on node count
+    const dynamicPadding = Math.max(20, Math.min(30, 50 / Math.sqrt(visibleNodeCount)));
+    
+    // Create a temporary sub-graph layout
+    const layout = visibleElements.layout({
+        name: 'dagre',
+        rankDir: 'TB',
+        padding: dynamicPadding,
+        spacingFactor: 1 + (1 / visibleNodeCount),
+        animate: true,
+        animationDuration: 300,
+        rankSep: verticalSpacing,
+        nodeSep: horizontalSpacing,
+        ranker: 'tight-tree',
+        edgeSep: horizontalSpacing * 0.3,
+        align: 'DL',
+        edgeWeight: function(edge) {
+            return 1 + (1 / branchingFactor);
+        },
+        minLen: function(edge) {
+            return 1;
+        }
+    });
+    
+    // Run the layout
+    layout.run();
+    
+    // Center and fit the view on visible elements with padding after layout completes
+    setTimeout(() => {
+        cy.fit(visibleElements, 50);
+        updateTextScaling();
+    }, 350);
     
     cy.endBatch();
 }
