@@ -1,1 +1,993 @@
-[]
+[
+    {
+        "course_name": "אלגברה לינארית לפיזיקה",
+        "course_number": "03211100",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321110001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא לתרמודינמיקה ומצבי צבירה",
+        "course_number": "03211104",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321110401&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211838",
+            "03211118"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מעבדה בפיזיקה א 1",
+        "course_number": "03211111",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111101&year=2024",
+        "parallel_req": [
+            "03211118"
+        ],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מעבדה  בפיזיקה  א 2",
+        "course_number": "03211112",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111201&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211111"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "פיזיקה קלאסית 1",
+        "course_number": "03211118",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111801&year=2024",
+        "parallel_req": [
+            "03211838"
+        ],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "פיזיקה קלאסית 2",
+        "course_number": "03211119",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111901&year=2024",
+        "parallel_req": [
+            "03211839",
+            "03211201"
+        ],
+        "pre_req": [
+            "03211118"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Computers for Physics",
+        "course_number": "03211121",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321112101&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "יחסות פרטית",
+        "course_number": "03211201",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321120101&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211118"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מצוינות בפיזיקה שנה א'",
+        "course_number": "03211702",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321170201&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "הסתברות וסטטיסטיקה",
+        "course_number": "03211836",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183601&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא מתמטי לפיזיקה 1",
+        "course_number": "03211838",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183801&year=2024",
+        "parallel_req": [
+            "03211100",
+            "03661111"
+        ],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא מתמטי לפיזיקה 2",
+        "course_number": "03211839",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183901&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211838",
+            "03211100",
+            "03661111",
+            "05091724"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "גלים אור ואופטיקה",
+        "course_number": "03212102",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210201&year=2024",
+        "parallel_req": [
+            "03212130"
+        ],
+        "pre_req": [
+            "03211118",
+            "03211119"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "קוונטים 1",
+        "course_number": "03212103",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210301&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212105",
+            "03212102",
+            "03212130",
+            "03211836",
+            "05092801",
+            "03652100"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מכניקה אנליטית",
+        "course_number": "03212105",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210501&year=2024",
+        "parallel_req": [
+            "03212130"
+        ],
+        "pre_req": [
+            "03211118",
+            "03211838",
+            "03211839",
+            "03211100",
+            "03661111",
+            "05091724"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "פיזיקה סטטיסטית",
+        "course_number": "03212111",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321211101&year=2024",
+        "parallel_req": [
+            "03212103"
+        ],
+        "pre_req": [
+            "03211104",
+            "03512202",
+            "03211836",
+            "05092801"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Numerical Methods for Physics",
+        "course_number": "03212117",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321211701&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211838",
+            "03211839",
+            "03211121",
+            "05091820",
+            "03681105",
+            "03211100",
+            "05091724",
+            "05091820"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מעבדה בפיזיקה ב 1",
+        "course_number": "03212121",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321212101&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211111",
+            "03211112"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מעבדה בפיזיקה ב 2",
+        "course_number": "03212122",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321212201&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211111",
+            "03211112",
+            "03212121"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "שיטות בפיזיקה עיונית 1",
+        "course_number": "03212130",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213001&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211838",
+            "03211839",
+            "03211100",
+            "03661111",
+            "05091724",
+            "03661112"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "שיטות בפיזיקה עיונית 2",
+        "course_number": "03212131",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213101&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212130",
+            "03211838",
+            "03211839",
+            "03211100",
+            "05091724"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מצוינות בחישוב קוונטי - א'",
+        "course_number": "03212133",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213301&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מצוינות בחישוב קוונטי ב'",
+        "course_number": "03212134",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213401&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מצוינות בפיזיקה א'",
+        "course_number": "03212701",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321270101&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מצוינות בפיזיקה ב'",
+        "course_number": "03212702",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321270201&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Students Project",
+        "course_number": "03213005",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321300501&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "קוונטים 2",
+        "course_number": "03213101",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310101&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212103"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא למצב מוצק",
+        "course_number": "03213103",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310301&year=2024",
+        "parallel_req": [
+            "03213101"
+        ],
+        "pre_req": [
+            "03212111",
+            "03212103"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא לאסטרופיזיקה",
+        "course_number": "03213108",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310801&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212105",
+            "03211201",
+            "03212103"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא לאסטרופיזיקה",
+        "course_number": "03213108",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310801&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212105",
+            "03211201",
+            "03212103"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "אלקטרומגנטיות אנליטית",
+        "course_number": "03213109",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310901&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03211119",
+            "03211201",
+            "03212102",
+            "03212130",
+            "03212131",
+            "03212105"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Solid State Physics b",
+        "course_number": "03213113",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321311301&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03213103",
+            "03212111"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "פיזיקה של סדרי גודל",
+        "course_number": "03213158",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321315801&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "פרויקט מחקר לתלמידי תוכנית מצוינות",
+        "course_number": "03213300",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321330001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Laboratory C for the Excellence Program a",
+        "course_number": "03213308",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321330801&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212121",
+            "03212122"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Physics Laboratory C-excellent - B",
+        "course_number": "03213309",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321330901&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212121",
+            "03212122"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Physics Laboratory C-Cs- Exellent",
+        "course_number": "03213406",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340601&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "physics Laboratory C Cs",
+        "course_number": "03213407",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340701&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Physics Laboratory C- Quantum Computing",
+        "course_number": "03213409",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340901&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מחקרי לשנה ג",
+        "course_number": "03213800",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380001&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212103"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא לחלקיקים וגרעין",
+        "course_number": "03213804",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380401&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212103"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Physics Laboratory C- sem.A",
+        "course_number": "03213808",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380801&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212121",
+            "03212122"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Physics Laboratory C-sem. B",
+        "course_number": "03213809",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380901&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212121",
+            "03212122"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "יחסות כללית",
+        "course_number": "03213810",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381001&year=2024",
+        "parallel_req": [
+            "03213109"
+        ],
+        "pre_req": [
+            "03211201"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר",
+        "course_number": "03213816",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381601&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "חומרה קוונטית",
+        "course_number": "03213818",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381801&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212103"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא לאינפורמציה ואלגוריתמים קוונטיים",
+        "course_number": "03213819",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381901&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212103"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "כוכבים כפולים וכוכבי לכת",
+        "course_number": "03214008",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321400801&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר ארצי בחלקיקים",
+        "course_number": "03214059",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321405901&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר תלמידים באסטרופיזיקה",
+        "course_number": "03214070",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321407001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תרמודינמיקה ומכניקה סטטיסטית",
+        "course_number": "03214110",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מכניקה סטטיסטית מחוץ לשיווי משקל",
+        "course_number": "03214111",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411101&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Advanced Quantum Physics",
+        "course_number": "03214115",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411501&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "פיזיקה של גלאים",
+        "course_number": "03214139",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321413901&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "הכשרת מתרגלים בית הספר לפיזיקה",
+        "course_number": "03214141",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321414101&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מחקרי בחומר מעובה",
+        "course_number": "03214157",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321415701&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מחקרי  תלמידים בחומר מעובה",
+        "course_number": "03214178",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321417801&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תורת השדות 1",
+        "course_number": "03214201",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321420101&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר בגרעין",
+        "course_number": "03214203",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321420301&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תורת השדות 2",
+        "course_number": "03214215",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321421501&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר ארצי בחלקיקים",
+        "course_number": "03214218",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321421801&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר בגרעין",
+        "course_number": "03214227",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321422701&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מחקרי תלמידים בחלקיקים",
+        "course_number": "03214231",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321423101&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר  מחקרי תלמידים בחלקיקים",
+        "course_number": "03214234",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321423401&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "אסטרופיזיקה כוכבית",
+        "course_number": "03214318",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321431801&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "שיטות תצפיתיות",
+        "course_number": "03214320",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321432001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר  מחקרי באסטרופיזיקה",
+        "course_number": "03214330",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321433001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר בחומר מעובה",
+        "course_number": "03214405",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440501&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר בחומר מעובה",
+        "course_number": "03214406",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440601&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "Condensed Matter Theory 1",
+        "course_number": "03214409",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440901&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תורת החומר המעובה 2",
+        "course_number": "03214410",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321441001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מכניקה סטטיסטית של רשתות נוירונים",
+        "course_number": "03214413",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321441301&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר תלמידים באסטרופיזיקה",
+        "course_number": "03214418",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321441801&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר מחקרי  באסטרופיזיקה",
+        "course_number": "03214420",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321442001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "בחינת גמר בתואר שני",
+        "course_number": "03214444",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321444401&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר בחומרים קוואנטיים - ב'",
+        "course_number": "03214453",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321445301&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר תלמידים על-מיתרים (סמ' א)",
+        "course_number": "03214821",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482101&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר תלמידים:על מיתרים (סמ' ב)",
+        "course_number": "03214822",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482201&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "אסטרופיזיקה של אנרגיות גבוהות",
+        "course_number": "03214826",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482601&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "פיזיקה מעבר למודל הסטנדרטי",
+        "course_number": "03214828",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482801&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תורת החלקיקים 1",
+        "course_number": "03214842",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484201&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03214201"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תורת החלקיקים 2",
+        "course_number": "03214846",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484601&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03214842"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מבוא לאינטראקציה בין אור לחומר, שליטה קוהרנטית",
+        "course_number": "03214849",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484901&year=2024",
+        "parallel_req": [],
+        "pre_req": [
+            "03212102"
+        ],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "מצבי צבירה טופולוגיים",
+        "course_number": "03214850",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר ארצי נסיון ותיאוריה סמסטר א'",
+        "course_number": "03214853",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485301&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר ארצי נסיון ותיאוריה סמסטר ב'",
+        "course_number": "03214855",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485501&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "פיזיקה קלאסית מתקדמת",
+        "course_number": "03214870",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487001&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "אסטרו-קפה א': דיונים בתוצאות חדשות מכתבי עת",
+        "course_number": "03214872",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487201&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "אסטרו-קפה ב': דיונים בתוצאות חדשות מכתבי עת",
+        "course_number": "03214873",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487301&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "סמינר תלמידים בחומרים קוואנטיים - א'",
+        "course_number": "03214875",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487501&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תובלה קוונטית בהתקנים דו-ממדיים",
+        "course_number": "03214888",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488801&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תורת האינפורמציה ופיזיקה קוונטית",
+        "course_number": "03214889",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488901&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "תורת השדות 3",
+        "course_number": "03214893",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321489301&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "קולוקויום - פיזיקה",
+        "course_number": "03216666",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321666601&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    },
+    {
+        "course_name": "עבודת גמר",
+        "course_number": "03219999",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321999901&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "faculty": "מדעים מדויקים",
+        "degree": "פיזיקה"
+    }
+]
