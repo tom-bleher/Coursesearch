@@ -186,69 +186,62 @@ function performSearch(searchTerm) {
     // First, hide all elements
     cy.elements().addClass('hidden');
     
-    // Then show and style the relevant elements
+    // Show and highlight the matched nodes (orange like clicked nodes)
     matches.removeClass('hidden').style({
         'background-color': '#FFF3E0',
         'border-width': '2.5px',
         'border-color': '#F57C00',
-        'color': '#E65100'
+        'color': '#E65100',
+        'opacity': 1
     });
 
+    // Show and highlight neighbors (blue like prerequisites)
     neighbors.removeClass('hidden').style({
-        'background-color': '#F5F5F5',
-        'border-width': '1.5px',
-        'border-color': '#78909C',
-        'color': '#455A64'
+        'background-color': '#E3F2FD',
+        'border-width': '2px',
+        'border-color': '#1976D2',
+        'color': '#0D47A1',
+        'opacity': 1
     });
 
-    connectedEdges.removeClass('hidden');
+    // Show and highlight edges
+    connectedEdges.removeClass('hidden').style({
+        'line-color': '#1976D2',
+        'target-arrow-color': '#1976D2',
+        'opacity': 1
+    });
 
     // Create a collection of all visible elements
     const visibleElements = matches.union(connectedEdges).union(neighbors);
     
-    // Apply layout only to visible elements
-    const containerWidth = cy.width();
-    const containerHeight = cy.height();
-    const visibleNodes = visibleElements.nodes();
-    const visibleNodeCount = visibleNodes.length;
+    // Calculate optimal layout parameters based on visible elements
+    const nodeCount = visibleElements.nodes().length;
+    const branchingFactor = Math.max(...visibleElements.nodes().map(node => 
+        Math.max(node.outgoers('node').length, node.incomers('node').length)
+    ));
     
-    // Calculate branching factor
-    const maxOutDegree = Math.max(...visibleNodes.map(node => node.outgoers('node').length));
-    const maxInDegree = Math.max(...visibleNodes.map(node => node.incomers('node').length));
-    const branchingFactor = Math.max(maxOutDegree, maxInDegree);
-    
-    // Adjust spacing based on branching factor and node count
+    // Adjust spacing based on the number of nodes and branching factor
     const baseSpacing = Math.min(
-        Math.max(15, containerWidth / (visibleNodeCount * (1 + branchingFactor * 0.3))),
-        35
+        Math.max(30, cy.width() / (nodeCount * (1 + branchingFactor * 0.3))),
+        60
     );
     
-    // More aggressive spacing reduction for higher branching
     const horizontalSpacing = baseSpacing * (1 / Math.sqrt(branchingFactor));
     const verticalSpacing = baseSpacing * 1.5;
     
-    // Calculate padding based on node count
-    const dynamicPadding = Math.max(20, Math.min(30, 50 / Math.sqrt(visibleNodeCount)));
-    
-    // Create a temporary sub-graph layout
+    // Apply layout to visible elements - using same parameters as handleNodeClick
     const layout = visibleElements.layout({
         name: 'dagre',
         rankDir: 'TB',
-        padding: dynamicPadding,
-        spacingFactor: 1 + (1 / visibleNodeCount),
+        padding: 30,
+        spacingFactor: 1 + (1 / nodeCount),
         animate: true,
         animationDuration: 300,
         rankSep: verticalSpacing,
         nodeSep: horizontalSpacing,
         ranker: 'tight-tree',
         edgeSep: horizontalSpacing * 0.3,
-        align: 'DL',
-        edgeWeight: function(edge) {
-            return 1 + (1 / branchingFactor);
-        },
-        minLen: function(edge) {
-            return 1;
-        }
+        align: 'DL'
     });
     
     // Run the layout
