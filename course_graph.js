@@ -1,101 +1,70 @@
-// Course data
-const courses_math = [
-    {"id": "חדוא 1", "name": {"he": "חדוא 1", "en": "Calculus 1"}, "prereqs": [], "coreqs": [], "category": "analysis"},
-    {"id": "לינארית 1", "name": {"he": "לינארית 1", "en": "Linear Algebra 1"}, "prereqs": [], "coreqs": [], "category": "algebra"},
-    {"id": "מבוא לתורת הקבוצות", "name": {"he": "מבוא לתורת הקבוצות", "en": "Introduction to Set Theory"}, "prereqs": [], "coreqs": [], "category": "foundations"},
-    {"id": "מבוא מורחב למדמ״ח", "name": {"he": "מבוא מורחב למדמ״ח", "en": "Extended Introduction to Computer Science"}, "prereqs": [], "coreqs": ["מבוא לתורת הקבוצות"], "category": "computer_science"},
-    {"id": "קומבינטוריקה", "name": {"he": "קומבינטוריקה", "en": "Combinatorics"}, "prereqs": ["חדוא 1", "לינארית 1"], "coreqs": ["מבוא לתורת הקבוצות"], "category": "discrete"},
-    {"id": "חדוא 2", "name": {"he": "חדוא 2", "en": "Calculus 2"}, "prereqs": ["חדוא 1"], "coreqs": [], "category": "analysis"},
-    {"id": "לינארית 2", "name": {"he": "לינארית 2", "en": "Linear Algebra 2"}, "prereqs": ["לינארית 1"], "coreqs": [], "category": "algebra"},
-    {"id": "מבוא להסתברות", "name": {"he": "מבוא להסתברות", "en": "Introduction to Probability"}, "prereqs": ["קומבינטוריקה", "מבוא לתורת הקבוצות"], "coreqs": ["חדוא 2", "לינארית 2"], "category": "probability"},
-    {"id": "חבורות", "name": {"he": "חבורות", "en": "Group Theory"}, "prereqs": [], "coreqs": ["לינארית 2"], "category": "algebra"},
-    {"id": "קומבינטוריקה בסיסית", "name": {"he": "קומבינטוריקה בסיסית", "en": "Basic Combinatorics"}, "prereqs": ["קומבינטוריקה"], "coreqs": [], "category": "discrete"},
-    {"id": "תורת הגרפים", "name": {"he": "תורת הגרפים", "en": "Graph Theory"}, "prereqs": ["מבוא להסתברות"], "coreqs": [], "category": "discrete"},
-    {"id": "שיטות מתמטיות בתורת המשחקים", "name": {"he": "שיטות מתמטיות בתורת המשחקים", "en": "Mathematical Methods in Game Theory"}, "prereqs": ["מבוא להסתברות"], "coreqs": [], "category": "applications"},
-    {"id": "תורת המספרים", "name": {"he": "תורת המספרים", "en": "Number Theory"}, "prereqs": ["חדוא 2", "לינארית 2"], "coreqs": [], "category": "algebra"},
-    {"id": "חדוא 3", "name": {"he": "חדוא 3", "en": "Calculus 3"}, "prereqs": ["חדוא 2", "לינארית 2", "קומבינטוריקה"], "coreqs": [], "category": "analysis"},
-    {"id": "תורת ההצגות", "name": {"he": "תורת ההצגות", "en": "Representation Theory"}, "prereqs": ["חבורות"], "coreqs": [], "category": "algebra"},
-    {"id": "גלואה", "name": {"he": "גלואה", "en": "Galois Theory"}, "prereqs": ["חבורות"], "coreqs": [], "category": "algebra"},
-    {"id": "אלגברה קומוטטיבית", "name": {"he": "אלגברה קומוטטיבית", "en": "Commutative Algebra"}, "prereqs": ["חבורות"], "coreqs": [], "category": "algebra"},
-    {"id": "ODE", "name": {"he": "ODE", "en": "Ordinary Differential Equations"}, "prereqs": ["לינארית 2"], "coreqs": ["חדוא 3"], "category": "analysis"},
-    {"id": "גאומטריה דיפרנציאלית", "name": {"he": "גאומטריה דיפרנציאלית", "en": "Differential Geometry"}, "prereqs": ["לינארית 2"], "coreqs": ["חדוא 3", "ODE"], "category": "geometry"},
-    {"id": "ממשיות", "name": {"he": "ממשיות", "en": "Real Analysis"}, "prereqs": ["לינארית 2"], "coreqs": ["חדוא 3"], "category": "analysis"},
-    {"id": "מרוכבות 1", "name": {"he": "מרוכבות 1", "en": "Complex Analysis 1"}, "prereqs": ["חדוא 2"], "coreqs": ["חדוא 3"], "category": "analysis"},
-    {"id": "אנליזה נומרית", "name": {"he": "אנליזה נומרית", "en": "Numerical Analysis"}, "prereqs": ["מבוא מורחב למדמ״ח", "חדוא 2", "לינארית 2"], "coreqs": [], "category": "applications"},
-    {"id": "חישוב מדעי", "name": {"he": "חישוב מדעי", "en": "Scientific Computing"}, "prereqs": ["אנליזה נומרית", "מרוכבות 1"], "coreqs": [], "category": "applications"},
-    {"id": "הילברט", "name": {"he": "הילברט", "en": "Hilbert Spaces"}, "prereqs": ["חדוא 2", "לינארית 2", "מבוא מורחב למדמ״ח"], "coreqs": [], "category": "analysis"},
-    {"id": "טופולוגיה", "name": {"he": "טופולוגיה", "en": "Topology"}, "prereqs": ["חדוא 2", "מבוא לתורת הקבוצות"], "coreqs": [], "category": "topology"},
-    {"id": "אנליזה פונקציונלית", "name": {"he": "אנליזה פונקציונלית", "en": "Functional Analysis"}, "prereqs": ["הילברט"], "coreqs": ["ממשיות", "טופולוגיה"], "category": "analysis"},
-    {"id": "לוגיקה", "name": {"he": "לוגיקה", "en": "Logic"}, "prereqs": ["מבוא לתורת הקבוצות"], "coreqs": [], "category": "foundations"},
-    {"id": "אנליזה על יריעות", "name": {"he": "אנליזה על יריעות", "en": "Analysis on Manifolds"}, "prereqs": ["גאומטריה דיפרנציאלית", "טופולוגיה"], "coreqs": [], "category": "geometry"},
-    {"id": "חדוא 4", "name": {"he": "חדוא 4", "en": "Calculus 4"}, "prereqs": ["חדוא 3"], "coreqs": [], "category": "analysis"},
-    {"id": "מד״ח", "name": {"he": "מד״ח", "en": "Partial Differential Equations"}, "prereqs": ["ODE"], "coreqs": ["חדוא 4", "מרוכבות 1"], "category": "analysis"},
-    {"id": "מרוכבות 2", "name": {"he": "מרוכבות 2", "en": "Complex Analysis 2"}, "prereqs": ["מרוכבות 1"], "coreqs": [], "category": "analysis"},
-    {"id": "אנליזה הרמונית", "name": {"he": "אנליזה הרמונית", "en": "Harmonic Analysis"}, "prereqs": ["ממשיות", "מרוכבות 1"], "coreqs": [], "category": "analysis"},
-    {"id": "הסתברות למתמטיקאים", "name": {"he": "הסתברות למתמטיקאים", "en": "Probability for Mathematicians"}, "prereqs": ["ממשיות", "מבוא להסתברות"], "coreqs": [], "category": "probability"},
-    {"id": "משחקי בורל", "name": {"he": "משחקי בורל", "en": "Borel Games"}, "prereqs": ["הסתברות למתמטיקאים"], "coreqs": [], "category": "probability"},
-    {"id": "מבוא לתהליכים מקריים", "name": {"he": "מבוא לתהליכים מקריים", "en": "Introduction to Stochastic Processes"}, "prereqs": ["הסתברות למתמטיקאים"], "coreqs": [], "category": "probability"},
-    {"id": "תורת הקבוצות", "name": {"he": "תורת הקבוצות", "en": "Set Theory"}, "prereqs": ["לינארית 1", "חדוא 1"], "coreqs": [], "category": "foundations"},
-    {"id": "פיזיקה למתמטיקאים", "name": {"he": "פיזיקה למתמטיקאים", "en": "Physics for Mathematicians"}, "prereqs": ["ODE", "חדוא 3"], "coreqs": ["חדוא 4"], "category": "physics"},
-    {"id": "דיפוזיה על רשתות", "name": {"he": "דיפוזיה על רשתות", "en": "Diffusion on Networks"}, "prereqs": ["ODE", "אנליזה נומרית", "מבוא להסתברות"], "coreqs": [], "category": "applications"},
-    {"id": "יסודות מתמטיים ללמידת מכונה", "name": {"he": "יסודות מתמטיים ללמידת מכונה", "en": "Mathematical Foundations of Machine Learning"}, "prereqs": ["לינארית 2", "חדוא 2"], "coreqs": [], "category": "applications"},
-    {"id": "תיאוריה סטטיסטית", "name": {"he": "תיאוריה סטטיסטית", "en": "Statistical Theory"}, "prereqs": ["הסתברות למתמטיקאים"], "coreqs": [], "category": "probability"},
-    {"id": "חקר ביצועים 1", "name": {"he": "חקר ביצועים 1", "en": "Operations Research 1"}, "prereqs": ["חדוא 1", "לינארית 1"], "coreqs": [], "category": "applications"},
-    {"id": "חישוביות על פי אלגברה ליניארית", "name": {"he": "חישוביות על פי אלגברה ליניארית", "en": "Mathematics of Computation via Linear Algebra"}, "prereqs": ["לינארית 1"], "coreqs": ["מודלים חישוביים"], "category": "computer_science"},
-    {"id": "מודלים חישוביים", "name": {"he": "מודלים חישוביים", "en": "Computational Models"}, "prereqs": ["מבוא מורחב למדמ״ח", "מבוא לתורת הקבוצות"], "coreqs": ["מבוא להסתברות"], "category": "computer_science"},
-    {"id": "מבוא לאופטימיזציה לא ליניארית", "name": {"he": "מבוא לאופטימיזציה לא ליניארית", "en": "Introduction to Nonlinear Optimization"}, "prereqs": ["חדוא 2", "לינארית 2"], "coreqs": [], "category": "applications"},
-];
-
-const courses_physics = [
-    {"id": "אלגברה לינארית לפיזיקאים", "name": {"he": "אלגברה לינארית לפיזיקאים", "en": "Linear Algebra for Physics"}, "prereqs": [], "coreqs": [], "category": "mathematics"},
-    {"id": "קלאסית 1", "name": {"he": "קלאסית 1", "en": "Classical Physics 1"}, "prereqs": [], "coreqs": [], "category": "classical_physics"},
-    {"id": "קלאסית 2", "name": {"he": "קלאסית 2", "en": "Classical Physics 2"}, "prereqs": ["קלאסית 1"], "coreqs": ["ממפיס 2", "יחסות פרטית"], "category": "classical_physics"},
-    {"id": "מבוא לתרמודינמיקה ומצבי צבירה", "name": {"he": "מבוא לתרמודינמיקה ומצבי צבירה", "en": "Introduction to Thermodynamics and States of Matter"}, "prereqs": ["ממפיס 1", "קלאסית 1"], "coreqs": [], "category": "thermodynamics"},
-    {"id": "מחשבים לפיזיקאים", "name": {"he": "מחשבים לפיזיקאים", "en": "Computing for Physicists"}, "prereqs": [], "coreqs": [], "category": "computing"},
-    {"id": "יחסות פרטית", "name": {"he": "יחסות פרטית", "en": "Special Relativity"}, "prereqs": ["קלאסית 1"], "coreqs": [], "category": "relativity"},
-    {"id": "הסתברות וסטטיסטיקה", "name": {"he": "הסתברות וסטטיסטיקה", "en": "Probability and Statistics"}, "prereqs": [], "coreqs": [], "category": "mathematics"},
-    {"id": "ממפיס 1", "name": {"he": "ממפיס 1", "en": "Mathematical Methods in Physics 1"}, "prereqs": [], "coreqs": ["אלגברה לינארית לפיזיקאים"], "category": "mathematics"},
-    {"id": "ממפיס 2", "name": {"he": "ממפיס 2", "en": "Mathematical Methods in Physics 2"}, "prereqs": ["ממפיס 1", "אלגברה לינארית לפיזיקאים"], "coreqs": [], "category": "mathematics"},
-    {"id": "גלים", "name": {"he": "גלים", "en": "Waves"}, "prereqs": ["קלאסית 1", "קלאסית 2"], "coreqs": ["שיטות בפיזיקה עיונית 1"], "category": "waves"},
-    {"id": "קוונטים 1", "name": {"he": "קוונטים 1", "en": "Quantum Physics 1"}, "prereqs": ["מכניקה אנליטית", "גלים", "שיטות בפיזיקה עיונית 1"], "coreqs": ["הסתברות וסטטיסטיקה"], "category": "quantum"},
-    {"id": "מכניקה אנליטית", "name": {"he": "מכניקה אנליטית", "en": "Analytical Mechanics"}, "prereqs": ["קלאסית 1", "ממפיס 1", "ממפיס 2", "אלגברה לינארית לפיזיקאים"], "coreqs": ["שיטות בפיזיקה עיונית 1"], "category": "classical_physics"},
-    {"id": "פיזיקה סטטיסטית", "name": {"he": "פיזיקה סטטיסטית", "en": "Statistical Physics"}, "prereqs": ["מבוא לתרמודינמיקה ומצבי צבירה", "הסתברות וסטטיסטיקה"], "coreqs": ["קוונטים 1"], "category": "statistical_physics"},
-    {"id": "שיטות נומריות", "name": {"he": "שיטות נומריות", "en": "Numerical Methods"}, "prereqs": ["מחשבים לפיזיקאים", "אלגברה לינארית לפיזיקאים"], "coreqs": [], "category": "computing"},
-    {"id": "שיטות בפיזיקה עיונית 1", "name": {"he": "שיטות בפיזיקה עיונית 1", "en": "Methods in Theoretical Physics 1"}, "prereqs": ["ממפיס 1", "ממפיס 2", "אלגברה לינארית לפיזיקאים"], "coreqs": [], "category": "theoretical_physics"},
-    {"id": "שיטות בפיזיקה עיונית 2", "name": {"he": "שיטות בפיזיקה עיונית 2", "en": "Methods in Theoretical Physics 2"}, "prereqs": ["שיטות בפיזיקה עיונית 1", "ממפיס 1", "ממפיס 2", "אלגברה לינארית לפיזיקאים"], "coreqs": [], "category": "theoretical_physics"},
-    {"id": "קוונטים 2", "name": {"he": "קוונטים 2", "en": "Quantum Physics 2"}, "prereqs": ["קוונטים 1"], "coreqs": [], "category": "quantum"},
-    {"id": "מבוא למצב מוצק", "name": {"he": "מבוא למצב מוצק", "en": "Introduction to Solid State Physics"}, "prereqs": ["פיזיקה סטטיסטית", "קוונטים 1"], "coreqs": ["קוונטים 2"], "category": "solid_state"},
-    {"id": "מבוא לאסטרופיזיקה", "name": {"he": "מבוא לאסטרופיזיקה", "en": "Introduction to Astrophysics"}, "prereqs": ["מכניקה אנליטית", "יחסות פרטית", "קוונטים 1"], "coreqs": [], "category": "astrophysics"},
-    {"id": "אלקטרומגנטיות אנליטית", "name": {"he": "אלקטרומגנטיות אנליטית", "en": "Analytical Electromagnetism"}, "prereqs": ["קלאסית 2", "יחסות פרטית", "גלים", "שיטות בפיזיקה עיונית 1", "שיטות בפיזיקה עיונית 2", "מכניקה אנליטית"], "coreqs": [], "category": "electromagnetism"},
-    {"id": "מצב מוצק 2", "name": {"he": "מצב מוצק 2", "en": "Solid State Physics 2"}, "prereqs": ["מבוא למצב מוצק", "פיזיקה סטטיסטית"], "coreqs": [], "category": "solid_state"},
-    {"id": "פיזיקה של סדרי גודל", "name": {"he": "פיזיקה של סדרי גודל", "en": "Order of Magnitude Physics"}, "prereqs": [], "coreqs": [], "category": "general"},
-    {"id": "מבוא לחלקיקים וגרעין", "name": {"he": "מבוא לחלקיקים וגרעין", "en": "Introduction to Particles and Nuclear Physics"}, "prereqs": ["קוונטים 1"], "coreqs": [], "category": "particle_physics"},
-    {"id": "יחסות כללית", "name": {"he": "יחסות כללית", "en": "General Relativity"}, "prereqs": ["יחסות פרטית"], "coreqs": ["אלקטרומגנטיות אנליטית"], "category": "relativity"},
-    {"id": "חומרה קוונטית", "name": {"he": "חומרה קוונטית", "en": "Quantum Hardware"}, "prereqs": ["קוונטים 1"], "coreqs": [], "category": "quantum"},
-    {"id": "מבוא לאינפורמציה ואלגוריתמים קוונטיים", "name": {"he": "מבוא לאינפורמציה ואלגוריתמים קוונטיים", "en": "Introduction to Quantum Information and Algorithms"}, "prereqs": ["קוונטים 1"], "coreqs": [], "category": "quantum"},
-    {"id": "תורת השדות 1", "name": {"he": "תורת השדות 1", "en": "Field Theory 1"}, "prereqs": [], "coreqs": [], "category": "field_theory"},
-    {"id": "תורת השדות 2", "name": {"he": "תורת השדות 2", "en": "Field Theory 2"}, "prereqs": ["תורת השדות 1"], "coreqs": [], "category": "field_theory"},
-    {"id": "תורת השדות 3", "name": {"he": "תורת השדות 3", "en": "Field Theory 3"}, "prereqs": ["תורת השדות 1", "תורת השדות 2"], "coreqs": [], "category": "field_theory"},
-    {"id": "תורת החלקיקים 1", "name": {"he": "תורת החלקיקים 1", "en": "Particle Physics 1"}, "prereqs": ["תורת השדות 1"], "coreqs": [], "category": "particle_physics"},
-    {"id": "תורת החלקיקים 2", "name": {"he": "תורת החלקיקים 2", "en": "Particle Physics 2"}, "prereqs": ["תורת החלקיקים 1"], "coreqs": [], "category": "particle_physics"},
-    {"id": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "name": {"he": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר", "en": "Introduction to Plasma Physics and Controlled Nuclear Fusion"}, "prereqs": [], "coreqs": [], "category": "plasma_physics"},
-    {"id": "מעבדה בפיזיקה א1", "name": {"he": "מעבדה בפיזיקה א1", "en": "Laboratory in Physics 1A"}, "prereqs": [], "coreqs": [], "category": "laboratory"},
-    {"id": "מעבדה בפיזיקה א2", "name": {"he": "מעבדה בפיזיקה א2", "en": "Laboratory in Physics 2A"}, "prereqs": ["מעבדה בפיזיקה א1"], "coreqs": [], "category": "laboratory"},
-    {"id": "מעבדה בפיזיקה ב1", "name": {"he": "מעבדה בפיזיקה ב1", "en": "Laboratory in Physics B1"}, "prereqs": ["מעבדה בפיזיקה א2"], "coreqs": [], "category": "laboratory"},
-    {"id": "מעבדה בפיזיקה ב2", "name": {"he": "מעבדה בפיזיקה ב2", "en": "Laboratory in Physics B2"}, "prereqs": ["מעבדה בפיזיקה ב1"], "coreqs": [], "category": "laboratory"},
-    {"id": "מעבדה בפיזיקה ג1", "name": {"he": "מעבדה בפיזיקה ג1", "en": "Laboratory in Physics C1"}, "prereqs": ["מעבדה בפיזיקה ב2"], "coreqs": [], "category": "laboratory"},
-    {"id": "מעבדה בפיזיקה ג2", "name": {"he": "מעבדה בפיזיקה ג2", "en": "Laboratory in Physics C2"}, "prereqs": ["מעבדה בפיזיקה ג1"], "coreqs": [], "category": "laboratory"},
-    {"id": "תורת האינפורמציה ופיזיקה קוונטית", "name": {"he": "תורת האינפורמציה ופיזיקה קוונטית", "en": "Information theory and Quantum Physics"}, "prereqs": [], "coreqs": [], "category": "quantum"},
-    {"id": "מבוא לאינטראקציה בין אור לחומר", "name": {"he": "מבוא לאינטראקציה בין אור לחומר, שליטה קוהרנטית", "en": "Introduction to Light-Matter Interaction and Coherent Control"}, "prereqs": ["גלים"], "coreqs": [], "category": "quantum"},
-    {"id": "מבוא למדעי הנתונים", "name": {"he": "מבוא למדעי הנתונים", "en": "Introduction to Data Science"}, "prereqs": [], "coreqs": [], "category": "computing"}
-
-];
-
-// Prepare the elements for Cytoscape
-const elements = {
+// Course data and state variables
+let courses_math = [];
+let courses_physics = [];
+let currentCourses = [];
+let elements = {
     nodes: [],
     edges: []
 };
+let initialLayout = null;
+let initialNodePositions = null;
+let showSeminars = false;
+let showGuidedReading = false;
+let showProjects = false;
+let showIsolatedCourses = false;
+
+// Load and transform course data from JSON files
+async function loadCourseData(type) {
+    const path = type === 'math' ? 'Course_data_scraper/Math_courses/courses.json' : 'Course_data_scraper/Physics_courses/courses.json';
+    try {
+        const response = await fetch(path);
+        const data = await response.json();
+        
+        // Transform the data to match the expected format
+        return Object.entries(data)
+            .map(([courseNumber, courseInfo]) => {
+                // Check course types
+                const isSeminar = courseInfo.specific_data.some(data => data["אופן הוראה"] === "סמינר");
+                const isGuidedReading = courseInfo.specific_data.some(data => data["אופן הוראה"] === "קריאה מודרכת");
+                const isProject = courseInfo.specific_data.some(data => data["אופן הוראה"] === "פרוייקט");
+                
+                return {
+                    id: courseInfo.course_name,
+                    name: {
+                        he: courseInfo.course_name,
+                        en: courseInfo.course_name
+                    },
+                    course_link: courseInfo.course_link,
+                    prereqs: courseInfo.pre_req.map(preReqNum => {
+                        const preReqCourse = data[preReqNum];
+                        return preReqCourse ? preReqCourse.course_name : '';
+                    }).filter(name => name !== ''),
+                    coreqs: courseInfo.parallel_req.map(coReqNum => {
+                        const coReqCourse = data[coReqNum];
+                        return coReqCourse ? coReqCourse.course_name : '';
+                    }).filter(name => name !== ''),
+                    category: 'general',
+                    isSeminar: isSeminar,
+                    isGuidedReading: isGuidedReading,
+                    isProject: isProject
+                };
+            });
+    } catch (error) {
+        console.error('Error loading course data:', error);
+        return [];
+    }
+}
+
+// Initialize course data
+async function initializeCourseData() {
+    courses_math = await loadCourseData('math');
+    courses_physics = await loadCourseData('physics');
+    currentCourses = courses_math;
+    updateGraph('math'); // Initial load with math courses
+}
+
+// Call initialization when the page loads
+window.addEventListener('load', initializeCourseData);
 
 // Initialize Cytoscape with optimized settings
 const cy = cytoscape({
@@ -168,7 +137,7 @@ const cy = cytoscape({
         ranker: 'network-simplex',
         edgeSep: 30
     },
-    minZoom: 0.3,
+    minZoom: 0.5,
     maxZoom: 2.5,
     wheelSensitivity: 0.2,
     pixelRatio: 'auto',
@@ -180,16 +149,10 @@ const cy = cytoscape({
     renderOptimizationThreshold: 2000
 });
 
-let currentCourses = courses_math;
-
 // Simplified search functionality with debouncing
 const searchInput = document.getElementById('search');
 let searchTimeout = null;
 const searchDelay = 200;
-
-// Add these variables at the top of the file, after the existing constants
-let initialLayout = null;
-let initialNodePositions = null;
 
 function performSearch(searchTerm) {
     if (!searchTerm) {
@@ -223,69 +186,62 @@ function performSearch(searchTerm) {
     // First, hide all elements
     cy.elements().addClass('hidden');
     
-    // Then show and style the relevant elements
+    // Show and highlight the matched nodes (orange like clicked nodes)
     matches.removeClass('hidden').style({
         'background-color': '#FFF3E0',
         'border-width': '2.5px',
         'border-color': '#F57C00',
-        'color': '#E65100'
+        'color': '#E65100',
+        'opacity': 1
     });
 
+    // Show and highlight neighbors (blue like prerequisites)
     neighbors.removeClass('hidden').style({
-        'background-color': '#F5F5F5',
-        'border-width': '1.5px',
-        'border-color': '#78909C',
-        'color': '#455A64'
+        'background-color': '#E3F2FD',
+        'border-width': '2px',
+        'border-color': '#1976D2',
+        'color': '#0D47A1',
+        'opacity': 1
     });
 
-    connectedEdges.removeClass('hidden');
+    // Show and highlight edges
+    connectedEdges.removeClass('hidden').style({
+        'line-color': '#1976D2',
+        'target-arrow-color': '#1976D2',
+        'opacity': 1
+    });
 
     // Create a collection of all visible elements
     const visibleElements = matches.union(connectedEdges).union(neighbors);
     
-    // Apply layout only to visible elements
-    const containerWidth = cy.width();
-    const containerHeight = cy.height();
-    const visibleNodes = visibleElements.nodes();
-    const visibleNodeCount = visibleNodes.length;
+    // Calculate optimal layout parameters based on visible elements
+    const nodeCount = visibleElements.nodes().length;
+    const branchingFactor = Math.max(...visibleElements.nodes().map(node => 
+        Math.max(node.outgoers('node').length, node.incomers('node').length)
+    ));
     
-    // Calculate branching factor
-    const maxOutDegree = Math.max(...visibleNodes.map(node => node.outgoers('node').length));
-    const maxInDegree = Math.max(...visibleNodes.map(node => node.incomers('node').length));
-    const branchingFactor = Math.max(maxOutDegree, maxInDegree);
-    
-    // Adjust spacing based on branching factor and node count
+    // Adjust spacing based on the number of nodes and branching factor
     const baseSpacing = Math.min(
-        Math.max(15, containerWidth / (visibleNodeCount * (1 + branchingFactor * 0.3))),
-        35
+        Math.max(30, cy.width() / (nodeCount * (1 + branchingFactor * 0.3))),
+        60
     );
     
-    // More aggressive spacing reduction for higher branching
     const horizontalSpacing = baseSpacing * (1 / Math.sqrt(branchingFactor));
     const verticalSpacing = baseSpacing * 1.5;
     
-    // Calculate padding based on node count
-    const dynamicPadding = Math.max(20, Math.min(30, 50 / Math.sqrt(visibleNodeCount)));
-    
-    // Create a temporary sub-graph layout
+    // Apply layout to visible elements - using same parameters as handleNodeClick
     const layout = visibleElements.layout({
         name: 'dagre',
         rankDir: 'TB',
-        padding: dynamicPadding,
-        spacingFactor: 1 + (1 / visibleNodeCount),
+        padding: 30,
+        spacingFactor: 1 + (1 / nodeCount),
         animate: true,
         animationDuration: 300,
         rankSep: verticalSpacing,
         nodeSep: horizontalSpacing,
         ranker: 'tight-tree',
         edgeSep: horizontalSpacing * 0.3,
-        align: 'DL',
-        edgeWeight: function(edge) {
-            return 1 + (1 / branchingFactor);
-        },
-        minLen: function(edge) {
-            return 1;
-        }
+        align: 'DL'
     });
     
     // Run the layout
@@ -361,23 +317,57 @@ function handleNodeClick(event) {
     
     if (!clickedNode.isNode()) return;
     
-    // Handle double click
-    if (lastClickedNode === clickedNode && clickTimeout) {
-        clearTimeout(clickTimeout);
-        clickTimeout = null;
-        lastClickedNode = null;
-        resetView();
-        return;
-    }
-    
     // Set up for potential double click
     if (clickTimeout) {
         clearTimeout(clickTimeout);
+        
+        // This is a double click - open the course link
+        const courseId = clickedNode.id();
+        const course = currentCourses.find(c => c.id === courseId);
+        
+        // Open course link in new tab if available
+        if (course && course.course_link) {
+            window.open(course.course_link, '_blank');
+        }
+        
+        clickTimeout = null;
+        lastClickedNode = null;
+        return;
     }
     
+    // Set up new click timeout
     lastClickedNode = clickedNode;
     clickTimeout = setTimeout(() => {
-        // Single click behavior
+        // This is a single click
+        
+        // Check if clicking the currently highlighted node
+        const bgColor = clickedNode.style('background-color');
+        const borderColor = clickedNode.style('border-color');
+        
+        // Convert RGB to hex for comparison
+        const rgbToHex = (rgb) => {
+            // Extract RGB values using regex
+            const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            if (!match) return rgb; // Return original if not RGB format
+            const r = parseInt(match[1]);
+            const g = parseInt(match[2]);
+            const b = parseInt(match[3]);
+            return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
+        };
+
+        // Convert colors to hex for comparison
+        const bgHex = rgbToHex(bgColor);
+        const borderHex = rgbToHex(borderColor);
+        
+        // Check if this is the highlighted node (orange background and border)
+        if (bgHex === '#FFF3E0' && borderHex === '#F57C00') {
+            resetView();
+            lastClickedNode = null;
+            clickTimeout = null;
+            return;
+        }
+        
+        // Single click behavior for non-highlighted node
         const courseId = clickedNode.id();
         const courses = currentCourses;
         
@@ -561,32 +551,57 @@ function resetView() {
     setTimeout(() => {
         cy.fit(40);
         updateTextScaling();
-        // Update minZoom to match current zoom level
-        cy.minZoom(cy.zoom());
+        // Set a lower minimum zoom to allow more zooming out
+        cy.minZoom(Math.min(cy.zoom() * 0.6, 0.5));
     }, 350);
     
     cy.endBatch();
 }
 
-// Update the updateGraph function to store initial positions
+// Update the updateGraph function to handle isolated courses
 function updateGraph(courseType) {
     currentCourses = courseType === 'math' ? courses_math : courses_physics;
     document.querySelector('h1').textContent = courseType === 'math' ? 'עץ התואר במתמטיקה' : 'עץ התואר בפיזיקה';
     
+    // First, identify courses that are connected (either as source or target)
+    const connectedCourses = new Set();
+    currentCourses.forEach(course => {
+        if (course.prereqs.length > 0 || course.coreqs.length > 0) {
+            connectedCourses.add(course.id);
+            course.prereqs.forEach(prereq => connectedCourses.add(prereq));
+            course.coreqs.forEach(coreq => connectedCourses.add(coreq));
+        }
+    });
+
+    // Filter courses based on settings and connectivity
+    const filteredCourses = currentCourses.filter(course => {
+        if (!showSeminars && course.isSeminar) return false;
+        if (!showGuidedReading && course.isGuidedReading) return false;
+        if (!showProjects && course.isProject) return false;
+        if (!showIsolatedCourses && !connectedCourses.has(course.id)) return false;
+        return true;
+    });
+    
     const elements = {
-        nodes: currentCourses.map(course => ({
+        nodes: filteredCourses.map(course => ({
             data: {
                 id: course.id,
-                label: course.id
+                label: course.id,
+                course_link: course.course_link,
+                isSeminar: course.isSeminar,
+                isGuidedReading: course.isGuidedReading,
+                isProject: course.isProject
             }
         })),
-        edges: currentCourses.flatMap(course => {
-            // Create a Set to track unique edges
+        edges: filteredCourses.flatMap(course => {
             const edges = new Set();
             const result = [];
             
-            // Add prerequisite edges
+            // Only add edges for visible courses
+            const visibleCourseIds = new Set(filteredCourses.map(c => c.id));
+            
             course.prereqs.forEach(prereq => {
+                if (visibleCourseIds.has(prereq)) {
                 const edge = `${prereq}->${course.id}`;
                 if (!edges.has(edge)) {
                     edges.add(edge);
@@ -597,11 +612,12 @@ function updateGraph(courseType) {
                             type: 'prereq'
                         }
                     });
+                    }
                 }
             });
             
-            // Add corequisite edges
             course.coreqs.forEach(coreq => {
+                if (visibleCourseIds.has(coreq)) {
                 const edge = `${coreq}->${course.id}`;
                 if (!edges.has(edge)) {
                     edges.add(edge);
@@ -612,6 +628,7 @@ function updateGraph(courseType) {
                             type: 'coreq'
                         }
                     });
+                    }
                 }
             });
             
@@ -659,15 +676,45 @@ function updateGraph(courseType) {
         };
     });
 
-    // Apply the same styling as reset view
-    cy.nodes().style({
+    // Apply styling
+    cy.nodes().forEach(node => {
+        const isSeminar = node.data('isSeminar');
+        const isGuidedReading = node.data('isGuidedReading');
+        const isProject = node.data('isProject');
+        
+        let style;
+        if (isSeminar) {
+            style = {
+                'background-color': '#E8F5E9',
+                'border-color': '#43A047',
+                'color': '#2E7D32'
+            };
+        } else if (isGuidedReading) {
+            style = {
+                'background-color': '#FFF3E0',
+                'border-color': '#F57C00',
+                'color': '#E65100'
+            };
+        } else if (isProject) {
+            style = {
+                'background-color': '#E3F2FD',
+                'border-color': '#1976D2',
+                'color': '#0D47A1'
+            };
+        } else {
+            style = {
         'background-color': '#F5F5F5',
-        'border-width': '1.5px',
         'border-color': '#78909C',
         'color': '#455A64'
+            };
+        }
+        
+        node.style({
+            ...style,
+            'border-width': '1.5px'
+        });
     });
     
-    // Update edge styles with black arrows
     cy.edges().forEach(edge => {
         const type = edge.data('type');
         edge.style({
@@ -678,13 +725,10 @@ function updateGraph(courseType) {
         });
     });
 
-    // Ensure the graph fits in the viewport
     cy.fit(40);
     updateTextScaling();
-    
-    // Update minZoom to match current zoom level
-    cy.minZoom(cy.zoom());
-    
+    // Set a lower minimum zoom to allow more zooming out
+    cy.minZoom(Math.min(cy.zoom() * 0.6, 0.5));
     cy.endBatch();
 }
 
@@ -717,6 +761,99 @@ window.addEventListener('resize', _.debounce(() => {
 cy.ready(() => {
     // Initial fit
     cy.fit(40);
-    // Set initial minZoom based on the fit level
-    cy.minZoom(cy.zoom());
+    // Set a lower minimum zoom to allow more zooming out
+    cy.minZoom(Math.min(cy.zoom() * 0.6, 0.5));
+});
+
+// Add settings menu HTML
+function createSettingsMenu() {
+    const settingsDiv = document.createElement('div');
+    settingsDiv.className = 'settings-menu';
+    settingsDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+        direction: rtl;
+    `;
+
+    // Helper function to create toggle containers
+    function createToggle(label, checked, onChange) {
+        const container = document.createElement('div');
+        container.style.cssText = `
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        `;
+
+        const labelElem = document.createElement('label');
+        labelElem.textContent = label;
+        labelElem.style.cssText = `
+            font-size: 14px;
+            color: #333;
+        `;
+
+        const toggle = document.createElement('input');
+        toggle.type = 'checkbox';
+        toggle.checked = checked;
+        toggle.style.cssText = `
+            width: 16px;
+            height: 16px;
+        `;
+
+        toggle.addEventListener('change', onChange);
+
+        container.appendChild(labelElem);
+        container.appendChild(toggle);
+        return container;
+    }
+
+    // Create course type toggles
+    const seminarToggle = createToggle('הצג סמינרים', showSeminars, (e) => {
+        showSeminars = e.target.checked;
+        updateGraph(currentCourses === courses_math ? 'math' : 'physics');
+    });
+
+    const guidedReadingToggle = createToggle('הצג קריאה מודרכת', showGuidedReading, (e) => {
+        showGuidedReading = e.target.checked;
+        updateGraph(currentCourses === courses_math ? 'math' : 'physics');
+    });
+
+    const projectToggle = createToggle('הצג פרוייקטים', showProjects, (e) => {
+        showProjects = e.target.checked;
+        updateGraph(currentCourses === courses_math ? 'math' : 'physics');
+    });
+
+    // Add divider
+    const divider = document.createElement('div');
+    divider.style.cssText = `
+        height: 1px;
+        background-color: #E0E0E0;
+        margin: 10px 0;
+    `;
+
+    // Create isolated courses toggle with updated text and behavior
+    const isolatedToggle = createToggle('הצג קורסים מנותקים', showIsolatedCourses, (e) => {
+        showIsolatedCourses = e.target.checked;
+        updateGraph(currentCourses === courses_math ? 'math' : 'physics');
+    });
+
+    settingsDiv.appendChild(seminarToggle);
+    settingsDiv.appendChild(guidedReadingToggle);
+    settingsDiv.appendChild(projectToggle);
+    settingsDiv.appendChild(divider);
+    settingsDiv.appendChild(isolatedToggle);
+    document.body.appendChild(settingsDiv);
+}
+
+// Initialize settings menu and instructions when the page loads
+window.addEventListener('load', () => {
+    initializeCourseData();
+    createSettingsMenu();
+    createInstructionsPanel();
 }); 
