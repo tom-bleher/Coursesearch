@@ -12,11 +12,12 @@ for i in range(n):
     if my_file.is_file():
         files_names.append(files_name)
 
-output_data = create_courses_json(files_names, get_course_requi=get_course_requi)  # getting course requi spams university pages
+output_data = create_courses_json(files_names,
+                                  get_course_requi=get_course_requi)  # getting course requi spams university pages
 if get_course_requi:
     with open(f"{courses_dir}\courses.json", "w", encoding="utf-8") as output_file:
         json.dump(output_data, output_file, ensure_ascii=False, indent=4)
-else: # to keep existing requirements
+else:  # to keep existing requirements
     with open(f"{courses_dir}\courses.json", "r", encoding="utf-8") as output_file:
         courses_dict = json.load(output_file)
     for course_num in output_data:
