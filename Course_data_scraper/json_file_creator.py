@@ -58,7 +58,10 @@ def dict_creator(courses_data, extracted_data, get_course_requi, output_data):
                                f"{course_group}&year=2024",
                 "parallel_req": parallel_req,
                 "pre_req": pre_req,
-                "specific_data": specific_data
+                "specific_data": specific_data,
+                "major": major,
+                "faculty": faculty
+
             }
             output_data[course_number] = curr_entry
 
