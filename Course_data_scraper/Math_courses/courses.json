@@ -2204,7 +2204,7 @@
         "course_number": "03664151",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366415101&year=2024",
         "parallel_req": [],
-        "pre_req": [],
+        "pre_req": ["03662123", "03662140"],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' רודניק זאב",
@@ -2324,7 +2324,7 @@
         "course_number": "03664215",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421501&year=2024",
         "parallel_req": [],
-        "pre_req": [],
+        "pre_req": ["03663117", "03662132"],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' פייגין יבגני",
@@ -2361,8 +2361,8 @@
         "course_name": "נושאים באנליזה והסתברות",
         "course_number": "03664218",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421801&year=2024",
-        "parallel_req": [],
-        "pre_req": [],
+        "parallel_req": ["03663098"],
+        "pre_req": ["03662106", "03662123"],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' נשרי אלון",
@@ -2597,7 +2597,7 @@
         "course_number": "03664979",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366497901&year=2024",
         "parallel_req": [],
-        "pre_req": [],
+        "pre_req": ["03663126", "03662194"],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' גיטיק מרדכי",
@@ -2819,9 +2819,7 @@
         "course_number": "03724014",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372401401&year=2024",
         "parallel_req": [],
-        "pre_req": [
-            "03664660"
-        ],
+        "pre_req": ["03724660"],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' סוכן ניר",
@@ -2882,7 +2880,7 @@
         "course_number": "03724022",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372402201&year=2024",
         "parallel_req": [],
-        "pre_req": [],
+        "pre_req": ["03681105", "03662105"],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' דיטקובסקי עדי",
@@ -2901,7 +2899,7 @@
         "course_number": "03724032",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372403201&year=2024",
         "parallel_req": [],
-        "pre_req": [],
+        "pre_req": ["03663098", ""],
         "specific_data": [
             {
                 "שם מרצה": "ד\"ר איזנבוד יריב",
@@ -3028,6 +3026,25 @@
                 "שעה": "10:00-12:00",
                 "סמסטר": "א'",
                 "group": "01"
+            }
+        ]
+    },
+    "03681105": {
+        "course_name": "מבוא מורחב למדעי המחשב",
+        "course_number": "03681105",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368110501&year=2024",
+        "parallel_req": ["03661105"],
+        "pre_req": [],
+        "specific_data": [
+            {
+                "שם מרצה": "",
+                "אופן הוראה": "",
+                "בניין": "",
+                "חדר": "",
+                "יום": "",
+                "שעה": "",
+                "סמסטר": "",
+                "group": ""
             }
         ]
     }
