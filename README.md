@@ -1,24 +1,23 @@
 # Course Dependency Visualization Tool
 
-An interactive web-based tool for visualizing course dependencies and prerequisites in an academic curriculum. This project provides a clear and intuitive graph representation of course relationships, helping students and advisors better understand course progression paths.
+An interactive web-based tool for visualizing course dependencies and prerequisites for mathematics and physics majors at Tel Aviv University. This project provides a clear and intuitive graph representation of course relationships, helping students better understand course progression paths.
 
-## 🌟 Features
+## Features
 
 - Interactive graph visualization of course dependencies
-- Intuitive node-based representation of courses
-- Responsive design for desktop and mobile devices
+- Node-based representation of courses
+- Responsive design for desktop and mobile
 - Dynamic prerequisite path highlighting
-  - Forward path: Shows which courses this course enables
+  - Forward path: Shows enabled courses
   - Backward path: Shows required prerequisites
-  - Highlights entire chains of dependencies
 - Advanced search and filter capabilities
   - Filter by department, level, or semester
   - Search by course code or keywords
   - Real-time results updating
 
-## 📊 Usage
+## Usage
 
-1. Open `course_graph.html` in your web browser
+1. Open [`course_graph.html`](https://tom-bleher.github.io/Coursesearch/course_graph.html) in your web browser.
 2. Navigate the visualization:
    - Zoom: Mouse wheel or pinch gesture
    - Pan: Click and drag or two-finger swipe
@@ -29,21 +28,13 @@ An interactive web-based tool for visualizing course dependencies and prerequisi
    - Use the search bar to find specific courses
    - Apply filters using the sidebar controls
 
-## 🛠️ Technical Details
-
-- Built with D3.js for graph visualization
-- Implements Force-Directed Graph layout
-- JSON-based course data structure
-- Responsive SVG rendering
-
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Contact
 
-- Course data provided by Tel Aviv University
-
-## 📫 Contact
-
-For questions and support, please open an issue in the GitHub repository or contact the maintainers.
+For questions and support, please open an issue in the GitHub repository or contact the maintainers:
+- Tom Bleher: [tombleher@tauex.tau.ac.il](mailto:tombleher@tauex.tau.ac.il)
+- Ilay Wischnevsky Shlush [ilayw1@mail.tau.ac.il](mailto:ilayw1@mail.tau.ac.il)
+- Avshalom Bar-Nissan: [barnissan@mail.tau.ac.il](mailto:barnissan@mail.tau.ac.il)
