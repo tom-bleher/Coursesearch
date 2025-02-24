@@ -20,6 +20,21 @@ An interactive web-based tool for visualizing course dependencies and prerequisi
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## TODO
+
+- **Expand Course Selection**  
+  - Add Computer Science and additional degree programs.  
+
+- **Enhance Course Tree Display**  
+  - Improve displaying logic for hierarchy 
+
+- **Implement Course Filtering**  
+  - Allow filtering by first and second degree courses.  
+
+- **Enable Personalized User Progress Tracking**  
+  - Track completed courses for user; tailored recommendations based on their courses.  
+  - Retrieve user progress.  
+
 ## Contact
 
 For questions and support, please open an issue in the GitHub repository or contact the maintainers:
