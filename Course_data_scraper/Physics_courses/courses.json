@@ -1536,7 +1536,7 @@
         "course_number": "03213407",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340701&year=2024",
         "parallel_req": [],
-        "pre_req": ["03212122"],
+        "pre_req": [],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' ברעד שמשון",
@@ -1555,7 +1555,7 @@
         "course_number": "03213409",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340901&year=2024",
         "parallel_req": [],
-        "pre_req": ["03212122"],
+        "pre_req": [],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' ברעד שמשון",
@@ -2032,7 +2032,7 @@
         "course_number": "03214215",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321421501&year=2024",
         "parallel_req": [],
-        "pre_req": ["03214201"],
+        "pre_req": [],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' סבר עמית",
@@ -2311,6 +2311,37 @@
                 "group": "01"
             }
         ]
+    },
+    "03214444": {
+        "course_name": "בחינת גמר בתואר שני",
+        "course_number": "03214444",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321444401&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "specific_data": [
+            {
+                "שם מרצה": "",
+                "אופן הוראה": "בחינת גמר",
+                "בניין": "",
+                "חדר": "",
+                "יום": "",
+                "שעה": "",
+                "סמסטר": "א'",
+                "group": "01"
+            },
+            {
+                "שם מרצה": "",
+                "אופן הוראה": "בחינת גמר",
+                "בניין": "",
+                "חדר": "",
+                "יום": "",
+                "שעה": "",
+                "סמסטר": "ב'",
+                "group": "02"
+            }
+        ],
+        "major": "פיזיקה",
+        "faculty": "מדעים מדויקים"
     },
     "03214453": {
         "course_name": "סמינר בחומרים קוואנטיים - ב'",
@@ -2656,7 +2687,7 @@
         "course_number": "03214893",
         "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321489301&year=2024",
         "parallel_req": [],
-        "pre_req": ["03214215"],
+        "pre_req": [],
         "specific_data": [
             {
                 "שם מרצה": "פרופ' יצחקי ניסן",
@@ -2697,6 +2728,39 @@
                 "סמסטר": "ב'",
                 "group": "02"
             }
-        ]
+        ],
+        "major": "פיזיקה",
+        "faculty": "מדעים מדויקים"
+    },
+    "03219999": {
+        "course_name": "עבודת גמר",
+        "course_number": "03219999",
+        "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321999901&year=2024",
+        "parallel_req": [],
+        "pre_req": [],
+        "specific_data": [
+            {
+                "שם מרצה": "",
+                "אופן הוראה": "עבודת גמר בחוג",
+                "בניין": "",
+                "חדר": "",
+                "יום": "",
+                "שעה": "",
+                "סמסטר": "א'",
+                "group": "01"
+            },
+            {
+                "שם מרצה": "",
+                "אופן הוראה": "עבודת גמר בחוג",
+                "בניין": "",
+                "חדר": "",
+                "יום": "",
+                "שעה": "",
+                "סמסטר": "ב'",
+                "group": "02"
+            }
+        ],
+        "major": "פיזיקה",
+        "faculty": "מדעים מדויקים"
     }
 }
