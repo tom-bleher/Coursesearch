@@ -94,15 +94,12 @@ class CourseDownloader:
                                 
                             filtered_data[k] = v
                             # Add last_offered information
-                            filtered_data[k]['last_offered'] = {
-                                'year': year,
-                                'semester': semester
-                            }
+                            filtered_data[k]['last_offered'] = f"{year}{semester}"
                             
                             # If merging, update merged_courses with this course if it's newer
                             if merge:
                                 if k not in merged_courses or \
-                                   f"{year}{semester}" > f"{merged_courses[k]['last_offered']['year']}{merged_courses[k]['last_offered']['semester']}":
+                                   filtered_data[k]['last_offered'] > merged_courses[k]['last_offered']:
                                     merged_courses[k] = filtered_data[k]
                             
                         if not filtered_data:
@@ -144,20 +141,17 @@ class CourseDownloader:
                                 continue
                                 
                             # Add last_offered information
-                            v['last_offered'] = {
-                                'year': year,
-                                'semester': semester
-                            }
+                            v['last_offered'] = f"{year}{semester}"
                             
                             # Update merged_data with this course if it's newer
                             if k not in merged_data or \
-                               f"{year}{semester}" > f"{merged_data[k]['last_offered']['year']}{merged_data[k]['last_offered']['semester']}":
+                               v['last_offered'] > merged_data[k]['last_offered']:
                                 merged_data[k] = v
                                 
                             # If merging across years, also update merged_courses
                             if merge:
                                 if k not in merged_courses or \
-                                   f"{year}{semester}" > f"{merged_courses[k]['last_offered']['year']}{merged_courses[k]['last_offered']['semester']}":
+                                   v['last_offered'] > merged_courses[k]['last_offered']:
                                     merged_courses[k] = v
                             
                     except requests.RequestException as e:
@@ -179,7 +173,10 @@ class CourseDownloader:
         if merge:
             if save_to_file:
                 # Create filename for merged data
-                years_range = f"{min(years)}-{max(years)}"
+                if len(years) > 1:
+                    years_range = f"{min(years)}-{max(years)}"
+                else:
+                    years_range = years[0]
                 filename = f"{years_range}-{faculty.replace(' ', '_')}"
                 if departments:
                     filename += f"-{'_'.join(dep.replace(' ', '_') for dep in departments)}"
@@ -241,3 +238,7 @@ class CourseDownloader:
             if 'faculty' in course:
                 faculties.add(course['faculty'])
         return sorted(list(faculties))
+    
+if __name__ == "__main__":
+    downloader = CourseDownloader()
+    print(downloader.fetch_courses(years=['2025'], faculty='מדעים מדויקים', departments=['פיזיקה', 'מתמטיקה'], merge=True))

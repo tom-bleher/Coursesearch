@@ -9,7 +9,7 @@ class CourseSearchDB:
         self.downloader = CourseDownloader()
         self.processor = CourseProcessor()
         
-    def generate_course_trees(self, years: List[str], faculty: str, departments: List[str], merge: bool = True) -> None:
+    def generate_course_trees(self, years: List[str], faculty: str, departments: List[str], keys: List[str], merge: bool = True) -> None:
         """
         Generate and process course data for the specified years, faculty, and departments.
         
@@ -24,9 +24,12 @@ class CourseSearchDB:
         if not os.path.exists(json_dir):
             os.makedirs(json_dir)
             
-        # Create filename based on merge parameter
+        # Create filename based on merge parameter and number of years
         if merge:
-            years_range = f"{min(years)}-{max(years)}"
+            if len(years) > 1:
+                years_range = f"{min(years)}-{max(years)}"
+            else:
+                years_range = years[0]
             base_filename = f"{years_range}-{faculty.replace(' ', '_')}"
             if departments:
                 base_filename += f"-{'_'.join(dep.replace(' ', '_') for dep in departments)}"
@@ -47,8 +50,8 @@ class CourseSearchDB:
         )
         
         # Delete tirgulim entries
-        print("\nStep 2: Removing tirgulim...")
-        self.processor.delete_tirgulim(json_path)
+        print("\nStep 2: Removing unneeded keys...")
+        self.processor.delete_keys(json_path, keys)
         
         """
         # Validate and fix course types
@@ -77,8 +80,9 @@ if __name__ == "__main__":
     # Example usage
     course_search_db = CourseSearchDB()
     course_search_db.generate_course_trees(
-        years=['2025', '2024', '2023'],
+        years=['2025'],
         faculty='מדעים מדויקים',
         departments=['פיזיקה', 'מתמטיקה'],
+        keys=['lessons', 'exams'],
         merge=True
     )

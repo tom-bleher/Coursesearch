@@ -3,59 +3,23 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import time
-from typing import Dict
+from typing import Dict, List
 import os
 import traceback
+import random
 
 
 class CourseProcessor:
 
-    def filter_exact_sciences_courses(self, input_file: str = 'exact_sciences_2021-2025.json', 
-                                    output_file: str = 'filtered_exact_sciences_2021-2025.json'):
-        """
-        Filter courses to keep only Physics, Mathematics and Computer Science courses
-        from the Exact Sciences faculty.
-        
-        Args:
-            input_file: Path to input JSON file
-            output_file: Path to output JSON file
-        """
-        # Faculties to keep
-        target_faculties = {
-            "מדעים מדויקים/פיזיקה",
-            "מדעים מדויקים/מתמטיקה",
-            "מדעים מדויקים/מדעי המחשב"
-        }
-        
-        # Read the original file
-        with open(input_file, 'r', encoding='utf-8') as f:
-            courses = json.load(f)
-        
-        # Filter courses
-        filtered_courses = {
-            code: data 
-            for code, data in courses.items()
-            if data.get('faculty') in target_faculties
-        }
-        
-        # Save filtered data
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(filtered_courses, f, ensure_ascii=False, indent=2)
-        
-        # Print summary
-        print(f"\nOriginal number of courses: {len(courses)}")
-        print(f"Number of courses after filtering: {len(filtered_courses)}")
-        
-        # Print count by faculty
-        faculty_counts = {}
-        for course in filtered_courses.values():
-            faculty = course.get('faculty', 'Unknown')
-            faculty_counts[faculty] = faculty_counts.get(faculty, 0) + 1
-        
-        print("\nCourses by faculty:")
-        for faculty, count in faculty_counts.items():
-            print(f"- {faculty}: {count} courses")
+    def __init__(self):
+        # Define delay ranges in seconds
+        self.min_delay = 3.0
+        self.max_delay = 5.0
 
+    def _random_delay(self):
+        """Add a random delay between requests to prevent rate limiting."""
+        delay = random.uniform(self.min_delay, self.max_delay)
+        time.sleep(delay)
 
     def get_req(self, course_number: str, year: str, semester: str) -> Dict:
         """
@@ -69,6 +33,9 @@ class CourseProcessor:
         Returns:
             Dictionary containing prerequisites and parallel requirements lists
         """
+        # Add delay before making request
+        self._random_delay()
+        
         # Convert semester 'a'/'b' to '1'/'2' and create the year_sem parameter
         sem_num = '1' if semester.lower() == 'a' else '2'
         year_sem = f"{int(year)-1}{sem_num}"  # Use previous year for semester
@@ -77,7 +44,7 @@ class CourseProcessor:
         BASE_PREQ_PAREQ_URL = "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs={course_number}&sem={year_sem}"
         
         # Generate URL
-        preq_url = BASE_PREQ_PAREQ_URL.format(
+        req_url = BASE_PREQ_PAREQ_URL.format(
             course_number=course_number,
             year_sem=year_sem
         )
@@ -87,7 +54,7 @@ class CourseProcessor:
         pareq_list = []
         
         # Fetch and parse the prerequisites page
-        response = requests.get(preq_url)
+        response = requests.get(req_url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         
@@ -134,7 +101,8 @@ class CourseProcessor:
         
         return {
             'preq': preq_list,
-            'pareq': pareq_list
+            'pareq': pareq_list,
+            'req_url': req_url
         }
 
     def get_course_link(self, course_number: str, year: str, semester: str) -> Dict:
@@ -149,6 +117,9 @@ class CourseProcessor:
         Returns:
             Dictionary containing the course link
         """
+        # Add delay before making request
+        self._random_delay()
+        
         # Base URL for TAU course information
         BASE_COURSE_LINK_URL = "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course={course_number}&year={year}"
         
@@ -176,6 +147,9 @@ class CourseProcessor:
         Returns:
             Dictionary containing the evaluation type
         """
+        # Add delay before making request
+        self._random_delay()
+        
         # Get the course link first
         course_url = self.get_course_link(course_number, year, semester)['course_link']
         
@@ -329,9 +303,14 @@ class CourseProcessor:
                     print(f"Course {course_number} already complete, skipping")
                     continue
 
-                # Get the most recent offering details
-                year = course_data['last_offered']['year']
-                semester = course_data['last_offered']['semester']
+                # Parse last_offered string into year and semester
+                last_offered = course_data.get('last_offered', '')
+                if not last_offered:
+                    print(f"No last_offered data for course {course_number}, skipping")
+                    continue
+                    
+                year = last_offered[:-1]  # Everything except last character
+                semester = last_offered[-1].lower()  # Last character ('a' or 'b')
                 
                 # Process each required field if missing
                 if 'course_link' not in course_data:
@@ -360,6 +339,7 @@ class CourseProcessor:
                         req_data = self.get_req(course_number, year, semester)
                         course_data['preq'] = req_data['preq']
                         course_data['pareq'] = req_data['pareq']
+                        course_data['req_url'] = req_data['req_url']
                         print(f"Found {len(req_data['preq'])} prerequisites and {len(req_data['pareq'])} parallel requirements")
                     except Exception as e:
                         print(f"Error getting requirements: {e}")
@@ -368,9 +348,6 @@ class CourseProcessor:
                 
                 success_count += 1
                 print(f"Successfully processed course {course_number}")
-                
-                # Add a small delay to avoid overwhelming the server
-                time.sleep(0.1)
                 
             except Exception as e:
                 print(f"ERROR: Error processing course {course_number}: {e}")
@@ -405,53 +382,79 @@ class CourseProcessor:
         
         return courses
 
-    def delete_tirgulim(self, json_file_path: str):
+    def delete_keys(self, json_file_path: str, keys: List[str]):
         """
-        Delete all tirgulim (of type "תרגיל") from the JSON course data.
+        Delete specified keys from the JSON course data and perform additional filtering:
+        - Remove groups with lesson type "תרגיל"
+        - Remove lessons key from remaining groups
+        - Remove specified top-level keys
         
         Args:
             json_file_path: Path to JSON file containing course data
+            keys: List of keys to delete from each course entry
         """
         # Load the course data
         with open(json_file_path, 'r', encoding='utf-8') as f:
             courses = json.load(f)
             
-        print(f"\nStarting to remove tirgulim from {json_file_path}")
+        print(f"\nStarting to remove keys {keys} from {json_file_path}")
         print(f"Original number of courses: {len(courses)}")
         
         # Track statistics
-        total_groups_removed = 0
+        total_keys_removed = 0
         courses_modified = 0
         
         # Process each course
         for course_number, course_data in courses.items():
+            course_modified = False
+            
+            # Remove top-level keys
+            for key in keys:
+                if key in course_data:
+                    del course_data[key]
+                    total_keys_removed += 1
+                    course_modified = True
+                    print(f"Removed key '{key}' from course {course_number}")
+            
+            # Handle groups filtering and cleanup
             if 'groups' in course_data:
-                # Keep only groups that don't have any תרגיל lessons
-                original_group_count = len(course_data['groups'])
-                filtered_groups = [
-                    group for group in course_data['groups']
-                    if not any(
-                        lesson.get('type') == 'תרגיל'
-                        for lesson in group.get('lessons', [])
-                    )
-                ]
+                # Filter out groups that have lessons with type "תרגיל"
+                filtered_groups = []
+                for group in course_data['groups']:
+                    if 'lessons' in group:
+                        # Check if any lesson in this group is of type "תרגיל"
+                        has_targil = any(
+                            lesson.get('type') == 'תרגיל' 
+                            for lesson in group['lessons']
+                        )
+                        if not has_targil:
+                            # Remove the lessons key before adding to filtered groups
+                            if 'lessons' in group:
+                                del group['lessons']
+                            filtered_groups.append(group)
+                    else:
+                        # If no lessons key, keep the group
+                        filtered_groups.append(group)
                 
-                # Update groups if any were removed
-                if len(filtered_groups) != original_group_count:
-                    groups_removed = original_group_count - len(filtered_groups)
-                    total_groups_removed += groups_removed
-                    courses_modified += 1
+                # Update the groups with filtered version
+                if filtered_groups:
                     course_data['groups'] = filtered_groups
-                    print(f"Removed {groups_removed} tirgul groups from course {course_number}")
+                else:
+                    # If all groups were filtered out, remove the groups key
+                    del course_data['groups']
+                course_modified = True
+            
+            if course_modified:
+                courses_modified += 1
         
         # Save the updated data
         with open(json_file_path, 'w', encoding='utf-8') as f:
             json.dump(courses, f, ensure_ascii=False, indent=2)
-            
+        
         # Print summary
         print("\nProcessing completed!")
         print(f"Modified {courses_modified} courses")
-        print(f"Removed {total_groups_removed} total tirgul groups")
+        print(f"Removed {total_keys_removed} total keys")
 
     def validate_course_type(self, json_file_path: str) -> Dict[str, Dict]:
         """
