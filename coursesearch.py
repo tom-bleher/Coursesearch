@@ -9,7 +9,7 @@ class CourseSearchDB:
         self.downloader = CourseDownloader()
         self.processor = CourseProcessor()
         
-    def generate_course_trees(self, years: List[str], faculty: str, departments: List[str], keys: List[str], merge: bool = True) -> None:
+    def generate_course_trees(self, years: List[str], faculty: str, departments: List[str], keys: List[str], merge: bool = True, limit: int = None) -> None:
         """
         Generate and process course data for the specified years, faculty, and departments.
         
@@ -63,12 +63,16 @@ class CourseSearchDB:
 
         # Complete course data with links, eval types, and requirements
         print("\nStep 4: Completing course data...")
-        courses = self.processor.complete_course_data(json_path)
+        courses = self.processor.complete_course_data(json_path, limit=limit)
         
         # Split data by department
         print("\nStep 5: Splitting data by department...")
         dept_counts = self.processor.split_by_department(json_path)
         
+        # Remove logic words
+        print("\nStep 6: Removing logic words...")
+        self.processor.remove_logic_words(json_path, logic_words=['וגם'])
+
         # Print final summary
         print("\nProcessing completed!")
         print("Created the following department files:")
@@ -80,7 +84,7 @@ if __name__ == "__main__":
     # Example usage
     course_search_db = CourseSearchDB()
     course_search_db.generate_course_trees(
-        years=['2025'],
+        years=['2025', '2024', '2023', '2022', '2021'],
         faculty='מדעים מדויקים',
         departments=['פיזיקה', 'מתמטיקה'],
         keys=['lessons', 'exams'],

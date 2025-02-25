@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import time
-from typing import Dict, List
+from typing import Dict, List, Optional
 import os
 import traceback
 import random
@@ -262,12 +262,13 @@ class CourseProcessor:
         except Exception as e:
             return {'eval_type': ''}
 
-    def complete_course_data(self, json_file_path: str) -> Dict:
+    def complete_course_data(self, json_file_path: str, limit: Optional[int] = None) -> Dict:
         """
         Add course link, prerequisites, parallel requirements, and evaluation type to courses data.
         
         Args:
             json_file_path: Path to JSON file containing course data
+            limit: Optional maximum number of courses to process
             
         Returns:
             Updated course data dictionary
@@ -286,6 +287,11 @@ class CourseProcessor:
             if not all(field in data for field in required_fields)
         }
         
+        # Apply limit if specified
+        if limit is not None:
+            courses_to_process = dict(list(courses_to_process.items())[:limit])
+            print(f"Limited to processing {limit} courses")
+            
         print(f"Found {len(courses_to_process)} courses needing completion")
         
         # Track progress and statistics
@@ -340,7 +346,8 @@ class CourseProcessor:
                         course_data['preq'] = req_data['preq']
                         course_data['pareq'] = req_data['pareq']
                         course_data['req_url'] = req_data['req_url']
-                        print(f"Found {len(req_data['preq'])} prerequisites and {len(req_data['pareq'])} parallel requirements")
+                        print(f"Found {len(req_data['preq'])} prerequisites: {', '.join(req_data['preq']) if req_data['preq'] else 'None'}")
+                        print(f"Found {len(req_data['pareq'])} parallel requirements: {', '.join(req_data['pareq']) if req_data['pareq'] else 'None'}")
                     except Exception as e:
                         print(f"Error getting requirements: {e}")
                         course_data['preq'] = []
@@ -532,6 +539,116 @@ class CourseProcessor:
             json.dump(courses, f, ensure_ascii=False, indent=2)
             
         return changes 
+
+
+    def remove_logic_words(self, json_file_path: str, logic_words: List[str] = None) -> Dict[str, Dict]:
+        """ 
+        Remove logic words from the course data's prerequisites and parallel requirements.
+        Handles equivalent words in Hebrew and English (e.g., 'או' and 'or' are treated as the same).
+        Also removes 'תרגיל' entries.
+        
+        Args:
+            json_file_path: Path to the JSON file containing course data
+            logic_words: Optional list of logic words to remove. Can include any of: ['או', 'or', 'וגם', 'and']
+            
+        Returns:
+            Dictionary containing statistics about the changes made
+        """
+        # Define equivalent terms mapping
+        LOGIC_WORD_EQUIVALENTS = {
+            'או': {'או', 'or'},
+            'or': {'או', 'or'},
+            'וגם': {'וגם', 'and'},
+            'and': {'וגם', 'and'}
+        }
+        
+        # Validate logic words and expand to include equivalents
+        valid_words = set(['או', 'וגם', 'or', 'and'])
+        invalid_words = [word for word in logic_words if word not in valid_words]
+        if invalid_words:
+            raise ValueError(f"Invalid logic words provided: {invalid_words}")
+            
+        # Expand the logic words to include their equivalents
+        expanded_logic_words = set()
+        for word in logic_words:
+            expanded_logic_words.update(LOGIC_WORD_EQUIVALENTS[word])
+
+        # Load the course data
+        with open(json_file_path, 'r', encoding='utf-8') as f:
+            courses = json.load(f)
+            
+        # Track changes
+        changes = {
+            'courses_modified': 0,
+            'total_words_removed': 0,
+            'total_targil_removed': 0,
+            'modified_courses': {}
+        }
+        
+        # Process each course
+        for course_number, course_data in courses.items():
+            course_modified = False
+            course_changes = {
+                'preq_removed': [],
+                'pareq_removed': [],
+                'targil_removed': []
+            }
+            
+            # Clean prerequisites
+            if 'preq' in course_data:
+                original_preq = course_data['preq'].copy()
+                # Remove logic words and תרגיל entries
+                course_data['preq'] = [x for x in course_data['preq'] if x not in expanded_logic_words and not x.endswith('01')]
+                removed_preq = [x for x in original_preq if x in expanded_logic_words]
+                removed_targil = [x for x in original_preq if x.endswith('01')]
+                if removed_preq or removed_targil:
+                    course_modified = True
+                    course_changes['preq_removed'] = removed_preq
+                    course_changes['targil_removed'].extend(removed_targil)
+                    changes['total_words_removed'] += len(removed_preq)
+                    changes['total_targil_removed'] += len(removed_targil)
+            
+            # Clean parallel requirements
+            if 'pareq' in course_data:
+                original_pareq = course_data['pareq'].copy()
+                # Remove logic words and תרגיל entries
+                course_data['pareq'] = [x for x in course_data['pareq'] if x not in expanded_logic_words and not x.endswith('01')]
+                removed_pareq = [x for x in original_pareq if x in expanded_logic_words]
+                removed_targil = [x for x in original_pareq if x.endswith('01')]
+                if removed_pareq or removed_targil:
+                    course_modified = True
+                    course_changes['pareq_removed'] = removed_pareq
+                    course_changes['targil_removed'].extend(removed_targil)
+                    changes['total_words_removed'] += len(removed_pareq)
+                    changes['total_targil_removed'] += len(removed_targil)
+            
+            # Record changes if any were made
+            if course_modified:
+                changes['courses_modified'] += 1
+                changes['modified_courses'][course_number] = course_changes
+        
+        # Save the updated data back to the file
+        with open(json_file_path, 'w', encoding='utf-8') as f:
+            json.dump(courses, f, ensure_ascii=False, indent=2)
+            
+        # Print summary
+        print(f"\nProcessing completed!")
+        print(f"Modified {changes['courses_modified']} courses")
+        print(f"Removed {changes['total_words_removed']} logic words")
+        print(f"Removed {changes['total_targil_removed']} תרגיל entries")
+        
+        if changes['total_words_removed'] > 0 or changes['total_targil_removed'] > 0:
+            print("\nDetailed changes by course:")
+            for course_num, course_changes in changes['modified_courses'].items():
+                print(f"\nCourse {course_num}:")
+                if course_changes['preq_removed']:
+                    print(f"  Removed prerequisites (logic words): {', '.join(course_changes['preq_removed'])}")
+                if course_changes['pareq_removed']:
+                    print(f"  Removed parallel requirements (logic words): {', '.join(course_changes['pareq_removed'])}")
+                if course_changes['targil_removed']:
+                    print(f"  Removed תרגיל entries: {', '.join(course_changes['targil_removed'])}")
+        
+        return changes
 
     def split_by_department(self, json_file_path: str, department: str = None) -> Dict[str, int]:
         """
