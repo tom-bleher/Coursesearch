@@ -460,25 +460,96 @@ async function loadCourseData() {
     }
 }
 
-// Initialize course data
-async function initializeCourseData() {
-    await loadCourseData();
-    // Set initial filters before updating graph
-    currentCourses = [...courses_math, ...courses_physics].filter(course => {
-        return course.faculty === 'מדעים מדויקים/מתמטיקה' &&
-               extractYear(course.last_offered) === '2025' &&
-               course.type === 'שיעור';
-    });
-    updateGraph();
-}
-
 // Initialize course data and instructions when the page loads
-window.addEventListener('load', () => {
-    initializeCourseData().then(() => {
+window.addEventListener('load', async () => {
+    try {
+        await loadCourseData();
+        
+        // Set initial filters
+        activeFilters = {
+            faculty: new Set(['מדעים מדויקים/מתמטיקה']),
+            year: new Set(['2025']),
+            type: new Set(['שיעור']),
+            eval: new Set(['all'])
+        };
+        
+        // Filter initial courses
+        currentCourses = [...courses_math, ...courses_physics].filter(course => {
+            return course.faculty === 'מדעים מדויקים/מתמטיקה' &&
+                   extractYear(course.last_offered) === '2025' &&
+                   course.type === 'שיעור';
+        });
+        
+        // Create instructions panel
         createInstructionsPanel();
-        setInitialFilters();
-    });
+        
+        // Populate filter options before updating graph
+        populateFilterOptions();
+        
+        // Update graph with initial data
+        updateGraph();
+        
+        // Set up filter event listeners
+        setupFilterEventListeners();
+    } catch (error) {
+        console.error('Error initializing course data:', error);
+    }
 });
+
+// Function to set up filter event listeners
+function setupFilterEventListeners() {
+    ['facultyFilter', 'yearFilter', 'typeFilter', 'evalFilter'].forEach(id => {
+        const select = document.getElementById(id);
+        if (select) {
+            select.addEventListener('change', (e) => {
+                const filterType = id.replace('Filter', '');
+                const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
+                
+                // Handle selection logic
+                if (selectedOptions.length === 0) {
+                    activeFilters[filterType] = new Set(['all']);
+                    e.target.querySelector('option[value="all"]').selected = true;
+                } else if (selectedOptions.includes('all')) {
+                    activeFilters[filterType] = new Set(['all']);
+                    Array.from(e.target.options).forEach(option => {
+                        option.selected = option.value === 'all';
+                    });
+                } else {
+                    activeFilters[filterType] = new Set(selectedOptions);
+                    e.target.querySelector('option[value="all"]').selected = false;
+                }
+
+                // If faculty filter changes, update other filters
+                if (id === 'facultyFilter') {
+                    activeFilters.type = new Set(['all']);
+                    activeFilters.eval = new Set(['all']);
+                    populateFilterOptions();
+                }
+                
+                // Apply filters immediately
+                applyFilters();
+            });
+        }
+    });
+
+    // Handle apply filters button
+    const applyButton = document.getElementById('applyFilters');
+    if (applyButton) {
+        applyButton.addEventListener('click', applyFilters);
+    }
+
+    // Handle reset button
+    const resetButton = document.getElementById('resetAll');
+    if (resetButton) {
+        resetButton.addEventListener('click', () => {
+            setInitialFilters();
+            if (searchInput) {
+                searchInput.value = '';
+            }
+            resetView();
+        });
+    }
+}
 
 // Initialize Cytoscape with optimized settings
 const cy = cytoscape({
@@ -1124,6 +1195,38 @@ function calculateCourseDepths(courses) {
     return depths;
 }
 
+// Function to create a hierarchical layout
+function createHierarchicalLayout(elements) {
+    const nodesByLevel = {};
+    const levelHeight = 150; // Vertical spacing between levels
+    const nodeSpacing = 100; // Horizontal spacing between nodes
+    
+    // First pass: Assign levels based on course depths
+    elements.nodes.forEach(node => {
+        const depth = node.data.depth || 0;
+        if (!nodesByLevel[depth]) {
+            nodesByLevel[depth] = [];
+        }
+        nodesByLevel[depth].push(node);
+    });
+
+    // Second pass: Position nodes by level
+    Object.keys(nodesByLevel).forEach((level, levelIndex) => {
+        const nodesInLevel = nodesByLevel[level];
+        const levelWidth = nodesInLevel.length * nodeSpacing;
+        const startX = -levelWidth / 2;
+        
+        nodesInLevel.forEach((node, index) => {
+            node.position = {
+                x: startX + (index * nodeSpacing),
+                y: levelIndex * levelHeight
+            };
+        });
+    });
+
+    return elements;
+}
+
 // Modify the updateGraph function's layout configuration
 function updateGraph() {
     // Update title based on active faculty filter
@@ -1204,7 +1307,7 @@ function updateGraph() {
                         source: source,
                         target: target,
                         type: type,
-                        weight: complexity.get(source) || 0 // Use complexity for edge weight
+                        weight: complexity.get(source) || 0
                     }
                 });
             }
@@ -1212,30 +1315,26 @@ function updateGraph() {
 
         // Add prerequisite edges
         if (course.prereqs) {
-            // Sort prerequisites by complexity
-            const sortedPrereqs = course.prereqs
+            course.prereqs
                 .filter(prereq => visibleCourseIds.has(prereq))
-                .sort((a, b) => (complexity.get(b) || 0) - (complexity.get(a) || 0));
-            
-            sortedPrereqs.forEach(prereq => {
-                addEdgeIfNotExists(prereq, course.id, 'prereq');
-            });
+                .forEach(prereq => {
+                    addEdgeIfNotExists(prereq, course.id, 'prereq');
+                });
         }
 
         // Add corequisite edges
         if (course.coreqs) {
-            // Sort corequisites by complexity
-            const sortedCoreqs = course.coreqs
+            course.coreqs
                 .filter(coreq => visibleCourseIds.has(coreq))
-                .sort((a, b) => (complexity.get(b) || 0) - (complexity.get(a) || 0));
-            
-            sortedCoreqs.forEach(coreq => {
-                addEdgeIfNotExists(course.id, coreq, 'coreq');
-            });
+                .forEach(coreq => {
+                    addEdgeIfNotExists(course.id, coreq, 'coreq');
+                });
         }
     });
 
     cy.startBatch();
+    
+    // Remove existing elements and add new ones
     cy.elements().remove();
     cy.add(elements);
     
@@ -1250,13 +1349,10 @@ function updateGraph() {
         90
     );
     
-    // Get the maximum depth for layout calculations
-    const maxDepth = Math.max(...Array.from(depths.values()));
-    
-    // Modify the initial layout parameters
-    initialLayout = {
+    // Apply layout
+    const layout = cy.layout({
         name: 'dagre',
-        rankDir: 'TB', // Top to Bottom direction
+        rankDir: 'TB',
         padding: 30,
         spacingFactor: 1.4,
         animate: false,
@@ -1265,16 +1361,14 @@ function updateGraph() {
         ranker: 'tight-tree',
         edgeSep: optimalSpacing * 0.8,
         align: 'UL',
-        // Assign ranks based on depth (not inverted anymore)
         rankAssignment: (node) => {
             return depths.get(node.id()) || 0;
         }
-    };
+    });
     
-    // Apply the initial layout
-    cy.layout(initialLayout).run();
+    layout.run();
 
-    // Store the initial positions of all nodes
+    // Store initial positions
     initialNodePositions = {};
     cy.nodes().forEach(node => {
         initialNodePositions[node.id()] = {
@@ -1291,12 +1385,10 @@ function updateGraph() {
         const isPastCourse = course?.last_offered ? 
             parseInt(course.last_offered.slice(0, 4)) < 2025 : false;
         
-        // Get background color based on grade
         const backgroundColor = course?.avg_grade ? 
             getGradeColor(course.avg_grade, gradeRange.min, gradeRange.max) : 
             '#F5F5F5';
         
-        // Calculate border width based on complexity (1.5px to 3px)
         const nodeComplexity = complexity.get(node.id()) || 0;
         const maxComplexity = Math.max(...Array.from(complexity.values()));
         const borderWidth = 1.5 + (nodeComplexity / maxComplexity) * 1.5;
@@ -1315,12 +1407,12 @@ function updateGraph() {
         node.style(style);
     });
     
-    // Style edges based on type and complexity
+    // Style edges
     cy.edges().forEach(edge => {
         const type = edge.data('type');
         const weight = edge.data('weight') || 0;
         const maxWeight = Math.max(...elements.edges.map(e => e.data.weight || 0));
-        const widthScale = 1 + (weight / maxWeight); // Scale from 1 to 2
+        const widthScale = 1 + (weight / maxWeight);
         
         edge.style({
             'line-color': '#000000',
