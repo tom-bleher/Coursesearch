@@ -107,7 +107,7 @@ class CourseProcessor:
 
     def get_course_link(self, course_number: str, year: str, semester: str) -> Dict:
         """
-        Generate the course link URL.
+        Generate the course link URL using the first available group number.
         
         Args:
             course_number: Course number without dashes
@@ -121,13 +121,25 @@ class CourseProcessor:
         self._random_delay()
         
         # Base URL for TAU course information
-        BASE_COURSE_LINK_URL = "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course={course_number}&year={year}"
+        BASE_COURSE_LINK_URL = "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course={course_number}{group}&year={year}"
         
-        # Default group code
-        group_code = "01"
+        # Load the course data to get the group number
+        json_file_path = os.path.join('courses', 'JSONs', 'math.json')  # You might need to adjust this path
+        with open(json_file_path, 'r', encoding='utf-8') as f:
+            courses = json.load(f)
+        
+        # Get the first available group number for this course
+        group_code = "01"  # Default fallback
+        if course_number in courses:
+            course_data = courses[course_number]
+            if 'groups' in course_data and course_data['groups']:
+                first_group = course_data['groups'][0]
+                if 'group' in first_group:
+                    group_code = first_group['group']
         
         course_url = BASE_COURSE_LINK_URL.format(
-            course_number=f"{course_number}{group_code}",
+            course_number=course_number,
+            group=group_code,
             year=str(int(year)-1)
         )
         
@@ -476,84 +488,6 @@ class CourseProcessor:
         print("\nProcessing completed!")
         print(f"Modified {courses_modified} courses")
         print(f"Removed {total_keys_removed} total keys")
-
-    def validate_course_type(self, json_file_path: str) -> Dict[str, Dict]:
-        """
-        Validate and fix course types based on course title keywords.
-        Checks both Hebrew and English keywords in the title and updates the course type if needed.
-        
-        Args:
-            json_file_path: Path to the JSON file containing course data
-            
-        Returns:
-            Dictionary with course numbers as keys and their changes as values
-        """
-        # Load the course data
-        with open(json_file_path, 'r', encoding='utf-8') as f:
-            courses = json.load(f)
-            
-        # Define keywords for each type in both Hebrew and English
-        type_keywords = {
-            'סמינר': ['סמינר', 'סמינריון', 'seminar', 'seminary', 'proseminar'],
-            'מעבדה': ['מעבדה', 'מעבדת', 'laboratory', 'lab', 'labs'],
-            'קריאה מודרכת': ['קריאה', 'guided reading', 'reading', 'supervised reading'],
-            'סדנה': ['סדנה', 'סדנת', 'workshop', 'studio'],
-            'פרויקט': ['פרויקט', 'פרוייקט', 'project'],
-        }
-        
-        changes = {}
-        
-        # Process each course
-        for course_number, course_data in courses.items():
-            course_name = course_data.get('name', '').lower()
-            course_changes = {
-                'name': course_data.get('name', ''),
-                'original_types': set(),
-                'detected_type': '',
-                'changes_made': []
-            }
-            
-            # Get current lesson types
-            if 'groups' in course_data:
-                for group in course_data['groups']:
-                    if 'lessons' in group:
-                        for lesson in group['lessons']:
-                            if 'type' in lesson:
-                                course_changes['original_types'].add(lesson['type'])
-            
-            # Detect type from title
-            detected_type = ''
-            for course_type, keywords in type_keywords.items():
-                if any(keyword.lower() in course_name for keyword in keywords):
-                    detected_type = course_type
-                    break
-            
-            course_changes['detected_type'] = detected_type
-            
-            # If we found a type from the title and it differs from current types
-            if detected_type and detected_type not in course_changes['original_types']:
-                # Update the course type in all lessons
-                if 'groups' in course_data:
-                    for group in course_data['groups']:
-                        if 'lessons' in group:
-                            for lesson in group['lessons']:
-                                if 'type' in lesson:
-                                    old_type = lesson['type']
-                                    lesson['type'] = detected_type
-                                    course_changes['changes_made'].append(
-                                        f"Changed type from '{old_type}' to '{detected_type}'"
-                                    )
-            
-            # Only include courses where changes were made
-            if course_changes['changes_made']:
-                changes[course_number] = course_changes
-        
-        # Save the updated data back to the file
-        with open(json_file_path, 'w', encoding='utf-8') as f:
-            json.dump(courses, f, ensure_ascii=False, indent=2)
-            
-        return changes 
-
 
     def remove_logic_words(self, json_file_path: str, logic_words: List[str] = None) -> Dict[str, Dict]:
         """ 
