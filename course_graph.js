@@ -423,6 +423,14 @@ async function loadCourseData() {
         const mathData = await mathResponse.json();
         const physicsData = await physicsResponse.json();
 
+        // Store the raw JSON data
+        courses_math = mathData;
+        courses_physics = physicsData;
+
+        console.log('Course data loaded successfully');
+        console.log('Math courses:', Object.keys(courses_math).length);
+        console.log('Physics courses:', Object.keys(courses_physics).length);
+
         // Process math courses
         courses_math = Object.entries(mathData)
             .map(([courseNumber, courseInfo]) => {
@@ -450,10 +458,7 @@ async function loadCourseData() {
                 
                 return {
                     id: courseInfo.name,
-                    name: {
-                        he: courseInfo.name,
-                        en: courseInfo.name
-                    },
+                    name: courseInfo.name,
                     course_link: courseInfo.course_link,
                     faculty: 'מדעים מדויקים/מתמטיקה',
                     original_type: originalType,
@@ -463,11 +468,14 @@ async function loadCourseData() {
                         normalizeEvalType(courseInfo.eval_type),
                     prereqs: processedPrereqs,
                     coreqs: processedCoreqs,
-                    last_offered: courseInfo.last_offered
+                    last_offered: courseInfo.last_offered,
+                    avg_grade: courseInfo.avg_grade,
+                    grade_distribution: courseInfo.grade_distribution,
+                    total_students: courseInfo.total_students
                 };
             });
 
-        // Process physics courses with the same careful type handling
+        // Process physics courses with the same structure
         courses_physics = Object.entries(physicsData)
             .map(([courseNumber, courseInfo]) => {
                 // Process prerequisites
@@ -488,41 +496,29 @@ async function loadCourseData() {
                     })
                     .filter(name => name !== null);
 
-                // Preserve the original type and normalize it
-                const originalType = courseInfo.type;
-                const normalizedType = normalizeType(originalType);
-
                 return {
                     id: courseInfo.name,
-                    name: {
-                        he: courseInfo.name,
-                        en: courseInfo.name
-                    },
+                    name: courseInfo.name,
                     course_link: courseInfo.course_link,
                     faculty: 'מדעים מדויקים/פיזיקה',
-                    original_type: originalType,
-                    type: normalizedType,
+                    original_type: courseInfo.type,
+                    type: normalizeType(courseInfo.type),
                     eval_type: Array.isArray(courseInfo.eval_type) ?
                         courseInfo.eval_type.map(normalizeEvalType) :
                         normalizeEvalType(courseInfo.eval_type),
                     prereqs: processedPrereqs,
                     coreqs: processedCoreqs,
-                    last_offered: courseInfo.last_offered
+                    last_offered: courseInfo.last_offered,
+                    avg_grade: courseInfo.avg_grade,
+                    grade_distribution: courseInfo.grade_distribution,
+                    total_students: courseInfo.total_students
                 };
             });
 
         // Set initial courses to all courses
         currentCourses = [...courses_math, ...courses_physics];
         
-        // Log all unique types for debugging
-        const allTypes = new Set([
-            ...currentCourses.map(c => c.original_type),
-            ...currentCourses.map(c => c.type)
-        ]);
-        console.log('All unique types in data:', Array.from(allTypes));
-        
         return currentCourses;
-
     } catch (error) {
         console.error('Error loading course data:', error);
         return [];
@@ -669,28 +665,26 @@ function performSearch(searchTerm) {
     // First, hide all elements
     cy.elements().addClass('hidden');
     
-    // Show and highlight the matched nodes (orange like clicked nodes)
+    // Show and highlight matches with darker border only
     matches.removeClass('hidden').style({
-        'background-color': '#FFF3E0',
         'border-width': '2.5px',
-        'border-color': '#F57C00',
-        'color': '#E65100',
+        'border-color': '#000000',  // Black border
+        'color': '#000000',         // Black text
         'opacity': 1
     });
 
-    // Show and highlight neighbors (blue like prerequisites)
+    // Show and highlight neighbors with thinner border
     neighbors.removeClass('hidden').style({
-        'background-color': '#E3F2FD',
         'border-width': '2px',
-        'border-color': '#1976D2',
-        'color': '#0D47A1',
+        'border-color': '#000000',  // Black border
+        'color': '#000000',         // Black text
         'opacity': 1
     });
 
-    // Show and highlight edges
+    // Show edges in black
     connectedEdges.removeClass('hidden').style({
-        'line-color': '#1976D2',
-        'target-arrow-color': '#1976D2',
+        'line-color': '#000000',
+        'target-arrow-color': '#000000',
         'opacity': 1
     });
 
@@ -868,10 +862,9 @@ function handleNodeClick(event) {
         
         // Show and highlight the target course
         clickedNode.removeClass('hidden').style({
-            'background-color': '#FFF3E0',
             'border-width': '2.5px',
-            'border-color': '#F57C00',
-            'color': '#E65100',
+            'border-color': '#000000',  // Black border
+            'color': '#000000',         // Black text
             'opacity': 1
         });
         
@@ -879,15 +872,14 @@ function handleNodeClick(event) {
         prerequisites.forEach(prereqId => {
             const prereqNode = cy.getElementById(prereqId);
             prereqNode.removeClass('hidden').style({
-                'background-color': '#E3F2FD',
                 'border-width': '2px',
-                'border-color': '#1976D2',
-                'color': '#0D47A1',
+                'border-color': '#000000',  // Black border
+                'color': '#000000',         // Black text
                 'opacity': 1
             });
             visibleElements.merge(prereqNode);
             
-            // Show and highlight edges between prerequisites
+            // Show and highlight edges in black
             const edgesToHighlight = cy.edges().filter(edge => {
                 const sourceId = edge.source().id();
                 const targetId = edge.target().id();
@@ -897,8 +889,8 @@ function handleNodeClick(event) {
             });
             
             edgesToHighlight.removeClass('hidden').style({
-                'line-color': '#1976D2',
-                'target-arrow-color': '#1976D2',
+                'line-color': '#000000',
+                'target-arrow-color': '#000000',
                 'opacity': 1
             });
             
@@ -993,16 +985,38 @@ function resetView() {
         searchInput.value = '';
     }
     
-    // Reset visibility first
+    // Reset visibility
     cy.elements().removeClass('hidden');
     
-    // Reset node styles to default gray with full opacity
-    cy.nodes().style({
-        'background-color': '#F5F5F5',
-        'border-width': '1.5px',
-        'border-color': '#78909C',
-        'color': '#455A64',
-        'opacity': 1
+    // Get grade range for colors
+    const gradeRange = findGradeRange(currentCourses);
+    
+    // Reset node styles while preserving grade colors
+    cy.nodes().forEach(node => {
+        const course = currentCourses.find(c => c.id === node.data('id'));
+        const isPastCourse = course?.last_offered ? 
+            parseInt(course.last_offered.slice(0, 4)) < 2025 : false;
+        
+        // Get background color based on grade
+        const backgroundColor = course?.avg_grade ? 
+            getGradeColor(course.avg_grade, gradeRange.min, gradeRange.max) : 
+            '#F5F5F5';  // Default gray for courses without grades
+        
+        // Apply styles
+        const style = {
+            'background-color': backgroundColor,
+            'border-color': '#000000',  // Black border
+            'color': '#000000',         // Black text
+            'border-width': '1.5px',
+            'opacity': 1
+        };
+        
+        // Add dashed border for past courses
+        if (isPastCourse) {
+            style['border-style'] = 'dashed';
+        }
+        
+        node.style(style);
     });
     
     // Reset edge styles with black arrows
@@ -1034,14 +1048,55 @@ function resetView() {
     setTimeout(() => {
         cy.fit(40);
         updateTextScaling();
-        // Set a lower minimum zoom to allow more zooming out
         cy.minZoom(Math.min(cy.zoom() * 0.6, 0.5));
     }, 350);
     
     cy.endBatch();
+
+    // Update legend with current grade range
+    if (gradeRange.min !== null && gradeRange.max !== null) {
+        updateGradeLegend(gradeRange.min, gradeRange.max);
+    }
 }
 
-// Update the updateGraph function to handle isolated courses
+// Add this helper function to calculate course depth
+function calculateCourseDepths(courses) {
+    const depths = new Map();
+    
+    function getDepth(courseId) {
+        // If we've already calculated this course's depth, return it
+        if (depths.has(courseId)) {
+            return depths.get(courseId);
+        }
+        
+        const course = courses.find(c => c.id === courseId);
+        if (!course) {
+            return 0;
+        }
+        
+        // Get all prerequisites and corequisites
+        const allReqs = [...(course.prereqs || []), ...(course.coreqs || [])];
+        
+        if (allReqs.length === 0) {
+            depths.set(courseId, 0);
+            return 0;
+        }
+        
+        // Calculate maximum depth of prerequisites
+        const maxPrereqDepth = Math.max(...allReqs.map(req => getDepth(req)));
+        const depth = maxPrereqDepth + 1;
+        
+        depths.set(courseId, depth);
+        return depth;
+    }
+    
+    // Calculate depths for all courses
+    courses.forEach(course => getDepth(course.id));
+    
+    return depths;
+}
+
+// Modify the updateGraph function's layout configuration
 function updateGraph() {
     // Update title based on active faculty filter
     const activeFaculties = Array.from(activeFilters.faculty);
@@ -1154,20 +1209,28 @@ function updateGraph() {
         90  // Increased maximum spacing
     );
     
-    // Store the initial layout parameters
+    // Calculate course depths before creating layout
+    const courseDepths = calculateCourseDepths(currentCourses);
+    
+    // Modify the initial layout parameters
     initialLayout = {
         name: 'dagre',
-        rankDir: 'TB',
+        rankDir: 'TB',  // Top to Bottom direction
         padding: 30,
-        spacingFactor: 1.4,  // Increased spacing factor for more horizontal spread
+        spacingFactor: 1.4,
         animate: false,
-        rankSep: optimalSpacing * 1.0,  // Reduced vertical separation to compress height
-        nodeSep: optimalSpacing * 1.8,  // Increased horizontal separation for wider spread
-        ranker: 'tight-tree',
-        edgeSep: optimalSpacing * 0.8,  // Increased edge separation
-        align: 'UL',  // Changed alignment to Upper-Left for better horizontal distribution
-        acyclicer: 'greedy',
-        maximal: false
+        rankSep: optimalSpacing * 1.0,
+        nodeSep: optimalSpacing * 1.8,
+        ranker: 'network-simplex',  // Changed to network-simplex for better hierarchical layout
+        edgeSep: optimalSpacing * 0.8,
+        align: 'UL',
+        // Add rank assignment based on depths
+        assign: {
+            rank: (node) => {
+                const courseId = node.id();
+                return courseDepths.get(courseId) || 0;
+            }
+        }
     };
     
     // Apply the initial layout
@@ -1183,49 +1246,32 @@ function updateGraph() {
     });
 
     // Apply styling
+    const gradeRange = findGradeRange(currentCourses);
+
     cy.nodes().forEach(node => {
         const course = currentCourses.find(c => c.id === node.data('id'));
         const isPastCourse = course?.last_offered ? 
             parseInt(course.last_offered.slice(0, 4)) < 2025 : false;
         
-        let style;
-        if (course?.type === 'סמינר') {
-            style = {
-                'background-color': '#E8F5E9',
-                'border-color': '#43A047',
-                'color': '#2E7D32'
-            };
-        } else if (course?.type === 'קריאה מודרכת') {
-            style = {
-                'background-color': '#FFF3E0',
-                'border-color': '#F57C00',
-                'color': '#E65100'
-            };
-        } else if (course?.type === 'פרוייקט') {
-            style = {
-                'background-color': '#E3F2FD',
-                'border-color': '#1976D2',
-                'color': '#0D47A1'
-            };
-        } else if (isPastCourse) {
-            style = {
-                'background-color': '#FFEBEE',
-                'border-color': '#D32F2F',
-                'color': '#B71C1C',
-                'border-style': 'dashed'
-            };
-        } else {
-            style = {
-                'background-color': '#F5F5F5',
-                'border-color': '#78909C',
-                'color': '#455A64'
-            };
+        // Get background color based on grade
+        const backgroundColor = course?.avg_grade ? 
+            getGradeColor(course.avg_grade, gradeRange.min, gradeRange.max) : 
+            '#F5F5F5';  // Default gray for courses without grades
+        
+        // All nodes get black borders and text
+        let style = {
+            'background-color': backgroundColor,
+            'border-color': '#000000',  // Black border for all nodes
+            'color': '#000000',         // Black text for all nodes
+            'border-width': '1.5px'
+        };
+        
+        // Add dashed border style only for past courses
+        if (isPastCourse) {
+            style['border-style'] = 'dashed';
         }
         
-        node.style({
-            ...style,
-            'border-width': '1.5px'
-        });
+        node.style(style);
     });
     
     cy.edges().forEach(edge => {
@@ -1245,6 +1291,18 @@ function updateGraph() {
 
     // Populate filter options after graph update
     populateFilterOptions();
+
+    // Debug missing grades
+    currentCourses.forEach(course => {
+        if (!course.avg_grade) {
+            console.log('Course missing grade:', course.id);
+        }
+    });
+
+    // After calculating gradeRange and before cy.endBatch()
+    if (gradeRange.min !== null && gradeRange.max !== null) {
+        updateGradeLegend(gradeRange.min, gradeRange.max);
+    }
 }
 
 // Event listeners with minimal processing
@@ -1296,6 +1354,20 @@ function setInitialFilters() {
         option.selected = option.value === 'שיעור';
     });
 
+    // Set eval filter to all
+    const evalSelect = document.getElementById('evalFilter');
+    Array.from(evalSelect.options).forEach(option => {
+        option.selected = option.value === 'all';
+    });
+
+    // Update active filters
+    activeFilters = {
+        faculty: new Set(['מדעים מדויקים/מתמטיקה']),
+        year: new Set(['2025']),
+        type: new Set(['שיעור']),
+        eval: new Set(['all'])
+    };
+
     // Apply the filters
     applyFilters();
 }
@@ -1303,4 +1375,537 @@ function setInitialFilters() {
 // Initialize instructions when the page loads
 function createInstructionsPanel() {
     // Implementation of createInstructionsPanel function
-} 
+}
+
+// Add these helper functions at the top of the file
+function getGradeColor(grade, minGrade, maxGrade) {
+    if (!grade) {
+        return '#F5F5F5'; // Default gray for courses without grades
+    }
+    
+    // Define the gradient colors from SchemeColor.com
+    const colors = [
+        '#FF0D0D', // Candy Apple Red
+        '#FF4E11', // Orioles Orange
+        '#FF8E15', // Beer
+        '#FAB733', // Saffron
+        '#ACB334', // Brass
+        '#69B34C'  // Apple
+    ];
+    
+    // Convert grade to a percentage between 0 and 1
+    const percentage = (grade - minGrade) / (maxGrade - minGrade);
+    
+    // Find the two colors to interpolate between
+    const colorIndex = Math.min(Math.floor(percentage * (colors.length - 1)), colors.length - 2);
+    const colorPercentage = (percentage * (colors.length - 1)) - colorIndex;
+    
+    // Convert hex to RGB for interpolation
+    const color1 = hexToRgb(colors[colorIndex]);
+    const color2 = hexToRgb(colors[colorIndex + 1]);
+    
+    // Interpolate between the two colors
+    const r = Math.round(color1.r + (color2.r - color1.r) * colorPercentage);
+    const g = Math.round(color1.g + (color2.g - color1.g) * colorPercentage);
+    const b = Math.round(color1.b + (color2.b - color1.b) * colorPercentage);
+    
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+// Helper function to convert hex to RGB
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+function findGradeRange(courses) {
+    let minGrade = Infinity;
+    let maxGrade = -Infinity;
+    
+    courses.forEach(course => {
+        if (course.avg_grade) {
+            minGrade = Math.min(minGrade, course.avg_grade);
+            maxGrade = Math.max(maxGrade, course.avg_grade);
+        }
+    });
+    
+    return {
+        min: minGrade === Infinity ? null : minGrade,
+        max: maxGrade === -Infinity ? null : maxGrade
+    };
+}
+
+// Add this function to create and update the legend
+function updateGradeLegend(minGrade, maxGrade) {
+    // Remove existing legend if any
+    let legend = document.getElementById('grade-legend');
+    if (!legend) {
+        // Create legend container
+        legend = document.createElement('div');
+        legend.id = 'grade-legend';
+        legend.style.cssText = `
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 14px;
+            direction: rtl;
+            z-index: 999;
+        `;
+        
+        document.body.appendChild(legend);
+    }
+
+    // Create gradient bar and labels
+    const gradientSteps = 6; // Number of colors in our gradient
+    const stepSize = (maxGrade - minGrade) / (gradientSteps - 1);
+    
+    let legendHTML = '<div style="margin-bottom: 5px;">ממוצע ציונים:</div>';
+    
+    // Create container for gradient blocks
+    legendHTML += '<div style="width: 200px;">';
+    
+    // Add gradient blocks with numbers
+    legendHTML += '<div style="display: flex; position: relative; height: 30px;">';
+    for (let i = 0; i < gradientSteps; i++) {
+        const grade = minGrade + (i * stepSize);
+        const color = getGradeColor(grade, minGrade, maxGrade);
+        legendHTML += `
+            <div style="
+                flex: 1; 
+                background-color: ${color}; 
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                color: #000000;
+                font-weight: bold;
+            ">
+                ${Math.round(grade)}
+            </div>
+        `;
+    }
+    legendHTML += '</div>';
+    legendHTML += '</div>';
+
+    legend.innerHTML = legendHTML;
+}
+
+// Function to normalize course number (remove group number)
+function normalizeCourseNumber(courseNumber) {
+    // Remove group numbers (last two digits) if present
+    return courseNumber.substring(0, 8);
+}
+
+// Function to find course by name or number
+function findCourseByNameOrNumber(nameOrNumber) {
+    // First try to find the course directly
+    let course = currentCourses.find(c => c.id === nameOrNumber);
+    
+    // Try to find in math courses first
+    for (const [courseNumber, courseInfo] of Object.entries(courses_math)) {
+        if (courseInfo.name === nameOrNumber) {
+            return courseInfo;
+        }
+    }
+
+    // Try to find in physics courses
+    for (const [courseNumber, courseInfo] of Object.entries(courses_physics)) {
+        if (courseInfo.name === nameOrNumber) {
+            return courseInfo;
+        }
+    }
+
+    // If we found a course in currentCourses but need its full data
+    if (course) {
+        // Extract course number from course_link if available
+        const courseNumberMatch = course.course_link?.match(/course=(\d+)/);
+        if (courseNumberMatch) {
+            const courseNumber = normalizeCourseNumber(courseNumberMatch[1]);
+            console.log('Normalized course number:', courseNumber);
+            
+            // Try to find the course by normalized number in math and physics courses
+            if (courses_math[courseNumber]) {
+                return courses_math[courseNumber];
+            }
+            if (courses_physics[courseNumber]) {
+                return courses_physics[courseNumber];
+            }
+        }
+
+        // If we still haven't found the full data, try matching by name
+        for (const [courseNumber, courseInfo] of Object.entries(courses_math)) {
+            if (courseInfo.name === course.name || courseInfo.name === course.id) {
+                return courseInfo;
+            }
+        }
+        for (const [courseNumber, courseInfo] of Object.entries(courses_physics)) {
+            if (courseInfo.name === course.name || courseInfo.name === course.id) {
+                return courseInfo;
+            }
+        }
+    }
+
+    console.log('Could not find course:', nameOrNumber);
+    return null;
+}
+
+// Function to create and show grade distribution window
+function showGradeDistribution(course) {
+    console.log('Showing grade distribution for course:', course); // Debug log
+
+    // Remove any existing grade distribution window
+    const existingWindow = document.getElementById('grade-distribution-window');
+    if (existingWindow) {
+        existingWindow.remove();
+    }
+
+    // Use provided courseData if available, otherwise try to find it
+    const courseData = course.courseData || findCourseByNameOrNumber(course.id);
+    console.log('Using course data:', courseData); // Debug log
+
+    if (!courseData || !courseData.grade_distribution) {
+        console.log('No grade distribution data available for course:', course.id);
+        return;
+    }
+
+    // Create window container
+    const window = document.createElement('div');
+    window.id = 'grade-distribution-window';
+    window.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 1000;
+        max-width: 800px;
+        width: 90%;
+        direction: rtl;
+    `;
+
+    // Create header
+    const header = document.createElement('div');
+    header.style.cssText = `
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 18px;
+    `;
+    header.textContent = `התפלגות ציונים: ${courseData.name}`;
+
+    // Create histogram container with fixed height and padding
+    const histogramContainer = document.createElement('div');
+    histogramContainer.style.cssText = `
+        display: flex;
+        height: 400px;
+        margin: 20px 0;
+        align-items: flex-end;
+        gap: 8px;
+        padding: 20px;
+        background: #f9f9f9;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        direction: ltr;
+    `;
+
+    // Define standard grade ranges (same as Python implementation)
+    const standardRanges = [
+        '0-49', '50-59', '60-64', '65-69', '70-74',
+        '75-79', '80-84', '85-89', '90-94', '95-100'
+    ]; // Order from lowest to highest
+
+    // Process and normalize the grade distribution data
+    let normalizedDistribution = {};
+    let maxCount = 0;
+    let totalStudents = 0;
+
+    // Initialize normalized distribution with standard ranges
+    standardRanges.forEach(range => {
+        normalizedDistribution[range] = 0;
+    });
+
+    // Process the grade distribution data
+    if (Array.isArray(courseData.grade_distribution)) {
+        // Handle array format (assuming order matches standard ranges)
+        courseData.grade_distribution.forEach((count, index) => {
+            if (index < standardRanges.length) {
+                normalizedDistribution[standardRanges[index]] = count;
+                maxCount = Math.max(maxCount, count);
+                totalStudents += count;
+            }
+        });
+    } else if (typeof courseData.grade_distribution === 'object') {
+        // Handle object format with explicit ranges
+        Object.entries(courseData.grade_distribution).forEach(([range, count]) => {
+            // Find the matching standard range
+            const standardRange = standardRanges.find(stdRange => {
+                const [stdStart, stdEnd] = stdRange.split('-').map(Number);
+                const [start, end] = range.split('-').map(Number);
+                return start >= stdStart && end <= stdEnd;
+            });
+
+            if (standardRange) {
+                normalizedDistribution[standardRange] += count;
+                maxCount = Math.max(maxCount, normalizedDistribution[standardRange]);
+                totalStudents += count;
+            }
+        });
+    }
+
+    // Create bars for each grade range
+    standardRanges.forEach(range => {
+        const count = normalizedDistribution[range] || 0;
+        const barContainer = document.createElement('div');
+        barContainer.style.cssText = `
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 60px;
+            height: 100%;
+            position: relative;
+        `;
+
+        // Create bar with height based on percentage of max
+        const bar = document.createElement('div');
+        const heightPercentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
+        bar.style.cssText = `
+            width: 100%;
+            height: ${heightPercentage}%;
+            min-height: ${heightPercentage > 0 ? '2px' : '0'};
+            background-color: #2196F3;
+            position: relative;
+            transition: background-color 0.2s;
+            border-radius: 4px 4px 0 0;
+            margin-top: auto;
+        `;
+
+        // Add hover effect with tooltip
+        bar.addEventListener('mouseover', () => {
+            bar.style.backgroundColor = '#1976D2';
+            // Show tooltip with exact count
+            const tooltip = document.createElement('div');
+            tooltip.style.cssText = `
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                white-space: nowrap;
+                pointer-events: none;
+                z-index: 1000;
+            `;
+            tooltip.textContent = `${count} סטודנטים`;
+            bar.appendChild(tooltip);
+        });
+        bar.addEventListener('mouseout', () => {
+            bar.style.backgroundColor = '#2196F3';
+            // Remove tooltip
+            const tooltip = bar.querySelector('div');
+            if (tooltip) tooltip.remove();
+        });
+
+        // Add count label
+        const countLabel = document.createElement('div');
+        countLabel.style.cssText = `
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+            width: 100%;
+        `;
+        countLabel.textContent = count;
+
+        // Add range label
+        const rangeLabel = document.createElement('div');
+        rangeLabel.style.cssText = `
+            font-size: 12px;
+            color: #666;
+            transform: rotate(-45deg);
+            transform-origin: right top;
+            white-space: nowrap;
+            margin-top: 10px;
+            text-align: right;
+            width: 100%;
+        `;
+        rangeLabel.textContent = range;
+
+        barContainer.appendChild(countLabel);
+        barContainer.appendChild(bar);
+        barContainer.appendChild(rangeLabel);
+        histogramContainer.appendChild(barContainer);
+    });
+
+    // Create footer with statistics
+    const footer = document.createElement('div');
+    footer.style.cssText = `
+        margin-top: 20px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+        padding: 15px;
+        background: #f5f5f5;
+        border-radius: 4px;
+    `;
+
+    // Calculate and display statistics
+    const avgGrade = courseData.avg_grade?.toFixed(2) || 'לא ידוע';
+    footer.textContent = `סה"כ סטודנטים: ${totalStudents} | ממוצע: ${avgGrade}`;
+
+    // Add close functionality when clicking outside
+    const closeHandler = (e) => {
+        // Close if clicking outside the window
+        if (!window.contains(e.target)) {
+            window.remove();
+            document.removeEventListener('click', closeHandler);
+            document.removeEventListener('keydown', escapeHandler);
+        }
+    };
+
+    // Add escape key handler
+    const escapeHandler = (e) => {
+        if (e.key === 'Escape') {
+            window.remove();
+            document.removeEventListener('click', closeHandler);
+            document.removeEventListener('keydown', escapeHandler);
+        }
+    };
+
+    // Add event listeners
+    document.addEventListener('click', closeHandler);
+    document.addEventListener('keydown', escapeHandler);
+
+    // Prevent window from closing when clicking inside
+    window.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // Add close button
+    const closeButton = document.createElement('button');
+    closeButton.style.cssText = `
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+        padding: 5px 10px;
+    `;
+    closeButton.textContent = '×';
+    closeButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.remove();
+        document.removeEventListener('click', closeHandler);
+        document.removeEventListener('keydown', escapeHandler);
+    });
+
+    // Assemble window
+    window.appendChild(closeButton);
+    window.appendChild(header);
+    window.appendChild(histogramContainer);
+    window.appendChild(footer);
+    document.body.appendChild(window);
+}
+
+// Update the right-click handler
+cy.on('cxttap', 'node', function(evt) {
+    console.log('Right-click detected on node'); // Debug log
+    evt.preventDefault(); // Prevent default context menu
+    const node = evt.target;
+    const courseId = node.id();
+    
+    // Add visual feedback when right-clicking
+    node.style({
+        'border-width': '3px',
+        'border-color': '#FF0000'
+    });
+    setTimeout(() => {
+        node.style({
+            'border-width': '1.5px',
+            'border-color': '#000000'
+        });
+    }, 200);
+    
+    console.log('Attempting to show distribution for course:', courseId); // Debug log
+    console.log('Node data:', node.data()); // Log node data
+    
+    // Extract course number from course_link if available
+    const courseNumberMatch = node.data('course_link')?.match(/course=(\d+)/);
+    let courseNumber = null;
+    if (courseNumberMatch) {
+        courseNumber = normalizeCourseNumber(courseNumberMatch[1]);
+        console.log('Extracted and normalized course number:', courseNumber);
+    }
+    
+    // Debug: Log the available courses
+    console.log('Math courses available:', Object.keys(courses_math));
+    console.log('Physics courses available:', Object.keys(courses_physics));
+    
+    // Try to find course by number first
+    let course = null;
+    if (courseNumber) {
+        if (courses_math[courseNumber]) {
+            course = courses_math[courseNumber];
+            console.log('Found course in math courses:', course);
+        } else if (courses_physics[courseNumber]) {
+            course = courses_physics[courseNumber];
+            console.log('Found course in physics courses:', course);
+        } else {
+            console.log('Course number not found in either math or physics courses:', courseNumber);
+        }
+    }
+    
+    // If not found by number, try by name
+    if (!course) {
+        course = findCourseByNameOrNumber(courseId);
+        console.log('Found course by name:', course);
+    }
+    
+    // Debug: Log the found course data
+    console.log('Final course data:', course);
+    if (course) {
+        console.log('Course grade distribution:', course.grade_distribution);
+    }
+    
+    if (!course) {
+        console.error('Could not find course data for:', courseId);
+        return;
+    }
+    
+    if (!course.grade_distribution) {
+        console.error('No grade distribution data for course:', courseId);
+        return;
+    }
+    
+    // Create and show the grade distribution window
+    try {
+        showGradeDistribution({ id: courseId, courseData: course });
+    } catch (error) {
+        console.error('Error showing grade distribution:', error);
+    }
+});
+
+// Also add a context menu prevention on the whole graph
+cy.on('cxttap', function(evt) {
+    evt.preventDefault();
+}); 
