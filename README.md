@@ -45,5 +45,5 @@ For questions and support, please open an issue in the GitHub repository or cont
 
 ## Acknowledgements
 
-- [Arazim Project](https://arazim-project.com/) for providing the baseline course data.
+- [Arazim Project](https://arazim-project.com/) for providing the baseline course data and the tau-factor grade data.
 
