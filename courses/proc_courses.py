@@ -655,7 +655,7 @@ class CourseProcessor:
             print(f"Created {output_path} with {len(dept_courses)} courses")
         
         return dept_counts
-    
+
     def reorgnize_keys(self, json_file_path: str) -> Dict[str, int]:
         """
         Reorganize the keys in each course entry to maintain a consistent order.

@@ -6,6 +6,8 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 import re
 import os
+import sqlite3
+from statistics import mean
 
 class CourseDownloader:
     """Class to handle downloading and filtering TAU course data from Arazim Project database"""
@@ -23,7 +25,8 @@ class CourseDownloader:
                         faculty: Optional[str] = None,
                         departments: Optional[List[str]] = None,
                         save_to_file: Optional[bool] = True,
-                        merge: Optional[bool] = False) -> Dict:
+                        merge: Optional[bool] = False,
+                        fetch_grades: Optional[bool] = False) -> Dict:
         """
         Download and filter course data based on specified criteria
         
@@ -34,6 +37,7 @@ class CourseDownloader:
             departments: Filter courses by department name (e.g., ['פיזיקה', 'מתמטיקה'])
             save_to_file: Whether to save the results to JSON files
             merge: Whether to merge courses from multiple years, keeping only the latest offering of each course
+            fetch_grades: Whether to fetch grades for the courses
             
         Returns:
             Dictionary containing the filtered course data
@@ -184,6 +188,16 @@ class CourseDownloader:
                 self._save_to_file(merged_courses, filename)
             return merged_courses
                     
+        # After filtering courses and before returning/saving:
+        if fetch_grades:
+            print("\nFetching grades for courses...")
+            grades_data = self.fetch_grades_for_courses(results)
+            
+            # Add average grades to course data
+            for course_code, course_data in results.items():
+                if course_code in grades_data:
+                    course_data['avg_grade'] = grades_data[course_code].get('avg_grade')
+        
         return results
     
     def _get_all_courses(self, faculty: Optional[str] = None, departments: Optional[List[str]] = None, save_to_file: bool = True) -> Dict:
@@ -239,6 +253,103 @@ class CourseDownloader:
                 faculties.add(course['faculty'])
         return sorted(list(faculties))
     
+    def fetch_course_grades(self, course_code: str) -> Dict:
+        """
+        Fetch all-time average grade and distribution for a specific course.
+        Ignores grades of 0.0 in the calculation.
+        
+        Args:
+            course_code: The course number to fetch grades for
+            
+        Returns:
+            Dictionary containing the average grade and distribution if available
+        """
+        GRADES_URL = "https://arazim-project.com/data/grades.json"
+        
+        try:
+            response = requests.get(GRADES_URL)
+            response.raise_for_status()
+            all_grades = response.json()
+            
+            # Get grades for specific course
+            course_grades = all_grades.get(course_code, {})
+            
+            if not course_grades:
+                return {}
+            
+            # Calculate average grade across all years/semesters/groups
+            all_means = []
+            total_distribution = [0] * 101  # Initialize distribution array (0-100)
+            
+            for semester, groups in course_grades.items():
+                for group_num, grade_infos in groups.items():
+                    for grade_info in grade_infos:
+                        if isinstance(grade_info, dict):
+                            mean_grade = grade_info.get('mean')
+                            distribution = grade_info.get('distribution', [])
+                            
+                            # Add to total distribution if available
+                            if distribution:
+                                for i, count in enumerate(distribution):
+                                    total_distribution[i] += count
+                                    
+                            # Only include non-zero grades for average
+                            if mean_grade is not None and mean_grade != 0.0:
+                                all_means.append(mean_grade)
+            
+            result = {}
+            
+            # Calculate overall average if we have valid grades
+            if all_means:
+                result['avg_grade'] = round(sum(all_means) / len(all_means), 2)
+                result['grades_counted'] = len(all_means)
+                
+            # Include distribution if we have any data
+            if any(x > 0 for x in total_distribution):
+                result['distribution'] = total_distribution
+                
+            return result
+            
+        except Exception as e:
+            print(f"Error fetching grades for course {course_code}: {e}")
+            return {}
+
+    def fetch_grades_for_courses(self, courses: Dict, save_to_file: bool = True) -> Dict:
+        """
+        Fetch grades for a set of courses and optionally save to file
+        
+        Args:
+            courses: Dictionary of courses to fetch grades for
+            save_to_file: Whether to save grades to a JSON file
+            
+        Returns:
+            Dictionary mapping course codes to their grade data
+        """
+        grades_data = {}
+        
+        for course_code in courses.keys():
+            print(f"Fetching grades for course {course_code}")
+            grades = self.fetch_course_grades(course_code)
+            if grades:
+                grades_data[course_code] = grades
+                
+        if save_to_file and grades_data:
+            # Create grades directory if it doesn't exist
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            grades_dir = os.path.join(current_dir, 'grades')
+            os.makedirs(grades_dir, exist_ok=True)
+            
+            # Save grades data
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            filename = f"grades_{timestamp}.json"
+            output_path = os.path.join(grades_dir, filename)
+            
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(grades_data, f, ensure_ascii=False, indent=2)
+            print(f"Saved grades data to {output_path}")
+        
+        return grades_data
+
 if __name__ == "__main__":
     downloader = CourseDownloader()
     print(downloader.fetch_courses(years=['2025', '2024', '2023', '2022', '2021'], faculty='מדעים מדויקים', departments=['פיזיקה', 'מתמטיקה'], merge=True))

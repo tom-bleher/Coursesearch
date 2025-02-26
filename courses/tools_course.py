@@ -1,6 +1,8 @@
 import json
 import re
 from typing import Dict
+import requests
+from collections import defaultdict
 
 class ToolsCourse:
     """Class to get information about courses"""
@@ -234,7 +236,180 @@ class ToolsCourse:
         
         return changes
 
+    def repair_course_grades(self, json_file_path: str) -> Dict[str, Dict]:
+        """
+        Add all-time average grade to courses in an existing JSON file.
+        Ignores grades of 0.0 in the calculation.
+        
+        Args:
+            json_file_path: Path to the JSON file containing course data
+            
+        Returns:
+            Dictionary containing statistics about the changes made
+        """
+        # Load the course data
+        with open(json_file_path, 'r', encoding='utf-8') as f:
+            courses = json.load(f)
+            
+        # Track changes
+        changes = {
+            'courses_modified': 0,
+            'modified_courses': {}
+        }
+        
+        # Fetch grades from arazim-project
+        GRADES_URL = "https://arazim-project.com/data/grades.json"
+        
+        try:
+            response = requests.get(GRADES_URL)
+            response.raise_for_status()
+            all_grades = response.json()
+            
+            # Process each course
+            for course_number, course_data in courses.items():
+                course_grades = all_grades.get(course_number, {})
+                
+                if course_grades:
+                    # Collect all valid mean grades across years/semesters/groups
+                    all_means = []
+                    
+                    for semester, groups in course_grades.items():
+                        for group_num, grade_infos in groups.items():
+                            for grade_info in grade_infos:
+                                if isinstance(grade_info, dict):
+                                    mean_grade = grade_info.get('mean')
+                                    # Only include non-zero grades
+                                    if mean_grade is not None and mean_grade != 0.0:
+                                        all_means.append(mean_grade)
+                    
+                    # Calculate and add all-time average grade if we have valid grades
+                    if all_means:
+                        course_data['avg_grade'] = round(sum(all_means) / len(all_means), 2)
+                        changes['courses_modified'] += 1
+                        changes['modified_courses'][course_number] = {
+                            'name': course_data.get('name', ''),
+                            'avg_grade': course_data['avg_grade'],
+                            'grades_counted': len(all_means)
+                        }
+            
+            # Save the updated data back to the file
+            with open(json_file_path, 'w', encoding='utf-8') as f:
+                json.dump(courses, f, ensure_ascii=False, indent=2)
+            
+            # Print summary
+            print(f"\nGrades processing completed for {json_file_path}!")
+            print(f"Added average grades to {changes['courses_modified']} courses")
+            
+            if changes['courses_modified'] > 0:
+                print("\nCourses with added grades:")
+                for course_num, change_data in changes['modified_courses'].items():
+                    print(f"{course_num} - {change_data['name']}: {change_data['avg_grade']} "
+                          f"(based on {change_data['grades_counted']} semesters)")
+                
+        except Exception as e:
+            print(f"Error processing grades: {e}")
+        
+        return changes
+
+
+    def repair_course_dist(self, json_file_path: str) -> Dict[str, Dict]:
+        """
+        Repair course distribution by adding all-time distribution for courses from the 
+        Arazim-project grade json.
+        
+        Args:
+            json_file_path: Path to the JSON file containing course data
+            
+        Returns:
+            Dictionary containing statistics about the changes made
+        """
+        # Define the correct grade ranges
+        GRADE_RANGES = [
+            "0-49", "50-59", "60-64", "65-69", "70-74",
+            "75-79", "80-84", "85-89", "90-94", "95-100"
+        ]
+        
+        # Load the course data
+        with open(json_file_path, 'r', encoding='utf-8') as f:
+            courses = json.load(f)
+            
+        # Track changes
+        changes = {
+            'courses_modified': 0,
+            'modified_courses': {}
+        }
+        
+        # Fetch grades from arazim-project
+        GRADES_URL = "https://arazim-project.com/data/grades.json"
+        
+        try:
+            response = requests.get(GRADES_URL)
+            response.raise_for_status()
+            all_grades = response.json()
+            
+            # Process each course
+            for course_number, course_data in courses.items():
+                course_grades = all_grades.get(course_number, {})
+                
+                if course_grades:
+                    # Initialize total distribution
+                    total_distribution = [0] * 10  # 10 grade ranges
+                    total_students = 0
+                    
+                    # Aggregate distributions across all semesters and groups
+                    for semester, groups in course_grades.items():
+                        for group_num, grade_infos in groups.items():
+                            for grade_info in grade_infos:
+                                if isinstance(grade_info, dict) and 'distribution' in grade_info:
+                                    dist = grade_info['distribution']
+                                    if isinstance(dist, list) and len(dist) == 10:
+                                        # Add the distribution counts
+                                        for i in range(10):
+                                            total_distribution[i] += dist[i]
+                                            total_students += dist[i]
+                
+                    # Only add distribution if we have data
+                    if total_students > 0:
+                        # Convert distribution to grade ranges using the correct mapping
+                        grade_ranges = {}
+                        for i in range(10):
+                            grade_ranges[GRADE_RANGES[i]] = total_distribution[i]
+                        
+                        course_data['grade_distribution'] = grade_ranges
+                        course_data['total_students'] = total_students
+                        
+                        changes['courses_modified'] += 1
+                        changes['modified_courses'][course_number] = {
+                            'name': course_data.get('name', ''),
+                            'distribution_added': True,
+                            'total_students': total_students
+                        }
+            
+            # Save the updated data back to the file
+            with open(json_file_path, 'w', encoding='utf-8') as f:
+                json.dump(courses, f, ensure_ascii=False, indent=2)
+            
+            # Print summary
+            print(f"\nDistribution processing completed for {json_file_path}!")
+            print(f"Added grade distributions to {changes['courses_modified']} courses")
+            
+            if changes['courses_modified'] > 0:
+                print("\nCourses with added distributions:")
+                for course_num, change_data in changes['modified_courses'].items():
+                    print(f"{course_num} - {change_data['name']}: "
+                          f"(based on {change_data['total_students']} total students)")
+            
+        except Exception as e:
+            print(f"Error processing distributions: {e}")
+            import traceback
+            traceback.print_exc()
+        
+        return changes
+
+
 if __name__ == "__main__":
     # Get course types
     tools_course = ToolsCourse()
-    tools_course.repair_course_links('courses/JSONs/physics.json')
+    #tools_course.repair_course_grades('courses/JSONs/math.json')
+    tools_course.repair_course_dist('courses/JSONs/math.json')
+    tools_course.repair_course_dist('courses/JSONs/physics.json')
