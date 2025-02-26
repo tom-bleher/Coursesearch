@@ -18,7 +18,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321110401&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211104&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211104&sem=20242",
+    "avg_grade": 65.45,
+    "grade_distribution": {
+      "0-49": 1100,
+      "50-59": 490,
+      "60-64": 523,
+      "65-69": 486,
+      "70-74": 327,
+      "75-79": 444,
+      "80-84": 463,
+      "85-89": 354,
+      "90-94": 403,
+      "95-100": 659
+    },
+    "total_students": 5249
   },
   "03211112": {
     "name": "מעבדה  בפיזיקה  א 2",
@@ -45,7 +59,21 @@
     "last_offered": "2025b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211112&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211112&sem=20242",
+    "avg_grade": 92.92,
+    "grade_distribution": {
+      "0-49": 20,
+      "50-59": 4,
+      "60-64": 20,
+      "65-69": 28,
+      "70-74": 48,
+      "75-79": 72,
+      "80-84": 116,
+      "85-89": 404,
+      "90-94": 1328,
+      "95-100": 2866
+    },
+    "total_students": 4906
   },
   "03211119": {
     "name": "פיזיקה קלאסית 2",
@@ -68,7 +96,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211119&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211119&sem=20242",
+    "avg_grade": 73.16,
+    "grade_distribution": {
+      "0-49": 551,
+      "50-59": 405,
+      "60-64": 484,
+      "65-69": 321,
+      "70-74": 329,
+      "75-79": 362,
+      "80-84": 384,
+      "85-89": 433,
+      "90-94": 412,
+      "95-100": 772
+    },
+    "total_students": 4453
   },
   "03211201": {
     "name": "יחסות פרטית",
@@ -87,7 +129,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321120101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211201&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211201&sem=20242",
+    "avg_grade": 78.26,
+    "grade_distribution": {
+      "0-49": 256,
+      "50-59": 120,
+      "60-64": 318,
+      "65-69": 218,
+      "70-74": 365,
+      "75-79": 306,
+      "80-84": 583,
+      "85-89": 563,
+      "90-94": 785,
+      "95-100": 1057
+    },
+    "total_students": 4571
   },
   "03211702": {
     "name": "סמינר מצוינות בפיזיקה שנה א'",
@@ -104,7 +160,8 @@
     "last_offered": "2025b",
     "eval_type": "נוכחות",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321170201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211702&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211702&sem=20242",
+    "avg_grade": 0.0
   },
   "03211836": {
     "name": "הסתברות וסטטיסטיקה",
@@ -121,7 +178,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183601&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211836&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211836&sem=20242",
+    "avg_grade": 64.89,
+    "grade_distribution": {
+      "0-49": 570,
+      "50-59": 168,
+      "60-64": 366,
+      "65-69": 252,
+      "70-74": 254,
+      "75-79": 234,
+      "80-84": 296,
+      "85-89": 252,
+      "90-94": 220,
+      "95-100": 350
+    },
+    "total_students": 2962
   },
   "03211839": {
     "name": "מבוא מתמטי לפיזיקה 2",
@@ -140,7 +211,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211839&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211839&sem=20242",
+    "avg_grade": 75.96,
+    "grade_distribution": {
+      "0-49": 274,
+      "50-59": 232,
+      "60-64": 68,
+      "65-69": 178,
+      "70-74": 238,
+      "75-79": 286,
+      "80-84": 242,
+      "85-89": 308,
+      "90-94": 346,
+      "95-100": 616
+    },
+    "total_students": 2788
   },
   "03212103": {
     "name": "קוונטים 1",
@@ -163,7 +248,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212103&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212103&sem=20242",
+    "avg_grade": 72.76,
+    "grade_distribution": {
+      "0-49": 546,
+      "50-59": 208,
+      "60-64": 401,
+      "65-69": 288,
+      "70-74": 328,
+      "75-79": 410,
+      "80-84": 435,
+      "85-89": 400,
+      "90-94": 472,
+      "95-100": 620
+    },
+    "total_students": 4108
   },
   "03212111": {
     "name": "פיזיקה סטטיסטית",
@@ -186,7 +285,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321211101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212111&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212111&sem=20242",
+    "avg_grade": 72.13,
+    "grade_distribution": {
+      "0-49": 304,
+      "50-59": 296,
+      "60-64": 520,
+      "65-69": 318,
+      "70-74": 302,
+      "75-79": 372,
+      "80-84": 298,
+      "85-89": 300,
+      "90-94": 316,
+      "95-100": 490
+    },
+    "total_students": 3516
   },
   "03212122": {
     "name": "מעבדה בפיזיקה ב 2",
@@ -233,7 +346,21 @@
     "last_offered": "2025b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321212201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212122&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212122&sem=20242",
+    "avg_grade": 93.19,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 4,
+      "60-64": 8,
+      "65-69": 16,
+      "70-74": 20,
+      "75-79": 24,
+      "80-84": 104,
+      "85-89": 404,
+      "90-94": 1410,
+      "95-100": 1788
+    },
+    "total_students": 3778
   },
   "03212131": {
     "name": "שיטות בפיזיקה עיונית 2",
@@ -256,7 +383,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212131&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212131&sem=20242",
+    "avg_grade": 78.01,
+    "grade_distribution": {
+      "0-49": 180,
+      "50-59": 94,
+      "60-64": 162,
+      "65-69": 178,
+      "70-74": 258,
+      "75-79": 284,
+      "80-84": 346,
+      "85-89": 334,
+      "90-94": 344,
+      "95-100": 472
+    },
+    "total_students": 2652
   },
   "03212134": {
     "name": "סמינר מצוינות בחישוב קוונטי ב'",
@@ -290,7 +431,8 @@
     "last_offered": "2025b",
     "eval_type": "נוכחות",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321270201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212702&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212702&sem=20242",
+    "avg_grade": 0.0
   },
   "03213005": {
     "name": "Students Project",
@@ -307,7 +449,21 @@
     "last_offered": "2025b",
     "eval_type": "Project",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321300501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213005&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213005&sem=20242",
+    "avg_grade": 92.18,
+    "grade_distribution": {
+      "0-49": 4,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 4,
+      "75-79": 8,
+      "80-84": 32,
+      "85-89": 72,
+      "90-94": 216,
+      "95-100": 284
+    },
+    "total_students": 620
   },
   "03213108": {
     "name": "מבוא לאסטרופיזיקה",
@@ -330,7 +486,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213108&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213108&sem=20242",
+    "avg_grade": 75.87,
+    "grade_distribution": {
+      "0-49": 174,
+      "50-59": 68,
+      "60-64": 222,
+      "65-69": 144,
+      "70-74": 158,
+      "75-79": 204,
+      "80-84": 178,
+      "85-89": 188,
+      "90-94": 142,
+      "95-100": 342
+    },
+    "total_students": 1820
   },
   "03213113": {
     "name": "Solid State Physics b",
@@ -351,7 +521,21 @@
     "last_offered": "2025b",
     "eval_type": "Final Exam",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321311301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213113&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213113&sem=20242",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 4,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 4,
+      "85-89": 4,
+      "90-94": 12,
+      "95-100": 4
+    },
+    "total_students": 28
   },
   "03213300": {
     "name": "פרוייקט מחקר לתלמידי תוכנית מצוינות",
@@ -389,7 +573,21 @@
     "last_offered": "2025b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321330901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213309&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213309&sem=20242",
+    "avg_grade": 96.19,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 8,
+      "95-100": 92
+    },
+    "total_students": 100
   },
   "03213406": {
     "name": "Physics Laboratory C-Cs- Exellent",
@@ -459,7 +657,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380401&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213804&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213804&sem=20242",
+    "avg_grade": 85.85,
+    "grade_distribution": {
+      "0-49": 20,
+      "50-59": 16,
+      "60-64": 34,
+      "65-69": 38,
+      "70-74": 96,
+      "75-79": 170,
+      "80-84": 200,
+      "85-89": 288,
+      "90-94": 332,
+      "95-100": 430
+    },
+    "total_students": 1624
   },
   "03213809": {
     "name": "Physics Laboratory C-sem. B",
@@ -480,7 +692,21 @@
     "last_offered": "2025b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213809&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213809&sem=20242",
+    "avg_grade": 96.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 8,
+      "75-79": 0,
+      "80-84": 12,
+      "85-89": 8,
+      "90-94": 168,
+      "95-100": 612
+    },
+    "total_students": 808
   },
   "03213818": {
     "name": "חומרה קוונטית",
@@ -499,7 +725,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213818&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213818&sem=20242",
+    "avg_grade": 80.39,
+    "grade_distribution": {
+      "0-49": 8,
+      "50-59": 0,
+      "60-64": 12,
+      "65-69": 8,
+      "70-74": 24,
+      "75-79": 14,
+      "80-84": 12,
+      "85-89": 16,
+      "90-94": 12,
+      "95-100": 24
+    },
+    "total_students": 130
   },
   "03213819": {
     "name": "מבוא לאינפורמציה ואלגוריתמים קוונטיים",
@@ -552,7 +792,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214110&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214110&sem=20242",
+    "avg_grade": 80.08,
+    "grade_distribution": {
+      "0-49": 118,
+      "50-59": 20,
+      "60-64": 54,
+      "65-69": 24,
+      "70-74": 62,
+      "75-79": 78,
+      "80-84": 104,
+      "85-89": 100,
+      "90-94": 72,
+      "95-100": 150
+    },
+    "total_students": 782
   },
   "03214139": {
     "name": "פיזיקה של גלאים",
@@ -603,7 +857,8 @@
     "last_offered": "2025b",
     "eval_type": "נוכחות",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321417801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214178&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214178&sem=20242",
+    "avg_grade": 0.0
   },
   "03214215": {
     "name": "תורת השדות 2",
@@ -620,7 +875,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321421501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214215&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214215&sem=20242",
+    "avg_grade": 90.5,
+    "grade_distribution": {
+      "0-49": 4,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 2,
+      "70-74": 4,
+      "75-79": 4,
+      "80-84": 8,
+      "85-89": 16,
+      "90-94": 18,
+      "95-100": 6
+    },
+    "total_students": 62
   },
   "03214218": {
     "name": "סמינר ארצי בחלקיקים",
@@ -654,7 +923,8 @@
     "last_offered": "2025b",
     "eval_type": "נוכחות",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321422701&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214227&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214227&sem=20242",
+    "avg_grade": 0.0
   },
   "03214234": {
     "name": "סמינר  מחקרי תלמידים בחלקיקים",
@@ -671,7 +941,8 @@
     "last_offered": "2025b",
     "eval_type": "נוכחות",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321423401&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214234&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214234&sem=20242",
+    "avg_grade": 0.0
   },
   "03214320": {
     "name": "שיטות תצפיתיות",
@@ -688,7 +959,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321432001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214320&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214320&sem=20242",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 16,
+      "95-100": 16
+    },
+    "total_students": 32
   },
   "03214406": {
     "name": "סמינר בחומר מעובה",
@@ -705,7 +990,8 @@
     "last_offered": "2025b",
     "eval_type": "נוכחות",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440601&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214406&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214406&sem=20242",
+    "avg_grade": 0.0
   },
   "03214409": {
     "name": "Condensed Matter Theory 1",
@@ -722,7 +1008,21 @@
     "last_offered": "2025b",
     "eval_type": "Final Exam",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214409&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214409&sem=20242",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 16,
+      "50-59": 8,
+      "60-64": 6,
+      "65-69": 10,
+      "70-74": 0,
+      "75-79": 12,
+      "80-84": 12,
+      "85-89": 12,
+      "90-94": 24,
+      "95-100": 24
+    },
+    "total_students": 124
   },
   "03214410": {
     "name": "תורת החומר המעובה 2",
@@ -739,7 +1039,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321441001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214410&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214410&sem=20242",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 4,
+      "50-59": 0,
+      "60-64": 4,
+      "65-69": 0,
+      "70-74": 4,
+      "75-79": 8,
+      "80-84": 8,
+      "85-89": 0,
+      "90-94": 18,
+      "95-100": 92
+    },
+    "total_students": 138
   },
   "03214413": {
     "name": "מכניקה סטטיסטית של רשתות נוירונים",
@@ -773,7 +1087,8 @@
     "last_offered": "2025b",
     "eval_type": "נוכחות",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321442001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214420&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214420&sem=20242",
+    "avg_grade": 0.0
   },
   "03214453": {
     "name": "סמינר בחומרים קוואנטיים - ב'",
@@ -807,7 +1122,8 @@
     "last_offered": "2025b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214822&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214822&sem=20242",
+    "avg_grade": 0.0
   },
   "03214826": {
     "name": "אסטרופיזיקה של אנרגיות גבוהות",
@@ -824,7 +1140,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482601&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214826&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214826&sem=20242",
+    "avg_grade": 77.5,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 4,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 4,
+      "90-94": 0,
+      "95-100": 0
+    },
+    "total_students": 8
   },
   "03214842": {
     "name": "תורת החלקיקים 1",
@@ -843,7 +1173,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214842&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214842&sem=20242",
+    "avg_grade": 70.37,
+    "grade_distribution": {
+      "0-49": 28,
+      "50-59": 4,
+      "60-64": 8,
+      "65-69": 8,
+      "70-74": 12,
+      "75-79": 12,
+      "80-84": 12,
+      "85-89": 8,
+      "90-94": 12,
+      "95-100": 28
+    },
+    "total_students": 132
   },
   "03214850": {
     "name": "מצבי צבירה טופולוגיים",
@@ -928,7 +1272,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321110001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211100&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211100&sem=20241",
+    "avg_grade": 75.28,
+    "grade_distribution": {
+      "0-49": 82,
+      "50-59": 30,
+      "60-64": 122,
+      "65-69": 72,
+      "70-74": 102,
+      "75-79": 72,
+      "80-84": 92,
+      "85-89": 112,
+      "90-94": 132,
+      "95-100": 164
+    },
+    "total_students": 980
   },
   "03211111": {
     "name": "מעבדה בפיזיקה א 1",
@@ -959,7 +1317,21 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211111&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211111&sem=20241",
+    "avg_grade": 90.2,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 4,
+      "65-69": 4,
+      "70-74": 44,
+      "75-79": 92,
+      "80-84": 248,
+      "85-89": 692,
+      "90-94": 1512,
+      "95-100": 1536
+    },
+    "total_students": 4132
   },
   "03211118": {
     "name": "פיזיקה קלאסית 1",
@@ -989,7 +1361,21 @@
       "בחינת ביניים"
     ],
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211118&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211118&sem=20241",
+    "avg_grade": 62.15,
+    "grade_distribution": {
+      "0-49": 1256,
+      "50-59": 220,
+      "60-64": 636,
+      "65-69": 392,
+      "70-74": 448,
+      "75-79": 436,
+      "80-84": 376,
+      "85-89": 408,
+      "90-94": 288,
+      "95-100": 542
+    },
+    "total_students": 5002
   },
   "03211121": {
     "name": "Computers for Physics",
@@ -1006,7 +1392,21 @@
     "last_offered": "2025a",
     "eval_type": "Project",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321112101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211121&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211121&sem=20241",
+    "avg_grade": 87.66,
+    "grade_distribution": {
+      "0-49": 40,
+      "50-59": 26,
+      "60-64": 16,
+      "65-69": 36,
+      "70-74": 50,
+      "75-79": 30,
+      "80-84": 52,
+      "85-89": 114,
+      "90-94": 194,
+      "95-100": 598
+    },
+    "total_students": 1156
   },
   "03211838": {
     "name": "מבוא מתמטי לפיזיקה 1",
@@ -1031,7 +1431,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211838&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211838&sem=20241",
+    "avg_grade": 82.27,
+    "grade_distribution": {
+      "0-49": 472,
+      "50-59": 148,
+      "60-64": 302,
+      "65-69": 276,
+      "70-74": 296,
+      "75-79": 466,
+      "80-84": 506,
+      "85-89": 672,
+      "90-94": 636,
+      "95-100": 1514
+    },
+    "total_students": 5288
   },
   "03212102": {
     "name": "גלים אור ואופטיקה",
@@ -1054,7 +1468,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212102&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212102&sem=20241",
+    "avg_grade": 72.6,
+    "grade_distribution": {
+      "0-49": 290,
+      "50-59": 80,
+      "60-64": 152,
+      "65-69": 194,
+      "70-74": 214,
+      "75-79": 256,
+      "80-84": 380,
+      "85-89": 404,
+      "90-94": 436,
+      "95-100": 492
+    },
+    "total_students": 2898
   },
   "03212105": {
     "name": "מכניקה אנליטית",
@@ -1079,7 +1507,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212105&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212105&sem=20241",
+    "avg_grade": 73.41,
+    "grade_distribution": {
+      "0-49": 538,
+      "50-59": 310,
+      "60-64": 320,
+      "65-69": 320,
+      "70-74": 370,
+      "75-79": 442,
+      "80-84": 442,
+      "85-89": 616,
+      "90-94": 526,
+      "95-100": 1152
+    },
+    "total_students": 5036
   },
   "03212117": {
     "name": "Numerical Methods for Physics",
@@ -1100,7 +1542,21 @@
     "last_offered": "2025a",
     "eval_type": "Final Exam",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321211701&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212117&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212117&sem=20241",
+    "avg_grade": 80.17,
+    "grade_distribution": {
+      "0-49": 38,
+      "50-59": 48,
+      "60-64": 18,
+      "65-69": 26,
+      "70-74": 88,
+      "75-79": 52,
+      "80-84": 170,
+      "85-89": 148,
+      "90-94": 264,
+      "95-100": 292
+    },
+    "total_students": 1144
   },
   "03212121": {
     "name": "מעבדה בפיזיקה ב 1",
@@ -1145,7 +1601,21 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321212101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212121&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212121&sem=20241",
+    "avg_grade": 92.43,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 4,
+      "60-64": 4,
+      "65-69": 8,
+      "70-74": 24,
+      "75-79": 68,
+      "80-84": 148,
+      "85-89": 672,
+      "90-94": 1496,
+      "95-100": 1540
+    },
+    "total_students": 3964
   },
   "03212130": {
     "name": "שיטות בפיזיקה עיונית 1",
@@ -1166,7 +1636,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212130&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212130&sem=20241",
+    "avg_grade": 75.48,
+    "grade_distribution": {
+      "0-49": 470,
+      "50-59": 214,
+      "60-64": 274,
+      "65-69": 340,
+      "70-74": 386,
+      "75-79": 346,
+      "80-84": 406,
+      "85-89": 464,
+      "90-94": 514,
+      "95-100": 1124
+    },
+    "total_students": 4538
   },
   "03212133": {
     "name": "סמינר מצוינות בחישוב קוונטי - א'",
@@ -1200,7 +1684,8 @@
     "last_offered": "2025a",
     "eval_type": "נוכחות",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321270101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212701&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212701&sem=20241",
+    "avg_grade": 0.0
   },
   "03213101": {
     "name": "קוונטים 2",
@@ -1219,7 +1704,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213101&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213101&sem=20241",
+    "avg_grade": 70.53,
+    "grade_distribution": {
+      "0-49": 796,
+      "50-59": 272,
+      "60-64": 584,
+      "65-69": 406,
+      "70-74": 434,
+      "75-79": 396,
+      "80-84": 424,
+      "85-89": 496,
+      "90-94": 474,
+      "95-100": 638
+    },
+    "total_students": 4920
   },
   "03213103": {
     "name": "מבוא למצב מוצק",
@@ -1242,7 +1741,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213103&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213103&sem=20241",
+    "avg_grade": 75.81,
+    "grade_distribution": {
+      "0-49": 182,
+      "50-59": 216,
+      "60-64": 596,
+      "65-69": 314,
+      "70-74": 330,
+      "75-79": 310,
+      "80-84": 352,
+      "85-89": 362,
+      "90-94": 250,
+      "95-100": 614
+    },
+    "total_students": 3526
   },
   "03213109": {
     "name": "אלקטרומגנטיות אנליטית",
@@ -1271,7 +1784,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213109&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213109&sem=20241",
+    "avg_grade": 74.19,
+    "grade_distribution": {
+      "0-49": 238,
+      "50-59": 116,
+      "60-64": 216,
+      "65-69": 234,
+      "70-74": 218,
+      "75-79": 280,
+      "80-84": 284,
+      "85-89": 352,
+      "90-94": 350,
+      "95-100": 742
+    },
+    "total_students": 3030
   },
   "03213158": {
     "name": "פיזיקה של סדרי גודל",
@@ -1309,7 +1836,21 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321330801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213308&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213308&sem=20241",
+    "avg_grade": 99.42,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 4,
+      "90-94": 0,
+      "95-100": 64
+    },
+    "total_students": 68
   },
   "03213800": {
     "name": "סמינר מחקרי לשנה ג",
@@ -1349,7 +1890,21 @@
     "last_offered": "2025a",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213808&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213808&sem=20241",
+    "avg_grade": 93.66,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 4,
+      "80-84": 0,
+      "85-89": 48,
+      "90-94": 96,
+      "95-100": 128
+    },
+    "total_students": 276
   },
   "03213810": {
     "name": "יחסות כללית",
@@ -1387,7 +1942,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381601&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213816&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213816&sem=20241",
+    "avg_grade": 90.55,
+    "grade_distribution": {
+      "0-49": 2,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 2,
+      "70-74": 4,
+      "75-79": 0,
+      "80-84": 4,
+      "85-89": 12,
+      "90-94": 28,
+      "95-100": 20
+    },
+    "total_students": 72
   },
   "03214008": {
     "name": "כוכבים כפולים וכוכבי לכת",
@@ -1438,7 +2007,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214111&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214111&sem=20241",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 12,
+      "50-59": 0,
+      "60-64": 4,
+      "65-69": 4,
+      "70-74": 2,
+      "75-79": 0,
+      "80-84": 8,
+      "85-89": 0,
+      "90-94": 4,
+      "95-100": 12
+    },
+    "total_students": 46
   },
   "03214115": {
     "name": "Advanced Quantum Physics",
@@ -1455,7 +2038,21 @@
     "last_offered": "2025a",
     "eval_type": "Final Exam",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214115&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214115&sem=20241",
+    "avg_grade": 73.56,
+    "grade_distribution": {
+      "0-49": 46,
+      "50-59": 78,
+      "60-64": 50,
+      "65-69": 58,
+      "70-74": 38,
+      "75-79": 42,
+      "80-84": 60,
+      "85-89": 58,
+      "90-94": 46,
+      "95-100": 60
+    },
+    "total_students": 536
   },
   "03214157": {
     "name": "סמינר מחקרי בחומר מעובה",
@@ -1472,7 +2069,8 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321415701&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214157&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214157&sem=20241",
+    "avg_grade": 0.0
   },
   "03214201": {
     "name": "תורת השדות 1",
@@ -1489,7 +2087,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321420101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214201&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214201&sem=20241",
+    "avg_grade": 65.29,
+    "grade_distribution": {
+      "0-49": 18,
+      "50-59": 4,
+      "60-64": 22,
+      "65-69": 16,
+      "70-74": 20,
+      "75-79": 4,
+      "80-84": 26,
+      "85-89": 12,
+      "90-94": 12,
+      "95-100": 8
+    },
+    "total_students": 142
   },
   "03214203": {
     "name": "סמינר בגרעין",
@@ -1506,7 +2118,8 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321420301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214203&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214203&sem=20241",
+    "avg_grade": 0.0
   },
   "03214231": {
     "name": "סמינר מחקרי תלמידים בחלקיקים",
@@ -1523,7 +2136,8 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321423101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214231&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214231&sem=20241",
+    "avg_grade": 0.0
   },
   "03214318": {
     "name": "אסטרופיזיקה כוכבית",
@@ -1540,7 +2154,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321431801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214318&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214318&sem=20241",
+    "avg_grade": 67.62,
+    "grade_distribution": {
+      "0-49": 22,
+      "50-59": 6,
+      "60-64": 8,
+      "65-69": 8,
+      "70-74": 20,
+      "75-79": 2,
+      "80-84": 14,
+      "85-89": 16,
+      "90-94": 20,
+      "95-100": 16
+    },
+    "total_students": 132
   },
   "03214330": {
     "name": "סמינר  מחקרי באסטרופיזיקה",
@@ -1574,7 +2202,8 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214405&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214405&sem=20241",
+    "avg_grade": 0.0
   },
   "03214418": {
     "name": "סמינר תלמידים באסטרופיזיקה",
@@ -1591,7 +2220,8 @@
     "last_offered": "2025a",
     "eval_type": "השתתפות בכיתה",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321441801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214418&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214418&sem=20241",
+    "avg_grade": 0.0
   },
   "03214821": {
     "name": "סמינר תלמידים על-מיתרים (סמ' א)",
@@ -1644,7 +2274,21 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484601&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214846&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214846&sem=20241",
+    "avg_grade": 83.31,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 4,
+      "75-79": 0,
+      "80-84": 12,
+      "85-89": 12,
+      "90-94": 0,
+      "95-100": 0
+    },
+    "total_students": 28
   },
   "03214849": {
     "name": "מבוא לאינטראקציה בין אור לחומר, שליטה קוהרנטית",
@@ -1663,7 +2307,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214849&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214849&sem=20241",
+    "avg_grade": 87.42,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 4,
+      "70-74": 8,
+      "75-79": 32,
+      "80-84": 18,
+      "85-89": 16,
+      "90-94": 28,
+      "95-100": 56
+    },
+    "total_students": 162
   },
   "03214853": {
     "name": "סמינר ארצי נסיון ותיאוריה סמסטר א'",
@@ -1697,7 +2355,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214870&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214870&sem=20241",
+    "avg_grade": 79.79,
+    "grade_distribution": {
+      "0-49": 2,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 6,
+      "70-74": 6,
+      "75-79": 14,
+      "80-84": 14,
+      "85-89": 6,
+      "90-94": 4,
+      "95-100": 6
+    },
+    "total_students": 58
   },
   "03214872": {
     "name": "אסטרו-קפה א': דיונים בתוצאות חדשות מכתבי עת",
@@ -1799,7 +2471,21 @@
     "last_offered": "2024b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381101&year=2023",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213811&sem=20232"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213811&sem=20232",
+    "avg_grade": 81.97,
+    "grade_distribution": {
+      "0-49": 26,
+      "50-59": 4,
+      "60-64": 40,
+      "65-69": 24,
+      "70-74": 44,
+      "75-79": 28,
+      "80-84": 50,
+      "85-89": 72,
+      "90-94": 128,
+      "95-100": 174
+    },
+    "total_students": 590
   },
   "03214120": {
     "name": "תורת היקום (קוסמולוגיה)",
@@ -1816,7 +2502,21 @@
     "last_offered": "2024b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321412001&year=2023",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214120&sem=20232"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214120&sem=20232",
+    "avg_grade": 78.4,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 4,
+      "65-69": 4,
+      "70-74": 10,
+      "75-79": 8,
+      "80-84": 16,
+      "85-89": 8,
+      "90-94": 4,
+      "95-100": 8
+    },
+    "total_students": 62
   },
   "03214285": {
     "name": "שדות לחומר מעובה",
@@ -1833,7 +2533,21 @@
     "last_offered": "2024b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321428501&year=2023",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214285&sem=20232"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214285&sem=20232",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 4,
+      "70-74": 4,
+      "75-79": 4,
+      "80-84": 0,
+      "85-89": 16,
+      "90-94": 8,
+      "95-100": 8
+    },
+    "total_students": 44
   },
   "03214454": {
     "name": "מרכזי גלקסיות פעילות",
@@ -1867,7 +2581,21 @@
     "last_offered": "2024b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321481301&year=2023",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214813&sem=20232"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214813&sem=20232",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 2,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 8,
+      "85-89": 4,
+      "90-94": 8,
+      "95-100": 8
+    },
+    "total_students": 30
   },
   "03214840": {
     "name": "נושאים מתקדמים בתורת שדות קוונטית וגרביטציה",
@@ -1903,7 +2631,21 @@
     "last_offered": "2024b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485801&year=2023",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214858&sem=20232"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214858&sem=20232",
+    "avg_grade": 77.6,
+    "grade_distribution": {
+      "0-49": 4,
+      "50-59": 0,
+      "60-64": 4,
+      "65-69": 8,
+      "70-74": 32,
+      "75-79": 28,
+      "80-84": 20,
+      "85-89": 8,
+      "90-94": 4,
+      "95-100": 12
+    },
+    "total_students": 120
   },
   "03214859": {
     "name": "ביופיזיקה",
@@ -1990,7 +2732,21 @@
     "last_offered": "2024a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321432701&year=2023",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214327&sem=20231"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214327&sem=20231",
+    "avg_grade": 57.0,
+    "grade_distribution": {
+      "0-49": 20,
+      "50-59": 0,
+      "60-64": 12,
+      "65-69": 24,
+      "70-74": 4,
+      "75-79": 8,
+      "80-84": 4,
+      "85-89": 0,
+      "90-94": 12,
+      "95-100": 8
+    },
+    "total_students": 92
   },
   "03214857": {
     "name": "פיזיקה של היקום המוקדם",
@@ -2092,7 +2848,21 @@
     "last_offered": "2023b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321315701&year=2022",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213157&sem=20222"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213157&sem=20222",
+    "avg_grade": 93.48,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 4,
+      "70-74": 0,
+      "75-79": 8,
+      "80-84": 4,
+      "85-89": 8,
+      "90-94": 12,
+      "95-100": 68
+    },
+    "total_students": 104
   },
   "03214832": {
     "name": "אופטיקה מתקדמת",
@@ -2166,7 +2936,21 @@
     "last_offered": "2023a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321311901&year=2022",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213119&sem=20221"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213119&sem=20221",
+    "avg_grade": 79.24,
+    "grade_distribution": {
+      "0-49": 36,
+      "50-59": 6,
+      "60-64": 16,
+      "65-69": 18,
+      "70-74": 16,
+      "75-79": 30,
+      "80-84": 32,
+      "85-89": 52,
+      "90-94": 32,
+      "95-100": 120
+    },
+    "total_students": 358
   },
   "03214839": {
     "name": "קוסמולוגיה 2 (תורת היקום)",
@@ -2238,7 +3022,21 @@
     "last_offered": "2022b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321402001&year=2021",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214020&sem=20212"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214020&sem=20212",
+    "avg_grade": 83.31,
+    "grade_distribution": {
+      "0-49": 4,
+      "50-59": 12,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 4,
+      "80-84": 0,
+      "85-89": 24,
+      "90-94": 12,
+      "95-100": 48
+    },
+    "total_students": 104
   },
   "03214838": {
     "name": "נושאים מתקדמים בתורת השדות הקוונטית לחומר מעובה",
@@ -2255,7 +3053,21 @@
     "last_offered": "2022b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321483801&year=2021",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214838&sem=20212"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214838&sem=20212",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 4,
+      "95-100": 8
+    },
+    "total_students": 12
   },
   "03214868": {
     "name": "סופרנובות",
@@ -2357,7 +3169,21 @@
     "last_offered": "2021b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381701&year=2020",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213817&sem=20202"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213817&sem=20202",
+    "avg_grade": 81.59,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 30,
+      "60-64": 10,
+      "65-69": 12,
+      "70-74": 36,
+      "75-79": 10,
+      "80-84": 32,
+      "85-89": 20,
+      "90-94": 16,
+      "95-100": 58
+    },
+    "total_students": 224
   },
   "03214117": {
     "name": "אלקטרומגנטיות מתקדמת",
@@ -2376,7 +3202,21 @@
     "last_offered": "2021b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411701&year=2020",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214117&sem=20202"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214117&sem=20202",
+    "avg_grade": 86.38,
+    "grade_distribution": {
+      "0-49": 12,
+      "50-59": 2,
+      "60-64": 8,
+      "65-69": 8,
+      "70-74": 26,
+      "75-79": 20,
+      "80-84": 24,
+      "85-89": 20,
+      "90-94": 28,
+      "95-100": 40
+    },
+    "total_students": 188
   },
   "03214862": {
     "name": "שיטות סריג בתורת השדות",

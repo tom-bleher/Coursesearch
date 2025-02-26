@@ -17,7 +17,21 @@
       "בחינת ביניים"
     ],
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110112&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661101&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661101&sem=20242",
+    "avg_grade": 58.85,
+    "grade_distribution": {
+      "0-49": 7233,
+      "50-59": 1111,
+      "60-64": 2615,
+      "65-69": 1412,
+      "70-74": 1108,
+      "75-79": 1052,
+      "80-84": 1017,
+      "85-89": 934,
+      "90-94": 714,
+      "95-100": 1592
+    },
+    "total_students": 18788
   },
   "03661102": {
     "name": "חשבון דיפרנציאלי ואינטגרלי 2א",
@@ -42,7 +56,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110203&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661102&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661102&sem=20242",
+    "avg_grade": 62.83,
+    "grade_distribution": {
+      "0-49": 3716,
+      "50-59": 556,
+      "60-64": 1517,
+      "65-69": 765,
+      "70-74": 886,
+      "75-79": 732,
+      "80-84": 695,
+      "85-89": 659,
+      "90-94": 587,
+      "95-100": 1433
+    },
+    "total_students": 11546
   },
   "03661105": {
     "name": "מבוא לתורת הקבוצות",
@@ -59,7 +87,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110504&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661105&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661105&sem=20242",
+    "avg_grade": 64.5,
+    "grade_distribution": {
+      "0-49": 1748,
+      "50-59": 316,
+      "60-64": 594,
+      "65-69": 440,
+      "70-74": 522,
+      "75-79": 564,
+      "80-84": 440,
+      "85-89": 488,
+      "90-94": 564,
+      "95-100": 1072
+    },
+    "total_students": 6748
   },
   "03661111": {
     "name": "אלגברה לינארית 1א",
@@ -76,7 +118,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366111108&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661111&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661111&sem=20242",
+    "avg_grade": 65.51,
+    "grade_distribution": {
+      "0-49": 3755,
+      "50-59": 595,
+      "60-64": 2126,
+      "65-69": 993,
+      "70-74": 1155,
+      "75-79": 1045,
+      "80-84": 1295,
+      "85-89": 1017,
+      "90-94": 925,
+      "95-100": 2286
+    },
+    "total_students": 15192
   },
   "03661112": {
     "name": "אלגברה לינארית 2א",
@@ -99,7 +155,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366111203&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661112&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661112&sem=20242",
+    "avg_grade": 68.88,
+    "grade_distribution": {
+      "0-49": 1964,
+      "50-59": 446,
+      "60-64": 1210,
+      "65-69": 690,
+      "70-74": 762,
+      "75-79": 710,
+      "80-84": 831,
+      "85-89": 806,
+      "90-94": 811,
+      "95-100": 1885
+    },
+    "total_students": 10115
   },
   "03661123": {
     "name": "מבוא לקומבינטוריקה ותורת הגרפים",
@@ -122,7 +192,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366112304&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661123&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661123&sem=20242",
+    "avg_grade": 63.26,
+    "grade_distribution": {
+      "0-49": 1070,
+      "50-59": 210,
+      "60-64": 560,
+      "65-69": 356,
+      "70-74": 278,
+      "75-79": 286,
+      "80-84": 296,
+      "85-89": 284,
+      "90-94": 312,
+      "95-100": 554
+    },
+    "total_students": 4206
   },
   "03661125": {
     "name": "חשבון דיפרנציאלי ואינטגרלי 2ג",
@@ -143,7 +227,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366112501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661125&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661125&sem=20242",
+    "avg_grade": 71.89,
+    "grade_distribution": {
+      "0-49": 218,
+      "50-59": 50,
+      "60-64": 164,
+      "65-69": 76,
+      "70-74": 128,
+      "75-79": 120,
+      "80-84": 150,
+      "85-89": 127,
+      "90-94": 130,
+      "95-100": 160
+    },
+    "total_students": 1323
   },
   "03662010": {
     "name": "מבוא להסתברות",
@@ -168,7 +266,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366201005&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662010&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662010&sem=20242",
+    "avg_grade": 75.82,
+    "grade_distribution": {
+      "0-49": 767,
+      "50-59": 212,
+      "60-64": 975,
+      "65-69": 249,
+      "70-74": 813,
+      "75-79": 410,
+      "80-84": 762,
+      "85-89": 521,
+      "90-94": 415,
+      "95-100": 1585
+    },
+    "total_students": 6709
   },
   "03662103": {
     "name": "Ordinary Differential Equations 1",
@@ -189,7 +301,21 @@
     "last_offered": "2025b",
     "eval_type": "Final Exam",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366210304&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662103&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662103&sem=20242",
+    "avg_grade": 79.97,
+    "grade_distribution": {
+      "0-49": 384,
+      "50-59": 116,
+      "60-64": 254,
+      "65-69": 300,
+      "70-74": 360,
+      "75-79": 398,
+      "80-84": 464,
+      "85-89": 528,
+      "90-94": 562,
+      "95-100": 1066
+    },
+    "total_students": 4432
   },
   "03662105": {
     "name": "אנליזה נומרית",
@@ -208,7 +334,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366210504&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662105&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662105&sem=20242",
+    "avg_grade": 71.04,
+    "grade_distribution": {
+      "0-49": 670,
+      "50-59": 308,
+      "60-64": 528,
+      "65-69": 442,
+      "70-74": 402,
+      "75-79": 516,
+      "80-84": 584,
+      "85-89": 628,
+      "90-94": 622,
+      "95-100": 818
+    },
+    "total_students": 5518
   },
   "03662115": {
     "name": "טופולוגיה",
@@ -229,7 +369,21 @@
     "last_offered": "2025b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366211504&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662115&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662115&sem=20242",
+    "avg_grade": 77.42,
+    "grade_distribution": {
+      "0-49": 338,
+      "50-59": 96,
+      "60-64": 106,
+      "65-69": 114,
+      "70-74": 152,
+      "75-79": 112,
+      "80-84": 194,
+      "85-89": 202,
+      "90-94": 208,
+      "95-100": 644
+    },
+    "total_students": 2166
   },
   "03662123": {
     "name": "תורת הפונקציות המרוכבות 1",
@@ -250,7 +404,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366212304&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662123&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662123&sem=20242",
+    "avg_grade": 68.83,
+    "grade_distribution": {
+      "0-49": 864,
+      "50-59": 128,
+      "60-64": 352,
+      "65-69": 250,
+      "70-74": 318,
+      "75-79": 232,
+      "80-84": 260,
+      "85-89": 328,
+      "90-94": 260,
+      "95-100": 920
+    },
+    "total_students": 3912
   },
   "03662132": {
     "name": "תורת החבורות",
@@ -269,7 +437,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366213203&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662132&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662132&sem=20242",
+    "avg_grade": 70.9,
+    "grade_distribution": {
+      "0-49": 770,
+      "50-59": 200,
+      "60-64": 304,
+      "65-69": 190,
+      "70-74": 242,
+      "75-79": 222,
+      "80-84": 270,
+      "85-89": 318,
+      "90-94": 282,
+      "95-100": 994
+    },
+    "total_students": 3792
   },
   "03662133": {
     "name": "תורת השדות ותורת גלואה",
@@ -288,7 +470,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366213301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662133&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662133&sem=20242",
+    "avg_grade": 78.72,
+    "grade_distribution": {
+      "0-49": 96,
+      "50-59": 26,
+      "60-64": 10,
+      "65-69": 36,
+      "70-74": 38,
+      "75-79": 34,
+      "80-84": 68,
+      "85-89": 44,
+      "90-94": 90,
+      "95-100": 292
+    },
+    "total_students": 734
   },
   "03662140": {
     "name": "תורת המספרים",
@@ -309,7 +505,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366214003&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662140&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662140&sem=20242",
+    "avg_grade": 77.95,
+    "grade_distribution": {
+      "0-49": 638,
+      "50-59": 252,
+      "60-64": 400,
+      "65-69": 300,
+      "70-74": 368,
+      "75-79": 480,
+      "80-84": 506,
+      "85-89": 562,
+      "90-94": 742,
+      "95-100": 1872
+    },
+    "total_students": 6120
   },
   "03662141": {
     "name": "חשבון דיפרנציאלי ואינטגרלי 3",
@@ -332,7 +542,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366214104&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662141&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662141&sem=20242",
+    "avg_grade": 67.47,
+    "grade_distribution": {
+      "0-49": 852,
+      "50-59": 206,
+      "60-64": 372,
+      "65-69": 266,
+      "70-74": 342,
+      "75-79": 346,
+      "80-84": 354,
+      "85-89": 302,
+      "90-94": 324,
+      "95-100": 1198
+    },
+    "total_students": 4562
   },
   "03662180": {
     "name": "חשבון דיפרנציאלי ואינטגרלי 4",
@@ -351,7 +575,21 @@
     "last_offered": "2025b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366218004&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662180&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662180&sem=20242",
+    "avg_grade": 70.01,
+    "grade_distribution": {
+      "0-49": 508,
+      "50-59": 146,
+      "60-64": 150,
+      "65-69": 120,
+      "70-74": 226,
+      "75-79": 186,
+      "80-84": 154,
+      "85-89": 206,
+      "90-94": 246,
+      "95-100": 674
+    },
+    "total_students": 2616
   },
   "03662813": {
     "name": "חישוב מדעי",
@@ -372,7 +610,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366281301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662813&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662813&sem=20242",
+    "avg_grade": 57.6,
+    "grade_distribution": {
+      "0-49": 82,
+      "50-59": 24,
+      "60-64": 28,
+      "65-69": 6,
+      "70-74": 30,
+      "75-79": 20,
+      "80-84": 14,
+      "85-89": 0,
+      "90-94": 8,
+      "95-100": 14
+    },
+    "total_students": 226
   },
   "03662819": {
     "name": "פיזיקה למתמטיקאים",
@@ -395,7 +647,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366281901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662819&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662819&sem=20242",
+    "avg_grade": 93.08,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 2,
+      "65-69": 4,
+      "70-74": 4,
+      "75-79": 6,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 8,
+      "95-100": 92
+    },
+    "total_students": 116
   },
   "03663013": {
     "name": "Seminar in Applied Mathematics",
@@ -428,7 +694,21 @@
     "last_offered": "2025b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366301301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663013&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663013&sem=20242",
+    "avg_grade": 94.56,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 12,
+      "85-89": 4,
+      "90-94": 80,
+      "95-100": 128
+    },
+    "total_students": 224
   },
   "03663020": {
     "name": "משוואות דיפרנציאליות חלקיות 1",
@@ -451,7 +731,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663020&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663020&sem=20242",
+    "avg_grade": 73.82,
+    "grade_distribution": {
+      "0-49": 52,
+      "50-59": 2,
+      "60-64": 38,
+      "65-69": 20,
+      "70-74": 16,
+      "75-79": 20,
+      "80-84": 46,
+      "85-89": 38,
+      "90-94": 34,
+      "95-100": 84
+    },
+    "total_students": 350
   },
   "03663022": {
     "name": "מבוא לאנליזה פונקציונלית",
@@ -472,7 +766,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663022&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663022&sem=20242",
+    "avg_grade": 79.5,
+    "grade_distribution": {
+      "0-49": 6,
+      "50-59": 8,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 12,
+      "75-79": 4,
+      "80-84": 0,
+      "85-89": 8,
+      "90-94": 8,
+      "95-100": 48
+    },
+    "total_students": 94
   },
   "03663025": {
     "name": "מבוא לאנליזה הרמונית",
@@ -495,7 +803,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663025&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663025&sem=20242",
+    "avg_grade": 94.5,
+    "grade_distribution": {
+      "0-49": 2,
+      "50-59": 2,
+      "60-64": 4,
+      "65-69": 10,
+      "70-74": 0,
+      "75-79": 6,
+      "80-84": 14,
+      "85-89": 8,
+      "90-94": 12,
+      "95-100": 76
+    },
+    "total_students": 134
   },
   "03663036": {
     "name": "קומבינטוריקה בסיסית",
@@ -516,7 +838,21 @@
     "last_offered": "2025b",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366303601&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663036&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663036&sem=20242",
+    "avg_grade": 87.91,
+    "grade_distribution": {
+      "0-49": 8,
+      "50-59": 0,
+      "60-64": 80,
+      "65-69": 48,
+      "70-74": 72,
+      "75-79": 100,
+      "80-84": 144,
+      "85-89": 252,
+      "90-94": 316,
+      "95-100": 540
+    },
+    "total_students": 1560
   },
   "03663067": {
     "name": "קריאה מודרכת באלגברה לא קומוטטיבית",
@@ -558,7 +894,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366309801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663098&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663098&sem=20242",
+    "avg_grade": 75.34,
+    "grade_distribution": {
+      "0-49": 46,
+      "50-59": 8,
+      "60-64": 0,
+      "65-69": 12,
+      "70-74": 24,
+      "75-79": 12,
+      "80-84": 4,
+      "85-89": 4,
+      "90-94": 20,
+      "95-100": 72
+    },
+    "total_students": 202
   },
   "03663115": {
     "name": "אנליזה על יריעות",
@@ -579,7 +929,21 @@
     "last_offered": "2025b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366311501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663115&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663115&sem=20242",
+    "avg_grade": 87.56,
+    "grade_distribution": {
+      "0-49": 12,
+      "50-59": 2,
+      "60-64": 8,
+      "65-69": 14,
+      "70-74": 4,
+      "75-79": 8,
+      "80-84": 10,
+      "85-89": 14,
+      "90-94": 12,
+      "95-100": 154
+    },
+    "total_students": 238
   },
   "03663201": {
     "name": "תורת הפונקציות המרוכבות 2",
@@ -598,7 +962,21 @@
     "last_offered": "2025b",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366320101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663201&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663201&sem=20242",
+    "avg_grade": 94.7,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 4,
+      "65-69": 0,
+      "70-74": 4,
+      "75-79": 8,
+      "80-84": 12,
+      "85-89": 40,
+      "90-94": 76,
+      "95-100": 228
+    },
+    "total_students": 372
   },
   "03663254": {
     "name": "Seminar in Geometric Group Theory",
@@ -631,7 +1009,21 @@
     "last_offered": "2025b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366325401&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663254&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663254&sem=20242",
+    "avg_grade": 98.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 0,
+      "95-100": 84
+    },
+    "total_students": 84
   },
   "03663340": {
     "name": "פרוייקט במתמטיקה חישובית",
@@ -652,7 +1044,21 @@
     "last_offered": "2025b",
     "eval_type": "פרוייקט",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366334001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663340&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663340&sem=20242",
+    "avg_grade": 87.88,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 4,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 8,
+      "80-84": 0,
+      "85-89": 8,
+      "90-94": 16,
+      "95-100": 12
+    },
+    "total_students": 48
   },
   "03663407": {
     "name": "Seminar in Discrete Mathematics",
@@ -677,7 +1083,21 @@
     "last_offered": "2025b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366340701&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663407&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663407&sem=20242",
+    "avg_grade": 97.13,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 8,
+      "90-94": 16,
+      "95-100": 120
+    },
+    "total_students": 144
   },
   "03664151": {
     "name": "תורת המספרים האנליטית",
@@ -917,7 +1337,21 @@
     "last_offered": "2025b",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366503501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665035&sem=20242"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665035&sem=20242",
+    "avg_grade": 97.71,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 4,
+      "80-84": 0,
+      "85-89": 4,
+      "90-94": 4,
+      "95-100": 72
+    },
+    "total_students": 84
   },
   "03665055": {
     "name": "סמינר הורוביץ בהסתברות, תורה ארגודית ומערכות דינמיות",
@@ -987,7 +1421,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110001&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661100&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661100&sem=20241",
+    "avg_grade": 58.23,
+    "grade_distribution": {
+      "0-49": 932,
+      "50-59": 220,
+      "60-64": 652,
+      "65-69": 234,
+      "70-74": 296,
+      "75-79": 294,
+      "80-84": 246,
+      "85-89": 198,
+      "90-94": 192,
+      "95-100": 304
+    },
+    "total_students": 3568
   },
   "03662106": {
     "name": "פונקציות ממשיות",
@@ -1008,7 +1456,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366210601&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662106&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662106&sem=20241",
+    "avg_grade": 72.98,
+    "grade_distribution": {
+      "0-49": 206,
+      "50-59": 58,
+      "60-64": 64,
+      "65-69": 44,
+      "70-74": 94,
+      "75-79": 64,
+      "80-84": 94,
+      "85-89": 110,
+      "90-94": 54,
+      "95-100": 334
+    },
+    "total_students": 1122
   },
   "03662194": {
     "name": "לוגיקה",
@@ -1027,7 +1489,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366219401&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662194&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662194&sem=20241",
+    "avg_grade": 83.7,
+    "grade_distribution": {
+      "0-49": 54,
+      "50-59": 0,
+      "60-64": 4,
+      "65-69": 8,
+      "70-74": 14,
+      "75-79": 20,
+      "80-84": 16,
+      "85-89": 30,
+      "90-94": 20,
+      "95-100": 216
+    },
+    "total_students": 382
   },
   "03662219": {
     "name": "גיאומטריה דיפרנציאלית",
@@ -1048,7 +1524,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366221901&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662219&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662219&sem=20241",
+    "avg_grade": 72.08,
+    "grade_distribution": {
+      "0-49": 150,
+      "50-59": 46,
+      "60-64": 128,
+      "65-69": 90,
+      "70-74": 52,
+      "75-79": 92,
+      "80-84": 60,
+      "85-89": 100,
+      "90-94": 76,
+      "95-100": 386
+    },
+    "total_students": 1180
   },
   "03663021": {
     "name": "מבוא למרחבי הילברט ותורת האופרטורים",
@@ -1075,7 +1565,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302101&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663021&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663021&sem=20241",
+    "avg_grade": 65.87,
+    "grade_distribution": {
+      "0-49": 290,
+      "50-59": 60,
+      "60-64": 120,
+      "65-69": 104,
+      "70-74": 88,
+      "75-79": 64,
+      "80-84": 98,
+      "85-89": 82,
+      "90-94": 82,
+      "95-100": 254
+    },
+    "total_students": 1242
   },
   "03663066": {
     "name": "Seminar in Probability",
@@ -1123,7 +1627,21 @@
     "last_offered": "2025a",
     "eval_type": "Final Exam",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366311701&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663117&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663117&sem=20241",
+    "avg_grade": 71.08,
+    "grade_distribution": {
+      "0-49": 20,
+      "50-59": 2,
+      "60-64": 0,
+      "65-69": 4,
+      "70-74": 4,
+      "75-79": 12,
+      "80-84": 10,
+      "85-89": 20,
+      "90-94": 6,
+      "95-100": 48
+    },
+    "total_students": 126
   },
   "03663126": {
     "name": "תורת הקבוצות",
@@ -1144,7 +1662,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366312601&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663126&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663126&sem=20241",
+    "avg_grade": 84.61,
+    "grade_distribution": {
+      "0-49": 14,
+      "50-59": 2,
+      "60-64": 14,
+      "65-69": 2,
+      "70-74": 8,
+      "75-79": 16,
+      "80-84": 8,
+      "85-89": 16,
+      "90-94": 14,
+      "95-100": 118
+    },
+    "total_students": 212
   },
   "03663267": {
     "name": "תורת הגרפים",
@@ -1167,7 +1699,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366326701&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663267&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663267&sem=20241",
+    "avg_grade": 80.43,
+    "grade_distribution": {
+      "0-49": 10,
+      "50-59": 18,
+      "60-64": 60,
+      "65-69": 56,
+      "70-74": 48,
+      "75-79": 62,
+      "80-84": 36,
+      "85-89": 72,
+      "90-94": 102,
+      "95-100": 158
+    },
+    "total_students": 622
   },
   "03663292": {
     "name": "יסודות באלגברה קומוטטיבית",
@@ -1186,7 +1732,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366329201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663292&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663292&sem=20241",
+    "avg_grade": 90.4,
+    "grade_distribution": {
+      "0-49": 8,
+      "50-59": 0,
+      "60-64": 6,
+      "65-69": 20,
+      "70-74": 4,
+      "75-79": 12,
+      "80-84": 32,
+      "85-89": 12,
+      "90-94": 14,
+      "95-100": 204
+    },
+    "total_students": 312
   },
   "03663328": {
     "name": "Seminar in Number Theory",
@@ -1211,7 +1771,21 @@
     "last_offered": "2025a",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366332801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663328&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663328&sem=20241",
+    "avg_grade": 95.08,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 4,
+      "85-89": 12,
+      "90-94": 56,
+      "95-100": 212
+    },
+    "total_students": 284
   },
   "03663353": {
     "name": "שיטות מתמטיות בתורת המשחקים",
@@ -1232,7 +1806,21 @@
     "last_offered": "2025a",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366335301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663353&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663353&sem=20241",
+    "avg_grade": 73.23,
+    "grade_distribution": {
+      "0-49": 14,
+      "50-59": 4,
+      "60-64": 4,
+      "65-69": 12,
+      "70-74": 8,
+      "75-79": 14,
+      "80-84": 4,
+      "85-89": 24,
+      "90-94": 20,
+      "95-100": 30
+    },
+    "total_students": 134
   },
   "03663405": {
     "name": "Undergraduate Seminar in Combinatorics",
@@ -1257,7 +1845,21 @@
     "last_offered": "2025a",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366340501&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663405&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663405&sem=20241",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 12,
+      "90-94": 24,
+      "95-100": 88
+    },
+    "total_students": 124
   },
   "03664002": {
     "name": "משחקי בורל",
@@ -1445,7 +2047,21 @@
     "last_offered": "2025a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366457201&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664572&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664572&sem=20241",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 0,
+      "95-100": 12
+    },
+    "total_students": 12
   },
   "03664668": {
     "name": "מבוא למערכות דינמיות",
@@ -1462,7 +2078,21 @@
     "last_offered": "2025a",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366466801&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664668&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664668&sem=20241",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 4,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 0,
+      "95-100": 4
+    },
+    "total_students": 8
   },
   "03664838": {
     "name": "סמינר בתורת הקבוצות 1",
@@ -1504,7 +2134,21 @@
     "last_offered": "2025a",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366490301&year=2024",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664903&sem=20241"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664903&sem=20241",
+    "avg_grade": 95.11,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 4,
+      "75-79": 0,
+      "80-84": 4,
+      "85-89": 8,
+      "90-94": 4,
+      "95-100": 56
+    },
+    "total_students": 76
   },
   "03665063": {
     "name": "קומבינטוריקה אדיטיבית",
@@ -1567,7 +2211,21 @@
     "last_offered": "2024b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366315501&year=2023",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663155&sem=20232"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663155&sem=20232",
+    "avg_grade": 93.25,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 8,
+      "90-94": 8,
+      "95-100": 16
+    },
+    "total_students": 32
   },
   "03663354": {
     "name": "Seminar:Topics in Modern Geometry",
@@ -1735,7 +2393,21 @@
     "last_offered": "2024b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366499001&year=2023",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664990&sem=20232"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664990&sem=20232",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 0,
+      "95-100": 24
+    },
+    "total_students": 24
   },
   "03665100": {
     "name": "נושאים בתורת החבורות הקומבינטורית והגיאומטרית",
@@ -1957,7 +2629,21 @@
     "last_offered": "2023b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302301&year=2022",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663023&sem=20222"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663023&sem=20222",
+    "avg_grade": 90.28,
+    "grade_distribution": {
+      "0-49": 4,
+      "50-59": 4,
+      "60-64": 0,
+      "65-69": 4,
+      "70-74": 8,
+      "75-79": 8,
+      "80-84": 0,
+      "85-89": 8,
+      "90-94": 24,
+      "95-100": 48
+    },
+    "total_students": 108
   },
   "03664552": {
     "name": "קריאה מודרכת בצפידות מוסטוב",
@@ -2010,7 +2696,21 @@
     "last_offered": "2023b",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366488701&year=2022",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664887&sem=20222"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664887&sem=20222",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 4,
+      "85-89": 8,
+      "90-94": 4,
+      "95-100": 36
+    },
+    "total_students": 52
   },
   "03664980": {
     "name": "טופולוגיה דיפרנציאלית מתקדמת",
@@ -2044,7 +2744,21 @@
     "last_offered": "2023b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366499301&year=2022",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664993&sem=20222"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664993&sem=20222",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 12,
+      "90-94": 0,
+      "95-100": 28
+    },
+    "total_students": 40
   },
   "03665025": {
     "name": "קריאה מודרכת בטופולוגיה ודינמיקה",
@@ -2240,7 +2954,21 @@
     "last_offered": "2023a",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366341001&year=2022",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663410&sem=20221"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663410&sem=20221",
+    "avg_grade": 99.12,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 0,
+      "95-100": 68
+    },
+    "total_students": 68
   },
   "03664511": {
     "name": "עקומים אליפטיים",
@@ -2274,7 +3002,21 @@
     "last_offered": "2023a",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366476801&year=2022",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664768&sem=20221"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664768&sem=20221",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 4,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 8,
+      "95-100": 32
+    },
+    "total_students": 44
   },
   "03665083": {
     "name": "נושאים באנליזה פונקציונלית",
@@ -2407,7 +3149,21 @@
     "last_offered": "2022b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366326801&year=2021",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663268&sem=20212"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663268&sem=20212",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 4,
+      "85-89": 0,
+      "90-94": 8,
+      "95-100": 56
+    },
+    "total_students": 68
   },
   "03663404": {
     "name": "סמינר בתורת גלואה",
@@ -2538,7 +3294,21 @@
     "last_offered": "2022b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366471901&year=2021",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664719&sem=20212"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664719&sem=20212",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 4,
+      "80-84": 4,
+      "85-89": 0,
+      "90-94": 0,
+      "95-100": 12
+    },
+    "total_students": 20
   },
   "03664789": {
     "name": "פרקים בקמירות",
@@ -2625,7 +3395,21 @@
     "last_offered": "2022b",
     "eval_type": "אחר",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366496701&year=2021",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664967&sem=20212"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664967&sem=20212",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 4,
+      "95-100": 16
+    },
+    "total_students": 20
   },
   "03665122": {
     "name": "סמינר בגיאומטריה של ביליארדים",
@@ -2780,7 +3564,21 @@
     "last_offered": "2022a",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366499601&year=2021",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664996&sem=20211"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664996&sem=20211",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 0,
+      "95-100": 28
+    },
+    "total_students": 28
   },
   "03665087": {
     "name": "משטחים: גרפים, חבורות ושימושים",
@@ -2835,7 +3633,21 @@
     "last_offered": "2021b",
     "eval_type": "בחינה סופית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110601&year=2020",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661106&sem=20202"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661106&sem=20202",
+    "avg_grade": 81.36,
+    "grade_distribution": {
+      "0-49": 34,
+      "50-59": 2,
+      "60-64": 18,
+      "65-69": 26,
+      "70-74": 26,
+      "75-79": 28,
+      "80-84": 40,
+      "85-89": 12,
+      "90-94": 18,
+      "95-100": 60
+    },
+    "total_students": 264
   },
   "03663064": {
     "name": "קריאה מודרכת חבורות אלגבריות לינאריות",
@@ -2992,7 +3804,21 @@
     "last_offered": "2021b",
     "eval_type": "",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366511801&year=2020",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665118&sem=20202"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665118&sem=20202",
+    "avg_grade": 99.6,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 0,
+      "95-100": 20
+    },
+    "total_students": 20
   },
   "03665121": {
     "name": "התפלגות במידה שווה",
@@ -3125,7 +3951,21 @@
     "last_offered": "2021a",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366495901&year=2020",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664959&sem=20201"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664959&sem=20201",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 4,
+      "95-100": 12
+    },
+    "total_students": 16
   },
   "03665014": {
     "name": "גיאומטריה של מספרים",
@@ -3142,7 +3982,21 @@
     "last_offered": "2021a",
     "eval_type": "עבודת בית",
     "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366501401&year=2020",
-    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665014&sem=20201"
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665014&sem=20201",
+    "avg_grade": 0.0,
+    "grade_distribution": {
+      "0-49": 0,
+      "50-59": 0,
+      "60-64": 0,
+      "65-69": 0,
+      "70-74": 0,
+      "75-79": 0,
+      "80-84": 0,
+      "85-89": 0,
+      "90-94": 24,
+      "95-100": 40
+    },
+    "total_students": 64
   },
   "03665119": {
     "name": "תורת הפוטנציאל",
