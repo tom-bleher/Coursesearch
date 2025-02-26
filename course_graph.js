@@ -12,43 +12,517 @@ let showSeminars = false;
 let showGuidedReading = false;
 let showProjects = false;
 let showIsolatedCourses = false;
+let showPastYears = false;
+
+// Type mapping (English to Hebrew)
+const typeMapping = {
+    'Seminar': 'סמינר',
+    'Guided Reading': 'קריאה מודרכת',
+    'Project': 'פרוייקט',
+    'Lecture': 'שיעור',
+    'Lecture and Exercise': 'שיעור ותרגיל',
+    'Laboratory': 'מעבדה',
+    'Final Project': 'פרוייקט גמר',
+    'Department Final Project': 'פרוייקט גמר מחלקתי',
+    'Colloquium': 'קולוקוויום'
+};
+
+// Evaluation type mapping (English to Hebrew)
+const evalTypeMapping = {
+    'Final Exam': 'בחינה סופית',
+    'Paper': 'עבודת בית',
+    'Project': 'פרוייקט',
+    'Other': 'אחר',
+    'Take-home exam': 'בחינת בית',
+    'Attendance': 'נוכחות',
+    'Class Participation': 'השתתפות בכיתה'
+};
+
+// Function to normalize type (convert English to Hebrew)
+function normalizeType(type) {
+    if (!type) return null;
+    
+    // Log the type before normalization
+    console.log('Original type:', type);
+    
+    // If the type is already in Hebrew, return it as is
+    if (/[\u0590-\u05FF]/.test(type)) {
+        console.log('Type is already in Hebrew:', type);
+        return type;
+    }
+    
+    const normalized = typeMapping[type] || type;
+    console.log('Normalized type:', normalized);
+    return normalized;
+}
+
+// Function to normalize evaluation type (convert English to Hebrew)
+function normalizeEvalType(evalType) {
+    if (!evalType) return null;
+    
+    // If the evalType is already in Hebrew, return it as is
+    if (/[\u0590-\u05FF]/.test(evalType)) {
+        return evalType;
+    }
+    
+    return evalTypeMapping[evalType] || evalType;
+}
+
+// Filter state variables
+let activeFilters = {
+    faculty: new Set(['מדעים מדויקים/מתמטיקה']),
+    year: new Set(['2025']),
+    type: new Set(['שיעור']),
+    eval: new Set(['all'])
+};
+
+// Function to extract year from last_offered
+function extractYear(lastOffered) {
+    if (!lastOffered) return null;
+    // Extract just the year from the format "2025a" or "2025b"
+    const year = lastOffered.slice(0, 4);
+    return year;
+}
+
+// Function to populate filter options
+function populateFilterOptions() {
+    const faculties = new Set(['מדעים מדויקים/מתמטיקה', 'מדעים מדויקים/פיזיקה']);
+    const years = new Set();
+    const types = new Set();
+    const evals = new Set();
+
+    // Get courses based on selected faculty
+    const selectedFaculties = Array.from(activeFilters.faculty);
+    const relevantCourses = [...courses_math, ...courses_physics].filter(course => {
+        return selectedFaculties.includes('all') || selectedFaculties.includes(course.faculty);
+    });
+
+    // Log available course types
+    console.log('Available courses:', relevantCourses.map(c => ({ name: c.id, type: c.type })));
+
+    // Collect unique values from relevant courses only
+    relevantCourses.forEach(course => {
+        if (course.type) {
+            const normalizedType = normalizeType(course.type);
+            types.add(normalizedType);
+        }
+        if (course.last_offered) {
+            const year = extractYear(course.last_offered);
+            if (year) years.add(year);
+        }
+        if (Array.isArray(course.eval_type)) {
+            course.eval_type.forEach(eval => {
+                evals.add(normalizeEvalType(eval));
+            });
+        } else if (course.eval_type) {
+            evals.add(normalizeEvalType(course.eval_type));
+        }
+    });
+
+    // Log collected types
+    console.log('Collected types:', Array.from(types));
+
+    // Helper function to count occurrences
+    function countOccurrences(selectId, courses) {
+        const counts = new Map();
+        
+        courses.forEach(course => {
+            let value;
+            switch(selectId) {
+                case 'facultyFilter':
+                    value = course.faculty;
+                    if (value) counts.set(value, (counts.get(value) || 0) + 1);
+                    break;
+                case 'yearFilter':
+                    value = extractYear(course.last_offered);
+                    if (value) counts.set(value, (counts.get(value) || 0) + 1);
+                    break;
+                case 'typeFilter':
+                    value = course.type;
+                    if (value) counts.set(value, (counts.get(value) || 0) + 1);
+                    break;
+                case 'evalFilter':
+                    if (Array.isArray(course.eval_type)) {
+                        course.eval_type.forEach(eval => {
+                            if (eval) counts.set(eval, (counts.get(eval) || 0) + 1);
+                        });
+                    } else if (course.eval_type) {
+                        counts.set(course.eval_type, (counts.get(course.eval_type) || 0) + 1);
+                    }
+                    break;
+            }
+        });
+        return counts;
+    }
+
+    // Helper function to populate select elements
+    function populateSelect(selectId, options, activeSet) {
+        const select = document.getElementById(selectId);
+        select.innerHTML = '';
+        
+        // Add "all" option
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = selectId === 'yearFilter' ? 'כל השנים' : 'הכל';
+        allOption.selected = activeSet.has('all');
+        select.appendChild(allOption);
+
+        // Get occurrence counts for sorting - use all relevant courses based on faculty filter
+        const selectedFaculties = Array.from(activeFilters.faculty);
+        const relevantCourses = [...courses_math, ...courses_physics].filter(course => {
+            return selectedFaculties.includes('all') || selectedFaculties.includes(course.faculty);
+        });
+        const counts = countOccurrences(selectId, relevantCourses);
+        
+        // Convert options to array and sort by frequency
+        let sortedOptions = Array.from(options).sort((a, b) => {
+            if (selectId === 'yearFilter') {
+                // For years, keep chronological order
+                return parseInt(b) - parseInt(a);
+            }
+            // Sort by count (descending) and then alphabetically if counts are equal
+            const countA = counts.get(a) || 0;
+            const countB = counts.get(b) || 0;
+            if (countB !== countA) {
+                return countB - countA;
+            }
+            return a.localeCompare(b);
+        });
+
+        sortedOptions.forEach(option => {
+            const optElement = document.createElement('option');
+            optElement.value = option;
+            
+            // Add count to option text except for faculty filter
+            const count = counts.get(option) || 0;
+            if (selectId === 'facultyFilter') {
+                optElement.textContent = option.split('/')[1] || option;
+            } else {
+                optElement.textContent = `${option} (${count})`;
+            }
+            
+            optElement.selected = activeSet.has(option);
+            
+            // Disable year options that aren't 2025 or "all"
+            if (selectId === 'yearFilter' && option !== '2025') {
+                optElement.disabled = true;
+                optElement.style.color = '#999999';
+            }
+            
+            select.appendChild(optElement);
+        });
+
+        // Ensure the correct options are selected based on activeFilters
+        if (!activeSet.has('all')) {
+            allOption.selected = false;
+            Array.from(select.options).forEach(opt => {
+                opt.selected = activeSet.has(opt.value);
+            });
+        }
+    }
+
+    // Populate all select elements with current active filters
+    populateSelect('facultyFilter', faculties, activeFilters.faculty);
+    populateSelect('yearFilter', years, activeFilters.year);
+    populateSelect('typeFilter', types, activeFilters.type);
+    populateSelect('evalFilter', evals, activeFilters.eval);
+}
+
+// Function to apply filters
+function applyFilters() {
+    // Get all courses
+    const allCourses = [...courses_math, ...courses_physics];
+    
+    const filteredCourses = allCourses.filter(course => {
+        // Check faculty filter
+        if (!activeFilters.faculty.has('all')) {
+            if (!course.faculty || !activeFilters.faculty.has(course.faculty)) {
+                return false;
+            }
+        }
+
+        // Check year filter
+        if (!activeFilters.year.has('all')) {
+            const courseYear = extractYear(course.last_offered);
+            if (!courseYear || !activeFilters.year.has(courseYear)) {
+                return false;
+            }
+        }
+
+        // Check type filter
+        if (!activeFilters.type.has('all')) {
+            if (!course.type || !activeFilters.type.has(course.type)) {
+                return false;
+            }
+        }
+
+        // Check eval filter
+        if (!activeFilters.eval.has('all')) {
+            if (!course.eval_type) return false;
+            if (Array.isArray(course.eval_type)) {
+                if (!course.eval_type.some(eval => {
+                    const normalizedEval = normalizeEvalType(eval);
+                    return activeFilters.eval.has(normalizedEval);
+                })) {
+                    return false;
+                }
+            } else {
+                const normalizedEval = normalizeEvalType(course.eval_type);
+                if (!activeFilters.eval.has(normalizedEval)) {
+                    return false;
+                }
+            }
+        }
+
+                return true;
+    });
+
+    // Update current courses and graph
+    currentCourses = filteredCourses;
+    // Always hide isolated courses
+    showIsolatedCourses = false;
+    updateGraph();
+}
+
+// Event listeners for filter controls
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle filter changes
+    ['facultyFilter', 'yearFilter', 'typeFilter', 'evalFilter'].forEach(id => {
+        const select = document.getElementById(id);
+        select.addEventListener('change', (e) => {
+            const filterType = id.replace('Filter', '');
+            const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
+            
+            // Handle selection logic
+            if (selectedOptions.length === 0) {
+                // If nothing is selected, default to 'all'
+                activeFilters[filterType] = new Set(['all']);
+                e.target.querySelector('option[value="all"]').selected = true;
+            } else if (selectedOptions.includes('all')) {
+                // If 'all' is selected, unselect everything else
+                activeFilters[filterType] = new Set(['all']);
+                Array.from(e.target.options).forEach(option => {
+                    option.selected = option.value === 'all';
+                });
+            } else {
+                // Normal multi-select behavior
+                activeFilters[filterType] = new Set(selectedOptions);
+                if (e.target.querySelector('option[value="all"]')) {
+                    e.target.querySelector('option[value="all"]').selected = false;
+                }
+            }
+
+            // If faculty filter changes, update other filters
+            if (id === 'facultyFilter') {
+                // Reset type and eval filters to 'all'
+                activeFilters.type = new Set(['all']);
+                activeFilters.eval = new Set(['all']);
+                // Repopulate options based on new faculty selection
+                populateFilterOptions();
+            }
+        });
+    });
+
+    // Handle apply filters button
+    document.getElementById('applyFilters').addEventListener('click', applyFilters);
+
+    // Handle universal reset button
+    document.getElementById('resetAll').addEventListener('click', () => {
+        // Reset filters
+        activeFilters = {
+            faculty: new Set(['מדעים מדויקים/מתמטיקה']),
+            year: new Set(['2025']),
+            type: new Set(['שיעור']),
+            eval: new Set(['all'])
+        };
+
+        // Reset select elements
+        ['facultyFilter', 'yearFilter', 'typeFilter', 'evalFilter'].forEach(id => {
+            const select = document.getElementById(id);
+            Array.from(select.options).forEach(option => {
+                if (id === 'facultyFilter') {
+                    option.selected = option.value === 'מדעים מדויקים/מתמטיקה';
+                } else if (id === 'yearFilter') {
+                    option.selected = option.value === '2025';
+                } else if (id === 'typeFilter') {
+                    option.selected = option.value === 'שיעור';
+                } else {
+                    option.selected = option.value === 'all';
+                }
+            });
+        });
+
+        // Clear search input
+        if (searchInput) {
+            searchInput.value = '';
+        }
+
+        // Reset graph view
+        cy.startBatch();
+        
+        // Reset visibility
+        cy.elements().removeClass('hidden');
+        
+        // Reset node styles to default
+        cy.nodes().style({
+            'background-color': '#F5F5F5',
+            'border-width': '1.5px',
+            'border-color': '#78909C',
+            'color': '#455A64',
+            'opacity': 1
+        });
+        
+        // Reset edge styles
+        cy.edges().forEach(edge => {
+            const type = edge.data('type');
+            edge.style({
+                'line-color': '#000000',
+                'target-arrow-color': '#000000',
+                'width': type === 'prereq' ? 2.5 : 2,
+                'opacity': type === 'prereq' ? 0.9 : 0.7
+            });
+        });
+
+        // Restore initial positions with animation
+        if (initialNodePositions) {
+            cy.nodes().forEach(node => {
+                const pos = initialNodePositions[node.id()];
+                if (pos) {
+                    node.animate({
+                        position: pos,
+                        duration: 300,
+                        easing: 'ease-in-out-cubic'
+                    });
+                }
+            });
+        }
+        
+        // Update view after animation
+        setTimeout(() => {
+            cy.fit(40);
+            updateTextScaling();
+            cy.minZoom(Math.min(cy.zoom() * 0.6, 0.5));
+        }, 350);
+        
+        cy.endBatch();
+
+        // Apply filters to update the graph
+        applyFilters();
+    });
+});
 
 // Load and transform course data from JSON files
-async function loadCourseData(type) {
-    const path = type === 'math' ? 'Course_data_scraper/Math_courses/courses.json' : 'Course_data_scraper/Physics_courses/courses.json';
+async function loadCourseData() {
     try {
-        const response = await fetch(path);
-        const data = await response.json();
-        
-        // Transform the data to match the expected format
-        return Object.entries(data)
+        // Load both math and physics data
+        const [mathResponse, physicsResponse] = await Promise.all([
+            fetch('courses/JSONs/math.json'),
+            fetch('courses/JSONs/physics.json')
+        ]);
+
+        const mathData = await mathResponse.json();
+        const physicsData = await physicsResponse.json();
+
+        // Process math courses
+        courses_math = Object.entries(mathData)
             .map(([courseNumber, courseInfo]) => {
-                // Check course types
-                const isSeminar = courseInfo.specific_data.some(data => data["אופן הוראה"] === "סמינר");
-                const isGuidedReading = courseInfo.specific_data.some(data => data["אופן הוראה"] === "קריאה מודרכת");
-                const isProject = courseInfo.specific_data.some(data => data["אופן הוראה"] === "פרוייקט");
+                // Process prerequisites
+                const prereqs = courseInfo.preq || [];
+                const processedPrereqs = prereqs.filter(p => p !== 'וגם' && p !== 'או')
+                    .map(preReqNum => {
+                        const preReqCourse = mathData[preReqNum] || physicsData[preReqNum];
+                        return preReqCourse ? preReqCourse.name : null;
+                    })
+                    .filter(name => name !== null);
+
+                // Process corequisites
+                const coreqs = courseInfo.pareq || [];
+                const processedCoreqs = coreqs.filter(p => p !== 'וגם' && p !== 'או')
+                    .map(coReqNum => {
+                        const coReqCourse = mathData[coReqNum] || physicsData[coReqNum];
+                        return coReqCourse ? coReqCourse.name : null;
+                    })
+                    .filter(name => name !== null);
+
+                // Preserve the original type and normalize it
+                const originalType = courseInfo.type;
+                const normalizedType = normalizeType(originalType);
                 
                 return {
-                    id: courseInfo.course_name,
+                    id: courseInfo.name,
                     name: {
-                        he: courseInfo.course_name,
-                        en: courseInfo.course_name
+                        he: courseInfo.name,
+                        en: courseInfo.name
                     },
                     course_link: courseInfo.course_link,
-                    prereqs: courseInfo.pre_req.map(preReqNum => {
-                        const preReqCourse = data[preReqNum];
-                        return preReqCourse ? preReqCourse.course_name : '';
-                    }).filter(name => name !== ''),
-                    coreqs: courseInfo.parallel_req.map(coReqNum => {
-                        const coReqCourse = data[coReqNum];
-                        return coReqCourse ? coReqCourse.course_name : '';
-                    }).filter(name => name !== ''),
-                    category: 'general',
-                    isSeminar: isSeminar,
-                    isGuidedReading: isGuidedReading,
-                    isProject: isProject
+                    faculty: 'מדעים מדויקים/מתמטיקה',
+                    original_type: originalType,
+                    type: normalizedType,
+                    eval_type: Array.isArray(courseInfo.eval_type) ?
+                        courseInfo.eval_type.map(normalizeEvalType) :
+                        normalizeEvalType(courseInfo.eval_type),
+                    prereqs: processedPrereqs,
+                    coreqs: processedCoreqs,
+                    last_offered: courseInfo.last_offered
                 };
             });
+
+        // Process physics courses with the same careful type handling
+        courses_physics = Object.entries(physicsData)
+            .map(([courseNumber, courseInfo]) => {
+                // Process prerequisites
+                const prereqs = courseInfo.preq || [];
+                const processedPrereqs = prereqs.filter(p => p !== 'וגם' && p !== 'או')
+                    .map(preReqNum => {
+                        const preReqCourse = mathData[preReqNum] || physicsData[preReqNum];
+                        return preReqCourse ? preReqCourse.name : null;
+                    })
+                    .filter(name => name !== null);
+
+                // Process corequisites
+                const coreqs = courseInfo.pareq || [];
+                const processedCoreqs = coreqs.filter(p => p !== 'וגם' && p !== 'או')
+                    .map(coReqNum => {
+                        const coReqCourse = mathData[coReqNum] || physicsData[coReqNum];
+                        return coReqCourse ? coReqCourse.name : null;
+                    })
+                    .filter(name => name !== null);
+
+                // Preserve the original type and normalize it
+                const originalType = courseInfo.type;
+                const normalizedType = normalizeType(originalType);
+
+                return {
+                    id: courseInfo.name,
+                    name: {
+                        he: courseInfo.name,
+                        en: courseInfo.name
+                    },
+                    course_link: courseInfo.course_link,
+                    faculty: 'מדעים מדויקים/פיזיקה',
+                    original_type: originalType,
+                    type: normalizedType,
+                    eval_type: Array.isArray(courseInfo.eval_type) ?
+                        courseInfo.eval_type.map(normalizeEvalType) :
+                        normalizeEvalType(courseInfo.eval_type),
+                    prereqs: processedPrereqs,
+                    coreqs: processedCoreqs,
+                    last_offered: courseInfo.last_offered
+                };
+            });
+
+        // Set initial courses to all courses
+        currentCourses = [...courses_math, ...courses_physics];
+        
+        // Log all unique types for debugging
+        const allTypes = new Set([
+            ...currentCourses.map(c => c.original_type),
+            ...currentCourses.map(c => c.type)
+        ]);
+        console.log('All unique types in data:', Array.from(allTypes));
+        
+        return currentCourses;
+
     } catch (error) {
         console.error('Error loading course data:', error);
         return [];
@@ -57,14 +531,23 @@ async function loadCourseData(type) {
 
 // Initialize course data
 async function initializeCourseData() {
-    courses_math = await loadCourseData('math');
-    courses_physics = await loadCourseData('physics');
-    currentCourses = courses_math;
-    updateGraph('math'); // Initial load with math courses
+    await loadCourseData();
+    // Set initial filters before updating graph
+    currentCourses = [...courses_math, ...courses_physics].filter(course => {
+        return course.faculty === 'מדעים מדויקים/מתמטיקה' &&
+               extractYear(course.last_offered) === '2025' &&
+               course.type === 'שיעור';
+    });
+    updateGraph();
 }
 
-// Call initialization when the page loads
-window.addEventListener('load', initializeCourseData);
+// Initialize course data and instructions when the page loads
+window.addEventListener('load', () => {
+    initializeCourseData().then(() => {
+        createInstructionsPanel();
+        setInitialFilters();
+    });
+});
 
 // Initialize Cytoscape with optimized settings
 const cy = cytoscape({
@@ -559,27 +1042,42 @@ function resetView() {
 }
 
 // Update the updateGraph function to handle isolated courses
-function updateGraph(courseType) {
-    currentCourses = courseType === 'math' ? courses_math : courses_physics;
-    document.querySelector('h1').textContent = courseType === 'math' ? 'עץ התואר במתמטיקה' : 'עץ התואר בפיזיקה';
+function updateGraph() {
+    // Update title based on active faculty filter
+    const activeFaculties = Array.from(activeFilters.faculty);
+    let title = 'עץ הקורסים';
+    if (activeFaculties.length === 1 && activeFaculties[0] !== 'all') {
+        title = `עץ התואר ב${activeFaculties[0].split('/')[1]}`;
+    }
+    document.querySelector('h1').textContent = title;
     
-    // First, identify courses that are connected (either as source or target)
+    // First, identify courses that are connected
     const connectedCourses = new Set();
     currentCourses.forEach(course => {
-        if (course.prereqs.length > 0 || course.coreqs.length > 0) {
+        if (course.prereqs?.length > 0 || course.coreqs?.length > 0) {
             connectedCourses.add(course.id);
+            if (course.prereqs) {
             course.prereqs.forEach(prereq => connectedCourses.add(prereq));
+            }
+            if (course.coreqs) {
             course.coreqs.forEach(coreq => connectedCourses.add(coreq));
+            }
         }
     });
 
-    // Filter courses based on settings and connectivity
+    // Filter courses based on settings
     const filteredCourses = currentCourses.filter(course => {
-        if (!showSeminars && course.isSeminar) return false;
-        if (!showGuidedReading && course.isGuidedReading) return false;
-        if (!showProjects && course.isProject) return false;
-        if (!showIsolatedCourses && !connectedCourses.has(course.id)) return false;
-        return true;
+        // Check if course should be shown based on its type
+        const isTypeAllowed = (
+            (course.type && activeFilters.type.has(course.type)) ||
+            activeFilters.type.has('all')
+        );
+
+        // Check if course should be shown based on connectivity
+        const isConnectivityAllowed = showIsolatedCourses || connectedCourses.has(course.id);
+
+        // Course must pass both type and connectivity filters
+        return isTypeAllowed && isConnectivityAllowed;
     });
     
     const elements = {
@@ -588,53 +1086,58 @@ function updateGraph(courseType) {
                 id: course.id,
                 label: course.id,
                 course_link: course.course_link,
-                isSeminar: course.isSeminar,
-                isGuidedReading: course.isGuidedReading,
-                isProject: course.isProject
+                isSeminar: course.type === 'סמינר',
+                isGuidedReading: course.type === 'קריאה מודרכת',
+                isProject: course.type === 'פרוייקט',
+                isPastCourse: course.last_offered ? parseInt(course.last_offered.slice(0, 4)) < 2025 : false,
+                lastOffered: course.last_offered
             }
         })),
-        edges: filteredCourses.flatMap(course => {
-            const edges = new Set();
-            const result = [];
-            
-            // Only add edges for visible courses
+        edges: []
+    };
+
+    // Create a set to track edges that have been added
+    const addedEdges = new Set();
+
+    // Add edges for prerequisites and corequisites
+    filteredCourses.forEach(course => {
             const visibleCourseIds = new Set(filteredCourses.map(c => c.id));
             
+        // Helper function to add edge only if it doesn't exist in either direction
+        const addEdgeIfNotExists = (source, target, type) => {
+            const forwardEdge = `${source}->${target}`;
+            const reverseEdge = `${target}->${source}`;
+
+            if (!addedEdges.has(forwardEdge) && !addedEdges.has(reverseEdge)) {
+                addedEdges.add(forwardEdge);
+                elements.edges.push({
+                        data: {
+                        source: source,
+                        target: target,
+                        type: type
+                        }
+                    });
+                    }
+        };
+
+        // Add prerequisite edges
+        if (course.prereqs) {
             course.prereqs.forEach(prereq => {
                 if (visibleCourseIds.has(prereq)) {
-                const edge = `${prereq}->${course.id}`;
-                if (!edges.has(edge)) {
-                    edges.add(edge);
-                    result.push({
-                        data: {
-                            source: prereq,
-                            target: course.id,
-                            type: 'prereq'
-                        }
-                    });
-                    }
+                    addEdgeIfNotExists(prereq, course.id, 'prereq');
                 }
             });
-            
+        }
+
+        // Add corequisite edges
+        if (course.coreqs) {
             course.coreqs.forEach(coreq => {
                 if (visibleCourseIds.has(coreq)) {
-                const edge = `${coreq}->${course.id}`;
-                if (!edges.has(edge)) {
-                    edges.add(edge);
-                    result.push({
-                        data: {
-                            source: coreq,
-                            target: course.id,
-                            type: 'coreq'
-                        }
-                    });
-                    }
+                    addEdgeIfNotExists(course.id, coreq, 'coreq');
                 }
             });
-            
-            return result;
-        })
-    };
+        }
+    });
 
     cy.startBatch();
     cy.elements().remove();
@@ -647,21 +1150,24 @@ function updateGraph(courseType) {
     
     // Calculate optimal spacing based on container size and node count
     const optimalSpacing = Math.min(
-        Math.max(30, containerWidth / (nodeCount * 0.8)),
-        60
+        Math.max(40, containerWidth / (Math.sqrt(nodeCount) * 1.5)),  // Less aggressive vertical compression
+        90  // Increased maximum spacing
     );
     
     // Store the initial layout parameters
     initialLayout = {
         name: 'dagre',
         rankDir: 'TB',
-        padding: 50,
-        spacingFactor: 1.6,
+        padding: 30,
+        spacingFactor: 1.4,  // Increased spacing factor for more horizontal spread
         animate: false,
-        rankSep: optimalSpacing * 1.5,
-        nodeSep: optimalSpacing * 1.2,
-        ranker: 'network-simplex',
-        edgeSep: optimalSpacing * 0.6
+        rankSep: optimalSpacing * 1.0,  // Reduced vertical separation to compress height
+        nodeSep: optimalSpacing * 1.8,  // Increased horizontal separation for wider spread
+        ranker: 'tight-tree',
+        edgeSep: optimalSpacing * 0.8,  // Increased edge separation
+        align: 'UL',  // Changed alignment to Upper-Left for better horizontal distribution
+        acyclicer: 'greedy',
+        maximal: false
     };
     
     // Apply the initial layout
@@ -678,34 +1184,41 @@ function updateGraph(courseType) {
 
     // Apply styling
     cy.nodes().forEach(node => {
-        const isSeminar = node.data('isSeminar');
-        const isGuidedReading = node.data('isGuidedReading');
-        const isProject = node.data('isProject');
+        const course = currentCourses.find(c => c.id === node.data('id'));
+        const isPastCourse = course?.last_offered ? 
+            parseInt(course.last_offered.slice(0, 4)) < 2025 : false;
         
         let style;
-        if (isSeminar) {
+        if (course?.type === 'סמינר') {
             style = {
                 'background-color': '#E8F5E9',
                 'border-color': '#43A047',
                 'color': '#2E7D32'
             };
-        } else if (isGuidedReading) {
+        } else if (course?.type === 'קריאה מודרכת') {
             style = {
                 'background-color': '#FFF3E0',
                 'border-color': '#F57C00',
                 'color': '#E65100'
             };
-        } else if (isProject) {
+        } else if (course?.type === 'פרוייקט') {
             style = {
                 'background-color': '#E3F2FD',
                 'border-color': '#1976D2',
                 'color': '#0D47A1'
             };
+        } else if (isPastCourse) {
+            style = {
+                'background-color': '#FFEBEE',
+                'border-color': '#D32F2F',
+                'color': '#B71C1C',
+                'border-style': 'dashed'
+            };
         } else {
             style = {
-        'background-color': '#F5F5F5',
-        'border-color': '#78909C',
-        'color': '#455A64'
+                'background-color': '#F5F5F5',
+                'border-color': '#78909C',
+                'color': '#455A64'
             };
         }
         
@@ -727,16 +1240,14 @@ function updateGraph(courseType) {
 
     cy.fit(40);
     updateTextScaling();
-    // Set a lower minimum zoom to allow more zooming out
     cy.minZoom(Math.min(cy.zoom() * 0.6, 0.5));
     cy.endBatch();
+
+    // Populate filter options after graph update
+    populateFilterOptions();
 }
 
 // Event listeners with minimal processing
-document.querySelectorAll('input[name="course-type"]').forEach(radio => {
-    radio.addEventListener('change', (e) => updateGraph(e.target.value));
-});
-
 cy.on('dblclick', evt => { if(evt.target === cy) resetView(); });
 
 // Initialize with the same styling as reset view
@@ -765,95 +1276,31 @@ cy.ready(() => {
     cy.minZoom(Math.min(cy.zoom() * 0.6, 0.5));
 });
 
-// Add settings menu HTML
-function createSettingsMenu() {
-    const settingsDiv = document.createElement('div');
-    settingsDiv.className = 'settings-menu';
-    settingsDiv.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-        direction: rtl;
-    `;
-
-    // Helper function to create toggle containers
-    function createToggle(label, checked, onChange) {
-        const container = document.createElement('div');
-        container.style.cssText = `
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        `;
-
-        const labelElem = document.createElement('label');
-        labelElem.textContent = label;
-        labelElem.style.cssText = `
-            font-size: 14px;
-            color: #333;
-        `;
-
-        const toggle = document.createElement('input');
-        toggle.type = 'checkbox';
-        toggle.checked = checked;
-        toggle.style.cssText = `
-            width: 16px;
-            height: 16px;
-        `;
-
-        toggle.addEventListener('change', onChange);
-
-        container.appendChild(labelElem);
-        container.appendChild(toggle);
-        return container;
-    }
-
-    // Create course type toggles
-    const seminarToggle = createToggle('הצג סמינרים', showSeminars, (e) => {
-        showSeminars = e.target.checked;
-        updateGraph(currentCourses === courses_math ? 'math' : 'physics');
+// Function to set initial filters
+function setInitialFilters() {
+    // Set faculty filter to Mathematics
+    const facultySelect = document.getElementById('facultyFilter');
+    Array.from(facultySelect.options).forEach(option => {
+        option.selected = option.value === 'מדעים מדויקים/מתמטיקה';
     });
 
-    const guidedReadingToggle = createToggle('הצג קריאה מודרכת', showGuidedReading, (e) => {
-        showGuidedReading = e.target.checked;
-        updateGraph(currentCourses === courses_math ? 'math' : 'physics');
+    // Set year filter to 2025
+    const yearSelect = document.getElementById('yearFilter');
+    Array.from(yearSelect.options).forEach(option => {
+        option.selected = option.value === '2025';
     });
 
-    const projectToggle = createToggle('הצג פרוייקטים', showProjects, (e) => {
-        showProjects = e.target.checked;
-        updateGraph(currentCourses === courses_math ? 'math' : 'physics');
+    // Set course type filter to שיעור
+    const typeSelect = document.getElementById('typeFilter');
+    Array.from(typeSelect.options).forEach(option => {
+        option.selected = option.value === 'שיעור';
     });
 
-    // Add divider
-    const divider = document.createElement('div');
-    divider.style.cssText = `
-        height: 1px;
-        background-color: #E0E0E0;
-        margin: 10px 0;
-    `;
-
-    // Create isolated courses toggle with updated text and behavior
-    const isolatedToggle = createToggle('הצג קורסים מנותקים', showIsolatedCourses, (e) => {
-        showIsolatedCourses = e.target.checked;
-        updateGraph(currentCourses === courses_math ? 'math' : 'physics');
-    });
-
-    settingsDiv.appendChild(seminarToggle);
-    settingsDiv.appendChild(guidedReadingToggle);
-    settingsDiv.appendChild(projectToggle);
-    settingsDiv.appendChild(divider);
-    settingsDiv.appendChild(isolatedToggle);
-    document.body.appendChild(settingsDiv);
+    // Apply the filters
+    applyFilters();
 }
 
-// Initialize settings menu and instructions when the page loads
-window.addEventListener('load', () => {
-    initializeCourseData();
-    createSettingsMenu();
-    createInstructionsPanel();
-}); 
+// Initialize instructions when the page loads
+function createInstructionsPanel() {
+    // Implementation of createInstructionsPanel function
+} 

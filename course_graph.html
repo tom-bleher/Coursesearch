@@ -52,7 +52,7 @@
             direction: rtl;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
             flex-wrap: wrap;
             height: 36px;
         }
@@ -205,24 +205,122 @@
             background-color: rgba(0,0,0,0.5);
             z-index: 1000;
         }
+
+        .filter-menu {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .filter-section {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 5px;
+        }
+
+        .filter-section label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .filter-section select {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            min-width: 200px;
+            direction: rtl;
+        }
+
+        .filter-section select[multiple] {
+            height: 100px;
+        }
+
+        .filter-section select option {
+            padding: 4px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+            align-self: flex-end;
+        }
+
+        #applyFilters {
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            height: 36px;
+        }
+
+        #applyFilters:hover {
+            background-color: #1565C0;
+        }
+
+        #resetAll {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            height: 36px;
+        }
+
+        #resetAll:hover {
+            background-color: #e9ecef;
+        }
+
+        .settings-menu {
+            display: none;
+        }
+
+        .settings-menu * {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>עץ התואר במתמטיקה</h1>
         <div class="controls">
-            <div class="toggle-container">
-                <label class="toggle-label">
-                    <input type="radio" name="course-type" value="math" checked> מתמטיקה
-                </label>
-                <label class="toggle-label">
-                    <input type="radio" name="course-type" value="physics"> פיזיקה
-                </label>
-            </div>
             <input type="text" id="search" placeholder="חיפוש קורס...">
-            <button onclick="resetView()">איפוס תצוגה</button>
+            <button id="applyFilters">החל סינון</button>
+            <button id="resetAll">איפוס</button>
             <div class="info-icon">i</div>
         </div>
+
+        <div class="filter-menu">
+            <div class="filter-section">
+                <select id="facultyFilter" multiple>
+                    <option value="all" selected>כל הפקולטות</option>
+                </select>
+                <label for="facultyFilter">פקולטה</label>
+            </div>
+            <div class="filter-section">
+                <select id="yearFilter" multiple>
+                    <option value="all" selected>כל השנים</option>
+                </select>
+                <label for="yearFilter">שנה</label>
+            </div>
+            <div class="filter-section">
+                <select id="typeFilter" multiple>
+                    <option value="all" selected>כל סוגי הקורסים</option>
+                </select>
+                <label for="typeFilter">סוג קורס</label>
+            </div>
+            <div class="filter-section">
+                <select id="evalFilter" multiple>
+                    <option value="all" selected>כל סוגי ההערכה</option>
+                </select>
+                <label for="evalFilter">שיטת הערכה</label>
+            </div>
+        </div>
+
         <div class="legend">
             <div class="legend-item">
                 <span>דרישות קדם </span>
