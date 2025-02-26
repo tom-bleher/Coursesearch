@@ -1,0 +1,2415 @@
+{
+  "03211104": {
+    "name": "מבוא לתרמודינמיקה ומצבי צבירה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ביסטריצר רפאל"
+      }
+    ],
+    "preq": [
+      "03211838",
+      "וגם",
+      "03211118"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321110401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211104&sem=20242"
+  },
+  "03211112": {
+    "name": "מעבדה  בפיזיקה  א 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן חמו יאן, פרופ' לחיני יואב"
+      },
+      {
+        "group": "03",
+        "lecturer": null
+      },
+      {
+        "group": "04",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03211111"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211112&sem=20242"
+  },
+  "03211119": {
+    "name": "פיזיקה קלאסית 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן שלום משה, ד\"ר קורובר איגור, ד\"ר קורובר איגור"
+      }
+    ],
+    "preq": [
+      "03211118"
+    ],
+    "pareq": [
+      "03211839",
+      "וגם",
+      "03211201"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211119&sem=20242"
+  },
+  "03211201": {
+    "name": "יחסות פרטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר סופר הדס"
+      }
+    ],
+    "preq": [
+      "03211118"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321120101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211201&sem=20242"
+  },
+  "03211702": {
+    "name": "סמינר מצוינות בפיזיקה שנה א'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סלע ערן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321170201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211702&sem=20242"
+  },
+  "03211836": {
+    "name": "הסתברות וסטטיסטיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר רון אלון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211836&sem=20242"
+  },
+  "03211839": {
+    "name": "מבוא מתמטי לפיזיקה 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר אופנהימר נעמי"
+      }
+    ],
+    "preq": [
+      "03211838"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211839&sem=20242"
+  },
+  "03212103": {
+    "name": "קוונטים 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ליפשיץ רון"
+      }
+    ],
+    "preq": [
+      "03212105",
+      "וגם",
+      "03212102",
+      "וגם",
+      "03212130"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212103&sem=20242"
+  },
+  "03212111": {
+    "name": "פיזיקה סטטיסטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' דגן יורם"
+      }
+    ],
+    "preq": [
+      "03211104",
+      "או",
+      "03512202"
+    ],
+    "pareq": [
+      "03212103"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321211101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212111&sem=20242"
+  },
+  "03212122": {
+    "name": "מעבדה בפיזיקה ב 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      },
+      {
+        "group": "02",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      },
+      {
+        "group": "03",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      },
+      {
+        "group": "04",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      },
+      {
+        "group": "05",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      },
+      {
+        "group": "06",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      },
+      {
+        "group": "07",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      }
+    ],
+    "preq": [
+      "03211111",
+      "וגם",
+      "03211112",
+      "וגם",
+      "03212121"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321212201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212122&sem=20242"
+  },
+  "03212131": {
+    "name": "שיטות בפיזיקה עיונית 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברומברג עומר"
+      }
+    ],
+    "preq": [
+      "03212130",
+      "וגם",
+      "03211838",
+      "וגם",
+      "03211839"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212131&sem=20242"
+  },
+  "03212134": {
+    "name": "סמינר מצוינות בחישוב קוונטי ב'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גולדשטיין משה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212134&sem=20242"
+  },
+  "03212702": {
+    "name": "סמינר מצוינות בפיזיקה ב'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אילן רוני"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321270201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212702&sem=20242"
+  },
+  "03213005": {
+    "name": "Students Project",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "פרוייקט",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן חמו יאן, פרופ' ברקנא רנן, פרופ' סופר אבנר, ד\"ר אופנהימר נעמי, ד\"ר אשכנזי עדי, ד\"ר ישראל יהונתן, ד\"ר רון אלון, ד\"ר שנהר תומר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "Project",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321300501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213005&sem=20242"
+  },
+  "03213108": {
+    "name": "מבוא לאסטרופיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' הרכבי יאיר"
+      }
+    ],
+    "preq": [
+      "03212105",
+      "וגם",
+      "03211201",
+      "וגם",
+      "03212103"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213108&sem=20242"
+  },
+  "03213113": {
+    "name": "Solid State Physics b",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר הולדר טוביאס"
+      }
+    ],
+    "preq": [
+      "03213103",
+      "וגם",
+      "03212111"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "Final Exam",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321311301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213113&sem=20242"
+  },
+  "03213300": {
+    "name": "פרוייקט מחקר לתלמידי תוכנית מצוינות",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "פרוייקט",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן שלום משה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321330001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213300&sem=20242"
+  },
+  "03213309": {
+    "name": "Physics Laboratory C-excellent - B",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברעד שמשון"
+      }
+    ],
+    "preq": [
+      "03212121",
+      "וגם",
+      "03212122"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321330901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213309&sem=20242"
+  },
+  "03213406": {
+    "name": "Physics Laboratory C-Cs- Exellent",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סוכובסקי חיים"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213406&sem=20242"
+  },
+  "03213407": {
+    "name": "physics Laboratory C Cs",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברעד שמשון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213407&sem=20242"
+  },
+  "03213409": {
+    "name": "Physics Laboratory C- Quantum Computing",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברעד שמשון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213409&sem=20242"
+  },
+  "03213804": {
+    "name": "מבוא לחלקיקים וגרעין",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר אשכנזי עדי"
+      }
+    ],
+    "preq": [
+      "03212103"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213804&sem=20242"
+  },
+  "03213809": {
+    "name": "Physics Laboratory C-sem. B",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברעד שמשון"
+      }
+    ],
+    "preq": [
+      "03212121",
+      "וגם",
+      "03212122"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213809&sem=20242"
+  },
+  "03213818": {
+    "name": "חומרה קוונטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברעד שמשון"
+      }
+    ],
+    "preq": [
+      "03212103"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213818&sem=20242"
+  },
+  "03213819": {
+    "name": "מבוא לאינפורמציה ואלגוריתמים קוונטיים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גולדשטיין משה"
+      }
+    ],
+    "preq": [
+      "03212103"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213819&sem=20242"
+  },
+  "03214070": {
+    "name": "סמינר תלמידים באסטרופיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' הרכבי יאיר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321407001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214070&sem=20242"
+  },
+  "03214110": {
+    "name": "תרמודינמיקה ומכניקה סטטיסטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' איזנברג אליהו"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214110&sem=20242"
+  },
+  "03214139": {
+    "name": "פיזיקה של גלאים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן חמו יאן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321413901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214139&sem=20242"
+  },
+  "03214141": {
+    "name": "הכשרת מתרגלים בית הספר לפיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321414101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214141&sem=20242"
+  },
+  "03214178": {
+    "name": "סמינר מחקרי  תלמידים בחומר מעובה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר פינקלשטיין רן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321417801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214178&sem=20242"
+  },
+  "03214215": {
+    "name": "תורת השדות 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סבר עמית"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321421501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214215&sem=20242"
+  },
+  "03214218": {
+    "name": "סמינר ארצי בחלקיקים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סבר עמית"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321421801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214218&sem=20242"
+  },
+  "03214227": {
+    "name": "סמינר בגרעין",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פומרנץ ישי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321422701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214227&sem=20242"
+  },
+  "03214234": {
+    "name": "סמינר  מחקרי תלמידים בחלקיקים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר קורובר איגור"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321423401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214234&sem=20242"
+  },
+  "03214320": {
+    "name": "שיטות תצפיתיות",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר שנהר תומר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321432001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214320&sem=20242"
+  },
+  "03214406": {
+    "name": "סמינר בחומר מעובה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר סופר הדס"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214406&sem=20242"
+  },
+  "03214409": {
+    "name": "Condensed Matter Theory 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סלע ערן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "Final Exam",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214409&sem=20242"
+  },
+  "03214410": {
+    "name": "תורת החומר המעובה 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אנדלמן דוד, פרופ' בק ברקאי רועי, פרופ' דימנט חיים, פרופ' רוכמן יעל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321441001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214410&sem=20242"
+  },
+  "03214413": {
+    "name": "מכניקה סטטיסטית של רשתות נוירונים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר דרשן רן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321441301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214413&sem=20242"
+  },
+  "03214420": {
+    "name": "סמינר מחקרי  באסטרופיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר שטרן יהונתן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321442001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214420&sem=20242"
+  },
+  "03214453": {
+    "name": "סמינר בחומרים קוואנטיים - ב'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר הולדר טוביאס"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321445301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214453&sem=20242"
+  },
+  "03214822": {
+    "name": "סמינר תלמידים:על מיתרים (סמ' ב)",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' עוז ירון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214822&sem=20242"
+  },
+  "03214826": {
+    "name": "אסטרופיזיקה של אנרגיות גבוהות",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נקר אהוד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214826&sem=20242"
+  },
+  "03214842": {
+    "name": "תורת החלקיקים 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גלר מיכאל"
+      }
+    ],
+    "preq": [
+      "03214201"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214842&sem=20242"
+  },
+  "03214850": {
+    "name": "מצבי צבירה טופולוגיים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אילן רוני"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214850&sem=20242"
+  },
+  "03214855": {
+    "name": "סמינר ארצי נסיון ותיאוריה סמסטר ב'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' וולנסקי תומר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214855&sem=20242"
+  },
+  "03214873": {
+    "name": "אסטרו-קפה ב': דיונים בתוצאות חדשות מכתבי עת",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברומברג עומר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214873&sem=20242"
+  },
+  "03214893": {
+    "name": "תורת השדות 3",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' יצחקי ניסן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321489301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214893&sem=20242"
+  },
+  "03211100": {
+    "name": "אלגברה לינארית לפיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר רון אלון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321110001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211100&sem=20241"
+  },
+  "03211111": {
+    "name": "מעבדה בפיזיקה א 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' לחיני יואב"
+      },
+      {
+        "group": "03",
+        "lecturer": "פרופ' בן חמו יאן"
+      },
+      {
+        "group": "04",
+        "lecturer": "פרופ' לחיני יואב"
+      },
+      {
+        "group": "90",
+        "lecturer": "פרופ' לחיני יואב"
+      }
+    ],
+    "preq": [],
+    "pareq": [
+      "03211118"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211111&sem=20241"
+  },
+  "03211118": {
+    "name": "פיזיקה קלאסית 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברומברג עומר, פרופ' הרכבי יאיר, פרופ' הרכבי יאיר"
+      },
+      {
+        "group": "80",
+        "lecturer": "פרופ' פיטן ארז, ד\"ר חליפה-לוי רז"
+      },
+      {
+        "group": "90",
+        "lecturer": "פרופ' הרכבי יאיר, פרופ' פיטן ארז"
+      }
+    ],
+    "preq": [],
+    "pareq": [
+      "03211838"
+    ],
+    "last_offered": "2025a",
+    "eval_type": [
+      "בחינה סופית",
+      "בחינת ביניים"
+    ],
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321111801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211118&sem=20241"
+  },
+  "03211121": {
+    "name": "Computers for Physics",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר סופר הדס"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "Project",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321112101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211121&sem=20241"
+  },
+  "03211838": {
+    "name": "מבוא מתמטי לפיזיקה 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' מעוז דני"
+      },
+      {
+        "group": "90",
+        "lecturer": "פרופ' מעוז דני, פרופ' פיטן ארז"
+      }
+    ],
+    "preq": [],
+    "pareq": [
+      "03211100",
+      "או",
+      "03661111"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321183801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03211838&sem=20241"
+  },
+  "03212102": {
+    "name": "גלים אור ואופטיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' מעוז דני"
+      }
+    ],
+    "preq": [
+      "03211118",
+      "וגם",
+      "03211119"
+    ],
+    "pareq": [
+      "03212130"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212102&sem=20241"
+  },
+  "03212105": {
+    "name": "מכניקה אנליטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' איזנברג אליהו"
+      }
+    ],
+    "preq": [
+      "03211118",
+      "וגם",
+      "03211838",
+      "וגם",
+      "03211839"
+    ],
+    "pareq": [
+      "03212130"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321210501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212105&sem=20241"
+  },
+  "03212117": {
+    "name": "Numerical Methods for Physics",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברקנא רנן"
+      }
+    ],
+    "preq": [
+      "03211838",
+      "וגם",
+      "03211839"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "Final Exam",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321211701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212117&sem=20241"
+  },
+  "03212121": {
+    "name": "מעבדה בפיזיקה ב 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן שלום משה"
+      },
+      {
+        "group": "02",
+        "lecturer": "פרופ' בן שלום משה"
+      },
+      {
+        "group": "03",
+        "lecturer": "פרופ' בן שלום משה"
+      },
+      {
+        "group": "04",
+        "lecturer": "פרופ' בן שלום משה"
+      },
+      {
+        "group": "05",
+        "lecturer": "פרופ' בן שלום משה"
+      },
+      {
+        "group": "06",
+        "lecturer": "פרופ' בן שלום משה"
+      },
+      {
+        "group": "07",
+        "lecturer": "פרופ' פומרנץ ישי"
+      }
+    ],
+    "preq": [
+      "03211111",
+      "וגם",
+      "03211112"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321212101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212121&sem=20241"
+  },
+  "03212130": {
+    "name": "שיטות בפיזיקה עיונית 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר בר סיני יוחאי"
+      }
+    ],
+    "preq": [
+      "03211838",
+      "וגם",
+      "03211839"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212130&sem=20241"
+  },
+  "03212133": {
+    "name": "סמינר מצוינות בחישוב קוונטי - א'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גולדשטיין משה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321213301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212133&sem=20241"
+  },
+  "03212701": {
+    "name": "סמינר מצוינות בפיזיקה א'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נקר אהוד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321270101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03212701&sem=20241"
+  },
+  "03213101": {
+    "name": "קוונטים 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ביסטריצר רפאל"
+      }
+    ],
+    "preq": [
+      "03212103"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213101&sem=20241"
+  },
+  "03213103": {
+    "name": "מבוא למצב מוצק",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אילן רוני"
+      }
+    ],
+    "preq": [
+      "03212111",
+      "וגם",
+      "03212103"
+    ],
+    "pareq": [
+      "03213101"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213103&sem=20241"
+  },
+  "03213109": {
+    "name": "אלקטרומגנטיות אנליטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ליפשיץ רון"
+      }
+    ],
+    "preq": [
+      "03211119",
+      "וגם",
+      "03211201",
+      "וגם",
+      "03212102",
+      "וגם",
+      "03212130",
+      "וגם",
+      "03212131",
+      "וגם",
+      "03212105"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321310901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213109&sem=20241"
+  },
+  "03213158": {
+    "name": "פיזיקה של סדרי גודל",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נקר אהוד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321315801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213158&sem=20241"
+  },
+  "03213308": {
+    "name": "Laboratory C for the Excellence Program a",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברעד שמשון"
+      }
+    ],
+    "preq": [
+      "03212121",
+      "וגם",
+      "03212122"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321330801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213308&sem=20241"
+  },
+  "03213800": {
+    "name": "סמינר מחקרי לשנה ג",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברק לירון, פרופ' סוכובסקי חיים"
+      }
+    ],
+    "preq": [
+      "03212103"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "נוכחות",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213800&sem=20241"
+  },
+  "03213808": {
+    "name": "Physics Laboratory C- sem.A",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברעד שמשון"
+      }
+    ],
+    "preq": [
+      "03212121",
+      "וגם",
+      "03212122"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321380801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213808&sem=20241"
+  },
+  "03213810": {
+    "name": "יחסות כללית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רזניק בני"
+      }
+    ],
+    "preq": [
+      "03211201"
+    ],
+    "pareq": [
+      "03213109"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213810&sem=20241"
+  },
+  "03213816": {
+    "name": "מבוא לפיזיקה של הפלזמה והיתוך גרעיני מבוקר",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פומרנץ ישי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213816&sem=20241"
+  },
+  "03214008": {
+    "name": "כוכבים כפולים וכוכבי לכת",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' מזאה צבי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321400801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214008&sem=20241"
+  },
+  "03214059": {
+    "name": "סמינר ארצי בחלקיקים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סבר עמית"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321405901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214059&sem=20241"
+  },
+  "03214111": {
+    "name": "מכניקה סטטיסטית מחוץ לשיווי משקל",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רוכמן יעל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214111&sem=20241"
+  },
+  "03214115": {
+    "name": "Advanced Quantum Physics",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סלע ערן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "Final Exam",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214115&sem=20241"
+  },
+  "03214157": {
+    "name": "סמינר מחקרי בחומר מעובה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר רון אלון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321415701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214157&sem=20241"
+  },
+  "03214201": {
+    "name": "תורת השדות 1",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סבר עמית"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321420101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214201&sem=20241"
+  },
+  "03214203": {
+    "name": "סמינר בגרעין",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פומרנץ ישי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321420301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214203&sem=20241"
+  },
+  "03214231": {
+    "name": "סמינר מחקרי תלמידים בחלקיקים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גלר מיכאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321423101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214231&sem=20241"
+  },
+  "03214318": {
+    "name": "אסטרופיזיקה כוכבית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שטרנברג עמיאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321431801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214318&sem=20241"
+  },
+  "03214330": {
+    "name": "סמינר  מחקרי באסטרופיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר שטרן יהונתן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321433001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214330&sem=20241"
+  },
+  "03214405": {
+    "name": "סמינר בחומר מעובה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר בר סיני יוחאי, ד\"ר ישראל יהונתן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321440501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214405&sem=20241"
+  },
+  "03214418": {
+    "name": "סמינר תלמידים באסטרופיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' הרכבי יאיר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "השתתפות בכיתה",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321441801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214418&sem=20241"
+  },
+  "03214821": {
+    "name": "סמינר תלמידים על-מיתרים (סמ' א)",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' עוז ירון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214821&sem=20241"
+  },
+  "03214828": {
+    "name": "פיזיקה מעבר למודל הסטנדרטי",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גלר מיכאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214828&sem=20241"
+  },
+  "03214846": {
+    "name": "תורת החלקיקים 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' וולנסקי תומר"
+      }
+    ],
+    "preq": [
+      "03214842"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214846&sem=20241"
+  },
+  "03214849": {
+    "name": "מבוא לאינטראקציה בין אור לחומר, שליטה קוהרנטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר ישראל יהונתן"
+      }
+    ],
+    "preq": [
+      "03212102"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214849&sem=20241"
+  },
+  "03214853": {
+    "name": "סמינר ארצי נסיון ותיאוריה סמסטר א'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' וולנסקי תומר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214853&sem=20241"
+  },
+  "03214870": {
+    "name": "פיזיקה קלאסית מתקדמת",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גולדשטיין משה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214870&sem=20241"
+  },
+  "03214872": {
+    "name": "אסטרו-קפה א': דיונים בתוצאות חדשות מכתבי עת",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברומברג עומר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214872&sem=20241"
+  },
+  "03214875": {
+    "name": "סמינר תלמידים בחומרים קוואנטיים - א'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר סופר הדס"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214875&sem=20241"
+  },
+  "03214888": {
+    "name": "תובלה קוונטית בהתקנים דו-ממדיים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן שלום משה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214888&sem=20241"
+  },
+  "03214889": {
+    "name": "תורת האינפורמציה ופיזיקה קוונטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' זוננשיין יעקב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214889&sem=20241"
+  },
+  "03213408": {
+    "name": "Physics Laboratory C- Quantum Computing- Exellent",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": null
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321340801&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213408&sem=20232"
+  },
+  "03213811": {
+    "name": "מבוא לכימיה פיזיקלית לפיזיקאים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' זלצר יורם"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381101&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213811&sem=20232"
+  },
+  "03214120": {
+    "name": "תורת היקום (קוסמולוגיה)",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נקר אהוד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321412001&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214120&sem=20232"
+  },
+  "03214285": {
+    "name": "שדות לחומר מעובה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אילן רוני"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321428501&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214285&sem=20232"
+  },
+  "03214454": {
+    "name": "מרכזי גלקסיות פעילות",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' טרכטנברוט בנימין"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321445401&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214454&sem=20232"
+  },
+  "03214813": {
+    "name": "פיזיקה מזוסקופית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סלע ערן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321481301&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214813&sem=20232"
+  },
+  "03214840": {
+    "name": "נושאים מתקדמים בתורת שדות קוונטית וגרביטציה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' עוז ירון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321484001&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214840&sem=20232"
+  },
+  "03214858": {
+    "name": "מערכות דינמיות וכאוס",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' איזנברג אליהו"
+      }
+    ],
+    "preq": [
+      "03212105"
+    ],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485801&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214858&sem=20232"
+  },
+  "03214859": {
+    "name": "ביופיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רוכמן יעל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485901&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214859&sem=20232"
+  },
+  "03214879": {
+    "name": "סמינר בקוונטים - סמ' ב'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' עוז ירון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487901&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214879&sem=20232"
+  },
+  "03214882": {
+    "name": "סמינר בקוונטים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' עוז ירון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488201&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214882&sem=20232"
+  },
+  "03214887": {
+    "name": "אופטיקה מתקדמת והדמיה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר ישראל יהונתן"
+      }
+    ],
+    "preq": [
+      "03212102"
+    ],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488701&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214887&sem=20232"
+  },
+  "03214327": {
+    "name": "תווך בין כוכבי",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שטרנברג עמיאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321432701&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214327&sem=20231"
+  },
+  "03214857": {
+    "name": "פיזיקה של היקום המוקדם",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר גלר מיכאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485701&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214857&sem=20231"
+  },
+  "03214876": {
+    "name": "Computational Modelling of Quantum Materials",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר ג'וראשק דומיניק מקסימיליאן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "בחינת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487601&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214876&sem=20231"
+  },
+  "03214878": {
+    "name": "סמינר בקוונטים - סמסטר א'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' עוז ירון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487801&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214878&sem=20231"
+  },
+  "03214881": {
+    "name": "כלים נומריים באסטרופיזיקה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברומברג עומר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488101&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214881&sem=20231"
+  },
+  "03214885": {
+    "name": "Quantum Transport",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": null
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488501&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214885&sem=20231"
+  },
+  "03213157": {
+    "name": "פרדוכסים של תורת הקוונטים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ויידמן לב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321315701&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213157&sem=20222"
+  },
+  "03214832": {
+    "name": "אופטיקה מתקדמת",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר סופר הדס"
+      }
+    ],
+    "preq": [
+      "03212102"
+    ],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321483201&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214832&sem=20222"
+  },
+  "03214865": {
+    "name": "נושאים מתקדמים באסטרופיזיקה כוכבית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שטרנברג עמיאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321486501&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214865&sem=20222"
+  },
+  "03214877": {
+    "name": "מכניקה סטטיסטית 2",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רוכמן יעל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487701&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214877&sem=20222"
+  },
+  "03213119": {
+    "name": "תורת הרצף",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר אופנהימר נעמי"
+      }
+    ],
+    "preq": [
+      "03212105",
+      "וגם",
+      "03212111"
+    ],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321311901&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213119&sem=20221"
+  },
+  "03214839": {
+    "name": "קוסמולוגיה 2 (תורת היקום)",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברקנא רנן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "Final Exam",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321483901&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214839&sem=20221"
+  },
+  "03214864": {
+    "name": "תורת האינפורמציה ופיזיקה קוונטית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' זוננשיין יעקב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321486401&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214864&sem=20221"
+  },
+  "03214874": {
+    "name": "סמינר בחומרים קוואנטיים א'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' דגן יורם"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487401&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214874&sem=20221"
+  },
+  "03214020": {
+    "name": "תורת היחסות הכללית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' יצחקי ניסן"
+      }
+    ],
+    "preq": [
+      "03211201"
+    ],
+    "pareq": [
+      "03213109"
+    ],
+    "last_offered": "2022b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321402001&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214020&sem=20212"
+  },
+  "03214838": {
+    "name": "נושאים מתקדמים בתורת השדות הקוונטית לחומר מעובה",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סלע ערן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321483801&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214838&sem=20212"
+  },
+  "03214868": {
+    "name": "סופרנובות",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פוזננסקי דב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321486801&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214868&sem=20212"
+  },
+  "03214869": {
+    "name": "פיזיקה של גלאי חלקיקים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סופר אבנר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321486901&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214869&sem=20212"
+  },
+  "03214871": {
+    "name": "סמינר ביוסופט ב'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' לחיני יואב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321487101&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214871&sem=20212"
+  },
+  "03214867": {
+    "name": "סמינר ביוסופט א'",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בק ברקאי רועי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321486701&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214867&sem=20211"
+  },
+  "03213118": {
+    "name": "מעבדה בפיזיקה ג-שנתית - אנגלית",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "מעבדה",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סוכובסקי חיים"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321311801&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213118&sem=20202"
+  },
+  "03213817": {
+    "name": "מבוא לחישוב קוונטי",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גולדשטיין משה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381701&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03213817&sem=20202"
+  },
+  "03214117": {
+    "name": "אלקטרומגנטיות מתקדמת",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' יצחקי ניסן"
+      }
+    ],
+    "preq": [
+      "03213109"
+    ],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321411701&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214117&sem=20202"
+  },
+  "03214862": {
+    "name": "שיטות סריג בתורת השדות",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סבטיצקי בנימין"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321486201&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214862&sem=20202"
+  },
+  "03214075": {
+    "name": "תורת המיתרים",
+    "faculty": "מדעים מדויקים/פיזיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' יצחקי ניסן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321407501&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03214075&sem=20201"
+  }
+}

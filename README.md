@@ -41,3 +41,9 @@ For questions and support, please open an issue in the GitHub repository or cont
 - Tom Bleher: [tombleher@tauex.tau.ac.il](mailto:tombleher@tauex.tau.ac.il)
 - Ilay Wischnevsky Shlush [ilayw1@mail.tau.ac.il](mailto:ilayw1@mail.tau.ac.il)
 - Avshalom Bar-Nissan: [barnissan@mail.tau.ac.il](mailto:barnissan@mail.tau.ac.il)
+
+
+## Acknowledgements
+
+- [Arazim Project](https://arazim-project.com/) for providing the baseline course data.
+

@@ -1,0 +1,3181 @@
+{
+  "03661101": {
+    "name": "חשבון דיפרנציאלי ואינטגרלי 1א",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "12",
+        "lecturer": "ד\"ר להר אלי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": [
+      "בחינה סופית",
+      "בחינת ביניים"
+    ],
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661101&sem=20242"
+  },
+  "03661102": {
+    "name": "חשבון דיפרנציאלי ואינטגרלי 2א",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "03",
+        "lecturer": "ד\"ר יעקובוב יעקוב"
+      },
+      {
+        "group": "07",
+        "lecturer": "פרופ' קרשון יעל"
+      }
+    ],
+    "preq": [
+      "03661101"
+    ],
+    "pareq": [
+      "03661112"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661102&sem=20242"
+  },
+  "03661105": {
+    "name": "מבוא לתורת הקבוצות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "04",
+        "lecturer": "ד\"ר אמיר ענת"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661105&sem=20242"
+  },
+  "03661111": {
+    "name": "אלגברה לינארית 1א",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "08",
+        "lecturer": "ד\"ר סגל אלכסנדר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366111101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661111&sem=20242"
+  },
+  "03661112": {
+    "name": "אלגברה לינארית 2א",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "03",
+        "lecturer": "פרופ' ארטשטיין שירי, ד\"ר אמיר ענת, ד\"ר אמיר ענת"
+      },
+      {
+        "group": "07",
+        "lecturer": "פרופ' ארטשטיין שירי, ד\"ר אמיר ענת, ד\"ר אמיר ענת"
+      }
+    ],
+    "preq": [
+      "03661111"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366111201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661112&sem=20242"
+  },
+  "03661123": {
+    "name": "מבוא לקומבינטוריקה ותורת הגרפים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "04",
+        "lecturer": "פרופ' קריבליביץ מיכאל"
+      }
+    ],
+    "preq": [
+      "03661101",
+      "וגם",
+      "03661111"
+    ],
+    "pareq": [
+      "03661105"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366112301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661123&sem=20242"
+  },
+  "03661125": {
+    "name": "חשבון דיפרנציאלי ואינטגרלי 2ג",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "מר מינקין אלכסנדר"
+      }
+    ],
+    "preq": [
+      "03661124",
+      "וגם",
+      "03661130"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366112501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661125&sem=20242"
+  },
+  "03662010": {
+    "name": "מבוא להסתברות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "05",
+        "lecturer": "ד\"ר סלומקה בועז אברהם"
+      }
+    ],
+    "preq": [
+      "03661105",
+      "וגם",
+      "03661123"
+    ],
+    "pareq": [
+      "03661102",
+      "וגם",
+      "03661112"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366201001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662010&sem=20242"
+  },
+  "03662103": {
+    "name": "Ordinary Differential Equations 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "04",
+        "lecturer": "פרופ' דיטקובסקי עדי"
+      }
+    ],
+    "preq": [
+      "03661112"
+    ],
+    "pareq": [
+      "03662141"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "Final Exam",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366210301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662103&sem=20242"
+  },
+  "03662105": {
+    "name": "אנליזה נומרית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "04",
+        "lecturer": "ד\"ר פרחי אלזה"
+      }
+    ],
+    "preq": [
+      "03661112"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366210501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662105&sem=20242"
+  },
+  "03662115": {
+    "name": "טופולוגיה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "04",
+        "lecturer": "ד\"ר טוקצ'ינסקי שרה"
+      }
+    ],
+    "preq": [
+      "03661102",
+      "וגם",
+      "03661105"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366211501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662115&sem=20242"
+  },
+  "03662123": {
+    "name": "תורת הפונקציות המרוכבות 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "04",
+        "lecturer": "פרופ' נחמיאס אסף"
+      }
+    ],
+    "preq": [
+      "03661102"
+    ],
+    "pareq": [
+      "03662141"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366212301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662123&sem=20242"
+  },
+  "03662132": {
+    "name": "תורת החבורות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "03",
+        "lecturer": "ד\"ר אלון גיל"
+      }
+    ],
+    "preq": [],
+    "pareq": [
+      "03661112"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366213201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662132&sem=20242"
+  },
+  "03662133": {
+    "name": "תורת השדות ותורת גלואה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שוסטין יבגני"
+      }
+    ],
+    "preq": [
+      "03662132"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366213301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662133&sem=20242"
+  },
+  "03662140": {
+    "name": "תורת המספרים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "03",
+        "lecturer": "פרופ' אנטין אלכסיי"
+      }
+    ],
+    "preq": [],
+    "pareq": [
+      "03661102",
+      "וגם",
+      "03661112"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366214001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662140&sem=20242"
+  },
+  "03662141": {
+    "name": "חשבון דיפרנציאלי ואינטגרלי 3",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "04",
+        "lecturer": "ד\"ר יעקובוב יעקוב"
+      }
+    ],
+    "preq": [
+      "03661112",
+      "וגם",
+      "03661102",
+      "וגם",
+      "03661123"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366214101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662141&sem=20242"
+  },
+  "03662180": {
+    "name": "חשבון דיפרנציאלי ואינטגרלי 4",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "04",
+        "lecturer": "פרופ' בוחובסקי לב"
+      }
+    ],
+    "preq": [
+      "03662141"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366218001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662180&sem=20242"
+  },
+  "03662813": {
+    "name": "חישוב מדעי",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אברון חיים, פרופ' שקולניצקי יואל, פרופ' שקולניצקי יואל"
+      }
+    ],
+    "preq": [
+      "03662123",
+      "וגם",
+      "03662105"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366281301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662813&sem=20242"
+  },
+  "03662819": {
+    "name": "פיזיקה למתמטיקאים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "מר רימוק נועם"
+      }
+    ],
+    "preq": [
+      "03662103",
+      "וגם",
+      "03662141"
+    ],
+    "pareq": [
+      "03662180"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366281901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662819&sem=20242"
+  },
+  "03663013": {
+    "name": "Seminar in Applied Mathematics",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שרון ניר"
+      },
+      {
+        "group": "02",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03661102",
+      "וגם",
+      "03661112",
+      "וגם",
+      "03661105",
+      "וגם",
+      "03661123",
+      "וגם",
+      "03662105",
+      "וגם",
+      "03681105"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366301301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663013&sem=20242"
+  },
+  "03663020": {
+    "name": "משוואות דיפרנציאליות חלקיות 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' דיטקובסקי עדי"
+      }
+    ],
+    "preq": [
+      "03662103"
+    ],
+    "pareq": [
+      "03662123",
+      "וגם",
+      "03662180"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663020&sem=20242"
+  },
+  "03663022": {
+    "name": "מבוא לאנליזה פונקציונלית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר עברי אולג"
+      }
+    ],
+    "preq": [
+      "03663021"
+    ],
+    "pareq": [
+      "03662106"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663022&sem=20242"
+  },
+  "03663025": {
+    "name": "מבוא לאנליזה הרמונית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' קלרטג בועז"
+      }
+    ],
+    "preq": [
+      "03662106",
+      "וגם",
+      "03662123"
+    ],
+    "pareq": [
+      "03663021"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663025&sem=20242"
+  },
+  "03663036": {
+    "name": "קומבינטוריקה בסיסית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שפירא אסף"
+      }
+    ],
+    "preq": [
+      "03681118",
+      "או",
+      "03661123"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366303601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663036&sem=20242"
+  },
+  "03663067": {
+    "name": "קריאה מודרכת באלגברה לא קומוטטיבית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אנטין אלכסיי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366306701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663067&sem=20242"
+  },
+  "03663098": {
+    "name": "הסתברות למתמטיקאים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר ספינקה ינון"
+      }
+    ],
+    "preq": [
+      "03651102",
+      "או",
+      "03652005",
+      "או",
+      "03662010"
+    ],
+    "pareq": [
+      "03662141"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366309801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663098&sem=20242"
+  },
+  "03663115": {
+    "name": "אנליזה על יריעות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אוסטרובר ירון"
+      }
+    ],
+    "preq": [
+      "03662115",
+      "וגם",
+      "03662219"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366311501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663115&sem=20242"
+  },
+  "03663201": {
+    "name": "תורת הפונקציות המרוכבות 2",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודין מיכאיל"
+      }
+    ],
+    "preq": [
+      "03662123"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366320101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663201&sem=20242"
+  },
+  "03663254": {
+    "name": "Seminar in Geometric Group Theory",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שלום יהודה"
+      },
+      {
+        "group": "02",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03661112",
+      "וגם",
+      "03661102",
+      "וגם",
+      "03661105",
+      "וגם",
+      "03661123"
+    ],
+    "pareq": [
+      "03662141",
+      "וגם",
+      "03662132"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366325401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663254&sem=20242"
+  },
+  "03663340": {
+    "name": "פרוייקט במתמטיקה חישובית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "פרוייקט",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אברון חיים, פרופ' שקולניצקי יואל"
+      }
+    ],
+    "preq": [
+      "03662103"
+    ],
+    "pareq": [
+      "03662813"
+    ],
+    "last_offered": "2025b",
+    "eval_type": "פרוייקט",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366334001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663340&sem=20242"
+  },
+  "03663407": {
+    "name": "Seminar in Discrete Mathematics",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סאמוטי וויצ'ך"
+      },
+      {
+        "group": "02",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03662010",
+      "וגם",
+      "03661123"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366340701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663407&sem=20242"
+  },
+  "03664151": {
+    "name": "תורת המספרים האנליטית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רודניק זאב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366415101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664151&sem=20242"
+  },
+  "03664212": {
+    "name": "Representation Theory Seminar",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פייגין יבגני"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664212&sem=20242"
+  },
+  "03664215": {
+    "name": "Semisimple Lie Algebras",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פייגין יבגני"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "Paper",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664215&sem=20242"
+  },
+  "03664216": {
+    "name": "Ergodic Theory and Thermodynamic Formalism",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר עברי אולג"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "Paper",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664216&sem=20242"
+  },
+  "03664218": {
+    "name": "נושאים באנליזה והסתברות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נשרי אלון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664218&sem=20242"
+  },
+  "03664234": {
+    "name": "סמינר באלגברה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אנטין אלכסיי, פרופ' ברי-סורוקר ליאור, פרופ' ברי-סורוקר ליאור"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366423401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664234&sem=20242"
+  },
+  "03664340": {
+    "name": "סמינר בתורת הקבוצות 2",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366434001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664340&sem=20242"
+  },
+  "03664427": {
+    "name": "סמינר מחקר באנליזה  2",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נשרי אלון, פרופ' סודין מיכאיל, ד\"ר עברי אולג"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366442701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664427&sem=20242"
+  },
+  "03664538": {
+    "name": "סמינר מחקר בקומבינטוריקה ב'",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שפירא אסף"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366453801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664538&sem=20242"
+  },
+  "03664921": {
+    "name": "סמינר בגיאומטריה ודינמיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אוסטרובר ירון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366492101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664921&sem=20242"
+  },
+  "03664979": {
+    "name": "תורת הקבוצות המתקדמת 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366497901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664979&sem=20242"
+  },
+  "03665000": {
+    "name": "סמינר מחקר בחבורות ודינמיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ווייס ברק, פרופ' פודר בן נעים דורון, ד\"ר לויט אריה, פרופ' שלום יהודה, ד\"ר לויט אריה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366500001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665000&sem=20242"
+  },
+  "03665024": {
+    "name": "קריאה מודרכת במבוא לטרנסברסליות בגיאומטריה סימפלקטית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר טוקצ'ינסקי שרה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366502401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665024&sem=20242"
+  },
+  "03665035": {
+    "name": "גיאומטריה אלגברית 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שוסטין יבגני"
+      }
+    ],
+    "preq": [
+      "03663292"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366503501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665035&sem=20242"
+  },
+  "03665055": {
+    "name": "סמינר הורוביץ בהסתברות, תורה ארגודית ומערכות דינמיות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר ספינקה ינון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366505501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665055&sem=20242"
+  },
+  "03665064": {
+    "name": "תורת המספרים האלגברית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אנטין אלכסיי"
+      }
+    ],
+    "preq": [
+      "03662140"
+    ],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "בחינת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366506401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665064&sem=20242"
+  },
+  "03665071": {
+    "name": "סמינר מחקר בתורת המספרים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רודניק זאב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366507101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665071&sem=20242"
+  },
+  "03661100": {
+    "name": "חשבון דיפרנציאלי ואינטגרלי 1א לפיזיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "מר פופוב אלכסנדר"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661100&sem=20241"
+  },
+  "03662106": {
+    "name": "פונקציות ממשיות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודין מיכאיל"
+      }
+    ],
+    "preq": [
+      "03661112"
+    ],
+    "pareq": [
+      "03662141"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366210601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662106&sem=20241"
+  },
+  "03662194": {
+    "name": "לוגיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [
+      "03661105"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366219401&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662194&sem=20241"
+  },
+  "03662219": {
+    "name": "גיאומטריה דיפרנציאלית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר טוקצ'ינסקי שרה"
+      }
+    ],
+    "preq": [
+      "03661112"
+    ],
+    "pareq": [
+      "03662141"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366221901&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03662219&sem=20241"
+  },
+  "03663021": {
+    "name": "מבוא למרחבי הילברט ותורת האופרטורים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר עברי אולג"
+      }
+    ],
+    "preq": [
+      "03661112",
+      "וגם",
+      "03661105",
+      "וגם",
+      "03661102"
+    ],
+    "pareq": [
+      "03662123",
+      "וגם",
+      "03662103"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302101&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663021&sem=20241"
+  },
+  "03663066": {
+    "name": "Seminar in Probability",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר ספינקה ינון"
+      },
+      {
+        "group": "02",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03662010",
+      "וגם",
+      "03661112"
+    ],
+    "pareq": [
+      "03662141"
+    ],
+    "last_offered": "2025a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366306601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663066&sem=20241"
+  },
+  "03663117": {
+    "name": "Foundations of Representation Theory",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פייגין יבגני"
+      }
+    ],
+    "preq": [
+      "03662132",
+      "וגם",
+      "03661112"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "Final Exam",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366311701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663117&sem=20241"
+  },
+  "03663126": {
+    "name": "תורת הקבוצות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [
+      "03661101",
+      "וגם",
+      "03661111"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366312601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663126&sem=20241"
+  },
+  "03663267": {
+    "name": "תורת הגרפים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' קריבליביץ מיכאל"
+      }
+    ],
+    "preq": [
+      "03661111",
+      "וגם",
+      "03661123",
+      "וגם",
+      "03662010"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366326701&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663267&sem=20241"
+  },
+  "03663292": {
+    "name": "יסודות באלגברה קומוטטיבית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אנטין אלכסיי"
+      }
+    ],
+    "preq": [
+      "03662132"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366329201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663292&sem=20241"
+  },
+  "03663328": {
+    "name": "Seminar in Number Theory",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רודניק זאב"
+      },
+      {
+        "group": "02",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03662140",
+      "וגם",
+      "03662132"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366332801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663328&sem=20241"
+  },
+  "03663353": {
+    "name": "שיטות מתמטיות בתורת המשחקים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סולן אילון"
+      }
+    ],
+    "preq": [
+      "03661102",
+      "וגם",
+      "03661112"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366335301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663353&sem=20241"
+  },
+  "03663405": {
+    "name": "Undergraduate Seminar in Combinatorics",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שפירא אסף"
+      },
+      {
+        "group": "02",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03661123",
+      "או",
+      "03681118"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366340501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663405&sem=20241"
+  },
+  "03664002": {
+    "name": "משחקי בורל",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סולן אילון"
+      }
+    ],
+    "preq": [
+      "03661105",
+      "או",
+      "03663126"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366400201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664002&sem=20241"
+  },
+  "03664092": {
+    "name": "סמינר בגיאומטריה ודינמיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בוחובסקי לב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366409201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664092&sem=20241"
+  },
+  "03664112": {
+    "name": "קריאה מודרכת: משחקים ואינפורמציה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סולן אילון"
+      }
+    ],
+    "preq": [
+      "03653118",
+      "או",
+      "03663353"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366411201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664112&sem=20241"
+  },
+  "03664163": {
+    "name": "סמ' נו' מת' בתורת החבורות האנליטית - סביב משפט תתי החבורות הנורמליות של מרגוליס",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר לויט אריה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366416301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664163&sem=20241"
+  },
+  "03664198": {
+    "name": "Topological Combinatorics",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר אבקומוב סרגיי"
+      }
+    ],
+    "preq": [
+      "03661101",
+      "וגם",
+      "03661111",
+      "וגם",
+      "03662115"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366419801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664198&sem=20241"
+  },
+  "03664205": {
+    "name": "גיאומטריה של מספרים וסריגים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ווייס ברק"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366420501&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664205&sem=20241"
+  },
+  "03664208": {
+    "name": "אלגברה הומולוגית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן-ארצי אשר"
+      }
+    ],
+    "preq": [
+      "03663292"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366420801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664208&sem=20241"
+  },
+  "03664426": {
+    "name": "סמינר מחקר באנליזה 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נשרי אלון, פרופ' סודין מיכאיל, ד\"ר עברי אולג"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366442601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664426&sem=20241"
+  },
+  "03664510": {
+    "name": "סמינר מחקר בקומבינטוריקה א'",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' קריבליביץ מיכאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366451001&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664510&sem=20241"
+  },
+  "03664572": {
+    "name": "קריאה מודרכת בתורת הגרפים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סאמוטי וויצ'ך"
+      }
+    ],
+    "preq": [
+      "03663267"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366457201&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664572&sem=20241"
+  },
+  "03664668": {
+    "name": "מבוא למערכות דינמיות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אוסטרובר ירון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366466801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664668&sem=20241"
+  },
+  "03664838": {
+    "name": "סמינר בתורת הקבוצות 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366483801&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664838&sem=20241"
+  },
+  "03664903": {
+    "name": "יסודות בטופולוגיה אלגברית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שוסטין יבגני"
+      }
+    ],
+    "preq": [
+      "03661112",
+      "וגם",
+      "03661102",
+      "וגם",
+      "03662132",
+      "וגם",
+      "03662115"
+    ],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366490301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664903&sem=20241"
+  },
+  "03665063": {
+    "name": "קומבינטוריקה אדיטיבית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סאמוטי וויצ'ך"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "Paper",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366506301&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665063&sem=20241"
+  },
+  "03665116": {
+    "name": "סמינר בדינמיקה על מרחבים הומוגניים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ווייס ברק"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2025a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366511601&year=2024",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665116&sem=20241"
+  },
+  "03663155": {
+    "name": "Seminar:Topics in Classical Geometry",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' קרשון יעל"
+      },
+      {
+        "group": "02",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03661105",
+      "וגם",
+      "03661102",
+      "וגם",
+      "03661112",
+      "וגם",
+      "03662132"
+    ],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366315501&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663155&sem=20232"
+  },
+  "03663354": {
+    "name": "Seminar:Topics in Modern Geometry",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ווייס ברק"
+      },
+      {
+        "group": "02",
+        "lecturer": null
+      }
+    ],
+    "preq": [
+      "03661111",
+      "וגם",
+      "03661112",
+      "וגם",
+      "03661101",
+      "וגם",
+      "03661102",
+      "וגם",
+      "03661105",
+      "וגם",
+      "03661123"
+    ],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366335401&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663354&sem=20232"
+  },
+  "03664073": {
+    "name": "אלגברות לי וחבורות לי 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר טוקצ'ינסקי שרה"
+      }
+    ],
+    "preq": [
+      "03662132",
+      "וגם",
+      "03662219",
+      "וגם",
+      "03662123",
+      "וגם",
+      "03662115"
+    ],
+    "pareq": [
+      "03662132",
+      "וגם",
+      "03662219",
+      "וגם",
+      "03662123",
+      "וגם",
+      "03662115"
+    ],
+    "last_offered": "2024b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366407301&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664073&sem=20232"
+  },
+  "03664104": {
+    "name": "גיאומטריה ודינמיקה סימפלקטיות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366410401&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664104&sem=20232"
+  },
+  "03664306": {
+    "name": "סמינר ביציבות בתורת החבורות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר לויט אריה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366430601&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664306&sem=20232"
+  },
+  "03664349": {
+    "name": "סמינר מתקדם בגיאומטריה וטופולוגיה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שוסטין יבגני"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366434901&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664349&sem=20232"
+  },
+  "03664390": {
+    "name": "מבוא לתבניות מודולריות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רודניק זאב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366439001&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664390&sem=20232"
+  },
+  "03664701": {
+    "name": "Topics in Complex and Harmonic Analysis",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר קוליקוב אלכסיי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "Paper",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366470101&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664701&sem=20232"
+  },
+  "03664990": {
+    "name": "תורת הקבוצות המתקדמת 2",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366499001&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664990&sem=20232"
+  },
+  "03665100": {
+    "name": "נושאים בתורת החבורות הקומבינטורית והגיאומטרית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פודר בן נעים דורון"
+      }
+    ],
+    "preq": [
+      "03662132"
+    ],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366510001&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665100&sem=20232"
+  },
+  "03665224": {
+    "name": "Grothendieck Graphs",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר קריינס ילנה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024b",
+    "eval_type": "Paper",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522401&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665224&sem=20232"
+  },
+  "03663810": {
+    "name": "ביליארדים ונושאים קשורים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ביאלי מיכאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366381001&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663810&sem=20231"
+  },
+  "03664001": {
+    "name": "משחקים סטוכסטיים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סולן אילון"
+      }
+    ],
+    "preq": [
+      "03652100",
+      "או",
+      "03652816",
+      "או",
+      "03663023"
+    ],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366400101&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664001&sem=20231"
+  },
+  "03664093": {
+    "name": "סמינר בגיאומטריה ודינמיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366409301&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664093&sem=20231"
+  },
+  "03664155": {
+    "name": "פיזיקה מתקדמת למתמטיקאים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אלסקר סמיון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366415501&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664155&sem=20231"
+  },
+  "03664535": {
+    "name": "מבוא לתורה ארגודית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ווייס ברק"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366453501&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664535&sem=20231"
+  },
+  "03664837": {
+    "name": "קריאה מודרכת בטופולוגיה סימפלקטית וקונטקטית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366483701&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664837&sem=20231"
+  },
+  "03665058": {
+    "name": "בעיות קיצון בתורת הגרפים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שפירא אסף"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366505801&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665058&sem=20231"
+  },
+  "03665062": {
+    "name": "מבוא לאלגברות של אופרטורים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן-ארצי אשר"
+      }
+    ],
+    "preq": [
+      "03662106",
+      "וגם",
+      "03662115",
+      "וגם",
+      "03663022"
+    ],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366506201&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665062&sem=20231"
+  },
+  "03665225": {
+    "name": "תורת החבורות האנליטית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר לויט אריה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2024a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522501&year=2023",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665225&sem=20231"
+  },
+  "03663023": {
+    "name": "תורת המידה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר לויט אריה"
+      }
+    ],
+    "preq": [
+      "03662115",
+      "וגם",
+      "03662106"
+    ],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366302301&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663023&sem=20222"
+  },
+  "03664552": {
+    "name": "קריאה מודרכת בצפידות מוסטוב",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר לויט אריה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366455201&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664552&sem=20222"
+  },
+  "03664873": {
+    "name": "שיטות הסתברותיות בקומבינטוריקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סאמוטי וויצ'ך"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366487301&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664873&sem=20222"
+  },
+  "03664887": {
+    "name": "תנועת בראון",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נשרי אלון"
+      }
+    ],
+    "preq": [
+      "03663098"
+    ],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366488701&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664887&sem=20222"
+  },
+  "03664980": {
+    "name": "טופולוגיה דיפרנציאלית מתקדמת",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366498001&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664980&sem=20222"
+  },
+  "03664993": {
+    "name": "תורת המספרים: נפות ושימושיהן",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רודניק זאב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366499301&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664993&sem=20222"
+  },
+  "03665025": {
+    "name": "קריאה מודרכת בטופולוגיה ודינמיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366502501&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665025&sem=20222"
+  },
+  "03665070": {
+    "name": "גיאומטריה אלגברית 2",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שוסטין יבגני"
+      }
+    ],
+    "preq": [
+      "03661111"
+    ],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366507001&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665070&sem=20222"
+  },
+  "03665113": {
+    "name": "נושאים בתורת המשחקים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סולן אילון"
+      }
+    ],
+    "preq": [
+      "03661102"
+    ],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366511301&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665113&sem=20222"
+  },
+  "03665123": {
+    "name": "קריאה מודרכת בתורת בורל",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סולן אילון"
+      }
+    ],
+    "preq": [
+      "03662115"
+    ],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366512301&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665123&sem=20222"
+  },
+  "03665124": {
+    "name": "קריאה מודרכת בנושאים בתורת גלואה וחבורות פרוסופיות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברי-סורוקר ליאור, ד\"ר גרזוני דניאל"
+      }
+    ],
+    "preq": [
+      "03662132",
+      "וגם",
+      "03662133"
+    ],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366512401&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665124&sem=20222"
+  },
+  "03665217": {
+    "name": "יסודות הגיאומטריה האלגברית המרוכבת",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אלסקר סמיון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521701&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665217&sem=20222"
+  },
+  "03665220": {
+    "name": "ההצגות של (GL(N,F מעל שדות- Pאדיים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודרי דוד"
+      }
+    ],
+    "preq": [
+      "03663117",
+      "וגם",
+      "03665219"
+    ],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522001&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665220&sem=20222"
+  },
+  "03665221": {
+    "name": "סמינר: נושאים בעקומות דמוי-הולומורפיות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר טוקצ'ינסקי שרה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522101&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665221&sem=20222"
+  },
+  "03663270": {
+    "name": "Seminar in Analysis",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודין מיכאיל"
+      },
+      {
+        "group": "02",
+        "lecturer": "פרופ' סודין מיכאיל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366327001&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663270&sem=20221"
+  },
+  "03663410": {
+    "name": "Seminar in Game Theory",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סולן אילון"
+      },
+      {
+        "group": "02",
+        "lecturer": "פרופ' סולן אילון"
+      }
+    ],
+    "preq": [
+      "03661102",
+      "וגם",
+      "03662010"
+    ],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366341001&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663410&sem=20221"
+  },
+  "03664511": {
+    "name": "עקומים אליפטיים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברי-סורוקר ליאור"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366451101&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664511&sem=20221"
+  },
+  "03664768": {
+    "name": "סמינר: נושאים בקומבינטוריקה הסתברותית וקיצונית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סאמוטי וויצ'ך"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366476801&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664768&sem=20221"
+  },
+  "03665083": {
+    "name": "נושאים באנליזה פונקציונלית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן-ארצי אשר"
+      }
+    ],
+    "preq": [
+      "03663022"
+    ],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366508301&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665083&sem=20221"
+  },
+  "03665090": {
+    "name": "קריאה מודרכת בסטטיסטיקה לתלמידי מתמטיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רוסט סהרון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366509001&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665090&sem=20221"
+  },
+  "03665120": {
+    "name": "פיזיקה למתמטיקאים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אלסקר סמיון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366512001&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665120&sem=20221"
+  },
+  "03665218": {
+    "name": "Several Complex Variables",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר עברי אולג"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "Paper",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521801&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665218&sem=20221"
+  },
+  "03665219": {
+    "name": "שדות -Pאדיים:אנליזה ופונקציות זיתא",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודרי דוד"
+      }
+    ],
+    "preq": [
+      "03662132",
+      "וגם",
+      "03662133",
+      "וגם",
+      "03662140",
+      "וגם",
+      "03662115",
+      "וגם",
+      "03662123"
+    ],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521901&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665219&sem=20221"
+  },
+  "03665223": {
+    "name": "קריאה מודרכת בהומולוגיית פלור והומולוגיה קוונטית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר טוקצ'ינסקי שרה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2023a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522301&year=2022",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665223&sem=20221"
+  },
+  "03663268": {
+    "name": "סמינר בגיאומטריה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [
+      "03662219"
+    ],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366326801&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663268&sem=20212"
+  },
+  "03663404": {
+    "name": "סמינר בתורת גלואה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברי-סורוקר ליאור"
+      }
+    ],
+    "preq": [
+      "03662132",
+      "וגם",
+      "03662133"
+    ],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366340401&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663404&sem=20212"
+  },
+  "03664055": {
+    "name": "קריאה מודרכת בתורת המידה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ווייס ברק"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366405501&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664055&sem=20212"
+  },
+  "03664096": {
+    "name": "סמינר מתקדם: נושאים בתורת החבורות הגיאומטרית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פודר בן נעים דורון"
+      }
+    ],
+    "preq": [
+      "03662132",
+      "וגם",
+      "03662115"
+    ],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366409601&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664096&sem=20212"
+  },
+  "03664152": {
+    "name": "סכמות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן-ארצי אשר"
+      }
+    ],
+    "preq": [
+      "03663292",
+      "וגם",
+      "03662115"
+    ],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366415201&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664152&sem=20212"
+  },
+  "03664154": {
+    "name": "חוגים לא קומוטטיביים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודרי דוד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366415401&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664154&sem=20212"
+  },
+  "03664172": {
+    "name": "אגדים וקישורים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' קרשון יעל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366417201&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664172&sem=20212"
+  },
+  "03664719": {
+    "name": "סמינר המחקר המשותף בהסתברות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פלד רון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366471901&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664719&sem=20212"
+  },
+  "03664789": {
+    "name": "פרקים בקמירות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר פייפמן דמיטרי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366478901&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664789&sem=20212"
+  },
+  "03664817": {
+    "name": "צביעת גרפים והיפרגרפים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' קריבליביץ מיכאל"
+      }
+    ],
+    "preq": [
+      "03663267"
+    ],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366481701&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664817&sem=20212"
+  },
+  "03664820": {
+    "name": "קריאה מודרכת בטופולוגיה ודינמיקה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366482001&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664820&sem=20212"
+  },
+  "03664928": {
+    "name": "תורת הקבוצות המתקדמת 2",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366492801&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664928&sem=20212"
+  },
+  "03664967": {
+    "name": "נושאים בהערכות אסימפטוטיות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודין מיכאיל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366496701&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664967&sem=20212"
+  },
+  "03665122": {
+    "name": "סמינר בגיאומטריה של ביליארדים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ביאלי מיכאל"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366512201&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665122&sem=20212"
+  },
+  "03665215": {
+    "name": "נושאים בהסתברות בדידה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' נחמיאס אסף"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521501&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665215&sem=20212"
+  },
+  "03664147": {
+    "name": "גיאומטריה היפרבולית ותורת טייכמולר",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר עברי אולג"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "Paper",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366414701&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664147&sem=20211"
+  },
+  "03664150": {
+    "name": "תורת האינווריאנטים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודרי דוד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366415001&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664150&sem=20211"
+  },
+  "03664374": {
+    "name": "קורס מתקדם בהסתברות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פלד רון"
+      }
+    ],
+    "preq": [
+      "03663098"
+    ],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366437401&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664374&sem=20211"
+  },
+  "03664400": {
+    "name": "קורס קריאה מודרכת בקומפקטיות גרומוב",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר טוקצ'ינסקי שרה"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366440001&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664400&sem=20211"
+  },
+  "03664533": {
+    "name": "סמינר באנליזה קמורה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ארטשטיין שירי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366453301&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664533&sem=20211"
+  },
+  "03664794": {
+    "name": "מבוא לקירובים דיופנטיים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ווייס ברק"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366479401&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664794&sem=20211"
+  },
+  "03664996": {
+    "name": "נושאים מתקדמים בקומבינטוריקה ותורת הגרפים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור ותרגיל",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' שפירא אסף"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366499601&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664996&sem=20211"
+  },
+  "03665087": {
+    "name": "משטחים: גרפים, חבורות ושימושים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פודר בן נעים דורון"
+      }
+    ],
+    "preq": [
+      "03662132",
+      "וגם",
+      "03662115"
+    ],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366508701&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665087&sem=20211"
+  },
+  "03665216": {
+    "name": "קריאה מודרכת: מונים של הרצף ועקביות של a>d",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2022a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521601&year=2021",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665216&sem=20211"
+  },
+  "03661106": {
+    "name": "מבוא כללי למדעי המחשב",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "מר ממן בן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366110601&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03661106&sem=20202"
+  },
+  "03663064": {
+    "name": "קריאה מודרכת חבורות אלגבריות לינאריות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": null
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366306401&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663064&sem=20202"
+  },
+  "03663065": {
+    "name": "קריאה מודרכת בגיאומטריה אלגברית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": null
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366306501&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663065&sem=20202"
+  },
+  "03664394": {
+    "name": "קריאה מודרכת בתבניות אוטומורפיות וטורי אייזנשטיין",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": null
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366439401&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664394&sem=20202"
+  },
+  "03664657": {
+    "name": "אלגברות לי וחבורות לי 2",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בן-ארצי אשר"
+      }
+    ],
+    "preq": [
+      "03664073"
+    ],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366465701&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664657&sem=20202"
+  },
+  "03664733": {
+    "name": "תורת גלואה ההסתברותית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ברי-סורוקר ליאור"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366473301&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664733&sem=20202"
+  },
+  "03664904": {
+    "name": "פונקציות אלגבריות של משתנה אחד",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' הרן דן"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366490401&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664904&sem=20202"
+  },
+  "03664926": {
+    "name": "נושאים נבחרים בתורת ההסתברות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פלד רון"
+      }
+    ],
+    "preq": [
+      "03663098"
+    ],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366492601&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664926&sem=20202"
+  },
+  "03665085": {
+    "name": "גרפים אקראיים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סאמוטי וויצ'ך"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366508501&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665085&sem=20202"
+  },
+  "03665118": {
+    "name": "קריאה מודרכת בגיאומטריה סימפלקטית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366511801&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665118&sem=20202"
+  },
+  "03665121": {
+    "name": "התפלגות במידה שווה",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' רודניק זאב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021b",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366512101&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665121&sem=20202"
+  },
+  "03663255": {
+    "name": "סמינר באנליזה גאומטרית אסימפטותית 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ארטשטיין שירי"
+      }
+    ],
+    "preq": [
+      "03661112",
+      "וגם",
+      "03662141"
+    ],
+    "pareq": [
+      "03652100",
+      "או",
+      "03663098",
+      "או",
+      "03663021"
+    ],
+    "last_offered": "2021a",
+    "eval_type": "בחינה סופית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366325501&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03663255&sem=20201"
+  },
+  "03664078": {
+    "name": "סמינר בתורת הקבוצות 1",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' גיטיק מרדכי"
+      }
+    ],
+    "preq": [
+      "03664000",
+      "או",
+      "03664600"
+    ],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366407801&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664078&sem=20201"
+  },
+  "03664106": {
+    "name": "קריאה מודרכת בהומולוגיה סימפלקטית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "קריאה מודרכת",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פולטרוביץ לאוניד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366410601&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664106&sem=20201"
+  },
+  "03664145": {
+    "name": "סמינר לתואר שלישי-מבוא לפירוק ספקטרלי וטורי אייזנשטיין",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' סודרי דוד"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366414501&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664145&sem=20201"
+  },
+  "03664188": {
+    "name": "פונקציות L",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' אנטין אלכסיי"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366418801&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664188&sem=20201"
+  },
+  "03664959": {
+    "name": "נושאים בגיאומטריה ספקטראלית",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' בוחובסקי לב"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366495901&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03664959&sem=20201"
+  },
+  "03665014": {
+    "name": "גיאומטריה של מספרים",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' ווייס ברק"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366501401&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665014&sem=20201"
+  },
+  "03665119": {
+    "name": "תורת הפוטנציאל",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "שיעור",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "ד\"ר עברי אולג"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "עבודת בית",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366511901&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665119&sem=20201"
+  },
+  "03665214": {
+    "name": "סמינר מחקר במידות מלים על חבורות",
+    "faculty": "מדעים מדויקים/מתמטיקה",
+    "type": "סמינר",
+    "groups": [
+      {
+        "group": "01",
+        "lecturer": "פרופ' פודר בן נעים דורון"
+      }
+    ],
+    "preq": [],
+    "pareq": [],
+    "last_offered": "2021a",
+    "eval_type": "אחר",
+    "course_link": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521401&year=2020",
+    "req_url": "https://www.ims.tau.ac.il/Tal/kr/Drishot_L.aspx?kurs=03665214&sem=20201"
+  }
+}
