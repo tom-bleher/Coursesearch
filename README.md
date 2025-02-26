@@ -6,7 +6,16 @@ An interactive web-based tool for visualizing course dependencies and prerequisi
 
 - Interactive graph visualization of course dependencies
 - Dynamic prerequisite path highlighting
-- Search and filter capabilities
+- Comprehensive search and filtering capabilities:
+  - Filter by faculty (Mathematics/Physics)
+  - Filter by course type (Lectures, Seminars, etc.)
+  - Filter by evaluation method
+  - Filter by academic year
+- Grade visualization:
+  - Color-coded courses based on average grades
+  - Historical grade data and grade distribution histograms
+- Visual indicators for course availability and prerequisites
+- Direct access to course syllabi
 
 ## Usage
 
