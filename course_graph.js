@@ -274,13 +274,16 @@ function applyFilters() {
             }
         }
 
-                return true;
+        return true;
     });
 
-    // Update current courses and graph
+    // Update current courses
     currentCourses = filteredCourses;
+    
     // Always hide isolated courses
     showIsolatedCourses = false;
+    
+    // Update the graph with filtered courses
     updateGraph();
 }
 
@@ -289,126 +292,59 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle filter changes
     ['facultyFilter', 'yearFilter', 'typeFilter', 'evalFilter'].forEach(id => {
         const select = document.getElementById(id);
-        select.addEventListener('change', (e) => {
-            const filterType = id.replace('Filter', '');
-            const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
-            
-            // Handle selection logic
-            if (selectedOptions.length === 0) {
-                // If nothing is selected, default to 'all'
-                activeFilters[filterType] = new Set(['all']);
-                e.target.querySelector('option[value="all"]').selected = true;
-            } else if (selectedOptions.includes('all')) {
-                // If 'all' is selected, unselect everything else
-                activeFilters[filterType] = new Set(['all']);
-                Array.from(e.target.options).forEach(option => {
-                    option.selected = option.value === 'all';
-                });
-            } else {
-                // Normal multi-select behavior
-                activeFilters[filterType] = new Set(selectedOptions);
-                if (e.target.querySelector('option[value="all"]')) {
-                    e.target.querySelector('option[value="all"]').selected = false;
+        if (select) {
+            select.addEventListener('change', (e) => {
+                const filterType = id.replace('Filter', '');
+                const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
+                
+                // Handle selection logic
+                if (selectedOptions.length === 0) {
+                    // If nothing is selected, default to 'all'
+                    activeFilters[filterType] = new Set(['all']);
+                    e.target.querySelector('option[value="all"]').selected = true;
+                } else if (selectedOptions.includes('all')) {
+                    // If 'all' is selected, unselect everything else
+                    activeFilters[filterType] = new Set(['all']);
+                    Array.from(e.target.options).forEach(option => {
+                        option.selected = option.value === 'all';
+                    });
+                } else {
+                    // Normal multi-select behavior
+                    activeFilters[filterType] = new Set(selectedOptions);
+                    if (e.target.querySelector('option[value="all"]')) {
+                        e.target.querySelector('option[value="all"]').selected = false;
+                    }
                 }
-            }
 
-            // If faculty filter changes, update other filters
-            if (id === 'facultyFilter') {
-                // Reset type and eval filters to 'all'
-                activeFilters.type = new Set(['all']);
-                activeFilters.eval = new Set(['all']);
-                // Repopulate options based on new faculty selection
-                populateFilterOptions();
-            }
-        });
+                // If faculty filter changes, update other filters
+                if (id === 'facultyFilter') {
+                    // Reset type and eval filters to 'all'
+                    activeFilters.type = new Set(['all']);
+                    activeFilters.eval = new Set(['all']);
+                    // Repopulate options based on new faculty selection
+                    populateFilterOptions();
+                }
+            });
+        }
     });
 
     // Handle apply filters button
-    document.getElementById('applyFilters').addEventListener('click', applyFilters);
+    const applyButton = document.getElementById('applyFilters');
+    if (applyButton) {
+        applyButton.addEventListener('click', applyFilters);
+    }
 
     // Handle universal reset button
-    document.getElementById('resetAll').addEventListener('click', () => {
-        // Reset filters
-        activeFilters = {
-            faculty: new Set(['מדעים מדויקים/מתמטיקה']),
-            year: new Set(['2025']),
-            type: new Set(['שיעור']),
-            eval: new Set(['all'])
-        };
-
-        // Reset select elements
-        ['facultyFilter', 'yearFilter', 'typeFilter', 'evalFilter'].forEach(id => {
-            const select = document.getElementById(id);
-            Array.from(select.options).forEach(option => {
-                if (id === 'facultyFilter') {
-                    option.selected = option.value === 'מדעים מדויקים/מתמטיקה';
-                } else if (id === 'yearFilter') {
-                    option.selected = option.value === '2025';
-                } else if (id === 'typeFilter') {
-                    option.selected = option.value === 'שיעור';
-                } else {
-                    option.selected = option.value === 'all';
-                }
-            });
+    const resetButton = document.getElementById('resetAll');
+    if (resetButton) {
+        resetButton.addEventListener('click', () => {
+            setInitialFilters();
+            if (searchInput) {
+                searchInput.value = '';
+            }
+            resetView();
         });
-
-        // Clear search input
-        if (searchInput) {
-            searchInput.value = '';
-        }
-
-        // Reset graph view
-        cy.startBatch();
-        
-        // Reset visibility
-        cy.elements().removeClass('hidden');
-        
-        // Reset node styles to default
-        cy.nodes().style({
-            'background-color': '#F5F5F5',
-            'border-width': '1.5px',
-            'border-color': '#78909C',
-            'color': '#455A64',
-            'opacity': 1
-        });
-        
-        // Reset edge styles
-        cy.edges().forEach(edge => {
-            const type = edge.data('type');
-            edge.style({
-                'line-color': '#000000',
-                'target-arrow-color': '#000000',
-                'width': type === 'prereq' ? 2.5 : 2,
-                'opacity': type === 'prereq' ? 0.9 : 0.7
-            });
-        });
-
-        // Restore initial positions with animation
-        if (initialNodePositions) {
-            cy.nodes().forEach(node => {
-                const pos = initialNodePositions[node.id()];
-                if (pos) {
-                    node.animate({
-                        position: pos,
-                        duration: 300,
-                        easing: 'ease-in-out-cubic'
-                    });
-                }
-            });
-        }
-        
-        // Update view after animation
-        setTimeout(() => {
-            cy.fit(40);
-            updateTextScaling();
-            cy.minZoom(Math.min(cy.zoom() * 0.6, 0.5));
-        }, 350);
-        
-        cy.endBatch();
-
-        // Apply filters to update the graph
-        applyFilters();
-    });
+    }
 });
 
 // Load and transform course data from JSON files
@@ -432,48 +368,47 @@ async function loadCourseData() {
         console.log('Physics courses:', Object.keys(courses_physics).length);
 
         // Process math courses
-        courses_math = Object.entries(mathData)
-            .map(([courseNumber, courseInfo]) => {
-                // Process prerequisites
-                const prereqs = courseInfo.preq || [];
-                const processedPrereqs = prereqs.filter(p => p !== 'וגם' && p !== 'או')
-                    .map(preReqNum => {
-                        const preReqCourse = mathData[preReqNum] || physicsData[preReqNum];
-                        return preReqCourse ? preReqCourse.name : null;
-                    })
-                    .filter(name => name !== null);
+        courses_math = Object.entries(mathData).map(([courseNumber, courseInfo]) => {
+            // Process prerequisites
+            const prereqs = courseInfo.preq || [];
+            const processedPrereqs = prereqs.filter(p => p !== 'וגם' && p !== 'או')
+                .map(preReqNum => {
+                    const preReqCourse = mathData[preReqNum] || physicsData[preReqNum];
+                    return preReqCourse ? preReqCourse.name : null;
+                })
+                .filter(name => name !== null);
 
-                // Process corequisites
-                const coreqs = courseInfo.pareq || [];
-                const processedCoreqs = coreqs.filter(p => p !== 'וגם' && p !== 'או')
-                    .map(coReqNum => {
-                        const coReqCourse = mathData[coReqNum] || physicsData[coReqNum];
-                        return coReqCourse ? coReqCourse.name : null;
-                    })
-                    .filter(name => name !== null);
+            // Process corequisites
+            const coreqs = courseInfo.pareq || [];
+            const processedCoreqs = coreqs.filter(p => p !== 'וגם' && p !== 'או')
+                .map(coReqNum => {
+                    const coReqCourse = mathData[coReqNum] || physicsData[coReqNum];
+                    return coReqCourse ? coReqCourse.name : null;
+                })
+                .filter(name => name !== null);
 
-                // Preserve the original type and normalize it
-                const originalType = courseInfo.type;
-                const normalizedType = normalizeType(originalType);
-                
-                return {
-                    id: courseInfo.name,
-                    name: courseInfo.name,
-                    course_link: courseInfo.course_link,
-                    faculty: 'מדעים מדויקים/מתמטיקה',
-                    original_type: originalType,
-                    type: normalizedType,
-                    eval_type: Array.isArray(courseInfo.eval_type) ?
-                        courseInfo.eval_type.map(normalizeEvalType) :
-                        normalizeEvalType(courseInfo.eval_type),
-                    prereqs: processedPrereqs,
-                    coreqs: processedCoreqs,
-                    last_offered: courseInfo.last_offered,
-                    avg_grade: courseInfo.avg_grade,
-                    grade_distribution: courseInfo.grade_distribution,
-                    total_students: courseInfo.total_students
-                };
-            });
+            // Preserve the original type and normalize it
+            const originalType = courseInfo.type;
+            const normalizedType = normalizeType(originalType);
+            
+            return {
+                id: courseInfo.name,
+                name: courseInfo.name,
+                course_link: courseInfo.course_link,
+                faculty: 'מדעים מדויקים/מתמטיקה',
+                original_type: originalType,
+                type: normalizedType,
+                eval_type: Array.isArray(courseInfo.eval_type) ?
+                    courseInfo.eval_type.map(normalizeEvalType) :
+                    normalizeEvalType(courseInfo.eval_type),
+                prereqs: processedPrereqs,
+                coreqs: processedCoreqs,
+                last_offered: courseInfo.last_offered,
+                avg_grade: courseInfo.avg_grade,
+                grade_distribution: courseInfo.grade_distribution,
+                total_students: courseInfo.total_students
+            };
+        });
 
         // Process physics courses with the same structure
         courses_physics = Object.entries(physicsData)
@@ -668,16 +603,16 @@ function performSearch(searchTerm) {
     // Show and highlight matches with darker border only
     matches.removeClass('hidden').style({
         'border-width': '2.5px',
-        'border-color': '#000000',  // Black border
-        'color': '#000000',         // Black text
+        'border-color': '#000000',
+        'color': '#000000',
         'opacity': 1
     });
 
     // Show and highlight neighbors with thinner border
     neighbors.removeClass('hidden').style({
         'border-width': '2px',
-        'border-color': '#000000',  // Black border
-        'color': '#000000',         // Black text
+        'border-color': '#000000',
+        'color': '#000000',
         'opacity': 1
     });
 
@@ -706,19 +641,23 @@ function performSearch(searchTerm) {
     const horizontalSpacing = baseSpacing * (1 / Math.sqrt(branchingFactor));
     const verticalSpacing = baseSpacing * 1.5;
     
-    // Apply layout to visible elements - using same parameters as handleNodeClick
+    // Apply layout to visible elements
     const layout = visibleElements.layout({
         name: 'dagre',
-        rankDir: 'TB',
+        rankDir: 'TB', // Top to Bottom direction
         padding: 30,
-        spacingFactor: 1 + (1 / nodeCount),
+        spacingFactor: 1.4,
         animate: true,
         animationDuration: 300,
         rankSep: verticalSpacing,
         nodeSep: horizontalSpacing,
         ranker: 'tight-tree',
         edgeSep: horizontalSpacing * 0.3,
-        align: 'DL'
+        align: 'UL',
+        // Assign ranks based on depth (not inverted anymore)
+        rankAssignment: (node) => {
+            return depths.get(node.id()) || 0;
+        }
     });
     
     // Run the layout
@@ -775,9 +714,62 @@ cy.on('zoom', updateTextScaling);
 // Add these variables before the handleNodeClick function
 let lastClickedNode = null;
 let clickTimeout = null;
+let currentlySelectedNode = null;  // Add this to track the currently selected node
 const doubleClickDelay = 300; // milliseconds
 
-// Function to handle node clicks
+// Function to get minimal prerequisite path
+function getMinimalPrerequisitePath(courseId, courses) {
+    const criticalPath = new Set();
+    const visited = new Set();
+    
+    function findCriticalPath(currentId, depth = 0) {
+        if (visited.has(currentId)) return;
+        visited.add(currentId);
+        
+        const course = courses.find(c => c.id === currentId);
+        if (!course) return;
+        
+        criticalPath.add(currentId);
+        
+        // Process prerequisites
+        if (course.prereqs) {
+            // Sort prerequisites by complexity to prioritize more complex paths
+            const prereqsWithComplexity = course.prereqs.map(prereq => {
+                const prereqCourse = courses.find(c => c.id === prereq);
+                const complexity = prereqCourse ? 
+                    (prereqCourse.prereqs?.length || 0) + (prereqCourse.coreqs?.length || 0) : 
+                    0;
+                return { prereq, complexity };
+            });
+            
+            // Sort by complexity descending
+            prereqsWithComplexity.sort((a, b) => b.complexity - a.complexity);
+            
+            // Take only the most complex prerequisite path unless at top level
+            const prereqsToProcess = depth === 0 ? 
+                prereqsWithComplexity : 
+                [prereqsWithComplexity[0]].filter(Boolean);
+            
+            prereqsToProcess.forEach(({ prereq }) => {
+                findCriticalPath(prereq, depth + 1);
+            });
+        }
+        
+        // Process essential corequisites (only if they are also prerequisites for other courses)
+        if (course.coreqs) {
+            course.coreqs.forEach(coreq => {
+                const coreqCourse = courses.find(c => c.id === coreq);
+                if (coreqCourse && coreqCourse.prereqs?.some(p => criticalPath.has(p))) {
+                    findCriticalPath(coreq, depth);
+                }
+            });
+        }
+    }
+    
+    findCriticalPath(courseId);
+    return criticalPath;
+}
+
 function handleNodeClick(event) {
     const clickedNode = event.target;
     
@@ -785,6 +777,7 @@ function handleNodeClick(event) {
     if (event.target === cy) {
         resetView();
         lastClickedNode = null;
+        currentlySelectedNode = null;
         if (clickTimeout) {
             clearTimeout(clickTimeout);
             clickTimeout = null;
@@ -802,7 +795,6 @@ function handleNodeClick(event) {
         const courseId = clickedNode.id();
         const course = currentCourses.find(c => c.id === courseId);
         
-        // Open course link in new tab if available
         if (course && course.course_link) {
             window.open(course.course_link, '_blank');
         }
@@ -817,28 +809,10 @@ function handleNodeClick(event) {
     clickTimeout = setTimeout(() => {
         // This is a single click
         
-        // Check if clicking the currently highlighted node
-        const bgColor = clickedNode.style('background-color');
-        const borderColor = clickedNode.style('border-color');
-        
-        // Convert RGB to hex for comparison
-        const rgbToHex = (rgb) => {
-            // Extract RGB values using regex
-            const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-            if (!match) return rgb; // Return original if not RGB format
-            const r = parseInt(match[1]);
-            const g = parseInt(match[2]);
-            const b = parseInt(match[3]);
-            return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
-        };
-
-        // Convert colors to hex for comparison
-        const bgHex = rgbToHex(bgColor);
-        const borderHex = rgbToHex(borderColor);
-        
-        // Check if this is the highlighted node (orange background and border)
-        if (bgHex === '#FFF3E0' && borderHex === '#F57C00') {
+        // Check if clicking the currently selected node
+        if (currentlySelectedNode === clickedNode) {
             resetView();
+            currentlySelectedNode = null;
             lastClickedNode = null;
             clickTimeout = null;
             return;
@@ -853,8 +827,20 @@ function handleNodeClick(event) {
         // First, hide all elements
         cy.elements().addClass('hidden');
         
-        // Get all prerequisites
-        const prerequisites = getAllPrerequisites(courseId, courses);
+        // Get minimal prerequisite path
+        const criticalPath = getMinimalPrerequisitePath(courseId, courses);
+        
+        // Calculate complexity and depths for the critical path
+        const { complexity, depths } = calculateCourseComplexity(
+            courses.filter(c => criticalPath.has(c.id))
+        );
+        
+        // Find the maximum depth in the visible elements
+        let maxDepth = 0;
+        criticalPath.forEach(prereqId => {
+            const depth = depths.get(prereqId) || 0;
+            maxDepth = Math.max(maxDepth, depth);
+        });
         
         // Create a collection of visible elements
         const visibleElements = cy.collection();
@@ -862,72 +848,75 @@ function handleNodeClick(event) {
         
         // Show and highlight the target course
         clickedNode.removeClass('hidden').style({
-            'border-width': '2.5px',
-            'border-color': '#000000',  // Black border
-            'color': '#000000',         // Black text
+            'border-width': '3px',
+            'border-color': '#000000',
+            'color': '#000000',
             'opacity': 1
         });
         
-        // Show and highlight prerequisites
-        prerequisites.forEach(prereqId => {
+        // Show and highlight prerequisites in the critical path
+        criticalPath.forEach(prereqId => {
+            if (prereqId === courseId) return; // Skip the clicked course
+            
             const prereqNode = cy.getElementById(prereqId);
             prereqNode.removeClass('hidden').style({
                 'border-width': '2px',
-                'border-color': '#000000',  // Black border
-                'color': '#000000',         // Black text
+                'border-color': '#000000',
+                'color': '#000000',
                 'opacity': 1
             });
             visibleElements.merge(prereqNode);
             
-            // Show and highlight edges in black
+            // Show edges between critical path nodes
             const edgesToHighlight = cy.edges().filter(edge => {
                 const sourceId = edge.source().id();
                 const targetId = edge.target().id();
-                return (prerequisites.has(sourceId) && prerequisites.has(targetId)) ||
-                       (prerequisites.has(sourceId) && targetId === courseId) ||
-                       (sourceId === courseId && prerequisites.has(targetId));
+                return criticalPath.has(sourceId) && criticalPath.has(targetId);
             });
             
             edgesToHighlight.removeClass('hidden').style({
                 'line-color': '#000000',
                 'target-arrow-color': '#000000',
-                'opacity': 1
+                'opacity': 1,
+                'width': 3
             });
             
             visibleElements.merge(edgesToHighlight);
         });
         
-        // Calculate optimal layout parameters based on visible elements
+        // Calculate optimal layout parameters
         const nodeCount = visibleElements.nodes().length;
-        const branchingFactor = Math.max(...visibleElements.nodes().map(node => 
-            Math.max(node.outgoers('node').length, node.incomers('node').length)
-        ));
+        const verticalSpacing = Math.max(80, cy.height() / (nodeCount + 1));
+        const horizontalSpacing = Math.max(60, cy.width() / (Math.sqrt(nodeCount) * 2));
         
-        // Adjust spacing based on the number of nodes and branching factor
-        const baseSpacing = Math.min(
-            Math.max(30, cy.width() / (nodeCount * (1 + branchingFactor * 0.3))),
-            60
-        );
-        
-        const horizontalSpacing = baseSpacing * (1 / Math.sqrt(branchingFactor));
-        const verticalSpacing = baseSpacing * 1.5;
+        // Create a new depths map for layout
+        const layoutDepths = new Map(depths);
+        // Force clicked node to be at maxDepth + 1
+        layoutDepths.set(courseId, maxDepth + 1);
         
         // Apply layout to visible elements
         const layout = visibleElements.layout({
             name: 'dagre',
             rankDir: 'TB',
             padding: 30,
-            spacingFactor: 1 + (1 / nodeCount),
+            spacingFactor: 1.2,
             animate: true,
             animationDuration: 300,
             rankSep: verticalSpacing,
             nodeSep: horizontalSpacing,
             ranker: 'tight-tree',
             edgeSep: horizontalSpacing * 0.3,
-            align: 'DL'
+            align: 'DL',
+            // Use layoutDepths to position nodes
+            rankAssignment: (node) => {
+                return layoutDepths.get(node.id()) || 0;
+            }
         });
         
         layout.run();
+        
+        // Update the currently selected node
+        currentlySelectedNode = clickedNode;
         
         // Fit the view to the visible elements after layout completes
         setTimeout(() => {
@@ -952,28 +941,67 @@ cy.on('viewport', () => {
     lastClickedNode = null;
 });
 
-// Function to get all prerequisites recursively
-function getAllPrerequisites(courseId, courses) {
-    const course = courses.find(c => c.id === courseId);
-    if (!course) return new Set();
+// Function to calculate course complexity and depth
+function calculateCourseComplexity(courses) {
+    const complexity = new Map();
+    const depths = new Map();
+    const visited = new Set();
     
-    const prerequisites = new Set();
+    function calculateNodeComplexity(courseId) {
+        // If we've already calculated this course's complexity, return it
+        if (complexity.has(courseId)) {
+            return complexity.get(courseId);
+        }
+        
+        // If we're in a cycle, break it by assigning a temporary complexity
+        if (visited.has(courseId)) {
+            return 0;
+        }
+        
+        visited.add(courseId);
+        const course = courses.find(c => c.id === courseId);
+        if (!course) {
+            visited.delete(courseId);
+            return 0;
+        }
+        
+        // Get all prerequisites and corequisites
+        const prereqs = course.prereqs || [];
+        const coreqs = course.coreqs || [];
+        
+        // Calculate complexity based on prerequisites and their depths
+        let maxPrereqDepth = 0;
+        let totalComplexity = 0;
+        
+        // Process prerequisites (weighted more heavily than corequisites)
+        prereqs.forEach(prereq => {
+            const prereqComplexity = calculateNodeComplexity(prereq);
+            totalComplexity += prereqComplexity;
+            maxPrereqDepth = Math.max(maxPrereqDepth, depths.get(prereq) || 0);
+        });
+        
+        // Process corequisites (weighted less than prerequisites)
+        coreqs.forEach(coreq => {
+            const coreqComplexity = calculateNodeComplexity(coreq) * 0.5; // Weight coreqs less
+            totalComplexity += coreqComplexity;
+        });
+        
+        // Calculate final complexity
+        const nodeComplexity = 1 + totalComplexity; // Base complexity of 1 plus dependencies
+        complexity.set(courseId, nodeComplexity);
+        
+        // Calculate depth (level in the tree)
+        const depth = prereqs.length > 0 ? maxPrereqDepth + 1 : 0;
+        depths.set(courseId, depth);
+        
+        visited.delete(courseId);
+        return nodeComplexity;
+    }
     
-    // Add direct prerequisites
-    course.prereqs.forEach(prereq => {
-        prerequisites.add(prereq);
-        // Recursively add prerequisites of prerequisites
-        getAllPrerequisites(prereq, courses).forEach(p => prerequisites.add(p));
-    });
+    // Calculate complexity for all courses
+    courses.forEach(course => calculateNodeComplexity(course.id));
     
-    // Add corequisites and their prerequisites
-    course.coreqs.forEach(coreq => {
-        prerequisites.add(coreq);
-        // Recursively add prerequisites of corequisites
-        getAllPrerequisites(coreq, courses).forEach(p => prerequisites.add(p));
-    });
-    
-    return prerequisites;
+    return { complexity, depths };
 }
 
 // Update the resetView function to restore exact initial positions
@@ -1112,10 +1140,10 @@ function updateGraph() {
         if (course.prereqs?.length > 0 || course.coreqs?.length > 0) {
             connectedCourses.add(course.id);
             if (course.prereqs) {
-            course.prereqs.forEach(prereq => connectedCourses.add(prereq));
+                course.prereqs.forEach(prereq => connectedCourses.add(prereq));
             }
             if (course.coreqs) {
-            course.coreqs.forEach(coreq => connectedCourses.add(coreq));
+                course.coreqs.forEach(coreq => connectedCourses.add(coreq));
             }
         }
     });
@@ -1134,13 +1162,19 @@ function updateGraph() {
         // Course must pass both type and connectivity filters
         return isTypeAllowed && isConnectivityAllowed;
     });
+
+    // Calculate complexity and depths for all filtered courses
+    const { complexity, depths } = calculateCourseComplexity(filteredCourses);
     
+    // Create graph elements with complexity information
     const elements = {
         nodes: filteredCourses.map(course => ({
             data: {
                 id: course.id,
                 label: course.id,
                 course_link: course.course_link,
+                complexity: complexity.get(course.id) || 0,
+                depth: depths.get(course.id) || 0,
                 isSeminar: course.type === 'סמינר',
                 isGuidedReading: course.type === 'קריאה מודרכת',
                 isProject: course.type === 'פרוייקט',
@@ -1154,10 +1188,10 @@ function updateGraph() {
     // Create a set to track edges that have been added
     const addedEdges = new Set();
 
-    // Add edges for prerequisites and corequisites
+    // Add edges with priority based on complexity
     filteredCourses.forEach(course => {
-            const visibleCourseIds = new Set(filteredCourses.map(c => c.id));
-            
+        const visibleCourseIds = new Set(filteredCourses.map(c => c.id));
+        
         // Helper function to add edge only if it doesn't exist in either direction
         const addEdgeIfNotExists = (source, target, type) => {
             const forwardEdge = `${source}->${target}`;
@@ -1166,30 +1200,37 @@ function updateGraph() {
             if (!addedEdges.has(forwardEdge) && !addedEdges.has(reverseEdge)) {
                 addedEdges.add(forwardEdge);
                 elements.edges.push({
-                        data: {
+                    data: {
                         source: source,
                         target: target,
-                        type: type
-                        }
-                    });
+                        type: type,
+                        weight: complexity.get(source) || 0 // Use complexity for edge weight
                     }
+                });
+            }
         };
 
         // Add prerequisite edges
         if (course.prereqs) {
-            course.prereqs.forEach(prereq => {
-                if (visibleCourseIds.has(prereq)) {
-                    addEdgeIfNotExists(prereq, course.id, 'prereq');
-                }
+            // Sort prerequisites by complexity
+            const sortedPrereqs = course.prereqs
+                .filter(prereq => visibleCourseIds.has(prereq))
+                .sort((a, b) => (complexity.get(b) || 0) - (complexity.get(a) || 0));
+            
+            sortedPrereqs.forEach(prereq => {
+                addEdgeIfNotExists(prereq, course.id, 'prereq');
             });
         }
 
         // Add corequisite edges
         if (course.coreqs) {
-            course.coreqs.forEach(coreq => {
-                if (visibleCourseIds.has(coreq)) {
-                    addEdgeIfNotExists(course.id, coreq, 'coreq');
-                }
+            // Sort corequisites by complexity
+            const sortedCoreqs = course.coreqs
+                .filter(coreq => visibleCourseIds.has(coreq))
+                .sort((a, b) => (complexity.get(b) || 0) - (complexity.get(a) || 0));
+            
+            sortedCoreqs.forEach(coreq => {
+                addEdgeIfNotExists(course.id, coreq, 'coreq');
             });
         }
     });
@@ -1205,31 +1246,28 @@ function updateGraph() {
     
     // Calculate optimal spacing based on container size and node count
     const optimalSpacing = Math.min(
-        Math.max(40, containerWidth / (Math.sqrt(nodeCount) * 1.5)),  // Less aggressive vertical compression
-        90  // Increased maximum spacing
+        Math.max(40, containerWidth / (Math.sqrt(nodeCount) * 1.5)),
+        90
     );
     
-    // Calculate course depths before creating layout
-    const courseDepths = calculateCourseDepths(currentCourses);
+    // Get the maximum depth for layout calculations
+    const maxDepth = Math.max(...Array.from(depths.values()));
     
     // Modify the initial layout parameters
     initialLayout = {
         name: 'dagre',
-        rankDir: 'TB',  // Top to Bottom direction
+        rankDir: 'TB', // Top to Bottom direction
         padding: 30,
         spacingFactor: 1.4,
         animate: false,
-        rankSep: optimalSpacing * 1.0,
+        rankSep: optimalSpacing * 1.2,
         nodeSep: optimalSpacing * 1.8,
-        ranker: 'network-simplex',  // Changed to network-simplex for better hierarchical layout
+        ranker: 'tight-tree',
         edgeSep: optimalSpacing * 0.8,
         align: 'UL',
-        // Add rank assignment based on depths
-        assign: {
-            rank: (node) => {
-                const courseId = node.id();
-                return courseDepths.get(courseId) || 0;
-            }
+        // Assign ranks based on depth (not inverted anymore)
+        rankAssignment: (node) => {
+            return depths.get(node.id()) || 0;
         }
     };
     
@@ -1245,7 +1283,7 @@ function updateGraph() {
         };
     });
 
-    // Apply styling
+    // Apply styling based on complexity and grades
     const gradeRange = findGradeRange(currentCourses);
 
     cy.nodes().forEach(node => {
@@ -1256,17 +1294,20 @@ function updateGraph() {
         // Get background color based on grade
         const backgroundColor = course?.avg_grade ? 
             getGradeColor(course.avg_grade, gradeRange.min, gradeRange.max) : 
-            '#F5F5F5';  // Default gray for courses without grades
+            '#F5F5F5';
         
-        // All nodes get black borders and text
+        // Calculate border width based on complexity (1.5px to 3px)
+        const nodeComplexity = complexity.get(node.id()) || 0;
+        const maxComplexity = Math.max(...Array.from(complexity.values()));
+        const borderWidth = 1.5 + (nodeComplexity / maxComplexity) * 1.5;
+        
         let style = {
             'background-color': backgroundColor,
-            'border-color': '#000000',  // Black border for all nodes
-            'color': '#000000',         // Black text for all nodes
-            'border-width': '1.5px'
+            'border-color': '#000000',
+            'color': '#000000',
+            'border-width': `${borderWidth}px`
         };
         
-        // Add dashed border style only for past courses
         if (isPastCourse) {
             style['border-style'] = 'dashed';
         }
@@ -1274,12 +1315,17 @@ function updateGraph() {
         node.style(style);
     });
     
+    // Style edges based on type and complexity
     cy.edges().forEach(edge => {
         const type = edge.data('type');
+        const weight = edge.data('weight') || 0;
+        const maxWeight = Math.max(...elements.edges.map(e => e.data.weight || 0));
+        const widthScale = 1 + (weight / maxWeight); // Scale from 1 to 2
+        
         edge.style({
             'line-color': '#000000',
             'target-arrow-color': '#000000',
-            'width': type === 'prereq' ? 2.5 : 2,
+            'width': type === 'prereq' ? 2.5 * widthScale : 2 * widthScale,
             'opacity': type === 'prereq' ? 0.9 : 0.7
         });
     });
@@ -1292,14 +1338,7 @@ function updateGraph() {
     // Populate filter options after graph update
     populateFilterOptions();
 
-    // Debug missing grades
-    currentCourses.forEach(course => {
-        if (!course.avg_grade) {
-            console.log('Course missing grade:', course.id);
-        }
-    });
-
-    // After calculating gradeRange and before cy.endBatch()
+    // Update grade legend if we have grade data
     if (gradeRange.min !== null && gradeRange.max !== null) {
         updateGradeLegend(gradeRange.min, gradeRange.max);
     }
@@ -1336,37 +1375,45 @@ cy.ready(() => {
 
 // Function to set initial filters
 function setInitialFilters() {
-    // Set faculty filter to Mathematics
-    const facultySelect = document.getElementById('facultyFilter');
-    Array.from(facultySelect.options).forEach(option => {
-        option.selected = option.value === 'מדעים מדויקים/מתמטיקה';
-    });
-
-    // Set year filter to 2025
-    const yearSelect = document.getElementById('yearFilter');
-    Array.from(yearSelect.options).forEach(option => {
-        option.selected = option.value === '2025';
-    });
-
-    // Set course type filter to שיעור
-    const typeSelect = document.getElementById('typeFilter');
-    Array.from(typeSelect.options).forEach(option => {
-        option.selected = option.value === 'שיעור';
-    });
-
-    // Set eval filter to all
-    const evalSelect = document.getElementById('evalFilter');
-    Array.from(evalSelect.options).forEach(option => {
-        option.selected = option.value === 'all';
-    });
-
-    // Update active filters
+    // Reset filters to default values
     activeFilters = {
         faculty: new Set(['מדעים מדויקים/מתמטיקה']),
         year: new Set(['2025']),
         type: new Set(['שיעור']),
         eval: new Set(['all'])
     };
+
+    // Set faculty filter to Mathematics
+    const facultySelect = document.getElementById('facultyFilter');
+    if (facultySelect) {
+        Array.from(facultySelect.options).forEach(option => {
+            option.selected = option.value === 'מדעים מדויקים/מתמטיקה';
+        });
+    }
+
+    // Set year filter to 2025
+    const yearSelect = document.getElementById('yearFilter');
+    if (yearSelect) {
+        Array.from(yearSelect.options).forEach(option => {
+            option.selected = option.value === '2025';
+        });
+    }
+
+    // Set course type filter to שיעור
+    const typeSelect = document.getElementById('typeFilter');
+    if (typeSelect) {
+        Array.from(typeSelect.options).forEach(option => {
+            option.selected = option.value === 'שיעור';
+        });
+    }
+
+    // Set eval filter to all
+    const evalSelect = document.getElementById('evalFilter');
+    if (evalSelect) {
+        Array.from(evalSelect.options).forEach(option => {
+            option.selected = option.value === 'all';
+        });
+    }
 
     // Apply the filters
     applyFilters();
