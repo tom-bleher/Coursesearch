@@ -651,6 +651,29 @@ function performSearch(searchTerm) {
     cy.startBatch();
     searchTerm = searchTerm.toLowerCase().trim();
     
+    // Get all nodes from the original data, ignoring filters
+    const allNodes = [...courses_math, ...courses_physics].map(course => ({
+        data: {
+            id: course.id,
+            label: course.id,
+            course_link: course.course_link,
+            complexity: 0,
+            depth: 0,
+            isSeminar: course.type === 'סמינר',
+            isGuidedReading: course.type === 'קריאה מודרכת',
+            isProject: course.type === 'פרוייקט',
+            isPastCourse: course.last_offered ? parseInt(course.last_offered.slice(0, 4)) < 2025 : false,
+            lastOffered: course.last_offered
+        }
+    }));
+
+    // Add any missing nodes to the graph
+    allNodes.forEach(node => {
+        if (!cy.getElementById(node.data.id).length) {
+            cy.add(node);
+        }
+    });
+
     // Find matching nodes - improved matching logic
     const matches = cy.nodes().filter(node => {
         const nodeLabel = node.data('label').toLowerCase();
@@ -724,11 +747,7 @@ function performSearch(searchTerm) {
         nodeSep: horizontalSpacing,
         ranker: 'tight-tree',
         edgeSep: horizontalSpacing * 0.3,
-        align: 'UL',
-        // Assign ranks based on depth (not inverted anymore)
-        rankAssignment: (node) => {
-            return depths.get(node.id()) || 0;
-        }
+        align: 'UL'
     });
     
     // Run the layout
