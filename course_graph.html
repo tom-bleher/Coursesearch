@@ -1,394 +1,364 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html dir="rtl" lang="he">
 <head>
     <meta charset="UTF-8">
-    <title>Course Dependencies Graph</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עץ הקורסים - אוניברסיטת תל אביב</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/layout-base@2.0.1/layout-base.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4a6fa5;
+            --primary-hover: #3d5d8a;
+            --bg-main: #fafbfc;
+            --text-main: #1a1a2e;
+            --text-muted: #667085;
+            --border: #d0d5dd;
+            --radius: 8px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Heebo', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Heebo', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            overflow: hidden;
             direction: rtl;
-            background-color: #f5f7fa;
         }
-        #cy {
+        input, select, button { font-family: inherit; }
+
+        /* Header */
+        header {
+            background: #fff;
+            padding: 0.5rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            z-index: 100;
+        }
+        .brand h1 { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+        .brand .subtitle { font-size: 0.72rem; color: var(--text-muted); }
+
+        .actions { display: flex; gap: 0.5rem; align-items: center; }
+
+        /* Search */
+        .search-box { position: relative; width: 220px; }
+        #search {
             width: 100%;
-            flex-grow: 1;
-            z-index: 999;
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            background: #fafafa;
+            direction: rtl;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
-        .header {
-            background-color: #ffffff;
-            padding: 1.5rem;
-            text-align: center;
-            border-bottom: 1px solid #e1e4e8;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        #search:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(74,111,165,0.12); }
+
+        .search-dropdown {
+            position: absolute;
+            top: 100%; left: 0; right: 0;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-top: 4px;
+            max-height: 260px;
+            overflow-y: auto;
+            display: none;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+        .search-dropdown.visible { display: block; }
+        .search-dropdown-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .search-dropdown-item:hover { background: #f5f7fa; }
+        .search-dropdown-item .search-item-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 5px 12px;
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: #fff;
+            transition: all 0.15s;
+            height: 34px;
+            line-height: 1;
+        }
+        .btn:hover { background: #f0f2f5; }
+        .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* Main Layout */
+        .layout { display: flex; flex: 1; position: relative; overflow: hidden; }
+        #cy { flex: 1; background: var(--bg-main); }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: #fff;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            position: absolute;
+            height: 100%;
+            left: 0;
+            transform: translateX(-100%);
+            z-index: 50;
+            box-shadow: none;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+            box-shadow: 4px 0 12px rgb(0 0 0 / 0.08);
+        }
+        .sidebar-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
-        .header h1 {
-            margin: 0;
-            color: #2c3e50;
-            font-size: 2rem;
+        .sidebar-header h3 { font-size: 1rem; }
+        .sidebar-content {
+            padding: 1rem 1.25rem;
             flex: 1;
-        }
-        .controls {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            direction: rtl;
+            overflow-y: auto;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            height: 36px;
-        }
-        .toggle-container {
-            display: flex;
+            flex-direction: column;
             gap: 1rem;
-            align-items: center;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            height: 36px;
-            padding: 0;
         }
-        .toggle-label {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            cursor: pointer;
-            padding: 0 0.75rem;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-            height: 36px;
+
+        .filter-group { display: flex; flex-direction: column; gap: 0.35rem; }
+        .filter-group label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+        .filter-group select {
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            direction: rtl;
+            min-height: 80px;
         }
-        .toggle-label:hover {
-            background-color: #e0e0e0;
-        }
-        .toggle-label input[type="radio"] {
-            margin: 0;
-        }
+
+        /* Legend */
         .legend {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            direction: rtl;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin: 8px 0;
-            color: #2c3e50;
-            gap: 8px;
-        }
-        .legend-line {
-            width: 30px;
-            height: 2px;
-            margin-left: 0;
-        }
-        .solid {
-            border-top: 2px solid #2c3e50;
-        }
-        .dashed {
-            border-top: 2px dashed #666;
-        }
-        button {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 0 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            color: #2c3e50;
-            transition: all 0.2s;
-            height: 36px;
-            line-height: 36px;
-            margin: 0;
-        }
-        button:hover {
-            background-color: #e9ecef;
-        }
-        .section-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        #search {
-            width: 200px;
-            padding: 0 8px;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-            direction: rtl;
-            height: 36px;
-            line-height: 36px;
-            margin: 0;
-        }
-        .info-icon {
-            position: relative;
-            width: 36px;
-            height: 36px;
-            background-color: #1976D2;
-            border-radius: 4px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            font-family: Arial, sans-serif;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            margin: 0;
-        }
-
-        .info-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1001;
-            max-width: 500px;
-            width: 90%;
-            direction: rtl;
-            text-align: right;
-        }
-
-        .info-popup h2 {
-            margin-top: 0;
-            color: #1976D2;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
-
-        .info-popup p {
-            margin: 10px 0;
-            line-height: 1.5;
-        }
-
-        .close-popup {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            cursor: pointer;
-            font-size: 20px;
-            color: #666;
-        }
-
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-
-        .filter-menu {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(6px);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-direction: column;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; }
 
-        .filter-section {
-            flex: 1;
-            min-width: 200px;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 5px;
+        /* Loading */
+        .loading-overlay {
+            position: absolute; inset: 0; background: var(--bg-main);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 200; gap: 0.75rem; transition: opacity 0.5s;
         }
-
-        .filter-section label {
-            font-size: 0.9em;
-            color: #666;
+        .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 36px; height: 36px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .filter-section select {
-            padding: 8px;
-            border: 1px solid #dee2e6;
+        /* Tooltip */
+        #course-tooltip {
+            position: fixed; background: #fff; border: 1px solid var(--border);
+            border-radius: 6px; padding: 8px 12px; box-shadow: var(--shadow);
+            display: none; z-index: 1000; pointer-events: none; font-size: 0.82rem;
+            max-width: 280px;
+        }
+        #course-tooltip.visible { display: block; }
+        .tooltip-name { font-weight: 700; margin-bottom: 2px; color: var(--text-main); }
+        .tooltip-info { color: var(--text-muted); font-size: 0.75rem; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+            display: none; z-index: 1000;
+            align-items: center; justify-content: center;
+        }
+        .modal {
+            background: #fff; padding: 1.5rem; border-radius: var(--radius);
+            width: 90%; max-width: 480px;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.15);
+            direction: rtl; text-align: right;
+        }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 1rem; align-items: center; }
+        .modal h2 { font-size: 1.3rem; color: var(--primary); }
+        .modal p { margin: 8px 0; line-height: 1.6; font-size: 0.9rem; }
+
+        /* Year bands */
+        #yearBands {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .year-band {
+            position: absolute;
+            left: 0; right: 0;
+            border-top: 1px dashed #d0d5dd;
+        }
+        .year-band:first-child { border-top: none; }
+        .year-band-label {
+            position: absolute;
+            right: 20px;
+            top: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--primary);
+            padding: 2px 10px;
             border-radius: 4px;
-            min-width: 200px;
-            direction: rtl;
+            white-space: nowrap;
+            opacity: 0.7;
         }
 
-        .filter-section select[multiple] {
-            height: 100px;
-        }
-
-        .filter-section select option {
-            padding: 4px;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: auto;
-            align-self: flex-end;
-        }
-
-        #applyFilters {
-            background-color: #1976D2;
-            color: white;
-            border: none;
-            height: 36px;
-        }
-
-        #applyFilters:hover {
-            background-color: #1565C0;
-        }
-
-        #resetAll {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            height: 36px;
-        }
-
-        #resetAll:hover {
-            background-color: #e9ecef;
-        }
-
-        .settings-menu {
-            display: none;
-        }
-
-        .settings-menu * {
-            display: none;
-        }
+        /* Hidden utility */
+        .hidden-el { display: none !important; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>עץ התואר במתמטיקה</h1>
-        <div class="controls">
-            <input type="text" id="search" placeholder="חיפוש קורס...">
-            <button id="applyFilters">החל סינון</button>
-            <button id="resetAll">איפוס</button>
-            <div class="info-icon">i</div>
+    <header>
+        <div class="brand">
+            <h1>עץ הקורסים</h1>
+            <div class="subtitle">מפת הקורסים, דרישות הקדם והציונים | אוניברסיטת תל אביב</div>
+        </div>
+        <div class="actions">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="חיפוש קורס..." autocomplete="off">
+                <div id="searchDropdown" class="search-dropdown"></div>
+            </div>
+            <button id="togglePlanning" class="btn" title="מצב תכנון - סמן קורסים שלמדת">תכנון</button>
+            <button id="resetAll" class="btn" title="איפוס תצוגה">איפוס</button>
+            <button id="toggleSidebar" class="btn btn-primary" title="הצג/הסתר מסננים">מסננים</button>
+            <button id="infoBtn" class="btn" style="width:34px; padding:0;" title="עזרה">?</button>
+        </div>
+    </header>
+
+    <div class="layout">
+        <div id="yearBands"></div>
+        <main id="cy"></main>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>מסננים</h3>
+                <button id="closeSidebar" class="btn" style="border:none; font-size:1.2rem;">×</button>
+            </div>
+            <div class="sidebar-content">
+                <div class="filter-group">
+                    <label for="facultyFilter">פקולטה</label>
+                    <select id="facultyFilter" multiple></select>
+                </div>
+                <div class="filter-group">
+                    <label for="yearFilter">שנה</label>
+                    <select id="yearFilter" multiple></select>
+                </div>
+                <div class="filter-group">
+                    <label for="typeFilter">סוג קורס</label>
+                    <select id="typeFilter" multiple></select>
+                </div>
+                <div class="filter-group">
+                    <label for="evalFilter">שיטת הערכה</label>
+                    <select id="evalFilter" multiple></select>
+                </div>
+                <button id="applyFilters" class="btn btn-primary" style="margin-top: 0.5rem; width: 100%;">החל סינון</button>
+            </div>
+        </aside>
+
+        <div class="legend" id="legend">
+            <div class="legend-item">
+                <div style="width:20px; height:2px; background:#78909c;"></div>
+                <span>דרישת קדם</span>
+            </div>
+            <div class="legend-item">
+                <div style="width:20px; height:2px; border-top:2px dashed #90a4ae;"></div>
+                <span>דרישה מקבילה</span>
+            </div>
+            <div class="legend-item">
+                <div style="width:12px; height:12px; border:1.5px dashed #94a3b8; border-radius:2px;"></div>
+                <span>לא מוצע השנה</span>
+            </div>
+            <div class="legend-item">
+                <div style="display:flex; height:8px; width:60px; background:linear-gradient(to left, #69B34C, #FF0D0D); border-radius:4px;"></div>
+                <span>ממוצע: <span id="gradeLegendMin">-</span>–<span id="gradeLegendMax">-</span></span>
+            </div>
         </div>
 
-        <div class="filter-menu">
-            <div class="filter-section">
-                <select id="facultyFilter" multiple>
-                    <option value="all" selected>כל הפקולטות</option>
-                </select>
-                <label for="facultyFilter">פקולטה</label>
-            </div>
-            <div class="filter-section">
-                <select id="yearFilter" multiple>
-                    <option value="all" selected>כל השנים</option>
-                </select>
-                <label for="yearFilter">שנה</label>
-            </div>
-            <div class="filter-section">
-                <select id="typeFilter" multiple>
-                    <option value="all" selected>כל סוגי הקורסים</option>
-                </select>
-                <label for="typeFilter">סוג קורס</label>
-            </div>
-            <div class="filter-section">
-                <select id="evalFilter" multiple>
-                    <option value="all" selected>כל סוגי ההערכה</option>
-                </select>
-                <label for="evalFilter">שיטת הערכה</label>
-            </div>
-        </div>
-
-        <div class="legend">
-            <div class="legend-item">
-                <span>דרישות קדם </span>
-                <div class="legend-line solid"></div>
-            </div>
-            <div class="legend-item">
-                <span>דרישות מקבילות </span>
-                <div class="legend-line dashed"></div>
-            </div>
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <p style="font-size:0.9rem; color:var(--text-muted);">טוען נתונים...</p>
         </div>
     </div>
-    <div id="cy"></div>
 
-    <div class="popup-overlay"></div>
-    <div class="info-popup">
-        <div class="close-popup">×</div>
-        <h2>איך להשתמש באתר:</h2>
-        <p><strong> איך להשתמש באתר:</strong></p>
-        <ul style="padding-right: 20px; margin: 10px 0;">
-            <li>לחיצה בודדת על קורס: הצגת הקורס ודרישות הקדם שלו</li>
-            <li>לחיצה כפולה על קורס: פתיחת סילבוס הקורס בחלון חדש</li>
-            <li>לחיצה ימנית על קורס: הצגת התפלגות הציונים של הקורס</li>
-        </ul>
-        <p><strong>סינון וחיפוש:</strong></p>
-        <ul style="padding-right: 20px; margin: 10px 0;">
-            <li>חיפוש: הקלדת שם הקורס בשדה החיפוש</li>
-            <li>סינון לפי פקולטה: בחירת קורסים ממתמטיקה ו/או פיזיקה</li>
-            <li>סינון לפי שנה: הצגת קורסים לפי שנת הוראה</li>
-            <li>סינון לפי סוג: סינון לפי סוג הקורס (שיעור, סמינר, וכו׳)</li>
-            <li>סינון לפי הערכה: סינון לפי שיטת ההערכה בקורס</li>
-        </ul>
-        <p><strong>צבעי הקורסים:</strong></p>
-        <ul style="padding-right: 20px; margin: 10px 0;">
-            <li>צבע הרקע: מייצג את ממוצע הציונים בקורס (מאדום לירוק)</li>
-            <li>מסגרת מקווקוות: קורסים שאינם מוצעים בשנת הלימודים הנוכחית</li>
-        </ul>
-        <p><strong>קשרים בין קורסים:</strong></p>
-        <ul style="padding-right: 20px; margin: 10px 0;">
-            <li>חץ רציף: דרישת קדם</li>
-            <li>חץ מקווקו: דרישה מקבילה</li>
-        </ul>
-        <p><strong>כלי ניווט:</strong></p>
-        <ul style="padding-right: 20px; margin: 10px 0;">
-            <li>גלילה: שינוי גודל התצוגה</li>
-            <li>לחיצה על "איפוס": חזרה למצב ההתחלתי</li>
-            <li>לחיצה על "החל סינון": הפעלת הסינונים שנבחרו</li>
-        </ul>
-        <hr style="margin: 20px 0; border: none; border-top: 1px solid #e1e4e8;">
-        <p style="color: #666; font-size: 0.9em;">האתר עדיין בפיתוח ואנו מצטערים מראש על באגים כאלו ואחרים.</p>
-        <p style="color: #666; font-size: 0.9em;">ליצירת קשר: טום בלכר <a href="mailto:tombleher@tauex.tau.ac.il" style="color: #1976D2; text-decoration: none;">tombleher@tauex.tau.ac.il</a>, אילאי וישנבסקי שלוש <a href="mailto:ilayw1@mail.tau.ac.il" style="color: #1976D2; text-decoration: none;">ilayw1@mail.tau.ac.il</a>, אבשלום בר-ניסן <a href="mailto:barnissan@mail.tau.ac.il" style="color: #1976D2; text-decoration: none;">barnissan@mail.tau.ac.il</a></p>
+    <div id="course-tooltip">
+        <div class="tooltip-name"></div>
+        <div class="tooltip-info"></div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="infoModal">
+            <div class="modal-header">
+                <h2>עזרה</h2>
+                <button onclick="closeInfoModal()" class="btn" style="border:none; font-size:1.2rem;">×</button>
+            </div>
+            <p><b>לחיצה על קורס:</b> הצגת דרישות הקדם והקורסים שהוא פותח.</p>
+            <p><b>לחיצה כפולה:</b> פתיחת עמוד הקורס באתר האוניברסיטה.</p>
+            <p><b>לחיצה ימנית:</b> הצגת התפלגות ציונים (אם קיימת).</p>
+            <p><b>חיפוש:</b> מציאת קורס ספציפי (גם מחוץ לסינון הנוכחי).</p>
+            <p><b>תכנון:</b> סימון קורסים שכבר נלמדו. קורסים שנפתחו יסומנו בכחול.</p>
+            <p><b>צבעים:</b> רקע הקורס מעיד על ממוצע הציונים (אדום→ירוק).</p>
+        </div>
     </div>
 
     <script src="course_graph.js"></script>
     <script>
-        document.querySelector('.info-icon').addEventListener('click', () => {
-            document.querySelector('.info-popup').style.display = 'block';
-            document.querySelector('.popup-overlay').style.display = 'block';
-        });
-
-        document.querySelector('.close-popup').addEventListener('click', () => {
-            document.querySelector('.info-popup').style.display = 'none';
-            document.querySelector('.popup-overlay').style.display = 'none';
-        });
-
-        document.querySelector('.popup-overlay').addEventListener('click', () => {
-            document.querySelector('.info-popup').style.display = 'none';
-            document.querySelector('.popup-overlay').style.display = 'none';
-        });
+        const modalOverlay = document.getElementById('modalOverlay');
+        const infoModal = document.getElementById('infoModal');
+        document.getElementById('infoBtn').onclick = () => {
+            modalOverlay.style.display = 'flex';
+        };
+        function closeInfoModal() {
+            modalOverlay.style.display = 'none';
+        }
+        modalOverlay.onclick = (e) => {
+            if (e.target === modalOverlay) closeInfoModal();
+        };
+        infoModal.querySelector('button').onclick = closeInfoModal;
     </script>
 </body>
-</html> 
+</html>
