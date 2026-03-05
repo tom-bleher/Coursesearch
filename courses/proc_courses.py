@@ -353,17 +353,24 @@ class CourseProcessor:
                         course_data['eval_type'] = ''
                 
                 if 'preq' not in course_data or 'pareq' not in course_data:
-                    try:
-                        req_data = self.get_req(course_number, year, semester)
-                        course_data['preq'] = req_data['preq']
-                        course_data['pareq'] = req_data['pareq']
-                        course_data['req_url'] = req_data['req_url']
-                        print(f"Found {len(req_data['preq'])} prerequisites: {', '.join(req_data['preq']) if req_data['preq'] else 'None'}")
-                        print(f"Found {len(req_data['pareq'])} parallel requirements: {', '.join(req_data['pareq']) if req_data['pareq'] else 'None'}")
-                    except Exception as e:
-                        print(f"Error getting requirements: {e}")
-                        course_data['preq'] = []
-                        course_data['pareq'] = []
+                    # Prerequisites may already be present from Arazim/tau-tools data
+                    if 'prerequisites' in course_data:
+                        from fetch_courses import CourseDownloader
+                        reqs = CourseDownloader.extract_prerequisites_from_arazim(course_data['prerequisites'])
+                        course_data['preq'] = reqs['preq']
+                        course_data['pareq'] = reqs['pareq']
+                        print(f"Extracted {len(reqs['preq'])} prerequisites from Arazim data")
+                    else:
+                        try:
+                            req_data = self.get_req(course_number, year, semester)
+                            course_data['preq'] = req_data['preq']
+                            course_data['pareq'] = req_data['pareq']
+                            course_data['req_url'] = req_data['req_url']
+                            print(f"Found {len(req_data['preq'])} prerequisites from TAU website")
+                        except Exception as e:
+                            print(f"Error getting requirements: {e}")
+                            course_data['preq'] = []
+                            course_data['pareq'] = []
                 
                 success_count += 1
                 print(f"Successfully processed course {course_number}")

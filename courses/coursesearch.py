@@ -85,11 +85,12 @@ class CourseSearchDB:
 
 
 if __name__ == "__main__":
-    # Example usage
+    # Example usage — fetches latest data from Arazim Project
+    # See: https://github.com/arazimproject/tau-tools
     course_search_db = CourseSearchDB()
     course_search_db.generate_course_trees(
-        years=['2025', '2024', '2023', '2022', '2021'],
+        years=['2026', '2025', '2024', '2023', '2022', '2021'],
         faculty='מדעים מדויקים',
-        keys=['lessons', 'exams' 'exam_links'],
+        keys=['lessons', 'exams', 'exam_links'],
         merge=True
     )

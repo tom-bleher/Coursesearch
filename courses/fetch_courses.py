@@ -10,14 +10,51 @@ import sqlite3
 from statistics import mean
 
 class CourseDownloader:
-    """Class to handle downloading and filtering TAU course data from Arazim Project database"""
-    
+    """Class to handle downloading and filtering TAU course data from Arazim Project database.
+
+    Data source: https://github.com/arazimproject/tau-tools
+    Available endpoints:
+      - courses: https://arazim-project.com/data/courses-{year}{semester}.json
+      - grades:  https://arazim-project.com/data/grades.json
+      - plans:   https://arazim-project.com/data/plans-{year}.json
+    """
+
     BASE_URL = "https://arazim-project.com/data"
     ALL_COURSES_URL = f"{BASE_URL}/courses.json"
-    
+    GRADES_URL = f"{BASE_URL}/grades.json"
+
     def __init__(self):
-        # Cache the all courses data to avoid multiple downloads
         self.all_courses: Optional[Dict] = None
+
+    @staticmethod
+    def extract_prerequisites_from_arazim(prerequisites: Dict) -> Dict:
+        """Extract flat prerequisite and parallel requirement lists from
+        the structured tau-tools prerequisites format.
+
+        tau-tools format: {"kind": "all"/"any", "courses": [...], "parallel": {...}}
+        Our format: {"preq": [...], "pareq": [...]}
+        """
+        preq = []
+        pareq = []
+
+        def collect_courses(node):
+            """Recursively collect course IDs from prerequisites tree."""
+            courses = []
+            if not node or not isinstance(node, dict):
+                return courses
+            for item in node.get('courses', []):
+                if isinstance(item, str):
+                    courses.append(item)
+                elif isinstance(item, dict):
+                    courses.extend(collect_courses(item))
+            return courses
+
+        if prerequisites:
+            preq = collect_courses(prerequisites)
+            if 'parallel' in prerequisites:
+                pareq = collect_courses(prerequisites['parallel'])
+
+        return {'preq': preq, 'pareq': pareq}
     
     def fetch_courses(self, 
                         years: Optional[Union[str, List[str]]] = None,
@@ -87,37 +124,41 @@ class CourseDownloader:
                             course_faculty = v.get('faculty', '').split('/')
                             if len(course_faculty) < 2:
                                 continue
-                                
+
                             main_faculty, dept = course_faculty[0], course_faculty[1]
-                            
+
                             if faculty and faculty.lower() != main_faculty.lower():
                                 continue
-                                
+
                             if departments and not any(dep.lower() == dept.lower() for dep in departments):
                                 continue
-                                
+
                             filtered_data[k] = v
-                            # Add last_offered information
                             filtered_data[k]['last_offered'] = f"{year}{semester}"
-                            
-                            # If merging, update merged_courses with this course if it's newer
+
+                            # Extract prerequisites from tau-tools format if present
+                            if 'prerequisites' in v:
+                                reqs = self.extract_prerequisites_from_arazim(v['prerequisites'])
+                                filtered_data[k]['preq'] = reqs['preq']
+                                filtered_data[k]['pareq'] = reqs['pareq']
+
                             if merge:
                                 if k not in merged_courses or \
                                    filtered_data[k]['last_offered'] > merged_courses[k]['last_offered']:
                                     merged_courses[k] = filtered_data[k]
-                            
+
                         if not filtered_data:
                             raise ValueError(f"No courses found for faculty '{faculty}' and departments {departments}")
-                            
+
                         results[f"{year}{semester}"] = filtered_data
-                        
+
                         if save_to_file and not merge:
                             filename = f"{year}{semester}-{faculty.replace(' ', '_')}"
                             if departments:
                                 filename += f"-{'_'.join(dep.replace(' ', '_') for dep in departments)}"
                             filename += ".json"
                             self._save_to_file(filtered_data, filename)
-                            
+
                     except requests.RequestException as e:
                         print(f"Failed to download {url}: {e}")
             else:
@@ -135,24 +176,27 @@ class CourseDownloader:
                             course_faculty = v.get('faculty', '').split('/')
                             if len(course_faculty) < 2:
                                 continue
-                                
+
                             main_faculty, dept = course_faculty[0], course_faculty[1]
-                            
+
                             if faculty and faculty.lower() != main_faculty.lower():
                                 continue
-                                
+
                             if departments and not any(dep.lower() == dept.lower() for dep in departments):
                                 continue
-                                
-                            # Add last_offered information
+
                             v['last_offered'] = f"{year}{semester}"
-                            
-                            # Update merged_data with this course if it's newer
+
+                            # Extract prerequisites from tau-tools format if present
+                            if 'prerequisites' in v:
+                                reqs = self.extract_prerequisites_from_arazim(v['prerequisites'])
+                                v['preq'] = reqs['preq']
+                                v['pareq'] = reqs['pareq']
+
                             if k not in merged_data or \
                                v['last_offered'] > merged_data[k]['last_offered']:
                                 merged_data[k] = v
-                                
-                            # If merging across years, also update merged_courses
+
                             if merge:
                                 if k not in merged_courses or \
                                    v['last_offered'] > merged_courses[k]['last_offered']:
@@ -257,17 +301,16 @@ class CourseDownloader:
         """
         Fetch all-time average grade and distribution for a specific course.
         Ignores grades of 0.0 in the calculation.
-        
+        Grade data sourced from: https://arazim-project.com/data/grades.json
+
         Args:
             course_code: The course number to fetch grades for
-            
+
         Returns:
             Dictionary containing the average grade and distribution if available
         """
-        GRADES_URL = "https://arazim-project.com/data/grades.json"
-        
         try:
-            response = requests.get(GRADES_URL)
+            response = requests.get(self.GRADES_URL)
             response.raise_for_status()
             all_grades = response.json()
             
@@ -352,4 +395,4 @@ class CourseDownloader:
 
 if __name__ == "__main__":
     downloader = CourseDownloader()
-    print(downloader.fetch_courses(years=['2025', '2024', '2023', '2022', '2021'], faculty='מדעים מדויקים', departments=['פיזיקה', 'מתמטיקה'], merge=True))
+    print(downloader.fetch_courses(years=['2026', '2025', '2024', '2023', '2022', '2021'], faculty='מדעים מדויקים', departments=['פיזיקה', 'מתמטיקה'], merge=True))
