@@ -1,58 +1,68 @@
-# Course Dependency Visualization Tool
+# Coursesearch
 
-An interactive web-based tool for visualizing course dependencies and prerequisites for mathematics and physics majors at Tel Aviv University. This project provides a graph representation of course relationships, helping students better understand course progression paths.
+An interactive map of courses, prerequisites, study programs and grades for Mathematics, Physics and Computer Science at Tel Aviv University.
+
+**[Open the site →](https://tom-bleher.github.io/Coursesearch/)**
 
 ## Features
 
-- Interactive graph visualization of course dependencies
-- Dynamic prerequisite path highlighting
-- Comprehensive search and filtering capabilities:
-  - Filter by faculty (Mathematics/Physics)
-  - Filter by course type (Lectures, Seminars, etc.)
-  - Filter by evaluation method
-  - Filter by academic year
-- Grade visualization:
-  - Color-coded courses based on average grades
-  - Historical grade data and grade distribution histograms
-- Visual indicators for course availability and prerequisites
-- Direct access to course syllabi
+- **Prerequisite graph.** Courses are grouped by study year. Edges show required courses, alternatives ("one of") and co-requisites. Click a course to highlight its whole prerequisite chain and the courses it unlocks.
+- **Study programs.** Pick any undergraduate program in the Exact Sciences, or any other program involving math, physics or CS (49 in total). Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
+- **Grades.** Node colour shows the average final grade (מועד קובע) over the last five years. The course card has the distribution and a per-semester breakdown.
+- **Planning.** Mark the courses you've passed. The site then shows:
+  - what you can take in any upcoming semester, and which courses are one prerequisite away and what's missing;
+  - a semester-by-semester plan: planned courses count as done for later semesters, and you get warnings for missing prerequisites, unplanned co-requisites, or courses not offered that semester;
+  - progress toward each category of your study program.
 
-## Usage
+  AND/OR prerequisite logic is taken into account, and everything is saved in the browser.
+- **Details.** Each course card lists lecturers, exam type, credit hours and the semesters it's offered, with links to the syllabus and to the official prerequisites page.
+- Search by name or course number, shareable links (`#course=03661102`), dark mode and a mobile layout.
 
-1. Open [`course_graph.html`](https://tom-bleher.github.io/Coursesearch/course_graph.html) in your web browser.
-2. Interaction features:
-   - Click a course to expand/collapse its dependencies
-   - Use the search bar to find specific courses
-   - Apply filters using the sidebar controls
+## Data
 
-## License
+`scripts/update_data.py` builds `data/courses.json` using only the Python standard library. It draws on two sources:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **[Arazim Project](https://arazim-project.com) dumps:** semester schedules and prerequisites, the all-time course index, study plans (for joint programs) and TAU Factor grade distributions ([format](https://github.com/arazimproject/tau-search/blob/main/src/types.ts)).
+- **[TAU program catalog](https://www.tau.ac.il/search-studies-programs):** program structure, credit requirements, official notes and course credit points. The data comes from the GraphQL API behind the catalog pages. To cover every faculty, set `CATALOG_FACULTIES = {""}`.
 
-## TODO
+```sh
+python3 scripts/update_data.py   # fetch the latest data and rebuild data/courses.json
+python3 -m http.server           # then open http://localhost:8000
+```
 
-- **Expand Course Selection**  
-  - Add Computer Science and additional degree programs.  
+A GitHub Actions workflow refreshes the data every week and deploys the site to GitHub Pages.
 
-- **Enhance Course Tree Display**  
-  - Improve displaying logic for hierarchy 
+Grade statistics use each semester's all-groups final-grade distribution, weighted by the number of students. Non-numeric grades are excluded. Always confirm requirements on the [university website](https://www.ims.tau.ac.il/Tal/).
 
-- **Implement Course Filtering**  
-  - Allow filtering by first and second degree courses.  
+## Google sign-in (optional)
 
-- **Enable Personalized User Progress Tracking**  
-  - Track completed courses for user; tailored recommendations based on their courses.  
-  - Retrieve user progress.  
+Progress is always saved in the browser. To also let students sign in with Google and sync their progress across devices, set up a Firebase project. The free tier is enough.
+
+1. Create a project at [console.firebase.google.com](https://console.firebase.google.com) and add a **Web app**.
+2. **Authentication → Sign-in method:** enable **Google**. Under **Settings → Authorized domains**, add `tom-bleher.github.io`.
+3. **Firestore Database:** create a database, then deploy the access rules with `npx firebase-tools deploy --only firestore:rules --project <project-id>`.
+4. Paste the web app's config object into `assets/firebase-config.js` (`window.FIREBASE_CONFIG = {...}`). The web config is public by design; access is enforced by the rules.
+
+Each user gets one document, `users/{uid}`, holding only their passed courses, planned courses, chosen program and a timestamp. Users can delete it from the account menu.
+
+## Tests
+
+```sh
+pip install pytest playwright && playwright install chromium-headless-shell
+python3 -m pytest tests
+```
 
 ## Contact
 
-For questions and support, please open an issue in the GitHub repository or contact the maintainers:
+Questions and suggestions are welcome as GitHub issues, or contact:
 - Tom Bleher: [tombleher@tauex.tau.ac.il](mailto:tombleher@tauex.tau.ac.il)
-- Ilay Wischnevsky Shlush [ilayw1@mail.tau.ac.il](mailto:ilayw1@mail.tau.ac.il)
+- Ilay Wischnevsky Shlush: [ilayw1@mail.tau.ac.il](mailto:ilayw1@mail.tau.ac.il)
 - Avshalom Bar-Nissan: [barnissan@mail.tau.ac.il](mailto:barnissan@mail.tau.ac.il)
-
 
 ## Acknowledgements
 
-- [Arazim Project](https://arazim-project.com/) for providing the baseline course data and the tau-factor grade data.
+Course, study-plan and grade data: [Arazim Project](https://arazim-project.com/) and [TAU Factor](https://www.tau-factor.com/).
 
+## License
+
+MIT. See [LICENSE](LICENSE).
