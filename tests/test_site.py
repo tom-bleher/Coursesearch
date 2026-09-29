@@ -111,6 +111,18 @@ def test_external_prerequisite_can_be_marked(open_page):
     assert page.errors == []
 
 
+def test_shared_courses_count_once(open_page):
+    page = open_page("#program=תוכנית חד-חוגית במדעי המחשב")
+    done = """(() => { const got = allocateCredits(view.cats);
+        return Object.fromEntries(view.cats.filter(c => /קורסי ליבה/.test(c.name)).map(c => [c.year, got.get(c.i).done])); })()"""
+    # A core course is listed under both the year-2 and the year-3 core, but counts once
+    page.evaluate("state.taken = new Set(['03683030'])")
+    assert page.evaluate(done) == {"2": 4, "3": 0}
+    # Once the year-2 core is complete, further core courses count toward year 3
+    page.evaluate("state.taken.add('03683049')")
+    assert page.evaluate(done) == {"2": 4, "3": 4}
+
+
 def test_planner_plans_forward(open_page):
     page = open_page("#plan=1")
     page.wait_for_selector("#planner:not([hidden])")

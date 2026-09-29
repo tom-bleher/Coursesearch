@@ -821,9 +821,27 @@ function renderPlanner() {
     syncPanels();
 }
 
+const creditsNeeded = cat => Number(String(cat.credits || '').split('-')[0]) || 0;
+
+// A course may be listed in several categories (e.g. core courses in year 2 and year 3), but counts
+// toward one: a mandatory category if listed in one, else the first that still needs credits.
+function allocateCredits(cats) {
+    const order = [...cats.filter(isMandatory), ...cats.filter(c => !isMandatory(c))];
+    const got = new Map(cats.map(c => [c.i, { done: 0, planned: 0 }]));
+    const room = c => creditsNeeded(c) > got.get(c.i).done + got.get(c.i).planned;
+    for (const [ids, key] of [[state.taken, 'done'], [state.plan.keys(), 'planned']]) {
+        for (const id of [...ids].sort()) {
+            const homes = order.filter(c => c.courses.includes(id));
+            const home = homes.find(c => isMandatory(c) || room(c)) || homes[0];
+            if (home) got.get(home.i)[key] += COURSES.get(id)?.credits || 0;
+        }
+    }
+    return got;
+}
+
 function programProgress() {
-    const creditsIn = (ids, set) => ids.filter(id => set.has(id)).reduce((n, id) => n + (COURSES.get(id)?.credits || 0), 0);
     const plannedSet = new Set(state.plan.keys());
+    const got = allocateCredits(view.cats);
     const meter = (done, planned, need) => {
         const bar = h('div', { class: 'meter' }, h('i', { class: 'done' }), h('i', { class: 'planned' }));
         bar.children[0].style.width = `${Math.min(100, (done / need) * 100)}%`;
@@ -840,8 +858,7 @@ function programProgress() {
                 h('span', { class: 'sub' }, `${doneAll}${plannedAll ? ` + ${plannedAll}` : ''} / ${total} ש״ס`)),
             meter(doneAll, plannedAll, total)),
         h('ul', { class: 'plan-list' }, view.cats.map(cat => {
-            const need = Number(String(cat.credits || '').split('-')[0]) || 0;
-            const done = creditsIn(cat.courses, state.taken), planned = creditsIn(cat.courses, plannedSet);
+            const need = creditsNeeded(cat), { done, planned } = got.get(cat.i);
             return h('li', { class: 'progress' },
                 h('div', { class: 'progress-top' },
                     h('button', { class: 'course-link', title: cat.name, onclick: () => showInfo({ type: 'category', index: cat.i }) }, bandLabel(cat)),
