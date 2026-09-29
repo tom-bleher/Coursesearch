@@ -78,10 +78,15 @@ def test_search_by_course_number(open_page):
 
 
 def test_program_view(open_page):
-    page = open_page("#program=תוכנית חד-חוגית בפיזיקה")
+    page = open_page("#program=תוכנית חד-חוגית בפיזיקה&view=map")
+    assert page.is_hidden("#sheet")
     labels = page.locator(".band-label").all_inner_texts()
-    assert labels[0].startswith("שנה א׳ · סמסטר א׳")
+    assert re.match(r"שנה א׳\s+סמסטר א׳", labels[0])
     assert page.evaluate("cy.getElementById('03211111').hasClass('required')")
+    # Band labels sit above the graph canvas, so clicking one opens that part's rules
+    page.locator("button.band-label").nth(1).click()
+    page.wait_for_selector("#details:not([hidden])")
+    assert page.evaluate("state.info.type") == "category"
     assert page.errors == []
 
 
@@ -135,14 +140,11 @@ def test_current_semester(open_page, date, expected):
     assert page.evaluate(f"currentSemester(new Date('{date}T12:00'))") == expected
 
 
-def test_planner_plans_forward(open_page):
-    page = open_page("#plan=1")
-    page.wait_for_selector("#planner:not([hidden])")
-    assert page.is_hidden("#details")
-    # Nothing passed yet: Calculus 1 is available, Calculus 2 is one course away
-    assert "חשבון דיפרנציאלי ואינטגרלי 1א" in page.inner_text("#available")
-    assert "חשבון דיפרנציאלי ואינטגרלי 2א" in page.inner_text("#almost")
+CS = "תוכנית חד-חוגית במדעי המחשב"
 
+
+def test_planning_across_semesters(open_page):
+    page = open_page(f"#program={CS}&view=timeline")
     first, second = page.evaluate("planSemesters().slice(0, 2)")
     page.evaluate(f"setPlan('03661101', '{first}')")
     page.evaluate(f"setPlan('03661112', '{second}')")
@@ -150,17 +152,25 @@ def test_planner_plans_forward(open_page):
     # Calculus 2 in the next semester: prerequisite planned earlier, co-requisite planned alongside
     page.evaluate(f"setPlan('03661102', '{second}')")
     assert page.evaluate(f"planIssues('03661102', '{second}')") == []
-    # ...but not in the same semester as its prerequisite
+    # ...but not in the same semester as its prerequisite: flagged in the semesters view and on the map
     page.evaluate(f"setPlan('03661102', '{first}')")
     issues = page.evaluate(f"planIssues('03661102', '{first}')")
     assert any(i.startswith("חסר") for i in issues)
+    assert page.locator(".term-item.invalid", has_text="חשבון דיפרנציאלי ואינטגרלי 2א").count() == 1
+    issues = page.evaluate("[...state.plan].filter(([id, sem]) => planIssues(id, sem).length).length")
+    assert f"{issues} בעיות בתכנון" in page.inner_text("#summary")
     assert page.evaluate("cy.getElementById('03661102').hasClass('invalid')")
-
-    # Switching the target semester re-computes what is available
-    page.select_option("#target", second)
+    # Adding from a semester column offers the program's courses that semester
     page.evaluate("setPlan('03661102', null)")
-    assert "חשבון דיפרנציאלי ואינטגרלי 2א" in page.inner_text("#available")
+    page.click(".term:nth-child(3) .term-add .picker-btn")
+    page.click('.picker-pop:not([hidden]) [role=option][data-value="03661102"]')
+    assert page.evaluate(f"state.plan.get('03661102')") == second
     assert page.errors == []
+
+
+def pick(page, picker, value):
+    page.click(picker)
+    page.click(f'.picker-pop:not([hidden]) [role=option][data-value="{value}"]')
 
 
 def click_node(page, course_id):
@@ -169,19 +179,102 @@ def click_node(page, course_id):
     page.mouse.click(box["x"] + x, box["y"] + y)
 
 
-def test_planner_click_modes(open_page):
-    page = open_page("#plan=1")
-    click_node(page, "03661101")
+def test_degree_checklist(open_page):
+    page = open_page(f"#program={CS}")
+    assert page.is_visible("#sheet") and "/ 128" in page.inner_text("#summary")
+    first = page.locator(".cat").first
+    ids = page.evaluate("view.cats.find(c => c.year === 1 && c.sem === 1 && c.required).courses")
+    credits = page.evaluate(f"creditsOf({ids})")
+    first.get_by_role("button", name="סימון הכל כעבר").click()
+    assert page.evaluate(f"{ids}.every(id => state.taken.has(id))")
+    assert page.locator(".cat").first.evaluate("e => e.classList.contains('complete')")
+    assert page.inner_text("#summary .summary-total b") == str(credits)
+    # "שאר רוח" has no course list: its credits are entered by hand and count toward the degree
+    page.fill(".cat-body.manual input", "6")
+    page.locator(".cat-body.manual input").dispatch_event("change")
+    assert page.inner_text("#summary .summary-total b") == str(credits + 6)
+    # Hiding passed courses collapses the completed category
+    page.check(".degree-tools input")
+    assert page.locator(".cat").first.locator(".row").count() == 0
+    assert page.errors == []
+
+
+def test_grades_weighted_average(open_page):
+    page = open_page(f"#program={CS}")
+    ids = page.evaluate("view.cats.find(c => c.year === 1 && c.sem === 1 && c.required).courses")
+    page.evaluate(f"markTaken({ids})")
+    grades = [92, 85, 78, 88]
+    for cid, g in zip(ids, grades):
+        page.fill(f'.row input.grade[data-course="{cid}"]', str(g))
+        page.locator(f'.row input.grade[data-course="{cid}"]').dispatch_event("change")
+    credits = page.evaluate(f"{ids}.map(id => COURSES.get(id).credits)")
+    expected = sum(g * c for g, c in zip(grades, credits)) / sum(credits)
+    assert f"{expected:.1f}" in page.inner_text("#summary")
+    assert page.evaluate("store.get(GRADES_KEY, {})")[ids[0]] == 92
+    # Unmarking a course drops its grade
+    page.evaluate(f"toggleTaken('{ids[0]}')")
+    assert ids[0] not in page.evaluate("store.get(GRADES_KEY, {})")
+    assert page.errors == []
+
+
+def test_joint_program_checklist(open_page):
+    # Joint programs come without catalog credit figures or sections
+    page = open_page("#program=תוכנית דו-חוגית במתמטיקה ובמדעי המחשב")
+    assert "false" not in page.inner_text("#summary")
+    cat = page.evaluate("view.cats.find(isMandatory)")
+    page.evaluate(f"markTaken({cat['courses']})")
+    assert page.locator(".cat.complete").count() >= 1
+    assert page.evaluate("store.get(PROGRAM_KEY, '')") == "תוכנית דו-חוגית במתמטיקה ובמדעי המחשב"  # opened from a link
+    assert page.errors == []
+
+
+def test_checklist_keeps_place_while_recording(open_page):
+    page = open_page(f"#program={CS}")
+    fold = page.locator("details.more").first
+    fold.locator("summary").click()
+    row = fold.locator(".row").first
+    name = row.locator(".course-link").inner_text()
+    row.locator("input[type=checkbox]").check()
+    assert page.locator("details.more").first.evaluate("e => e.open")  # the opened list stays open
+    assert page.locator("details.more").first.locator(".row").first.locator(".course-link").inner_text() == name
+    assert page.evaluate("document.activeElement.type") == "checkbox"
+    # An impossible grade is kept on screen as invalid, not saved or silently erased
+    cid = page.evaluate("[...state.taken][0]")
+    grade = page.locator(f'.row input.grade[data-course="{cid}"]').first
+    grade.fill("150")
+    grade.dispatch_event("change")
+    assert not page.evaluate(f"state.grades.has('{cid}')")
+    assert grade.evaluate("e => e.matches(':invalid')")
+    assert page.errors == []
+
+
+def test_map_click_opens_card_with_progress(open_page):
+    page = open_page(f"#program={CS}&view=map")
+    page.evaluate("toggleTaken('03661101')")
+    assert page.evaluate("cy.getElementById('03661101').hasClass('taken')")
+    click_node(page, "03661101")  # clicking always opens the card; recording happens in it
+    page.wait_for_selector("#details:not([hidden])")
     assert page.evaluate("state.taken.has('03661101')")
-    page.get_by_role("button", name=re.compile("^מוסיפה ל")).click()
-    click_node(page, "03661101")
-    assert page.evaluate("state.plan.get('03661101') === state.target && !state.taken.has('03661101')")
+    assert page.locator("#details input.grade").count() == 1
 
 
-def test_credits_add_up(open_page):
-    page = open_page()
-    page.evaluate("['03661101', '03661102'].forEach(id => state.taken.add(id)); renderChrome()")
-    assert "14 ש״ס" in page.inner_text("#planBtn")
+def test_faculty_and_program_choice(open_page):
+    page = open_page("#program=")
+    assert page.locator(".chooser-item").count() == page.evaluate(
+        "Object.keys(DATA.plans).filter(n => programFaculty(n) === state.faculty).length")
+    page.get_by_role("button", name="חד-חוגית בפיזיקה", exact=True).click()
+    assert page.evaluate("state.program") == "תוכנית חד-חוגית בפיזיקה"
+    # A returning student lands on their degree
+    page.goto(page.url.split("#")[0])
+    page.wait_for_selector("#status.done")
+    assert page.evaluate("state.mode === 'program' && state.program === 'תוכנית חד-חוגית בפיזיקה'")
+    # Another faculty lists only its own programs
+    other = page.evaluate("facultyOptions().map(o => o.value).find(f => f !== state.faculty)")
+    pick(page, "#faculty", other)
+    assert page.evaluate("state.program") == ""
+    names = page.locator(".chooser-item").all_inner_texts()
+    assert names and all(page.evaluate(f"programFaculty('תוכנית ' + {n!r}) === {other!r} || programFaculty('תכנית ' + {n!r}) === {other!r} || programFaculty({n!r}) === {other!r}") for n in names)
+    assert page.errors == []
 
 
 def test_hash_navigation(open_page):
@@ -225,14 +318,17 @@ def test_cloud_sync(open_page):
     # Device progress before the first sign-in
     page.evaluate(f"""() => {{ state.taken = new Set(['03661101']); state.plan = new Map([['03661102', '{second}']]);
                              saveProgress(); store.set(UPDATED_KEY, 2000); }}""")
+    page.evaluate("state.grades.set('03661101', 90); saveProgress(); store.set(UPDATED_KEY, 2000)")
     page.evaluate(FAKE_CLOUD, {"taken": ["03661111"], "plan": {"03661102": first, "03661112": first},
-                               "program": "", "updatedAt": 1000})
+                               "program": "", "updatedAt": 1000, "grades": {"03661111": 80}})
     page.evaluate("onCloudUser({ uid: 'u1', name: 'Test User', email: 't@example.com' })")
     page.wait_for_function("cloud.status === 'מסונכרן'")
     # First sync merges: union of passed courses, the newer (local) side wins the planned conflict
     assert sorted(page.evaluate("[...state.taken]")) == ["03661101", "03661111"]
     assert page.evaluate("Object.fromEntries(state.plan)") == {"03661102": second, "03661112": first}
     assert page.evaluate("window.fake.remote.taken.length") == 2
+    assert page.evaluate("Object.fromEntries(state.grades)") == {"03661101": 90, "03661111": 80}
+    assert page.evaluate("window.fake.remote.grades") == {"03661101": 90, "03661111": 80}
     assert page.is_visible("#accountBtn") and "Test" in page.inner_text("#accountBtn")
 
     # Edits are pushed to the account
@@ -244,6 +340,11 @@ def test_cloud_sync(open_page):
     page.evaluate("onCloudUser({ uid: 'u1', name: 'Test User' })")
     page.wait_for_function("cloud.status === 'מסונכרן' && state.taken.size === 1")
     assert page.evaluate("state.plan.size") == 0
+
+    # A copy saved by an older version (no grades field) keeps the device's grades
+    page.evaluate("state.taken.add('03661101'); state.grades.set('03661101', 95)")
+    page.evaluate("applyProgress({ taken: ['03661101'], plan: {}, program: '', updatedAt: 1 })")
+    assert page.evaluate("state.grades.get('03661101')") == 95
 
     # Signing out clears the device
     page.evaluate("cloudSignOut()")
@@ -273,7 +374,7 @@ def test_start_year_catalog(open_page):
     page = open_page("#program=תוכנית חד-חוגית בפיזיקה")
     current = page.evaluate("view.program.year")
     previous = page.evaluate("Object.keys(DATA.plans[state.program].previous).sort().reverse()[0]")
-    page.select_option("#startYear", previous)
+    pick(page, "#startYear", previous)
     assert page.evaluate("view.program.year") == previous != current
     assert f"start={previous}" in page.url
     # planner semesters are labelled with the student's year of study

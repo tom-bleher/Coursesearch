@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="מפת הקורסים, דרישות הקדם, תוכניות הלימודים והציונים באוניברסיטת תל אביב, עם תכנון לימודים לפי סמסטרים.">
-    <meta name="theme-color" content="#2f4f86">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#020817" media="(prefers-color-scheme: dark)">
     <title>עץ הקורסים · אוניברסיטת תל אביב</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232f4f86'/><circle cx='16' cy='9' r='3.2' fill='white'/><circle cx='9' cy='23' r='3.2' fill='white'/><circle cx='23' cy='23' r='3.2' fill='white'/><path d='M16 12L9 20M16 12l7 8' stroke='white' stroke-width='2'/></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563eb'/><circle cx='16' cy='9' r='3.2' fill='white'/><circle cx='9' cy='23' r='3.2' fill='white'/><circle cx='23' cy='23' r='3.2' fill='white'/><path d='M16 12L9 20M16 12l7 8' stroke='white' stroke-width='2'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,23 +20,16 @@
     <header class="topbar">
         <a class="brand" href="./" aria-label="עץ הקורסים - דף הבית">
             <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><circle cx="16" cy="9" r="3.2"/><circle cx="9" cy="23" r="3.2"/><circle cx="23" cy="23" r="3.2"/><path d="M16 12L9 20M16 12l7 8"/></svg>
-            <span>
-                <span class="brand-name">עץ הקורסים</span>
-                <span class="brand-sub">אוניברסיטת תל אביב</span>
-            </span>
+            <span class="brand-name">עץ הקורסים</span>
         </a>
         <div class="search">
             <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input type="search" id="search" placeholder="חיפוש קורס לפי שם או מספר" autocomplete="off"
+            <input type="search" id="search" placeholder="חיפוש קורס" autocomplete="off"
                    role="combobox" aria-expanded="false" aria-controls="searchResults" aria-label="חיפוש קורס">
             <kbd class="search-kbd" aria-hidden="true">/</kbd>
             <ul id="searchResults" class="search-results" role="listbox" hidden></ul>
         </div>
         <div class="actions">
-            <button id="planBtn" class="btn btn-plan" aria-pressed="false" title="סימון קורסים שעברת ותכנון הסמסטרים הבאים">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 15l2 2 4-4"/></svg>
-                <span id="planLabel">תכנון</span>
-            </button>
             <button id="helpBtn" class="btn btn-icon" aria-label="עזרה">?</button>
             <div class="account">
                 <button id="accountBtn" class="btn" hidden></button>
@@ -45,17 +39,23 @@
     </header>
 
     <nav class="toolbar" aria-label="תצוגה">
-        <div class="segmented" role="group" aria-label="סוג תצוגה">
-            <button id="modeDept" aria-pressed="true">לפי חוג</button>
-            <button id="modeProgram" aria-pressed="false">תוכנית לימודים</button>
+        <div class="segmented" role="group" aria-label="מה להציג">
+            <button id="modeProgram" aria-pressed="false">התואר שלי</button>
+            <button id="modeDept" aria-pressed="true">לפי יחידה</button>
         </div>
-        <div id="deptBar" class="chips" role="group" aria-label="חוגים"></div>
+        <div id="facultySlot"></div>
+        <div id="deptBar" class="chips" role="group" aria-label="יחידות אקדמיות"></div>
         <div id="programBar" class="program-bar" hidden>
-            <select id="program" aria-label="תוכנית לימודים"></select>
-            <select id="startYear" aria-label="שנת התחלת הלימודים" title="הכללים שחלים עליך הם אלה של הידיעון בשנה שבה התחלת" hidden></select>
+            <div id="programSlot"></div>
+            <div id="startSlot"></div>
             <button id="programInfoBtn" class="btn btn-quiet">פרטי התוכנית</button>
         </div>
         <span class="spacer"></span>
+        <div id="viewTabs" class="segmented" role="group" aria-label="תצוגת התוכנית" hidden>
+            <button data-view="list">רשימה</button>
+            <button data-view="timeline">סמסטרים</button>
+            <button data-view="map">מפה</button>
+        </div>
         <span id="count" class="count-label"></span>
         <button id="filtersBtn" class="btn" aria-expanded="false" aria-controls="filters">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
@@ -66,73 +66,63 @@
     <div class="layout">
         <div id="bands"></div>
         <main id="cy" aria-label="גרף הקורסים"></main>
+        <div id="margin"></div>
+        <section id="sheet" class="sheet" hidden aria-label="התואר שלי"></section>
 
         <div id="empty" class="empty" hidden>
             <p>אין קורסים שמתאימים לבחירה הנוכחית.</p>
             <button class="btn" id="emptyReset">איפוס מסננים</button>
         </div>
 
-        <div id="hint" class="hint card" hidden>
-            <span>לחצו על קורס כדי לראות את שרשרת דרישות הקדם, ציונים וסילבוס. בחרו <b>תוכנית לימודים</b> לתצוגה לפי שנים, או <b>תכנון</b> כדי לבנות מערכת לסמסטרים הבאים.</span>
+        <div id="hint" class="hint" hidden>
+            <span>לחצו על קורס כדי לראות מה נדרש לפניו ומה הוא פותח.</span>
             <button class="btn btn-icon btn-small" id="hintClose" aria-label="סגירה">×</button>
         </div>
 
-        <section id="filters" class="card panel filters" hidden aria-label="מסננים">
-            <div class="panel-head"><h2>מסננים</h2><button class="btn btn-icon btn-small" id="filtersClose" aria-label="סגירה">×</button></div>
+        <section id="filters" class="card filters" hidden aria-label="מסננים">
             <fieldset id="typeField">
                 <legend>סוג קורס</legend>
                 <div class="chips" id="typeChips"></div>
             </fieldset>
-            <label class="field" id="offeredField">
-                <span>מוצע</span>
-                <select id="offered">
-                    <option value="current">השנה</option>
-                    <option value="recent">בשלוש השנים האחרונות</option>
-                    <option value="all">כל הקורסים</option>
-                </select>
-            </label>
+            <fieldset id="offeredField">
+                <legend>מוצע</legend>
+                <div class="chips" id="offeredChips"></div>
+            </fieldset>
             <label class="check" id="isolatedField">
                 <input type="checkbox" id="isolated">
-                <span>הצג גם קורסים ללא קשרי קדם</span>
+                <span>גם קורסים בלי קשרי קדם</span>
             </label>
             <label class="check" id="electivesField" hidden>
                 <input type="checkbox" id="electives" checked>
-                <span>הצג קורסי בחירה</span>
+                <span>קורסי בחירה</span>
             </label>
             <button id="resetBtn" class="btn btn-quiet">איפוס</button>
         </section>
 
-        <aside id="details" class="card panel details" hidden aria-live="polite">
+        <aside id="details" class="panel" hidden aria-live="polite">
             <button class="btn btn-icon btn-small close" id="detailsClose" aria-label="סגירה">×</button>
             <div id="detailsBody"></div>
         </aside>
 
-        <aside id="planner" class="card panel details planner" hidden aria-live="polite">
-            <button class="btn btn-icon btn-small close" id="plannerClose" aria-label="סגירת התכנון">×</button>
-            <div id="plannerBody"></div>
-        </aside>
-
         <div class="canvas-tools">
-            <div class="zoom card" role="group" aria-label="זום">
+            <div class="zoom" role="group" aria-label="זום">
                 <button id="zoomIn" aria-label="הגדלה">+</button>
                 <button id="zoomOut" aria-label="הקטנה">−</button>
                 <button id="zoomFit" aria-label="התאמה למסך" title="התאמה למסך">
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
                 </button>
             </div>
-            <div class="legend card" id="legend">
+            <div class="legend" id="legend">
                 <button class="legend-toggle" id="legendToggle" aria-expanded="true">מקרא</button>
                 <div class="legend-body">
                     <div class="legend-row"><span class="swatch-line"></span>דרישת קדם</div>
-                    <div class="legend-row"><span class="swatch-line alt"></span>אחת מכמה חלופות</div>
-                    <div class="legend-row"><span class="swatch-line coreq"></span>דרישה מקבילה</div>
+                    <div class="legend-row"><span class="swatch-line alt"></span>חלופה</div>
+                    <div class="legend-row"><span class="swatch-line coreq"></span>במקביל</div>
                     <div class="legend-row"><span class="swatch-box dashed"></span>לא מוצע השנה</div>
-                    <div class="legend-row program-only"><span class="swatch-box required"></span>קורס חובה</div>
                     <div class="legend-row"><span class="swatch-grad"></span><span id="gradeScale"></span></div>
-                    <div class="legend-row planning-only"><span class="swatch-box taken"></span>עברתי</div>
-                    <div class="legend-row planning-only"><span class="swatch-box planned"></span>מתוכנן</div>
-                    <div class="legend-row planning-only"><span class="swatch-box open"></span>אפשר לקחת בסמסטר היעד</div>
-                    <div class="legend-row planning-only"><span class="swatch-box invalid"></span>בעיה בתכנון</div>
+                    <div class="legend-row progress-only"><span class="swatch-box taken"></span>עברתי</div>
+                    <div class="legend-row progress-only"><span class="swatch-box planned"></span>מתוכנן</div>
+                    <div class="legend-row progress-only"><span class="swatch-box invalid"></span>בעיה בתכנון</div>
                 </div>
             </div>
         </div>
@@ -151,15 +141,14 @@
             <button class="btn btn-icon btn-small" aria-label="סגירה">×</button>
         </form>
         <ul>
-            <li><b>לחיצה על קורס</b> מדגישה את כל שרשרת דרישות הקדם שלו ואת הקורסים שהוא פותח, ופותחת כרטיס עם פרטים, ציונים וקישור לסילבוס.</li>
-            <li><b>תוכנית לימודים</b> מציגה את קורסי התוכנית הרשמית (מתוך הידיעון) לפי שנה וסמסטר, עם דרישות השעות וההערות הרשמיות. לחיצה על כותרת של שנה או סמסטר מציגה את הכללים של אותו חלק.</li>
-            <li><b>תכנון:</b> סמנו קורסים שעברתם, ותראו אילו קורסים אפשר לקחת בסמסטר היעד ולאילו חסר קורס אחד. קורס שתוכנן נחשב כעבר לצורך הסמסטרים שאחריו, כך שאפשר לבנות תוכנית עד סוף התואר. התכנון מתריע על דרישות קדם חסרות ועל קורסים שלא מוצעים באותו סמסטר, ונשמר בדפדפן. דרישות קדם מפקולטות אחרות מסמנים ברשימת דרישות הקדם שבכרטיס הקורס.</li>
-            <li><b>צבע הקורס</b> מבטא את ממוצע הציון הסופי (מועד קובע) בחמש השנים האחרונות. קורסים ללא נתונים באפור.</li>
-            <li>קו מנוקד מסמן חלופה (מספיק אחד מכמה קורסים); קו מקווקו מסמן דרישה מקבילה.</li>
-            <li><b>שמירה:</b> הסימונים והתכנון נשמרים בדפדפן. התחברות עם Google (כשזמינה) שומרת אותם גם בחשבון, כדי שיופיעו בכל מכשיר. נשמרים רק הקורסים שסימנת, התכנון והתוכנית שבחרת. אפשר למחוק אותם מתפריט החשבון.</li>
-            <li>קיצורים: <kbd>/</kbd> חיפוש, <kbd>Esc</kbd> סגירה.</li>
+            <li><b>התואר שלי:</b> בחרו פקולטה ותוכנית. ברשימה מסמנים קורסים שעברתם, ציון ותכנון לסמסטר, ורואים כמה נקודות נשארו בכל חלק של התואר.</li>
+            <li><b>סמסטרים:</b> הקורסים שתכננתם לכל סמסטר, עם אזהרה על דרישות קדם חסרות. קורס מתוכנן נחשב כעבר בסמסטרים שאחריו. ההיצע בשנים הבאות משוער לפי השנה הנוכחית.</li>
+            <li><b>מפה:</b> דרישות הקדם כגרף. לחיצה על קורס מראה מה נדרש לפניו, מה הוא פותח, ציונים וסילבוס. הפס הצבעוני הוא ממוצע הציון הסופי בחמש השנים האחרונות.</li>
+            <li><b>לפי יחידה:</b> כל קורסי היחידה האקדמית, בלי קשר לתוכנית.</li>
+            <li><b>שמירה</b> בדפדפן, ובחשבון Google אם התחברתם.</li>
+            <li><kbd>/</kbd> חיפוש · <kbd>Esc</kbd> סגירה</li>
         </ul>
-        <p class="muted">הנתונים מ־<a href="https://arazim-project.com" target="_blank" rel="noopener">פרויקט ערזים</a> (מערכת השעות וציוני TAU Factor) ומ<a href="https://www.tau.ac.il/search-studies-programs" target="_blank" rel="noopener">ידיעון האוניברסיטה</a>. יש לוודא דרישות מול אתר האוניברסיטה. <span id="dataInfo"></span></p>
+        <p class="muted">נתונים: <a href="https://arazim-project.com" target="_blank" rel="noopener">פרויקט ערזים</a>, TAU Factor ו<a href="https://www.tau.ac.il/search-studies-programs" target="_blank" rel="noopener">ידיעון האוניברסיטה</a>. יש לוודא דרישות מול אתר האוניברסיטה. <span id="dataInfo"></span></p>
     </dialog>
 </body>
 </html>

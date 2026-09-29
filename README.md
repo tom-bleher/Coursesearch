@@ -8,13 +8,13 @@ An interactive map of courses, prerequisites, study programs and grades for Math
 
 - **Prerequisite graph.** Courses are grouped by study year. Edges show required courses, alternatives ("one of") and co-requisites. Click a course to highlight its whole prerequisite chain and the courses it unlocks.
 - **Study programs.** Pick any undergraduate program in the Exact Sciences, or any other program involving math, physics or CS (49 in total). Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
-- **Grades.** Node colour shows the average final grade (מועד קובע) over the last five years. The course card has the distribution and a per-semester breakdown.
-- **Planning.** Mark the courses you've passed. The site then shows:
-  - what you can take in any upcoming semester, and which courses are one prerequisite away and what's missing;
-  - a semester-by-semester plan: planned courses count as done for later semesters, and you get warnings for missing prerequisites, unplanned co-requisites, or courses not offered that semester;
-  - progress toward each category of your study program (a course listed in several categories counts toward one).
-
-  AND/OR prerequisite logic is taken into account. Prerequisites from other faculties can be marked as passed in the course card. Everything is saved in the browser.
+- **Grades.** A coloured strip on each course shows the average final grade (מועד קובע) over the last five years. The course card has the distribution and a per-semester breakdown.
+- **My degree.** Pick a faculty and a program (and the catalog year you started in) to get your degree as a checklist, organized like the official catalog: years, their required and elective parts, and each part's courses.
+  - Mark courses as passed (a whole mandatory semester at once), add your grade, or plan a course for a semester. Requirements without a course list, such as "שאר רוח", take credits entered by hand.
+  - Progress is shown for the whole degree, each year and each part, in credit points (a course listed in several parts counts toward one), with your credit-weighted average.
+  - Each course shows what it still needs; the semesters view lays out your plan term by term and warns about missing prerequisites, unplanned co-requisites and courses not offered that semester. Planned courses count as done for later semesters.
+  - AND/OR prerequisite logic is taken into account. Prerequisites from other faculties can be marked as passed in the course card. Everything is saved in the browser.
+- **Map.** The same program, or any academic unit's courses, as a prerequisite graph; passed and planned courses are marked on it.
 - **Details.** Each course card lists lecturers, exam type, credit hours and the semesters it's offered, with links to the syllabus and to the official prerequisites page.
 - Search by name or course number, shareable links (`#course=03661102`), dark mode and a mobile layout.
 
@@ -43,7 +43,7 @@ Progress is always saved in the browser. To also let students sign in with Googl
 3. **Firestore Database:** create a database, then deploy the access rules with `npx firebase-tools deploy --only firestore:rules --project <project-id>`.
 4. Paste the web app's config object into `assets/firebase-config.js` (`window.FIREBASE_CONFIG = {...}`). The web config is public by design; access is enforced by the rules.
 
-Each user gets one document, `users/{uid}`, holding only their passed courses, planned courses, chosen program and a timestamp. Users can delete it from the account menu.
+Each user gets one document, `users/{uid}`, holding only their passed courses, grades, planned courses, credits entered by hand, chosen program and a timestamp. Users can delete it from the account menu. After changing `firestore.rules`, deploy them again (step 3).
 
 ## Tests
 

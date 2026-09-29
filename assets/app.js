@@ -6,18 +6,16 @@ const MAIN_TYPES = ['שיעור', 'סמינר', 'מעבדה', 'קריאה מוד
 const OTHER_TYPE = 'אחר';
 const GRADE_DOMAIN = [55, 90];           // fixed so colours mean the same in every view
 const READABLE_ZOOM = 0.6;               // below this node labels become unreadable
+const NODE_FONT = "Heebo, system-ui, sans-serif";
 const NODE_W = 160, NODE_H = 50, H_GAP = 24, LINE_GAP = 26, ROW_GAP = 64, BAND_GAP = 40;
 const STORAGE_KEY = 'coursesearch_taken', PLAN_KEY = 'coursesearch_plan';
 const MOBILE = matchMedia('(max-width: 760px)');  // keep in sync with style.css
+const OFFERED = [['current', 'השנה'], ['recent', 'בשלוש השנים האחרונות'], ['all', 'הכל']];
 const DEFAULTS = { depts: ['מתמטיקה'], types: ['שיעור'], offered: 'current', isolated: false, electives: true };
+const VIEWS = ['list', 'timeline', 'map'];
 const HINT_KEY = 'coursesearch_hint_seen', PROGRAM_KEY = 'coursesearch_program';
+const GRADES_KEY = 'coursesearch_grades', MANUAL_KEY = 'coursesearch_manual', HIDE_DONE_KEY = 'coursesearch_hide_done';
 const UPDATED_KEY = 'coursesearch_updated', SYNCED_KEY = 'coursesearch_synced_uid', START_KEY = 'coursesearch_start';
-// Program suggested when switching to program view, by the department being viewed
-const DEFAULT_PROGRAMS = {
-    'מתמטיקה': 'תוכנית חד-חוגית במתמטיקה במגמת מתמטיקה עיונית',
-    'פיזיקה': 'תוכנית חד-חוגית בפיזיקה',
-    'מדעי המחשב': 'תוכנית חד-חוגית במדעי המחשב',
-};
 
 // ── Small helpers ────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -39,6 +37,106 @@ const store = {
     set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode */ } },
 };
 
+// ── Picker: a dropdown in the page's direction (native <select> popups ignore RTL on macOS) ──
+let openPicker = null;
+
+function picker({ id, label, onchange, search = false, key, placeholder = '—' }) {
+    const button = h('button', { type: 'button', class: 'picker-btn', id, 'data-focus-key': key, 'aria-haspopup': 'listbox', 'aria-expanded': 'false', 'aria-label': label });
+    const list = h('ul', { class: 'picker-list', role: 'listbox', tabindex: '-1', 'aria-label': label });
+    const input = search ? h('input', { type: 'search', class: 'picker-search', placeholder: 'חיפוש', autocomplete: 'off', 'aria-label': label }) : null;
+    const pop = h('div', { class: 'picker-pop card', hidden: true }, input, list);
+    const el = h('div', { class: 'picker' }, button, pop);
+    let options = [], shown = [], value = null, active = 0;
+
+    const paint = () => [...list.querySelectorAll('[role=option]')].forEach((li, i) => {
+        li.classList.toggle('active', i === active);
+        if (i === active) li.scrollIntoView({ block: 'nearest' });
+    });
+    const fill = () => {
+        const term = input ? input.value.trim() : '';
+        shown = options.filter(o => o.label.includes(term) || (o.group || '').includes(term));
+        let group;
+        list.replaceChildren(...shown.flatMap((o, i) => [
+            o.group && o.group !== group && h('li', { class: 'picker-group', role: 'presentation' }, (group = o.group)),
+            h('li', { role: 'option', 'data-value': o.value, 'aria-selected': String(o.value === value),
+                onmousedown: e => { e.preventDefault(); choose(o.value); }, onmousemove: () => { if (active !== i) { active = i; paint(); } } }, o.label),
+        ]).filter(Boolean));
+        if (!shown.length) list.append(h('li', { class: 'picker-empty' }, 'אין תוצאות'));
+        active = Math.max(0, shown.findIndex(o => o.value === value));
+        paint();
+    };
+    // Fixed position, so the popup isn't clipped by scrolling toolbars and panels
+    const place = () => {
+        const r = button.getBoundingClientRect(), below = innerHeight - r.bottom - 12, above = r.top - 12;
+        const up = below < 240 && above > below;
+        Object.assign(pop.style, {
+            right: `${Math.max(8, innerWidth - r.right)}px`, minWidth: `${r.width}px`,
+            top: up ? '' : `${r.bottom + 4}px`, bottom: up ? `${innerHeight - r.top + 4}px` : '',
+            maxHeight: `${Math.min(440, up ? above : below)}px`,
+        });
+    };
+    const open = () => {
+        openPicker?.close();
+        openPicker = api;
+        pop.hidden = false;
+        button.setAttribute('aria-expanded', 'true');
+        if (input) input.value = '';
+        place();
+        fill();
+        (input || list).focus();
+    };
+    const close = (refocus = false) => {
+        if (pop.hidden) return;
+        pop.hidden = true;
+        button.setAttribute('aria-expanded', 'false');
+        if (openPicker === api) openPicker = null;
+        if (refocus) button.focus();
+    };
+    const choose = v => {
+        close(true);
+        if (v === value) return;
+        value = v;
+        render();
+        onchange(v);
+    };
+    const render = () => {
+        const current = options.find(o => o.value === value);
+        button.replaceChildren(h('span', { class: 'picker-value' }, current ? current.short ?? current.label : placeholder));
+    };
+
+    button.addEventListener('click', () => (pop.hidden ? open() : close()));
+    button.addEventListener('keydown', e => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(); } });
+    input?.addEventListener('input', fill);
+    pop.addEventListener('keydown', e => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            active = (active + (e.key === 'ArrowDown' ? 1 : -1) + shown.length) % Math.max(shown.length, 1);
+            paint();
+        } else if (e.key === 'Enter' && shown[active]) {
+            e.preventDefault();
+            choose(shown[active].value);
+        } else if (e.key === 'Escape') {
+            e.stopPropagation();
+            close(true);
+        } else if (e.key === 'Tab') {
+            close();
+        }
+    });
+
+    const api = {
+        el, close,
+        get value() { return value; },
+        // options: [{value, label, short?, group?}]
+        set(opts, v) { options = opts; value = v; render(); if (!pop.hidden) fill(); return api; },
+    };
+    return api;
+}
+
+// One open popup at a time; clicking elsewhere, scrolling the page or resizing closes it
+document.addEventListener('mousedown', e => { if (openPicker && !openPicker.el.contains(e.target)) openPicker.close(); });
+document.addEventListener('scroll', e => { if (openPicker && !openPicker.el.contains(e.target)) openPicker.close(); }, true);
+addEventListener('resize', () => openPicker?.close());
+
 function hebrewYear(year) {
     const letters = [[400, 'ת'], [300, 'ש'], [200, 'ר'], [100, 'ק'], [90, 'צ'], [80, 'פ'], [70, 'ע'], [60, 'ס'],
         [50, 'נ'], [40, 'מ'], [30, 'ל'], [20, 'כ'], [10, 'י'], [9, 'ט'], [8, 'ח'], [7, 'ז'], [6, 'ו'], [5, 'ה'],
@@ -54,9 +152,12 @@ const semLabel = sem => `${hebrewYear(+sem.slice(0, 4))} ${sem.endsWith('a') ? '
 const formatId = id => `${id.slice(0, 4)}-${id.slice(4)}`;
 const level = id => { const d = +id[4]; return d >= 1 && d <= 3 ? d : 4; };
 const typeKey = c => (MAIN_TYPES.includes(c.type) ? c.type : OTHER_TYPE);
-// The canvas renders right-to-left; pin punctuation in Latin names to their letters with LRM marks
-const canvasLabel = name => (/^[^\p{L}]*\p{Script=Latin}/u.test(name)
-    ? `\u200E${name.replace(/([^\p{L}\p{N}\s])/gu, '\u200E$1\u200E')}\u200E` : name);
+// The canvas renders right-to-left; pin punctuation in Latin names to their letters with LRM marks.
+// Calculus courses get the standard abbreviation on the map.
+function canvasLabel(name) {
+    name = name.replace('חשבון דיפרנציאלי ואינטגרלי', 'חדו״א');
+    return /^[^\p{L}]*\p{Script=Latin}/u.test(name) ? `\u200E${name.replace(/([^\p{L}\p{N}\s])/gu, '\u200E$1\u200E')}\u200E` : name;
+}
 const shortProgram = name => name.replace(/^(תוכנית|תכנית)\s+(לימודים\s+)?/, '');
 
 // ── Requirement trees: "id" | {all: [...]} | {any: [...]} ───────────────────
@@ -84,21 +185,25 @@ function satisfied(req, has) {
 // ── State ────────────────────────────────────────────────────────────────────
 let DATA, COURSES, cy;
 let bandModel = [];
+const pickers = {};
 const state = {
     depts: new Set(DEFAULTS.depts),
     types: new Set(DEFAULTS.types),
     offered: DEFAULTS.offered,
     isolated: DEFAULTS.isolated,
     electives: DEFAULTS.electives,
+    mode: 'unit',                        // 'program': my degree | 'unit': browse an academic unit's courses
+    view: 'list',                        // program mode: 'list' | 'timeline' | 'map'
+    faculty: '',                         // faculty whose programs (program mode) or units (unit mode) are listed
     program: '',
     selected: null,
     info: null,                          // program panel: {type: 'program'} | {type: 'category', index}
     start: store.get(START_KEY, '') || '', // catalog year the student started in ('' = current catalog)
-    planning: false,
-    clickMode: 'taken',                  // planning: a click marks "passed" or adds to the target semester
-    target: null,                        // planning: semester being planned
     taken: new Set(store.get(STORAGE_KEY, [])),
     plan: new Map(Object.entries(store.get(PLAN_KEY, {}))),  // course id → semester, e.g. "2027b"
+    grades: new Map(Object.entries(store.get(GRADES_KEY, {}))),  // course id → final grade (passed courses)
+    manual: new Map(Object.entries(store.get(MANUAL_KEY, {}))),  // requirement without a course list → credits
+    hideDone: store.get(HIDE_DONE_KEY, false),
 };
 
 function prepare(data) {
@@ -210,7 +315,7 @@ function deptView() {
     }
     const byLevel = new Map();
     ids.forEach(id => byLevel.set(level(id), [...(byLevel.get(level(id)) || []), id]));
-    const bands = [...byLevel.keys()].sort().map(l => ({ label: LEVEL_LABELS[l], ids: byLevel.get(l) }));
+    const bands = [...byLevel.keys()].sort().map(l => ({ parts: [LEVEL_LABELS[l]], ids: byLevel.get(l) }));
     return { bands, required: new Set(), categories: new Map(), cats: [], program: null };
 }
 
@@ -229,7 +334,7 @@ function programView() {
         const ids = cat.courses.filter(id => COURSES.has(id) && !placed.has(id));
         ids.forEach(id => placed.add(id));
         if (!ids.length) continue;
-        bands.push({ label: bandLabel(cat), title: cat.name, credits: cat.credits, category: cat.i, ids });
+        bands.push({ parts: bandParts(cat), title: cat.name, credits: cat.credits, category: cat.i, ids });
     }
     return { bands, required, categories, cats, program };
 }
@@ -244,7 +349,7 @@ function programEdition(name) {
 
 // "2027b" → "תשפ״ז ב׳ · שנה ב׳" when the student's start year is known
 function semOption(sem) {
-    if (!state.program) return semLabel(sem);
+    if (!inProgram()) return semLabel(sem);
     const n = +sem.slice(0, 4) - (+(state.start || DATA.meta.catalog_year) + 1) + 1;
     return n >= 1 && n <= 5 ? `${semLabel(sem)} · שנה ${'אבגדה'[n - 1]}׳` : semLabel(sem);
 }
@@ -252,9 +357,9 @@ function semOption(sem) {
 const choose = cat => (cat.count && cat.count < cat.courses.length ? cat.count : null);
 const isMandatory = cat => cat.required && !choose(cat);
 
-// "שנה ב' - סמסטר א' - קורסי חובה בפיזיקה" → "שנה ב׳ · סמסטר א׳ · חובה"
-function bandLabel(cat) {
-    if (!cat.year) return cat.name;
+// "שנה ב' - סמסטר א' - קורסי חובה בפיזיקה" → ["שנה ב׳", "סמסטר א׳", "חובה"]
+function bandParts(cat) {
+    if (!cat.year) return [...new Set(cat.name.split(/\s+-\s+/))];
     const span = cat.name.match(/שנים\s+([אבגד])'?\s*[-+]\s*([אבגד])/);
     const kind = cat.required ? 'חובה' : /סמינר/.test(cat.name) ? 'סמינר' : /סדנ/.test(cat.name) ? 'סדנה' : 'בחירה';
     const pick = choose(cat) ? ` (${cat.count} מתוך ${cat.courses.length})` : '';
@@ -262,10 +367,12 @@ function bandLabel(cat) {
         span ? `שנים ${span[1]}׳–${span[2]}׳` : `שנה ${'אבגד'[cat.year - 1]}׳`,
         cat.sem && `סמסטר ${'אב'[cat.sem - 1]}׳`,
         kind + pick,
-    ].filter(Boolean).join(' · ');
+    ].filter(Boolean);
 }
+const bandLabel = cat => bandParts(cat).join(' · ');
 
-const currentView = () => (state.program ? programView() : deptView());
+const inProgram = () => state.mode === 'program' && Boolean(state.program);
+const currentView = () => (inProgram() ? programView() : deptView());
 
 // ── Layout: bands → rows by in-band prerequisite depth → barycentre ordering ─
 function layout(view) {
@@ -303,7 +410,7 @@ function layout(view) {
     }
 
     // Place rows, wrapping long ones onto several lines
-    const perLine = MOBILE.matches ? 4 : 10;
+    const perLine = MOBILE.matches ? 4 : 8;
     const bandGap = bandGapNow();
     const positions = new Map(), bands = [];
     let y = 0;
@@ -335,15 +442,15 @@ function readPalette() {
     const v = name => css.getPropertyValue(name).trim();
     const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
     palette = {
-        text: v('--text'), node: v('--node'), nodeBorder: v('--node-border'), edge: v('--edge'),
+        text: v('--text'), node: v('--node'), nodeBorder: v('--node-border'), edge: v('--edge'), noGrade: v('--no-grade'),
         accent: v('--accent'), taken: v('--taken'), takenBg: v('--taken-bg'), open: v('--open'),
-        plannedBg: v('--planned-bg'), warn: v('--warn'),
+        plannedBg: v('--planned-bg'), warn: v('--warn'), highlight: v('--highlight'), highlightBorder: v('--highlight-border'),
         grades: [v('--grade-low'), v('--grade-mid'), v('--grade-high')].map(rgb),
     };
 }
 
 function gradeColor(mean) {
-    if (mean == null) return palette.node;
+    if (mean == null) return palette.noGrade;
     const t = Math.min(1, Math.max(0, (mean - GRADE_DOMAIN[0]) / (GRADE_DOMAIN[1] - GRADE_DOMAIN[0]))) * 2;
     const [a, b] = t <= 1 ? [palette.grades[0], palette.grades[1]] : [palette.grades[1], palette.grades[2]];
     const f = t <= 1 ? t : t - 1;
@@ -354,41 +461,47 @@ function graphStyle() {
     return [
         {
             selector: 'node', style: {
-                'label': 'data(label)', 'shape': 'round-rectangle', 'width': NODE_W, 'height': NODE_H,
-                'background-color': 'data(color)', 'border-width': 1.2, 'border-color': palette.nodeBorder,
-                'color': palette.text, 'font-family': 'Heebo, system-ui, sans-serif', 'font-size': 11.5,
-                'font-weight': 500, 'text-wrap': 'wrap', 'text-max-width': NODE_W - 16,
+                'label': 'data(label)', 'shape': 'round-rectangle', 'corner-radius': 6, 'width': NODE_W, 'height': NODE_H,
+                // a plain card with the grade colour as a strip on its right (start) edge
+                'background-color': palette.node, 'background-fill': 'linear-gradient', 'background-gradient-direction': 'to-left',
+                'background-gradient-stop-colors': n => `${n.data('color')} ${n.data('color')} ${palette.node} ${palette.node}`,
+                'background-gradient-stop-positions': '0 4 4 100',
+                'border-width': 1, 'border-color': palette.nodeBorder,
+                'color': palette.text, 'font-family': NODE_FONT, 'font-size': 13.5, 'line-height': 1.2,
+                'font-weight': 500, 'text-wrap': 'wrap', 'text-max-width': NODE_W - 22,
                 'text-valign': 'center', 'text-halign': 'center',
                 'transition-property': 'opacity', 'transition-duration': '150ms',
             },
         },
         { selector: 'node.past', style: { 'border-style': 'dashed' } },
-        { selector: 'node.required', style: { 'border-width': 2.2, 'font-weight': 700 } },
         {
             selector: 'edge', style: {
-                'width': 1.4, 'line-color': palette.edge, 'target-arrow-color': palette.edge,
-                'target-arrow-shape': 'triangle', 'arrow-scale': 0.9, 'curve-style': 'bezier', 'opacity': 0.55,
+                'width': 1.2, 'line-color': palette.edge, 'target-arrow-color': palette.edge,
+                'target-arrow-shape': 'triangle', 'arrow-scale': 0.75, 'curve-style': 'bezier', 'opacity': 0.4,
             },
         },
-        { selector: 'edge.alt', style: { 'line-style': 'dotted', 'width': 1.6 } },
-        { selector: 'edge.coreq', style: { 'line-style': 'dashed', 'target-arrow-shape': 'none', 'opacity': 0.45 } },
-        { selector: '.faded', style: { 'opacity': 0.12 } },
-        { selector: 'edge.hl', style: { 'line-color': palette.accent, 'target-arrow-color': palette.accent, 'opacity': 1, 'width': 2.2 } },
-        { selector: 'node.hl', style: { 'border-color': palette.accent, 'border-width': 2 } },
-        { selector: 'node.focus', style: { 'border-color': palette.accent, 'border-width': 4 } },
-        { selector: 'node.taken', style: { 'background-color': palette.takenBg, 'border-color': palette.taken, 'border-width': 2.5 } },
-        { selector: 'node.open', style: { 'border-color': palette.open, 'border-width': 3 } },
-        { selector: 'node.planned', style: { 'background-color': palette.plannedBg, 'border-color': palette.open, 'border-width': 2.5 } },
+        { selector: 'edge.alt', style: { 'line-style': 'dotted', 'width': 1.5 } },
+        { selector: 'edge.coreq', style: { 'line-style': 'dashed', 'target-arrow-shape': 'none' } },
+        { selector: '.faded', style: { 'opacity': 0.15 } },
+        { selector: 'edge.hl', style: { 'line-color': palette.accent, 'target-arrow-color': palette.accent, 'opacity': 1, 'width': 1.8 } },
+        { selector: 'node.hl', style: { 'border-color': palette.accent, 'border-width': 1.5 } },
+        { selector: 'node.focus', style: { 'border-color': palette.accent, 'border-width': 3 } },
+        // Planning: the course's status replaces its grade colour
+        { selector: 'node.taken, node.open, node.planned, node.locked', style: { 'background-fill': 'solid' } },
+        { selector: 'node.taken', style: { 'background-color': palette.takenBg, 'border-color': palette.taken, 'border-width': 1.5 } },
+        { selector: 'node.open', style: { 'background-color': palette.highlight, 'border-color': palette.highlightBorder, 'border-width': 1.5 } },
+        { selector: 'node.planned', style: { 'background-color': palette.plannedBg, 'border-color': palette.open, 'border-width': 1.5 } },
         { selector: 'node.invalid', style: { 'border-color': palette.warn, 'border-style': 'double', 'border-width': 4 } },
-        { selector: 'node.locked', style: { 'opacity': 0.3 } },
+        { selector: 'node.locked', style: { 'background-color': palette.node, 'opacity': 0.35 } },
+        { selector: 'edge.peek', style: { 'line-color': palette.accent, 'target-arrow-color': palette.accent, 'opacity': 0.9, 'width': 1.8 } },
     ];
 }
 
 // ── Rendering ────────────────────────────────────────────────────────────────
 let view = null;
 
-const nodeLabel = id => canvasLabel(COURSES.get(id).name)
-    + (state.planning && state.plan.has(id) ? `\n${semLabel(state.plan.get(id))}` : '');
+const nodeLabel = id => (state.taken.has(id) ? '✓ ' : '') + canvasLabel(COURSES.get(id).name)
+    + (state.plan.has(id) ? `\n${semLabel(state.plan.get(id))}` : '');
 
 function render({ fit = true } = {}) {
     view = currentView();
@@ -413,22 +526,25 @@ function render({ fit = true } = {}) {
     bandModel = bands;
     applyHighlight();
     drawBands();
-    renderPlanner();
+    renderSheet();
+    if (!$('details').hidden) renderDetails();  // e.g. the course may have left the graph
+    renderChrome();  // before fitting: it sets the body classes the legend's size depends on
     if (fit) fitGraph(cy.nodes());
-    renderChrome();
 }
 
 // Fit nodes into the part of the viewport not covered by band labels (right) or the details panel
 function fitGraph(eles, animate = false) {
     if (!eles.length) return;
     const pad = 32, mobile = MOBILE.matches;
-    const panel = [$('details'), $('planner'), $('filters')].find(p => !p.hidden) || { hidden: true };
-    const labels = [...document.querySelectorAll('.band-label')].map(l => l.offsetWidth);
-    const gutter = mobile ? 0 : Math.min(Math.max(0, ...labels) + 24, cy.width() * 0.3);
-    const top = pad + (mobile && bandModel.length ? 34 : 0);  // room for the first band's label
+    const panel = $('details');
+    const gutterNow = mobile || !gutter ? 0 : gutter + 24;
+    const hint = $('hint').hidden ? 0 : $('hint').offsetHeight + 8;
+    const top = pad + hint + (mobile && bandModel.length ? 34 : 0);  // room for the tip and the first band's label
     const left = pad + (!panel.hidden && !mobile ? panel.offsetWidth + 12 : 0);
-    const bottom = pad + (!panel.hidden && mobile ? panel.offsetHeight + 8 : 0);
-    const w = Math.max(80, cy.width() - left - pad - gutter), hgt = Math.max(80, cy.height() - top - bottom);
+    // keep clear of the zoom and legend (desktop) or the bottom sheet (mobile)
+    const tools = document.querySelector('.canvas-tools').offsetHeight;
+    const bottom = pad + (!panel.hidden && mobile ? panel.offsetHeight + 8 : tools);
+    const w = Math.max(80, cy.width() - left - pad - gutterNow), hgt = Math.max(80, cy.height() - top - bottom);
     const bb = eles.boundingBox();
     // Tall graphs: rather than shrinking past readability, fit the width and start at the top
     const zoom = Math.min(1.3, w / bb.w, Math.max(hgt / bb.h, READABLE_ZOOM));
@@ -438,37 +554,51 @@ function fitGraph(eles, animate = false) {
     else cy.viewport({ zoom, pan });
 }
 
+// Bands are drawn under the graph; their labels sit in the page margin above it (so they stay clickable)
+let gutter = 0;
+
 function drawBands() {
-    const container = $('bands');
+    $('bands').replaceChildren(...bandModel.map(() => h('div', { class: 'band' })));
+    $('margin').replaceChildren(...bandModel.map((b, i) => {
+        const [title, ...rest] = b.parts;
+        const sub = [...rest, b.credits && `${b.credits} ש״ס`].filter(Boolean).join(' · ');
+        // A heading shared with the band above ("שנה א׳") is written once, like a section title
+        const content = [title !== bandModel[i - 1]?.parts[0] && h('span', { class: 'band-title' }, title),
+            sub && h('span', { class: 'band-sub' }, sub)];
+        return b.category == null
+            ? h('div', { class: 'band-label' }, content)
+            : h('button', { class: 'band-label', title: `${b.title} · לחצו לפרטים`, onclick: () => showInfo({ type: 'category', index: b.category }) }, content);
+    }));
+    // The margin is as wide as its widest label, up to 30% of the canvas
+    const margin = $('margin');
+    margin.style.setProperty('--gutter', 'max-content');
+    const widest = Math.ceil(Math.max(0, ...[...margin.children].map(l => l.getBoundingClientRect().width)));
+    gutter = MOBILE.matches ? 0 : Math.min(widest, cy.width() * 0.3);
+    margin.style.setProperty('--gutter', `${gutter}px`);
+    placeBands();
+}
+
+function placeBands() {
     const zoom = cy.zoom(), pan = cy.pan(), gap = bandGapNow();
-    container.replaceChildren(...bandModel.map(b => {
+    const bands = $('bands').children, labels = $('margin').children;
+    bandModel.forEach((b, i) => {
         const top = (b.top - NODE_H / 2) * zoom + pan.y - (MOBILE.matches ? 34 : (gap / 2 - 4) * zoom);
         const bottom = (b.bottom + NODE_H / 2 + gap / 2 - 4) * zoom + pan.y;
-        const label = b.category == null
-            ? h('span', { class: 'band-label' }, b.label)
-            : h('button', { class: 'band-label', title: `${b.title} · לחצו לפרטים`, onclick: () => showInfo({ type: 'category', index: b.category }) },
-                b.label, b.credits && h('span', { class: 'credits' }, `${b.credits} ש״ס`));
-        const el = h('div', { class: 'band' }, label);
-        el.style.top = `${top}px`;
-        el.style.height = `${Math.max(0, bottom - top)}px`;
-        return el;
-    }));
+        Object.assign(bands[i].style, { top: `${top}px`, height: `${Math.max(0, bottom - top)}px` });
+        labels[i].style.top = `${top}px`;
+    });
 }
 
 function applyHighlight() {
     cy.batch(() => {
-        cy.elements().removeClass('faded hl focus taken open locked planned invalid');
-        cy.nodes().forEach(n => n.data('label', nodeLabel(n.id())));
-        if (state.planning) {
-            const done = doneBefore(state.target);
-            cy.nodes().forEach(n => {
-                const id = n.id(), c = COURSES.get(id);
-                if (state.taken.has(id)) n.addClass('taken');
-                else if (state.plan.has(id)) n.addClass(planIssues(id, state.plan.get(id)).length ? 'planned invalid' : 'planned');
-                else n.addClass(canTake(c, done) && offeredInPart(c, state.target) ? 'open' : 'locked');
-            });
-            return;
-        }
+        cy.elements().removeClass('faded hl focus taken planned invalid');
+        // Recorded progress: passed and planned courses replace their grade colour
+        cy.nodes().forEach(n => {
+            const id = n.id();
+            n.data('label', nodeLabel(id));
+            if (state.taken.has(id)) n.addClass('taken');
+            else if (state.plan.has(id)) n.addClass(planIssues(id, state.plan.get(id)).length ? 'planned invalid' : 'planned');
+        });
         const node = state.selected && cy.getElementById(state.selected);
         if (!node || !node.length) return;
         const related = relatedCourses(state.selected);
@@ -495,7 +625,6 @@ function relatedCourses(id) {
 
 // ── Selection & details panel ────────────────────────────────────────────────
 function select(id, { focus = false } = {}) {
-    if (state.planning) { if (id) focusNode(id); return; }
     state.selected = id && COURSES.has(id) ? id : null;
     if (!state.selected) state.info = null;
     applyHighlight();
@@ -512,23 +641,24 @@ function select(id, { focus = false } = {}) {
     writeHash();
 }
 
-function focusNode(id) {
-    const node = cy.getElementById(id);
-    if (!node.length) return;
-    cy.animate({ center: { eles: node }, zoom: Math.max(cy.zoom(), 0.9), duration: 300 });
-    node.flashClass('focus', 1500);
-}
-
 // Courses outside the dataset have no card, so they are marked as passed right here
 function courseButton(id) {
     const inData = COURSES.has(id);
     return h('span', {},
         inData
-            ? h('button', { class: `course-link${state.taken.has(id) ? ' done' : state.plan.has(id) ? ' planned' : ''}`, onclick: () => select(id, { focus: true }) }, courseName(id))
+            ? h('button', { class: `course-link${state.taken.has(id) ? ' done' : state.plan.has(id) ? ' planned' : ''}`, onclick: () => select(id, { focus: true }) }, h('bdi', {}, courseName(id)))
             : h('label', { class: 'check external', title: 'קורס מחוץ לאתר: סמנו אם עברתם אותו' },
                 h('input', { type: 'checkbox', checked: state.taken.has(id), onchange: () => toggleTaken(id) }),
-                h('span', {}, courseName(id))),
+                h('bdi', {}, courseName(id))),
         ' ', h('span', { class: 'course-id' }, formatId(id)));
+}
+
+// Long lists show the first few courses; the rest open on demand
+function courseList(ids, shown = 8) {
+    const items = ids.map(id => h('li', {}, courseButton(id)));
+    if (ids.length <= shown + 2) return h('ul', { class: 'req' }, items);
+    return [h('ul', { class: 'req' }, items.slice(0, shown)),
+        h('details', { class: 'more' }, h('summary', {}, `עוד ${ids.length - shown} קורסים`), h('ul', { class: 'req' }, items.slice(shown)))];
 }
 
 function reqList(req) {
@@ -543,9 +673,11 @@ function histogram(g) {
     const max = Math.max(...g.dist, 1);
     return [
         h('div', { class: 'hist', role: 'img', 'aria-label': 'התפלגות ציונים' },
-            g.dist.map(n => {
+            g.dist.map((n, i) => {
                 const bar = h('div', { class: 'bar', title: n }, h('span', {}, n || ''));
+                const [lo, hi] = DATA.meta.grade_bins[i].split('-').map(Number);
                 bar.style.height = `${(n / max) * 100}%`;
+                bar.style.background = gradeColor((lo + hi) / 2);  // same scale as the courses on the map
                 return bar;
             })),
         h('div', { class: 'hist-axis' }, DATA.meta.grade_bins.map(b => h('span', {}, b))),
@@ -562,7 +694,7 @@ function renderDetails() {
     const panel = $('details');
     const c = state.selected && COURSES.get(state.selected);
     if (!c) {
-        if (state.info && view.program && !state.planning) renderProgramInfo();
+        if (state.info && view.program) renderProgramInfo();
         else panel.hidden = true;
         syncPanels();
         return;
@@ -577,48 +709,46 @@ function renderDetails() {
     const cats = view.categories.get(c.id);
     const g = c.grades;
 
+    const facts = [['מרצים', c.lecturers?.join(', ')], ['הערכה', c.exams?.join(', ')], ['בתוכנית', cats?.join(' · ')]]
+        .filter(([, v]) => v);
+
     $('detailsBody').replaceChildren(h('div', {},
         h('h2', {}, c.name),
-        h('div', { class: 'meta' },
-            h('span', { class: 'tag' }, formatId(c.id)),
-            c.dept && h('span', { class: 'tag' }, c.dept),
-            c.type && h('span', { class: 'tag' }, c.type),
-            view.required.has(c.id) && h('span', { class: 'tag' }, 'חובה בתוכנית')),
+        h('p', { class: 'card-sub' }, [formatId(c.id), c.type !== 'שיעור' && c.type, view.required.has(c.id) && 'חובה בתוכנית']
+            .filter(Boolean).join(' · ')),
         h('div', { class: 'stats' },
-            statBox(g ? g.mean.toFixed(1) : '—', 'ממוצע ציון סופי', g && gradeColor(g.mean)),
+            statBox(g ? g.mean.toFixed(1) : '—', 'ממוצע', g && gradeColor(g.mean)),
             statBox(c.credits > 0 ? c.credits : '—', 'ש״ס'),
             thisYear.length
                 ? statBox(thisYear.join(' + '), `סמסטר ב${hebrewYear(latest)}`)
-                : statBox('—', c.last ? `לא מוצע השנה · לאחרונה ${semLabel(c.last)}` : 'לא מוצע השנה')),
-        !inGraph && h('p', { class: 'muted', style: 'margin-top:10px' }, 'הקורס אינו מוצג בגרף עם המסננים הנוכחיים.'),
-        cats && [h('h3', {}, 'בתוכנית'), h('p', {}, cats.join(' · '))],
-        c.lecturers?.length > 0 && [h('h3', {}, 'מרצים'), h('p', {}, c.lecturers.join(', '))],
-        c.exams?.length > 0 && [h('h3', {}, 'הערכה'), h('p', {}, c.exams.join(', '))],
+                : statBox('לא השנה', c.last ? `לאחרונה ${semLabel(c.last)}` : 'לא מוצע')),
+        !inGraph && h('p', { class: 'muted small', style: 'margin-top:10px' }, 'לא מוצג בגרף עם המסננים הנוכחיים'),
         [h('h3', {}, 'דרישות קדם'), c.req ? reqList(c.req) : h('p', { class: 'muted' }, 'אין')],
-        c.coreq && [h('h3', {}, 'דרישות מקבילות'), reqList(c.coreq)],
-        dependents.length > 0 && [h('h3', {}, `פותח את (${dependents.length})`), h('ul', { class: 'req' }, dependents.map(id => h('li', {}, courseButton(id))))],
-        g ? [
-            h('h3', {}, 'ציון סופי'),
-            h('p', {}, h('b', {}, g.mean.toFixed(1)), ` ממוצע · ${g.n.toLocaleString('he-IL')} סטודנטים · ${semLabel(g.by_sem[0][0])}–${semLabel(g.by_sem.at(-1)[0])}`),
-            histogram(g),
-            g.by_sem.length > 1 && h('ul', { class: 'trend' }, g.by_sem.slice().reverse().map(([s, m, n]) =>
-                h('li', { title: `${n} סטודנטים` }, `${semLabel(s)}: `, h('b', {}, m.toFixed(1))))),
-        ] : [h('h3', {}, 'ציונים'), h('p', { class: 'muted' }, 'אין נתוני ציונים בחמש השנים האחרונות')],
-        h('h3', {}, 'תכנון'),
-        state.taken.size > 0 && !state.taken.has(c.id) && h('p', { class: canTake(c, state.taken) ? 'ok' : 'warn' },
-            canTake(c, state.taken) ? '✓ עמדת בדרישות הקדם' : `חסר: ${reqText(unmet(c.reqT, meets(state.taken)))}`),
-        h('div', { class: 'plan-row' },
-            h('label', { class: 'check' },
-                h('input', { type: 'checkbox', checked: state.taken.has(c.id), onchange: () => toggleTaken(c.id) }),
-                h('span', {}, 'עברתי')),
-            h('label', { class: 'check' }, h('span', {}, 'מתוכנן ל־'),
-                h('select', { onchange: e => setPlan(c.id, e.target.value || null) },
-                    h('option', { value: '' }, '—'),
-                    planSemesters().map(s => h('option', { value: s, selected: state.plan.get(c.id) === s }, semOption(s)))))),
-        state.plan.has(c.id) && planIssues(c.id, state.plan.get(c.id)).map(t => h('p', { class: 'warn' }, `⚠ ${t}`)),
+        c.coreq && [h('h3', {}, 'במקביל'), reqList(c.coreq)],
+        h('div', { class: 'plan-box' },
+            state.taken.size > 0 && !state.taken.has(c.id) && h('p', { class: canTake(c, state.taken) ? 'ok' : 'warn' },
+                canTake(c, state.taken) ? '✓ עמדת בדרישות' : `חסר: ${reqText(unmet(c.reqT, meets(state.taken)))}`),
+            h('div', { class: 'plan-row' },
+                h('label', { class: 'check' },
+                    h('input', { type: 'checkbox', checked: state.taken.has(c.id), onchange: () => toggleTaken(c.id) }),
+                    h('span', {}, 'עברתי')),
+                state.taken.has(c.id)
+                    ? h('label', { class: 'check' }, h('span', {}, 'ציון'), gradeInput(c.id))
+                    : h('div', { class: 'check' }, h('span', {}, 'מתוכנן ל־'), planPicker(c.id, '—').el)),
+            state.plan.has(c.id) && planIssues(c.id, state.plan.get(c.id)).map(t => h('p', { class: 'warn' }, `⚠ ${t}`))),
         h('div', { class: 'links' },
             c.syllabus && h('a', { href: c.syllabus, target: '_blank', rel: 'noopener' }, 'סילבוס'),
             drishot && h('a', { href: drishot, target: '_blank', rel: 'noopener' }, 'דרישות באתר האוניברסיטה')),
+        g && [
+            h('h3', {}, 'התפלגות ציונים'),
+            histogram(g),
+            h('p', { class: 'muted small' }, `${g.n.toLocaleString('he-IL')} סטודנטים, ${semLabel(g.by_sem[0][0])}–${semLabel(g.by_sem.at(-1)[0])}`),
+            g.by_sem.length > 1 && h('details', { class: 'more' }, h('summary', {}, 'לפי סמסטר'),
+                h('ul', { class: 'trend' }, g.by_sem.slice().reverse().map(([s, m, n]) =>
+                    h('li', { title: `${n} סטודנטים` }, `${semLabel(s)}: `, h('b', {}, m.toFixed(1)))))),
+        ],
+        facts.length > 0 && h('dl', { class: 'facts' }, facts.map(([k, v]) => [h('dt', {}, k), h('dd', {}, v)])),
+        dependents.length > 0 && [h('h3', {}, `פותח את (${dependents.length})`), courseList(dependents, 5)],
     ));
     panel.hidden = false;
     panel.scrollTop = 0;
@@ -627,7 +757,6 @@ function renderDetails() {
 
 // ── Program & category info ─────────────────────────────────────────────────
 function showInfo(info) {
-    if (state.planning) setPlanning(false);
     state.selected = null;
     state.info = info;
     $('filters').hidden = true;
@@ -659,7 +788,7 @@ function renderProgramInfo() {
                 statBox(cat.required ? 'חובה' : 'בחירה', 'סוג')),
             cat.note && h('div', { class: 'note' }, cat.note),
             h('h3', {}, 'קורסים'),
-            h('ul', { class: 'req' }, cat.courses.filter(id => COURSES.has(id)).map(id => h('li', {}, courseButton(id)))),
+            courseList(cat.courses.filter(id => COURSES.has(id)), 20),
             h('div', { class: 'links' }, h('button', { class: 'btn btn-quiet', onclick: () => showInfo({ type: 'program' }) }, 'לכל התוכנית')),
         ];
     } else {
@@ -703,190 +832,383 @@ function renderProgramInfo() {
 
 // Track whether a side panel is open (canvas tools move out of its way)
 function syncPanels() {
-    document.body.classList.toggle('panel-open', ['details', 'planner', 'filters'].some(id => !$(id).hidden));
+    document.body.classList.toggle('panel-open', !$('details').hidden);
 }
 
-// ── Planning ─────────────────────────────────────────────────────────────────
-function saveProgress() {
+// ── Recording progress: passed courses (with an optional grade), planned courses, credits by hand ──
+// `quiet` saves without re-rendering, for inputs that are still being edited
+function saveProgress({ quiet = false } = {}) {
+    if (inProgram()) store.set(PROGRAM_KEY, state.program);
     store.set(STORAGE_KEY, [...state.taken]);
     store.set(PLAN_KEY, Object.fromEntries(state.plan));
+    store.set(GRADES_KEY, Object.fromEntries(state.grades));
+    store.set(MANUAL_KEY, Object.fromEntries(state.manual));
     store.set(UPDATED_KEY, Date.now());
     pushSoon();
-    refreshProgress();
+    if (quiet) renderSummary();
+    else refreshProgress();
 }
 
 function refreshProgress() {
     applyHighlight();
-    renderPlanner();
+    renderSheet();
     renderDetails();
     renderChrome();
 }
 
 function toggleTaken(id) {
-    if (state.taken.delete(id)) return saveProgress();
-    state.taken.add(id);
-    state.plan.delete(id);
+    if (state.taken.delete(id)) state.grades.delete(id);
+    else { state.taken.add(id); state.plan.delete(id); }
+    saveProgress();
+}
+
+function markTaken(ids) {
+    ids.forEach(id => { state.taken.add(id); state.plan.delete(id); });
     saveProgress();
 }
 
 function setPlan(id, sem) {
-    if (sem) { state.plan.set(id, sem); state.taken.delete(id); } else state.plan.delete(id);
+    if (sem) { state.plan.set(id, sem); state.taken.delete(id); state.grades.delete(id); } else state.plan.delete(id);
     saveProgress();
+}
+
+function setGrade(id, value) {
+    const grade = Number(value);
+    if (value !== '' && !(grade >= 0 && grade <= 100)) return;  // the field shows it as invalid
+    if (value === '') state.grades.delete(id);
+    else state.grades.set(id, Math.round(grade * 10) / 10);
+    // the same course may have a grade field in both the checklist and its card
+    document.querySelectorAll(`input.grade[data-course="${id}"]`).forEach(i => { i.value = state.grades.get(id) ?? ''; });
+    saveProgress({ quiet: true });
+}
+
+function setManual(key, value) {
+    const credits = Number(value);
+    if (value === '' || !(credits > 0)) state.manual.delete(key);
+    else state.manual.set(key, credits);
+    saveProgress({ quiet: true });
+    renderSectionHeads();
 }
 
 function clearProgress() {
-    if (!confirm('למחוק את כל הקורסים שסימנת ותכננת?')) return;
+    if (!confirm('למחוק את כל הקורסים, הציונים והתכנון שסימנת?')) return;
     state.taken.clear();
     state.plan.clear();
+    state.grades.clear();
+    state.manual.clear();
     saveProgress();
 }
 
-function setPlanning(on) {
-    state.planning = on;
-    if (on) {
-        state.selected = null;
-        state.info = null;
-        $('details').hidden = true;
-        $('filters').hidden = true;
-        $('filtersBtn').setAttribute('aria-expanded', 'false');
+// Credit-weighted average of the grades entered; courses without credit data are left out
+function weightedAverage() {
+    let sum = 0, weight = 0, n = 0;
+    for (const [id, grade] of state.grades) {
+        const credits = COURSES.get(id)?.credits;
+        if (!state.taken.has(id) || !credits) continue;
+        sum += grade * credits;
+        weight += credits;
+        n++;
     }
-    applyHighlight();
-    renderPlanner();
-    renderChrome();
-    writeHash();
+    return weight ? { mean: sum / weight, n } : null;
 }
 
-function planItem(c, extra, action) {
-    return h('li', { class: 'plan-item' },
-        h('div', {},
-            h('button', { class: 'course-link', onclick: () => focusNode(c.id) }, c.name),
-            h('div', { class: 'sub' }, [formatId(c.id), c.credits > 0 && `${c.credits} ש״ס`,
-                view.required.has(c.id) && 'חובה בתוכנית'].filter(Boolean).join(' · ')),
-            extra),
-        action);
-}
+const gradeInput = id => h('input', {
+    type: 'number', class: 'grade', min: 0, max: 100, step: 'any', inputmode: 'decimal', placeholder: 'ציון',
+    'data-course': id, 'aria-label': `ציון ב${courseName(id)}`, value: state.grades.get(id) ?? '',
+    onchange: e => setGrade(id, e.target.value),
+});
 
-function renderPlanner() {
-    const panel = $('planner');
-    if (!state.planning || !$('filters').hidden) { panel.hidden = true; syncPanels(); return; }
+const planPicker = (id, empty, key) => picker({ label: `תכנון ${courseName(id)}`, key, onchange: v => setPlan(id, v || null) })
+    .set([{ value: '', label: 'לא מתוכנן', short: empty },
+        ...planSemesters().map(s => ({ value: s, label: semOption(s), short: semLabel(s) }))], state.plan.get(id) || '');
 
-    const target = state.target, targetName = semLabel(target);
-    const done = doneBefore(target), has = meets(done);
-    const rank = c => (view.required.has(c.id) ? 0 : 10) + level(c.id);
-    const order = (a, b) => rank(a) - rank(b) || a.id.localeCompare(b.id);
-    const candidates = cy.nodes().map(n => COURSES.get(n.id()))
-        .filter(c => !state.taken.has(c.id) && !state.plan.has(c.id) && offeredInPart(c, target));
-    const available = candidates.filter(c => canTake(c, done)).sort(order);
-    const almost = candidates.filter(c => !canTake(c, done) && missingCount(c.reqT, has) === 1).sort(order);
-    const planned = [...state.plan.keys()];
-    const noCredits = [...state.taken, ...planned].filter(id => !COURSES.get(id)?.credits);
-    const addButton = c => h('button', { class: 'btn btn-small', title: `הוספה ל${targetName}`, 'aria-label': `הוספת ${c.name} ל${targetName}`,
-        onclick: () => setPlan(c.id, target) }, '+');
-
-    $('plannerBody').replaceChildren(h('div', {},
-        h('h2', {}, 'תכנון לימודים'),
-        h('p', { class: 'muted' }, 'סמנו קורסים שעברתם ובנו תוכנית קדימה. קורס נפתח כשכל דרישות הקדם שלו הושלמו או תוכננו לסמסטר מוקדם יותר.'),
-        h('div', { class: 'meta' },
-            h('span', { class: 'tag' }, `עברתי: ${state.taken.size} קורסים · ${creditsOf([...state.taken])} ש״ס`),
-            h('span', { class: 'tag' }, `מתוכננים: ${planned.length} · ${creditsOf(planned)} ש״ס`)),
-        noCredits.length > 0 && h('p', { class: 'muted small' },
-            `${noCredits.length} מהקורסים שסימנת או תכננת הם ללא נתוני ש״ס, ולכן אינם נספרים בסכומים. יש לבדוק אותם בידיעון.`),
-        h('div', { class: 'plan-controls' },
-            h('label', { class: 'field' }, h('span', {}, 'סמסטר יעד'),
-                h('select', { id: 'target', onchange: e => { state.target = e.target.value; saveProgress(); } },
-                    planSemesters().map(s => h('option', { value: s, selected: s === target }, semOption(s))))),
-            h('div', { class: 'field' }, h('span', {}, 'לחיצה על קורס בגרף'),
-                h('div', { class: 'chips' },
-                    chip('מסמנת שעברתי', state.clickMode === 'taken', () => { state.clickMode = 'taken'; renderPlanner(); }),
-                    chip(`מוסיפה ל${targetName}`, state.clickMode === 'plan', () => { state.clickMode = 'plan'; renderPlanner(); })))),
-
-        h('h3', {}, `אפשר לקחת ב${targetName} (${available.length})`),
-        available.length
-            ? h('ul', { class: 'plan-list', id: 'available' }, available.map(c => planItem(c, null, addButton(c))))
-            : h('p', { class: 'muted' }, 'אין קורסים זמינים בתצוגה הנוכחית.'),
-
-        almost.length > 0 && [
-            h('h3', {}, `חסר קורס אחד (${almost.length})`),
-            h('ul', { class: 'plan-list', id: 'almost' }, almost.map(c =>
-                planItem(c, h('div', { class: 'sub warn' }, `חסר: ${reqText(unmet(c.reqT, has))}`)))),
-        ],
-
-        h('h3', {}, 'התוכנית שלי'),
-        planned.length
-            ? planSemesters().filter(s => plannedIn(s).length).map(s => h('div', { class: 'plan-sem' },
-                h('div', { class: 'plan-sem-head' }, h('b', {}, semLabel(s)), ` · ${plannedIn(s).length} קורסים · ${creditsOf(plannedIn(s))} ש״ס`),
-                h('ul', { class: 'plan-list' }, plannedIn(s).filter(id => COURSES.has(id)).map(id => {
-                    const issues = planIssues(id, s);
-                    return planItem(COURSES.get(id), issues.length > 0 && h('div', { class: 'sub warn' }, `⚠ ${issues.join(' · ')}`),
-                        h('button', { class: 'btn btn-small', 'aria-label': 'הסרה מהתוכנית', onclick: () => setPlan(id, null) }, '×'));
-                }))))
-            : h('p', { class: 'muted' }, 'עדיין לא תוכננו קורסים. בחרו סמסטר יעד והוסיפו קורסים מהרשימה או מהגרף.'),
-
-        view.cats.length > 0 && programProgress(),
-        (state.taken.size > 0 || planned.length > 0) && h('button', { class: 'btn btn-quiet', onclick: clearProgress }, 'ניקוי הכל'),
-        h('p', { class: 'muted small' }, 'ההיצע בשנים הבאות משוער לפי מערכת השעות של השנה. הרשימות מתייחסות לקורסים שבתצוגה.'),
-    ));
-    panel.hidden = false;
-    syncPanels();
-}
-
-const creditsNeeded = cat => Number(String(cat.credits || '').split('-')[0]) || 0;
+// Required parts without a catalog figure (joint programs) need all their courses' credits
+const creditsNeeded = cat => minCredits(cat.credits) || (isMandatory(cat) ? creditsOf(cat.courses) : 0);
+const minCredits = text => Number(String(text ?? '').split('-')[0]) || 0;  // "59-61" → 59
 
 // A course may be listed in several categories (e.g. core courses in year 2 and year 3), but counts
 // toward one: a mandatory category if listed in one, else the first that still needs credits.
 function allocateCredits(cats) {
     const order = [...cats.filter(isMandatory), ...cats.filter(c => !isMandatory(c))];
-    const got = new Map(cats.map(c => [c.i, { done: 0, planned: 0 }]));
+    const got = new Map(cats.map(c => [c.i, { done: 0, planned: 0, ids: [] }]));
     const room = c => creditsNeeded(c) > got.get(c.i).done + got.get(c.i).planned;
     for (const [ids, key] of [[state.taken, 'done'], [state.plan.keys(), 'planned']]) {
         for (const id of [...ids].sort()) {
             const homes = order.filter(c => c.courses.includes(id));
             const home = homes.find(c => isMandatory(c) || room(c)) || homes[0];
-            if (home) got.get(home.i)[key] += COURSES.get(id)?.credits || 0;
+            if (!home) continue;
+            got.get(home.i)[key] += COURSES.get(id)?.credits || 0;
+            got.get(home.i).ids.push(id);
         }
     }
     return got;
 }
 
-function programProgress() {
-    const plannedSet = new Set(state.plan.keys());
-    const got = allocateCredits(view.cats);
-    const meter = (done, planned, need) => {
-        const bar = h('div', { class: 'meter' }, h('i', { class: 'done' }), h('i', { class: 'planned' }));
-        bar.children[0].style.width = `${Math.min(100, (done / need) * 100)}%`;
-        bar.children[1].style.width = `${Math.min(100 - Math.min(100, (done / need) * 100), (planned / need) * 100)}%`;
-        return bar;
+// ── My degree: sections (years, "שאר רוח") → categories → courses ──────────
+const norm = text => text.replace(/\s+/g, ' ').trim();
+const manualKey = name => (/שאר רוח/.test(name) ? 'שאר רוח' : norm(name));  // shared across programs
+const yearLetter = name => name.match(/^שנה\s+([אבגד])/)?.[1];
+
+// Catalog categories are named after their section ("שנה ב' - סמסטר א' - …"; the longest matching
+// section wins). Sections without categories, such as "שאר רוח", are recorded as credits by hand.
+function degreeSections(program, cats) {
+    const sections = (program.sections || []).map(s => ({ ...s, key: norm(s.name), cats: [] }));
+    const other = new Map();
+    for (const cat of cats) {
+        const home = sections.filter(s => cat.name === s.key || cat.name.startsWith(`${s.key} - `))
+            .sort((a, b) => b.key.length - a.key.length)[0];
+        if (home) { home.cats.push(cat); continue; }
+        // programs without catalog sections (joint programs) are grouped by year
+        const name = cat.year ? `שנה ${'אבגד'[cat.year - 1]}׳` : 'כללי';
+        if (!other.has(name)) other.set(name, { name, key: name, cats: [] });
+        other.get(name).cats.push(cat);
+    }
+    return [...sections.filter(s => s.cats.length || minCredits(s.credits)), ...other.values()];
+}
+
+// Credits done / planned / needed for a section
+function sectionProgress(section, alloc) {
+    if (!section.cats.length) {
+        return { done: state.manual.get(manualKey(section.name)) || 0, planned: 0, need: minCredits(section.credits) };
+    }
+    const sum = key => section.cats.reduce((n, cat) => n + alloc.get(cat.i)[key], 0);
+    // without a catalog figure, the target is known only if every part's is
+    const need = minCredits(section.credits)
+        || (section.cats.every(cat => creditsNeeded(cat)) ? section.cats.reduce((n, cat) => n + creditsNeeded(cat), 0) : 0);
+    return { done: sum('done'), planned: sum('planned'), need };
+}
+
+function meter(done, planned, need) {
+    const bar = h('div', { class: 'meter', role: 'img', 'aria-label': `${done} מתוך ${need}` }, h('i', { class: 'done' }), h('i', { class: 'planned' }));
+    const d = need ? Math.min(100, (done / need) * 100) : 0;
+    bar.children[0].style.width = `${d}%`;
+    bar.children[1].style.width = `${need ? Math.min(100 - d, (planned / need) * 100) : 0}%`;
+    return bar;
+}
+
+const creditText = ({ done, planned, need }) => `${done}${planned ? ` + ${planned}` : ''}${need ? ` / ${need}` : ''} ש״ס`;
+
+let degree = null;  // the rendered program: {program, sections, alloc}
+const openLists = new Set();  // folded course lists the student opened (kept across re-renders)
+
+function renderSheet() {
+    const sheet = $('sheet');
+    sheet.hidden = state.mode !== 'program' || (state.program && state.view === 'map');
+    if (sheet.hidden) return;
+    // Keep keyboard focus: on the same control, or where it was if that control is gone
+    const focusKey = document.activeElement?.dataset?.focusKey;
+    const focusIndex = [...sheet.querySelectorAll('[data-focus-key]')].indexOf(document.activeElement);
+    if (!state.program) {
+        degree = null;
+        sheet.replaceChildren(programChooser());
+    } else {
+        const program = view.program;
+        degree = { program, sections: degreeSections(program, view.cats), alloc: allocateCredits(view.cats) };
+        sheet.replaceChildren(h('div', { class: 'sheet-inner' },
+            h('div', { id: 'summary', class: 'summary' }),
+            state.view === 'timeline' ? timeline() : degreeList()));
+        renderSummary();
+    }
+    if (focusKey) {
+        const all = [...sheet.querySelectorAll('[data-focus-key]')];
+        (sheet.querySelector(`[data-focus-key="${CSS.escape(focusKey)}"]`) || all[Math.min(focusIndex, all.length - 1)])?.focus();
+    }
+}
+
+function renderSummary() {
+    const el = $('summary');
+    if (!el || !degree) return;
+    const { program, sections, alloc } = degree;
+    const parts = sections.map(s => ({ s, ...sectionProgress(s, alloc) }));
+    const done = parts.reduce((n, p) => n + p.done, 0), planned = parts.reduce((n, p) => n + p.planned, 0);
+    const need = program.total || (parts.every(p => p.need) ? parts.reduce((n, p) => n + p.need, 0) : 0);
+    const avg = weightedAverage();
+    const issues = [...state.plan].filter(([id, sem]) => COURSES.has(id) && planIssues(id, sem).length).length;
+    el.replaceChildren(...[
+        h('div', { class: 'summary-top' },
+            h('div', { class: 'summary-total' },
+                h('b', {}, String(done)), h('span', {}, need ? ` / ${need} ש״ס` : ' ש״ס'),
+                planned > 0 && h('span', { class: 'muted' }, ` · ${planned} מתוכננים`)),
+            h('div', { class: 'summary-side' },
+                h('span', {}, avg ? [h('b', {}, avg.mean.toFixed(1)), ` ממוצע (${avg.n} ציונים)`] : h('span', { class: 'muted' }, 'אין ציונים')),
+                issues > 0 && h('button', { class: 'btn-link warn', onclick: () => setView('timeline') }, issues === 1 ? 'בעיה אחת בתכנון' : `${issues} בעיות בתכנון`))),
+        need > 0 && meter(done, planned, need),
+        h('div', { class: 'summary-sections' }, parts.map(p => h('a', { href: `#sec-${sections.indexOf(p.s)}`, class: `section-chip${p.need && p.done >= p.need ? ' complete' : ''}`,
+            onclick: e => { e.preventDefault(); $(`sec-${sections.indexOf(p.s)}`)?.scrollIntoView({ block: 'start', behavior: 'smooth' }); } },
+            h('span', {}, p.s.name), h('b', {}, `${p.done}${p.need ? `/${p.need}` : ''}`)))),
+    ].filter(Boolean));
+}
+
+// After credits are entered by hand, without re-rendering the field being edited
+function renderSectionHeads() {
+    if (!degree) return;
+    degree.sections.forEach((s, i) => {
+        const el = document.querySelector(`#sec-${i} .section-head .muted`);
+        if (el) el.textContent = creditText(sectionProgress(s, degree.alloc));
+    });
+}
+
+function degreeList() {
+    const { sections, alloc } = degree;
+    const home = new Map();  // course → the category it counts toward
+    alloc.forEach((a, i) => a.ids.forEach(id => home.set(id, i)));
+    return h('div', { class: 'degree' },
+        h('div', { class: 'degree-tools' },
+            h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: state.hideDone, 'data-focus-key': 'hide-done',
+                onchange: e => { state.hideDone = e.target.checked; store.set(HIDE_DONE_KEY, state.hideDone); renderSheet(); } }), h('span', {}, 'הסתרת קורסים שעברתי')),
+            degree.program.url && h('a', { href: degree.program.url, target: '_blank', rel: 'noopener' }, 'הידיעון'),
+            (degree.program.parts || []).length > 0 && h('span', {}, 'הכללים המלאים בידיעון של כל חוג: ',
+                degree.program.parts.map((x, i) => [i > 0 && ' · ', h('a', { href: x.url, target: '_blank', rel: 'noopener' }, shortProgram(x.name))]))),
+        sections.map((section, si) => {
+            const progress = sectionProgress(section, alloc);
+            return h('section', { class: 'degree-section', id: `sec-${si}` },
+                h('div', { class: 'section-head' }, h('h2', {}, section.name), h('span', { class: 'muted' }, creditText(progress))),
+                section.cats.length
+                    ? section.cats.map(cat => categoryBlock(cat, section, alloc.get(cat.i), home))
+                    : manualBlock(section, progress));
+        }),
+        (state.taken.size > 0 || state.plan.size > 0) && h('button', { class: 'btn btn-quiet clear-all', onclick: clearProgress }, 'מחיקת כל הסימונים'));
+}
+
+// Requirements the data can't list (e.g. "שאר רוח" courses from other faculties): credits by hand
+function manualBlock(section, progress) {
+    const key = manualKey(section.name);
+    return h('div', { class: 'cat' },
+        h('div', { class: 'cat-body manual' },
+            h('p', { class: 'muted' }, 'הקורסים לא מופיעים באתר. רשמו כמה נקודות צברתם:'),
+            h('label', { class: 'check' },
+                h('input', { type: 'number', class: 'grade', min: 0, step: 'any', inputmode: 'decimal', value: state.manual.get(key) ?? '', 'data-focus-key': `manual:${key}`,
+                    'aria-label': `נקודות ב${section.name}`, onchange: e => setManual(key, e.target.value) }),
+                h('span', {}, progress.need ? `מתוך ${progress.need} ש״ס` : 'ש״ס'))),
+        section.note && h('details', { class: 'about' }, h('summary', {}, 'פרטים'), h('div', { class: 'note' }, section.note)));
+}
+
+function categoryBlock(cat, section, got, home) {
+    const need = creditsNeeded(cat), pick = choose(cat), mandatory = isMandatory(cat);
+    let parts = bandParts(cat);
+    if (parts.length > 1 && ((yearLetter(parts[0]) && yearLetter(parts[0]) === yearLetter(section.key)) || parts[0] === section.key)) parts = parts.slice(1);
+    const listed = cat.courses;
+    // A required part is complete once all its courses are passed, even when the catalog's credit
+    // figure is higher than their sum or some courses lack credit data
+    const complete = mandatory ? listed.every(id => state.taken.has(id))
+        : need ? got.done >= need : pick ? got.ids.filter(id => state.taken.has(id)).length >= pick : false;
+    const status = need ? creditText({ ...got, need }) : pick ? `נבחרו ${got.ids.length} מתוך ${pick}` : `${listed.filter(id => state.taken.has(id)).length}/${listed.length} קורסים`;
+    const open = listed.filter(id => !state.taken.has(id));
+    // Long elective lists fold after the first few, in catalog order (rows never move when marked)
+    const ids = state.hideDone ? listed.filter(id => !state.taken.has(id)) : listed;
+    const shown = mandatory || ids.length <= 10 ? ids : ids.slice(0, 8), folded = ids.slice(shown.length);
+    const chosenInFold = folded.filter(id => rank(id) < 2).length;
+    const rows = ids => h('ul', { class: 'rows' }, ids.map(id => courseRow(id, cat, home)));
+    const listKey = `${state.program}:${cat.i}`;
+    return h('div', { class: `cat${complete ? ' complete' : ''}` },
+        h('div', { class: 'cat-head' },
+            h('div', {},
+                h('span', { class: 'cat-title', title: cat.name }, parts.join(' · ')),
+                h('span', { class: 'cat-status' }, complete ? `✓ ${status}` : status)),
+            mandatory && open.length > 1 && h('button', { class: 'btn btn-small', onclick: () => markTaken(open) }, 'סימון הכל כעבר')),
+        need > 0 && meter(got.done, got.planned, need),
+        !(state.hideDone && complete) && [
+            rows(shown),
+            folded.length > 0 && h('details', { class: 'more', open: openLists.has(listKey), ontoggle: e => { e.target.open ? openLists.add(listKey) : openLists.delete(listKey); } },
+                h('summary', {}, `עוד ${folded.length} קורסים${chosenInFold ? ` (${chosenInFold} נבחרו)` : ''}`), rows(folded)),
+        ],
+        cat.note && h('details', { class: 'about' }, h('summary', {}, 'הערות'), h('div', { class: 'note' }, cat.note)));
+}
+
+const rank = id => (state.taken.has(id) ? 0 : state.plan.has(id) ? 1 : 2);
+
+function courseRow(id, cat, home) {
+    const c = COURSES.get(id), taken = state.taken.has(id), sem = state.plan.get(id);
+    const key = `${cat.i}:${id}`;
+    const pills = [];
+    if (taken || sem) {
+        if (home.has(id) && home.get(id) !== cat.i) pills.push(h('span', { class: 'pill' }, 'נספר בחלק אחר'));
+    }
+    if (c && sem) planIssues(id, sem).forEach(t => pills.push(h('span', { class: 'pill warn' }, t)));
+    else if (c && !taken) {
+        const missing = unmet(c.reqT, meets(new Set([...state.taken, ...state.plan.keys()])));
+        if (missing) pills.push(h('span', { class: 'pill', title: reqText(missing) }, `חסר: ${reqText(missing)}`));
+        if (!offeredNow(c)) pills.push(h('span', { class: 'pill' }, 'לא מוצע השנה'));
+    }
+    return h('li', { class: `row${taken ? ' done' : sem ? ' planned' : ''}` },
+        h('input', { type: 'checkbox', checked: taken, 'data-focus-key': `${key}:taken`, 'aria-label': `עברתי: ${courseName(id)}`, onchange: () => toggleTaken(id) }),
+        h('div', { class: 'row-main' },
+            c ? h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, c.name)) : h('bdi', {}, courseName(id)),
+            h('span', { class: 'course-id' }, formatId(id.slice(0, 8))),
+            pills.length > 0 && h('div', { class: 'pills' }, pills)),
+        h('span', { class: 'row-credits', title: c?.credits ? null : 'אין נתוני נקודות זכות' }, c?.credits ? `${c.credits} ש״ס` : '—'),
+        h('div', { class: 'row-status' }, taken ? gradeInput(id) : c && planPicker(id, 'תכנון', `${key}:plan`).el));
+}
+
+// ── Semesters: what I passed and what I plan, semester by semester ──────────
+function timeline() {
+    const inProgramIds = new Set(view.cats.flatMap(cat => cat.courses).filter(id => COURSES.has(id)));
+    const passed = [...state.taken].filter(id => COURSES.has(id)).sort((a, b) => courseName(a).localeCompare(courseName(b), 'he'));
+    const column = (title, sub, ids, footer, cls = '') => h('section', { class: `term ${cls}` },
+        h('div', { class: 'term-head' }, h('b', {}, title), h('span', { class: 'muted' }, sub)),
+        ids.length ? h('ul', { class: 'term-list' }, ids.map(footer.item)) : h('p', { class: 'muted small term-empty' }, footer.empty),
+        footer.add);
+    const addPicker = sem => {
+        const done = doneBefore(sem);
+        const candidates = [...inProgramIds].filter(id => !state.taken.has(id) && !state.plan.has(id) && offeredInPart(COURSES.get(id), sem));
+        // the name is direction-isolated (\u2068…\u2069) so an English name doesn't swallow the Hebrew after it
+        const opt = (id, group) => ({ value: id, label: `\u2068${COURSES.get(id).name}\u2069${COURSES.get(id).credits ? ` · ${COURSES.get(id).credits} ש״ס` : ''}`, group });
+        const ready = candidates.filter(id => canTake(COURSES.get(id), done)), blocked = candidates.filter(id => !ready.includes(id));
+        const p = picker({ label: `הוספת קורס ל${semLabel(sem)}`, search: true, key: `add:${sem}`, placeholder: '+ הוספת קורס', onchange: id => setPlan(id, sem) })
+            .set([...ready.map(id => opt(id, 'אפשר לקחת')), ...blocked.map(id => opt(id, 'חסרות דרישות קדם'))], null);
+        p.el.classList.add('term-add');
+        return p.el;
     };
-    const total = view.program?.total;
-    const allIds = [...new Set(view.cats.flatMap(c => c.courses))];
-    const doneAll = creditsOf([...state.taken]), plannedAll = creditsOf([...plannedSet]);
-    return [
-        h('h3', {}, 'התקדמות בתוכנית'),
-        total && h('div', { class: 'progress' },
-            h('div', { class: 'progress-top' }, h('b', {}, 'סה״כ לתואר'),
-                h('span', { class: 'sub' }, `${doneAll}${plannedAll ? ` + ${plannedAll}` : ''} / ${total} ש״ס`)),
-            meter(doneAll, plannedAll, total)),
-        h('ul', { class: 'plan-list' }, view.cats.map(cat => {
-            const need = creditsNeeded(cat), { done, planned } = got.get(cat.i);
-            return h('li', { class: 'progress' },
-                h('div', { class: 'progress-top' },
-                    h('button', { class: 'course-link', title: cat.name, onclick: () => showInfo({ type: 'category', index: cat.i }) }, bandLabel(cat)),
-                    h('span', { class: `sub${need && done >= need ? ' ok' : ''}` },
-                        need ? `${done}${planned ? ` + ${planned}` : ''} / ${need} ש״ס` : `${done + planned} ש״ס`)),
-                need > 0 && meter(done, planned, need));
-        })),
-        allIds.length === 0 && h('p', { class: 'muted' }, 'אין נתונים'),
-    ];
+    return h('div', { class: 'timeline' },
+        column('עברתי', `${passed.length} קורסים · ${creditsOf(passed)} ש״ס`, passed, {
+            empty: 'סמנו קורסים שעברתם ברשימה.',
+            item: id => h('li', { class: 'term-item' },
+                h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, courseName(id))),
+                h('span', { class: 'muted small' }, [COURSES.get(id).credits && `${COURSES.get(id).credits} ש״ס`, state.grades.has(id) && `ציון ${state.grades.get(id)}`].filter(Boolean).join(' · '))),
+        }, 'passed'),
+        planSemesters().map(sem => {
+            const ids = plannedIn(sem).filter(id => COURSES.has(id));
+            return column(semOption(sem), `${creditsOf(ids)} ש״ס`, ids, {
+                empty: 'אין קורסים מתוכננים.',
+                add: addPicker(sem),
+                item: id => {
+                    const issues = planIssues(id, sem);
+                    return h('li', { class: `term-item${issues.length ? ' invalid' : ''}` },
+                        h('div', { class: 'term-row' },
+                            h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, courseName(id))),
+                            h('button', { class: 'btn btn-icon btn-small', 'aria-label': `הסרת ${courseName(id)} מהתכנון`, 'data-focus-key': `rm:${sem}:${id}`, onclick: () => setPlan(id, null) }, '×')),
+                        h('span', { class: 'muted small' }, COURSES.get(id).credits ? `${COURSES.get(id).credits} ש״ס` : ''),
+                        issues.map(t => h('span', { class: 'pill warn' }, t)));
+                },
+            });
+        }));
+}
+
+// Program mode before a program is chosen: the faculty's programs
+function programChooser() {
+    const options = pickers.program.options.filter(o => programFaculty(o.value) === state.faculty);
+    let group;
+    return h('div', { class: 'sheet-inner chooser' },
+        h('h2', {}, 'בחרו תוכנית לימודים'),
+        h('p', { class: 'muted' }, 'תוכניות הפקולטה ל' + state.faculty + '. אפשר להחליף פקולטה בסרגל למעלה.'),
+        h('ul', { class: 'chooser-list' }, options.map(o => [
+            o.group !== group && h('li', { class: 'chooser-group' }, (group = o.group)),
+            h('li', {}, h('button', { class: 'chooser-item', onclick: () => setProgram(o.value) }, o.label)),
+        ])));
 }
 
 // ── Cloud sync (enabled when assets/firebase-config.js provides a Firebase config) ──
 const cloud = { api: null, user: null, timer: null, status: '' };
 
+// Grades and hand-entered credits are sent only when there are any (accounts from before they existed stay valid)
 function localProgress() {
-    return {
+    const p = {
         taken: [...state.taken], plan: Object.fromEntries(state.plan),
         program: store.get(PROGRAM_KEY, '') || '', start: state.start, updatedAt: store.get(UPDATED_KEY, 0),
     };
+    if (state.grades.size) p.grades = Object.fromEntries(state.grades);
+    if (state.manual.size) p.manual = Object.fromEntries(state.manual);
+    return p;
 }
 
 // First sync of a device with an account: union of passed courses; the newer side wins planned conflicts
@@ -895,14 +1217,23 @@ function mergeProgress(local, remote) {
     const taken = [...new Set([...(local.taken || []), ...(remote.taken || [])])];
     const plan = Object.fromEntries(Object.entries({ ...(older.plan || {}), ...(newer.plan || {}) })
         .filter(([id]) => !taken.includes(id)));
-    return { taken, plan, program: newer.program || older.program || '', start: newer.start || older.start || '', updatedAt: Date.now() };
+    const grades = { ...(older.grades || {}), ...(newer.grades || {}) }, manual = { ...(older.manual || {}), ...(newer.manual || {}) };
+    return { taken, plan, program: newer.program || older.program || '', start: newer.start || older.start || '', updatedAt: Date.now(),
+        ...(Object.keys(grades).length && { grades }), ...(Object.keys(manual).length && { manual }) };
 }
 
 function applyProgress(p) {
     state.taken = new Set((p.taken || []).filter(id => typeof id === 'string'));  // may include courses outside the dataset
     state.plan = new Map(Object.entries(p.plan || {}).filter(([id]) => COURSES.has(id) && !state.taken.has(id)));
+    // A copy without grades or hand-entered credits (saved by an older version of the site) keeps the local ones
+    const grades = 'grades' in p ? p.grades : Object.fromEntries(state.grades);
+    const manual = 'manual' in p ? p.manual : Object.fromEntries(state.manual);
+    state.grades = new Map(Object.entries(grades || {}).filter(([id, g]) => state.taken.has(id) && typeof g === 'number'));
+    state.manual = new Map(Object.entries(manual || {}).filter(([, n]) => typeof n === 'number'));
     store.set(STORAGE_KEY, [...state.taken]);
     store.set(PLAN_KEY, Object.fromEntries(state.plan));
+    store.set(GRADES_KEY, Object.fromEntries(state.grades));
+    store.set(MANUAL_KEY, Object.fromEntries(state.manual));
     store.set(PROGRAM_KEY, p.program || '');
     state.start = /^\d{4}$/.test(p.start || '') ? p.start : '';
     store.set(START_KEY, state.start);
@@ -974,7 +1305,7 @@ async function cloudSignOut({ deleteData = false } = {}) {
         return;
     }
     store.set(SYNCED_KEY, null);
-    applyProgress({ taken: [], plan: {}, program: '', updatedAt: 0 });
+    applyProgress({ taken: [], plan: {}, grades: {}, manual: {}, program: '', updatedAt: 0 });
 }
 
 function renderAccount() {
@@ -1082,53 +1413,78 @@ function chip(label, pressed, onclick, count) {
         label, count != null && h('span', { class: 'count' }, ` ${count}`));
 }
 
+// Chips are rebuilt on every change; keyboard focus stays on the same chip
+function replaceChips(container, chips) {
+    const focused = [...container.children].indexOf(document.activeElement);
+    container.replaceChildren(...chips);
+    if (focused >= 0) container.children[focused]?.focus();
+}
+
 function toggleIn(set, value) {
     set.has(value) ? set.delete(value) : set.add(value);
 }
 
+// Faculties: of academic units (unit mode, from the data's meta) and of programs (program mode)
+const unitFaculties = () => DATA.meta.faculties || {};
+const programFaculty = name => DATA.plans[name]?.faculty || 'אחר';
+const facultyOfUnits = () => Object.keys(unitFaculties()).find(f => unitFaculties()[f].some(u => state.depts.has(u)))
+    || Object.keys(unitFaculties())[0] || '';
+
+function facultyOptions() {
+    if (state.mode === 'unit') return Object.keys(unitFaculties()).map(f => ({ value: f, label: f }));
+    const counts = new Map();
+    Object.keys(DATA.plans).forEach(n => counts.set(programFaculty(n), (counts.get(programFaculty(n)) || 0) + 1));
+    return [...counts].sort((a, b) => b[1] - a[1]).map(([f, n]) => ({ value: f, label: `${f} (${n})`, short: f }));
+}
+
 function renderChrome() {
-    const inProgram = Boolean(state.program);
-    document.title = `${inProgram ? shortProgram(state.program) : [...state.depts].join(', ') || 'עץ הקורסים'} · עץ הקורסים`;
-    document.body.classList.toggle('program', inProgram);
-    $('modeDept').setAttribute('aria-pressed', String(!inProgram));
-    $('modeProgram').setAttribute('aria-pressed', String(inProgram));
-    $('deptBar').hidden = inProgram;
-    $('programBar').hidden = !inProgram;
+    const program = state.mode === 'program', map = !program || (state.program && state.view === 'map');
+    document.title = `${inProgram() ? shortProgram(state.program) : program ? 'התואר שלי' : [...state.depts].join(', ') || 'עץ הקורסים'} · עץ הקורסים`;
+    document.body.classList.toggle('program', inProgram());
+    document.body.classList.toggle('has-progress', state.taken.size + state.plan.size > 0);
+    $('modeDept').setAttribute('aria-pressed', String(!program));
+    $('modeProgram').setAttribute('aria-pressed', String(program));
+    $('deptBar').hidden = program;
+    $('programBar').hidden = !program;
+    $('programInfoBtn').hidden = !state.program;
+    $('viewTabs').hidden = !inProgram();
+    [...$('viewTabs').children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === state.view)));
+    $('count').hidden = !map;
+    $('filtersBtn').hidden = !map;
+    if (!map) { $('filters').hidden = true; $('filtersBtn').setAttribute('aria-expanded', 'false'); }
 
-    $('typeField').hidden = inProgram;
-    $('offeredField').hidden = inProgram;
-    $('isolatedField').hidden = inProgram;
-    $('electivesField').hidden = !inProgram;
+    $('typeField').hidden = inProgram();
+    $('offeredField').hidden = inProgram();
+    $('isolatedField').hidden = inProgram();
+    $('electivesField').hidden = !inProgram();
 
-    $('deptBar').replaceChildren(...Object.values(DATA.meta.faculties).flat().map(d =>
-        chip(d, state.depts.has(d), () => { toggleIn(state.depts, d); render(); })));
+    pickers.faculty.set(facultyOptions(), state.faculty);
+    replaceChips($('deptBar'), (unitFaculties()[state.faculty] || []).map(d =>
+        chip(d, state.depts.has(d), () => { toggleIn(state.depts, d); render(); writeHash(); })));
 
     const counts = new Map();
     for (const c of COURSES.values()) {
         if (state.depts.has(c.dept) && isOffered(c, state.offered)) counts.set(typeKey(c), (counts.get(typeKey(c)) || 0) + 1);
     }
-    $('typeChips').replaceChildren(...[...MAIN_TYPES, OTHER_TYPE].map(t =>
+    replaceChips($('typeChips'), [...MAIN_TYPES, OTHER_TYPE].map(t =>
         chip(t, state.types.has(t), () => { toggleIn(state.types, t); render(); }, counts.get(t) || 0)));
 
-    $('offered').value = state.offered;
+    replaceChips($('offeredChips'), OFFERED.map(([value, label]) =>
+        chip(label, state.offered === value, () => { state.offered = value; render(); })));
     $('isolated').checked = state.isolated;
     $('electives').checked = state.electives;
-    $('program').value = state.program;
+    pickers.program.set(pickers.program.options.filter(o => programFaculty(o.value) === state.faculty), state.program);
+    pickers.program.el.hidden = !program;
     const years = Object.keys(DATA.plans[state.program]?.previous || {}).sort().reverse();
-    $('startYear').hidden = !inProgram || !years.length;
-    $('startYear').replaceChildren(...[String(DATA.meta.catalog_year), ...years].map((y, i) =>
-        h('option', { value: i ? y : '', selected: (i ? y : '') === (years.includes(state.start) ? state.start : '') },
-            `התחלתי ב${hebrewYear(+y + 1)}`)));
+    pickers.start.el.hidden = !inProgram() || !years.length;
+    pickers.start.set([String(DATA.meta.catalog_year), ...years].map((y, i) => ({ value: i ? y : '', label: `התחלתי ב${hebrewYear(+y + 1)}` })),
+        years.includes(state.start) ? state.start : '');
 
-    const changed = inProgram ? Number(state.electives !== DEFAULTS.electives)
+    const changed = inProgram() ? Number(state.electives !== DEFAULTS.electives)
         : Number(state.offered !== DEFAULTS.offered) + Number(state.isolated !== DEFAULTS.isolated)
           + Number([...state.types].sort().join() !== [...DEFAULTS.types].sort().join());
     $('filterBadge').hidden = !changed;
     $('filterBadge').textContent = changed;
-
-    $('planLabel').textContent = state.taken.size ? `תכנון · ${creditsOf([...state.taken])} ש״ס` : 'תכנון';
-    $('planBtn').setAttribute('aria-pressed', String(state.planning));
-    document.body.classList.toggle('planning', state.planning);
 
     const shown = cy.nodes().length;
     $('count').textContent = `${shown} קורסים`;
@@ -1139,9 +1495,17 @@ function renderChrome() {
     syncPanels();
 }
 
-function setProgram(name) {
-    state.program = name && DATA.plans[name] ? name : '';
-    if (state.program) { store.set(PROGRAM_KEY, state.program); store.set(UPDATED_KEY, Date.now()); pushSoon(); }
+// Program mode ("my degree") or unit mode (browse one academic unit's courses)
+function setMode(mode) {
+    if (mode === state.mode) return;
+    state.mode = mode;
+    if (mode === 'program') {
+        if (!state.program && DATA.plans[store.get(PROGRAM_KEY, '')]) state.program = store.get(PROGRAM_KEY, '');
+        state.faculty = state.program ? programFaculty(state.program)
+            : facultyOptions().find(o => o.value === facultyOfUnits())?.value || facultyOptions()[0]?.value || '';
+    } else {
+        state.faculty = facultyOfUnits();
+    }
     state.selected = null;
     state.info = null;
     renderDetails();
@@ -1149,11 +1513,39 @@ function setProgram(name) {
     writeHash();
 }
 
-function suggestedProgram() {
-    const remembered = store.get(PROGRAM_KEY, null);
-    if (DATA.plans[remembered]) return remembered;
-    const byDept = [...state.depts].map(d => DEFAULT_PROGRAMS[d]).find(n => DATA.plans[n]);
-    return byDept || Object.keys(DATA.plans)[0];
+function setFaculty(faculty) {
+    state.faculty = faculty;
+    if (state.mode === 'unit') state.depts = new Set((unitFaculties()[faculty] || []).slice(0, 1));
+    else if (programFaculty(state.program) !== faculty) state.program = '';
+    state.selected = null;
+    state.info = null;
+    renderDetails();
+    render();
+    writeHash();
+}
+
+function setProgram(name) {
+    state.program = name && DATA.plans[name] ? name : '';
+    if (state.program) {
+        state.mode = 'program';
+        state.faculty = programFaculty(state.program);
+        store.set(PROGRAM_KEY, state.program);
+        store.set(UPDATED_KEY, Date.now());
+        pushSoon();
+    }
+    state.selected = null;
+    state.info = null;
+    renderDetails();
+    render();
+    writeHash();
+}
+
+function setView(v) {
+    state.view = VIEWS.includes(v) ? v : 'list';
+    renderSheet();
+    renderChrome();
+    if (state.view === 'map') fitGraph(cy.nodes());
+    writeHash();
 }
 
 function resetFilters() {
@@ -1186,9 +1578,8 @@ function setupCanvasTools() {
         const c = COURSES.get(e.target.id()), p = e.target.renderedPosition();
         const sems = (c.semesters || []).filter(s => +s.slice(0, 4) === DATA.meta.latest_year).map(partName).reverse();
         tip.replaceChildren(h('b', {}, c.name),
-            h('div', { class: 'sub' }, [formatId(c.id), c.credits > 0 && `${c.credits} ש״ס`].filter(Boolean).join(' · ')),
-            h('div', {}, [c.grades ? `ממוצע ${c.grades.mean.toFixed(1)}` : 'אין נתוני ציונים',
-                sems.length ? `סמסטר ${sems.join(' + ')}` : 'לא מוצע השנה'].join(' · ')));
+            h('div', { class: 'sub' }, [c.grades && `ממוצע ${c.grades.mean.toFixed(1)}`, c.credits > 0 && `${c.credits} ש״ס`,
+                sems.length ? `סמסטר ${sems.join(' + ')}` : 'לא השנה'].filter(Boolean).join(' · ')));
         tip.hidden = false;
         const x = Math.min(Math.max(8, p.x - tip.offsetWidth / 2), cy.width() - tip.offsetWidth - 8);
         const y = p.y - (NODE_H / 2) * cy.zoom() - tip.offsetHeight - 8;
@@ -1196,24 +1587,22 @@ function setupCanvasTools() {
         tip.style.top = `${y < 8 ? p.y + (NODE_H / 2) * cy.zoom() + 8 : y}px`;
     });
     cy.on('mouseout viewport tap', () => { tip.hidden = true; });
+    cy.on('mouseover', 'node', e => e.target.connectedEdges().addClass('peek'));
+    cy.on('mouseout', 'node', e => e.target.connectedEdges().removeClass('peek'));
 }
 
 function setupControls() {
-    const programSelect = $('program');
     const groups = [['חד-חוגיות', /חד[- ]חוגי/], ['דו-חוגיות', /דו[- ]חוגי/], ['משולבות ואחרות', /./]];
-    const names = Object.keys(DATA.plans);
-    const used = new Set();
-    for (const [label, re] of groups) {
+    const names = Object.keys(DATA.plans), used = new Set(), options = [];
+    for (const [group, re] of groups) {
         const members = names.filter(n => !used.has(n) && re.test(n));
-        members.forEach(n => used.add(n));
-        if (members.length) programSelect.append(h('optgroup', { label }, members.map(n => h('option', { value: n }, shortProgram(n)))));
+        members.forEach(n => { used.add(n); options.push({ value: n, label: shortProgram(n), group }); });
     }
-    programSelect.addEventListener('change', () => setProgram(programSelect.value));
-    $('modeDept').addEventListener('click', () => setProgram(''));
-    $('modeProgram').addEventListener('click', () => { if (!state.program) setProgram(suggestedProgram()); });
-    $('programInfoBtn').addEventListener('click', () => showInfo({ type: 'program' }));
-    $('startYear').addEventListener('change', e => {
-        state.start = e.target.value;
+    pickers.faculty = picker({ id: 'faculty', label: 'פקולטה', onchange: setFaculty });
+    pickers.program = picker({ id: 'program', label: 'תוכנית לימודים', search: true, placeholder: 'בחרו תוכנית', onchange: setProgram });
+    pickers.program.options = options;
+    pickers.start = picker({ id: 'startYear', label: 'שנת התחלת הלימודים', onchange: value => {
+        state.start = value;
         store.set(START_KEY, state.start);
         store.set(UPDATED_KEY, Date.now());
         pushSoon();
@@ -1221,63 +1610,78 @@ function setupControls() {
         render();
         renderDetails();
         writeHash();
-    });
+    } });
+    $('facultySlot').replaceWith(pickers.faculty.el);
+    $('programSlot').replaceWith(pickers.program.el);
+    pickers.start.el.title = 'חלים עליך כללי הידיעון של שנת ההתחלה';
+    $('startSlot').replaceWith(pickers.start.el);
+    $('modeDept').addEventListener('click', () => setMode('unit'));
+    $('modeProgram').addEventListener('click', () => setMode('program'));
+    [...$('viewTabs').children].forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+    $('programInfoBtn').addEventListener('click', () => showInfo({ type: 'program' }));
     $('emptyReset').addEventListener('click', resetFilters);
 
-    $('offered').addEventListener('change', e => { state.offered = e.target.value; render(); });
     $('isolated').addEventListener('change', e => { state.isolated = e.target.checked; render(); });
     $('electives').addEventListener('change', e => { state.electives = e.target.checked; render(); });
     $('resetBtn').addEventListener('click', resetFilters);
-    $('filtersClose').addEventListener('click', () => $('filtersBtn').click());
 
+    // Filters open as a dropdown under their button; clicking elsewhere closes it
     $('filtersBtn').addEventListener('click', () => {
         const open = $('filters').hidden;
         $('filters').hidden = !open;
         $('filtersBtn').setAttribute('aria-expanded', String(open));
-        if (open) $('details').hidden = true;
-        renderPlanner();
-        if (!open) renderDetails();
-        syncPanels();
+    });
+    document.addEventListener('mousedown', e => {
+        if (!$('filters').hidden && !e.target.closest('#filters, #filtersBtn')) $('filtersBtn').click();
     });
     $('detailsClose').addEventListener('click', () => select(null));
-    $('plannerClose').addEventListener('click', () => setPlanning(false));
-    $('planBtn').addEventListener('click', () => setPlanning(!state.planning));
     $('helpBtn').addEventListener('click', () => $('help').showModal());
     document.addEventListener('keydown', e => {
         const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName);
         if (e.key === '/' && !typing) { e.preventDefault(); $('search').focus(); }
         if (e.key !== 'Escape' || $('help').open) return;
-        if (!$('filters').hidden) $('filtersBtn').click();
+        if (!$('filters').hidden) { $('filtersBtn').click(); $('filtersBtn').focus(); }
         else if (state.selected || state.info) select(null);
     });
 }
 
-// ── URL state: #course=03661102&program=… ──────────────────────────────────
+// ── URL state: #program=…&view=timeline&course=03661102 | #unit=מתמטיקה ────
 function writeHash() {
     const p = new URLSearchParams();
-    if (state.program) p.set('program', state.program);
-    if (state.program && state.start) p.set('start', state.start);
+    if (state.mode === 'program') {
+        p.set('program', state.program);
+        if (state.program && state.start) p.set('start', state.start);
+        if (state.program && state.view !== 'list') p.set('view', state.view);
+    } else {
+        p.set('unit', [...state.depts].join(','));
+    }
     if (state.selected) p.set('course', state.selected);
-    if (state.planning) p.set('plan', '1');
-    history.replaceState(null, '', p.toString() ? `#${p}` : location.pathname + location.search);
+    history.replaceState(null, '', `#${p}`);
 }
 
+// No hash (a fresh visit): a returning student sees their degree, anyone else the default unit
 function readHash() {
     const p = new URLSearchParams(location.hash.slice(1));
-    state.program = DATA.plans[p.get('program')] ? p.get('program') : '';
-    state.planning = p.has('plan');
+    const remembered = DATA.plans[store.get(PROGRAM_KEY, '')] ? store.get(PROGRAM_KEY, '') : '';
+    const legacyPlan = p.has('plan');  // older links opened the planner
+    state.mode = p.has('program') || legacyPlan || (!p.has('unit') && !p.has('course') && remembered) ? 'program' : 'unit';
+    state.program = DATA.plans[p.get('program')] ? p.get('program') : state.mode === 'program' && !p.has('program') ? remembered : '';
+    state.view = VIEWS.includes(p.get('view')) ? p.get('view') : legacyPlan ? 'timeline' : 'list';
     if (/^\d{4}$/.test(p.get('start') || '')) state.start = p.get('start');
+    const units = Object.values(unitFaculties()).flat();
+    const chosen = (p.get('unit') || '').split(',').filter(u => units.includes(u));
+    if (chosen.length) state.depts = new Set(chosen);
     const course = p.get('course');
-    if (course && COURSES.has(course)) {
-        const c = COURSES.get(course);
-        if (!state.program && Object.values(DATA.meta.faculties).flat().includes(c.dept)) {
-            state.depts.add(c.dept);
-            state.types.add(typeKey(c));
-            if (!isOffered(c, state.offered)) state.offered = 'all';
-        }
-        return course;
+    const c = course && COURSES.get(course);
+    if (c && state.mode === 'unit' && units.includes(c.dept)) {
+        state.depts.add(c.dept);
+        state.types.add(typeKey(c));
+        if (!isOffered(c, state.offered)) state.offered = 'all';
     }
-    return null;
+    state.faculty = state.mode === 'program'
+        ? (state.program ? programFaculty(state.program) : facultyOptions()[0]?.value || '')
+        : facultyOfUnits();
+    return c ? course : null;
 }
 
 // ── Boot ─────────────────────────────────────────────────────────────────────
@@ -1293,6 +1697,8 @@ async function main() {
         return;
     }
 
+    // The canvas draws with whatever font is loaded at the time
+    await Promise.all([500, 600].map(w => document.fonts.load(`${w} 13px ${NODE_FONT}`))).catch(() => {});
     await document.fonts.ready;
     readPalette();
     cy = cytoscape({
@@ -1301,20 +1707,19 @@ async function main() {
     });
     cy.on('tap', 'node', e => {
         const id = e.target.id();
-        if (!state.planning) select(id);
-        else if (state.clickMode === 'taken') toggleTaken(id);
-        else setPlan(id, state.plan.get(id) === state.target ? null : state.target);
+        select(id);
     });
     cy.on('tap', e => { if (e.target === cy) select(null); });
-    cy.on('viewport resize', drawBands);
+    cy.on('viewport', placeBands);
+    cy.on('resize', drawBands);
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         readPalette();
         cy.style(graphStyle());
         render({ fit: false });
+        renderDetails();  // grade swatches and histogram bars use the new palette
     });
 
     for (const id of state.plan.keys()) if (!COURSES.has(id)) state.plan.delete(id);
-    state.target = planSemesters().find(s => s >= currentSemester()) ?? planSemesters().at(-1);
     setupControls();
     setupSearch();
     setupCanvasTools();
@@ -1322,7 +1727,7 @@ async function main() {
     const boot = () => {
         const initial = readHash();
         render();
-        if (initial && !state.planning) select(initial, { focus: true });
+        if (initial) select(initial, { focus: true });
         else renderDetails();
     };
     boot();

@@ -5,11 +5,13 @@ service cloud.firestore {
     match /users/{uid} {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['taken', 'plan', 'program', 'start', 'updatedAt'])
+        && request.resource.data.keys().hasOnly(['taken', 'plan', 'program', 'start', 'updatedAt', 'grades', 'manual'])
         && request.resource.data.taken is list && request.resource.data.taken.size() <= 2000
         && request.resource.data.plan is map && request.resource.data.plan.size() <= 2000
         && request.resource.data.program is string && request.resource.data.program.size() <= 300
         && (!('start' in request.resource.data) || (request.resource.data.start is string && request.resource.data.start.size() <= 4))
+        && (!('grades' in request.resource.data) || (request.resource.data.grades is map && request.resource.data.grades.size() <= 2000))
+        && (!('manual' in request.resource.data) || (request.resource.data.manual is map && request.resource.data.manual.size() <= 50))
         && request.resource.data.updatedAt is int;
     }
   }
