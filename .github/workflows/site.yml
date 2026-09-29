@@ -1,0 +1,57 @@
+name: Update data and deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 4 * * 1"  # weekly refresh from Arazim (Mondays 04:00 UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install pytest
+
+      # Pushes made with GITHUB_TOKEN don't trigger workflows, so refresh and deploy in one job
+      - name: Refresh course data
+        if: github.event_name != 'push' && github.ref == 'refs/heads/main'
+        run: |
+          python scripts/update_data.py
+          if ! git diff --quiet -- data; then
+            python -m pytest tests/test_data.py -q
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -am "Update course data"
+            git pull --rebase
+            git push
+          fi
+
+      - run: python -m pytest tests/test_data.py -q
+
+      - name: Stage site
+        run: |
+          mkdir -p _site
+          cp -r index.html course_graph.html assets data _site/
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v5
