@@ -43,7 +43,11 @@ jobs:
             git push
           fi
 
-      - run: python -m pytest tests/test_data.py -q
+      - name: Test data and site
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium-headless-shell
+          python -m pytest tests -q
 
       - name: Stage site
         run: |
