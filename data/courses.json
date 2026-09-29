@@ -194,6 +194,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 1,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0300503101&year=2025"
   },
   "03211100": {
@@ -1807,6 +1808,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321311301&year=2024"
   },
   "03213119": {
@@ -1871,6 +1873,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "grades": {
     "mean": 94.7,
     "n": 11,
@@ -1908,6 +1911,7 @@
     "2025a"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321315801&year=2025"
   },
   "03213300": {
@@ -2234,6 +2238,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381101&year=2025"
   },
   "03213816": {
@@ -2251,6 +2256,7 @@
     "2023a"
    ],
    "last": "2025a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321381601&year=2024"
   },
   "03213818": {
@@ -3231,6 +3237,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321482401&year=2025"
   },
   "03214826": {
@@ -3249,6 +3256,7 @@
     "2023b"
    ],
    "last": "2027b",
+   "credits": 3,
    "grades": {
     "mean": 77.5,
     "n": 2,
@@ -3529,6 +3537,7 @@
     "2022b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321485901&year=2023"
   },
   "03214864": {
@@ -3848,6 +3857,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0321488701&year=2023"
   },
   "03214888": {
@@ -4067,6 +4077,7 @@
     "2023b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0341120701&year=2025"
   },
   "03412000": {
@@ -4434,6 +4445,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "grades": {
     "mean": 98.2,
     "n": 14,
@@ -4688,6 +4700,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 3,
    "grades": {
     "mean": 87.8,
     "n": 4,
@@ -5139,6 +5152,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 3,
    "grades": {
     "mean": 80.4,
     "n": 13,
@@ -5296,6 +5310,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0341324501&year=2025"
   },
   "03413258": {
@@ -5408,6 +5423,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0341400701&year=2024"
   },
   "03414009": {
@@ -5489,6 +5505,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0341412701&year=2025"
   },
   "03414223": {
@@ -5524,6 +5541,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0341431701&year=2025"
   },
   "03492002": {
@@ -5546,6 +5564,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0349200201&year=2024"
   },
   "03492913": {
@@ -5572,6 +5591,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 4,
    "grades": {
     "mean": 85.3,
     "n": 27,
@@ -6802,6 +6822,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351282001&year=2025"
   },
   "03512826": {
@@ -7322,6 +7343,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351321702&year=2025"
   },
   "03513220": {
@@ -7341,6 +7363,7 @@
     "2023b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351322001&year=2024"
   },
   "03513302": {
@@ -8001,6 +8024,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351382701&year=2024"
   },
   "03513828": {
@@ -8043,6 +8067,7 @@
     "2023b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351405101&year=2024"
   },
   "03514054": {
@@ -8097,6 +8122,7 @@
     "2023b"
    ],
    "last": "2025a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351405401&year=2024"
   },
   "03514055": {
@@ -8405,6 +8431,7 @@
     "2024b"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351420101&year=2025"
   },
   "03514203": {
@@ -8512,6 +8539,7 @@
     "2023a"
    ],
    "last": "2025a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351423501&year=2024"
   },
   "03514430": {
@@ -8528,6 +8556,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 2,
    "grades": {
     "mean": 94.7,
     "n": 11,
@@ -8584,6 +8613,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351443101&year=2025"
   },
   "03514501": {
@@ -8702,6 +8732,7 @@
     "2023b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351461101&year=2025"
   },
   "03514810": {
@@ -8736,6 +8767,7 @@
     "2023a"
    ],
    "last": "2026a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0351481201&year=2025"
   },
   "03514827": {
@@ -9388,6 +9420,7 @@
     "2023b"
    ],
    "last": "2026b",
+   "credits": 3,
    "grades": {
     "mean": 78.3,
     "n": 27,
@@ -9497,6 +9530,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0365301601&year=2024"
   },
   "03653017": {
@@ -9551,6 +9585,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0365301801&year=2024"
   },
   "03653109": {
@@ -9638,6 +9673,7 @@
     "2022a"
    ],
    "last": "2027a",
+   "credits": 4,
    "grades": {
     "mean": 80.9,
     "n": 83,
@@ -9699,6 +9735,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 3,
    "grades": {
     "mean": 83.2,
     "n": 19,
@@ -9817,6 +9854,7 @@
     "2023b"
    ],
    "last": "2026a",
+   "credits": 3,
    "grades": {
     "mean": 75.1,
     "n": 28,
@@ -9903,6 +9941,7 @@
     "2022a"
    ],
    "last": "2027b",
+   "credits": 2,
    "grades": {
     "mean": 94.8,
     "n": 17,
@@ -12432,6 +12471,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366307001&year=2025"
   },
   "03663071": {
@@ -12451,6 +12491,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366307101&year=2025"
   },
   "03663072": {
@@ -12471,6 +12512,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366307201&year=2025"
   },
   "03663073": {
@@ -12709,6 +12751,7 @@
     "2022a"
    ],
    "last": "2024b",
+   "credits": 4,
    "grades": {
     "mean": 93.2,
     "n": 8,
@@ -12748,6 +12791,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 3,
    "grades": {
     "mean": 93.6,
     "n": 50,
@@ -12928,6 +12972,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366327001&year=2022"
   },
   "03663292": {
@@ -13002,6 +13047,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 4,
    "grades": {
     "mean": 96.3,
     "n": 12,
@@ -13098,6 +13144,7 @@
     "2023a"
    ],
    "last": "2025a",
+   "credits": 4,
    "grades": {
     "mean": 79.1,
     "n": 16,
@@ -13134,6 +13181,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366335401&year=2023"
   },
   "03663404": {
@@ -13192,6 +13240,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 4,
    "grades": {
     "mean": 96.9,
     "n": 14,
@@ -13228,6 +13277,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366341001&year=2022"
   },
   "03663810": {
@@ -13254,6 +13304,7 @@
     "2024a"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366400101&year=2023"
   },
   "03664002": {
@@ -13285,6 +13336,7 @@
     "2022b"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366400201&year=2024"
   },
   "03664027": {
@@ -13304,6 +13356,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366402701&year=2025"
   },
   "03664031": {
@@ -13318,6 +13371,7 @@
     "2027a"
    ],
    "last": "2027b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366403101&year=2026"
   },
   "03664038": {
@@ -13377,6 +13431,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366407301&year=2023"
   },
   "03664092": {
@@ -13392,6 +13447,7 @@
     "2025a"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366409201&year=2026"
   },
   "03664093": {
@@ -13407,6 +13463,7 @@
     "2022a"
    ],
    "last": "2024a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366409301&year=2023"
   },
   "03664096": {
@@ -13433,6 +13490,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366410401&year=2023"
   },
   "03664112": {
@@ -13453,6 +13511,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366411201&year=2024"
   },
   "03664113": {
@@ -13472,6 +13531,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366411301&year=2025"
   },
   "03664116": {
@@ -13485,6 +13545,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366411601&year=2025"
   },
   "03664117": {
@@ -13513,6 +13574,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366411701&year=2025"
   },
   "03664118": {
@@ -13540,6 +13602,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366411801&year=2025"
   },
   "03664119": {
@@ -13553,6 +13616,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366411901&year=2025"
   },
   "03664120": {
@@ -13566,6 +13630,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366412001&year=2025"
   },
   "03664121": {
@@ -13579,6 +13644,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366412101&year=2025"
   },
   "03664141": {
@@ -13592,6 +13658,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366414101&year=2025"
   },
   "03664142": {
@@ -13605,6 +13672,7 @@
     "2027a"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366414201&year=2026"
   },
   "03664143": {
@@ -13618,6 +13686,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366414301&year=2025"
   },
   "03664144": {
@@ -13634,6 +13703,7 @@
     "2027a"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366414401&year=2026"
   },
   "03664146": {
@@ -13650,6 +13720,7 @@
     "2027a"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366414601&year=2026"
   },
   "03664147": {
@@ -13690,6 +13761,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366415101&year=2024"
   },
   "03664152": {
@@ -13730,6 +13802,7 @@
     "2022a"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366415501&year=2023"
   },
   "03664163": {
@@ -13758,6 +13831,7 @@
     "2022b"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366417201&year=2025"
   },
   "03664197": {
@@ -13799,6 +13873,7 @@
     "2025a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366419801&year=2025"
   },
   "03664205": {
@@ -13812,6 +13887,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366420501&year=2024"
   },
   "03664208": {
@@ -13826,6 +13902,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366420801&year=2024"
   },
   "03664212": {
@@ -13844,6 +13921,7 @@
     "2025a"
    ],
    "last": "2027b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421201&year=2026"
   },
   "03664215": {
@@ -13857,6 +13935,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421501&year=2024"
   },
   "03664216": {
@@ -13870,6 +13949,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421601&year=2024"
   },
   "03664218": {
@@ -13883,6 +13963,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421801&year=2024"
   },
   "03664219": {
@@ -13896,6 +13977,7 @@
     "2027b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366421901&year=2026"
   },
   "03664234": {
@@ -13921,6 +14003,7 @@
     "2022a"
    ],
    "last": "2027b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366423401&year=2026"
   },
   "03664306": {
@@ -13951,6 +14034,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366434001&year=2026"
   },
   "03664349": {
@@ -13964,6 +14048,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366434901&year=2023"
   },
   "03664374": {
@@ -13990,6 +14075,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366439001&year=2023"
   },
   "03664400": {
@@ -14016,6 +14102,7 @@
     "2027b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366440701&year=2026"
   },
   "03664426": {
@@ -14036,6 +14123,7 @@
     "2022a"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366442601&year=2026"
   },
   "03664427": {
@@ -14056,6 +14144,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366442701&year=2026"
   },
   "03664510": {
@@ -14072,6 +14161,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366451001&year=2024"
   },
   "03664511": {
@@ -14085,6 +14175,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366451101&year=2022"
   },
   "03664533": {
@@ -14111,6 +14202,7 @@
     "2024a"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366453501&year=2023"
   },
   "03664538": {
@@ -14129,6 +14221,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366453801&year=2026"
   },
   "03664552": {
@@ -14170,6 +14263,7 @@
     "2026a"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366463401&year=2026"
   },
   "03664668": {
@@ -14184,6 +14278,7 @@
     "2025a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366466801&year=2025"
   },
   "03664676": {
@@ -14197,6 +14292,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366467601&year=2025"
   },
   "03664697": {
@@ -14210,6 +14306,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366469701&year=2025"
   },
   "03664701": {
@@ -14223,6 +14320,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366470101&year=2023"
   },
   "03664719": {
@@ -14250,6 +14348,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366476801&year=2022"
   },
   "03664789": {
@@ -14328,6 +14427,7 @@
     "2024a"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366483701&year=2023"
   },
   "03664838": {
@@ -14346,6 +14446,7 @@
     "2022a"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366483801&year=2026"
   },
   "03664873": {
@@ -14359,6 +14460,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366487301&year=2022"
   },
   "03664887": {
@@ -14374,6 +14476,7 @@
     "2023b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366488701&year=2025"
   },
   "03664889": {
@@ -14417,6 +14520,7 @@
     "2023a"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366490301&year=2026"
   },
   "03664921": {
@@ -14436,6 +14540,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366492101&year=2026"
   },
   "03664927": {
@@ -14452,6 +14557,7 @@
     "2027a"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366492701&year=2026"
   },
   "03664928": {
@@ -14481,6 +14587,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366495901&year=2025"
   },
   "03664967": {
@@ -14512,6 +14619,7 @@
     "2023b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366497901&year=2026"
   },
   "03664980": {
@@ -14526,6 +14634,7 @@
     "2023b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366498001&year=2025"
   },
   "03664990": {
@@ -14540,6 +14649,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366499001&year=2025"
   },
   "03664993": {
@@ -14593,6 +14703,7 @@
     "2022a"
    ],
    "last": "2027b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366500001&year=2026"
   },
   "03665024": {
@@ -14606,6 +14717,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366502401&year=2024"
   },
   "03665025": {
@@ -14619,6 +14731,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366502501&year=2022"
   },
   "03665035": {
@@ -14638,6 +14751,7 @@
     "2023a"
    ],
    "last": "2027b",
+   "credits": 3,
    "grades": {
     "mean": 97.7,
     "n": 21,
@@ -14674,6 +14788,7 @@
     "2027a"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366505001&year=2026"
   },
   "03665051": {
@@ -14690,6 +14805,7 @@
     "2027b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366505101&year=2026"
   },
   "03665052": {
@@ -14706,6 +14822,7 @@
     "2027b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366505201&year=2026"
   },
   "03665053": {
@@ -14719,6 +14836,7 @@
     "2027b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366505301&year=2026"
   },
   "03665055": {
@@ -14735,6 +14853,7 @@
     "2025a"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366505501&year=2025"
   },
   "03665058": {
@@ -14748,6 +14867,7 @@
     "2024a"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366505801&year=2023"
   },
   "03665062": {
@@ -14761,6 +14881,7 @@
     "2024a"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366506201&year=2023"
   },
   "03665063": {
@@ -14774,6 +14895,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366506301&year=2024"
   },
   "03665064": {
@@ -14798,6 +14920,7 @@
     "2022a"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366506401&year=2024"
   },
   "03665070": {
@@ -14811,6 +14934,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366507001&year=2022"
   },
   "03665071": {
@@ -14831,6 +14955,7 @@
     "2022a"
    ],
    "last": "2025b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366507101&year=2024"
   },
   "03665083": {
@@ -14844,6 +14969,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366508301&year=2022"
   },
   "03665087": {
@@ -14870,6 +14996,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366509001&year=2022"
   },
   "03665100": {
@@ -14883,6 +15010,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366510001&year=2023"
   },
   "03665103": {
@@ -14896,6 +15024,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366510301&year=2025"
   },
   "03665113": {
@@ -14909,6 +15038,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366511301&year=2022"
   },
   "03665116": {
@@ -14924,6 +15054,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366511601&year=2024"
   },
   "03665120": {
@@ -14937,6 +15068,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366512001&year=2022"
   },
   "03665121": {
@@ -14953,6 +15085,7 @@
     "2027b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366512101&year=2026"
   },
   "03665122": {
@@ -14992,6 +15125,7 @@
     "2023b"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366512301&year=2026"
   },
   "03665124": {
@@ -15023,6 +15157,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521501&year=2025"
   },
   "03665216": {
@@ -15049,6 +15184,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521701&year=2022"
   },
   "03665218": {
@@ -15062,6 +15198,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521801&year=2022"
   },
   "03665219": {
@@ -15075,6 +15212,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366521901&year=2022"
   },
   "03665220": {
@@ -15088,6 +15226,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522001&year=2022"
   },
   "03665221": {
@@ -15101,6 +15240,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522101&year=2022"
   },
   "03665223": {
@@ -15127,6 +15267,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522401&year=2023"
   },
   "03665225": {
@@ -15144,6 +15285,7 @@
     "2024a"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522501&year=2026"
   },
   "03665226": {
@@ -15171,6 +15313,7 @@
     "2027a"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0366522701&year=2026"
   },
   "03668888": {
@@ -16654,6 +16797,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368307201&year=2025"
   },
   "03683073": {
@@ -16670,6 +16814,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368307301&year=2022"
   },
   "03683075": {
@@ -16892,6 +17037,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 3,
    "grades": {
     "mean": 91.7,
     "n": 321,
@@ -16997,6 +17143,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 3,
    "grades": {
     "mean": 90.5,
     "n": 89,
@@ -17047,6 +17194,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368308601&year=2024"
   },
   "03683087": {
@@ -17146,6 +17294,7 @@
     "2023b"
    ],
    "last": "2025b",
+   "credits": 3,
    "grades": {
     "mean": 88.3,
     "n": 83,
@@ -17255,6 +17404,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368309301&year=2023"
   },
   "03683094": {
@@ -17442,6 +17592,7 @@
     "2024b"
    ],
    "last": "2025b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368310501&year=2024"
   },
   "03683114": {
@@ -17455,6 +17606,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368311401&year=2022"
   },
   "03683115": {
@@ -17471,6 +17623,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 2,
    "grades": {
     "mean": 92.2,
     "n": 6,
@@ -17738,6 +17891,7 @@
     "2025b"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368316901&year=2025"
   },
   "03683173": {
@@ -17896,7 +18050,8 @@
   "03683200": {
    "name": "סדנא בתכנות חוזים חכמים",
    "dept": "מדעי המחשב",
-   "last": "2019b"
+   "last": "2019b",
+   "credits": 5
   },
   "03683235": {
    "name": "מבוא ללמידה חישובית",
@@ -18131,7 +18286,8 @@
   "03683242": {
    "name": "רעיונות יסודיים במדעי המחשב",
    "dept": "מדעי המחשב",
-   "last": "2009b"
+   "last": "2009b",
+   "credits": 3
   },
   "03683245": {
    "name": "הוראת מדעי המחשב בקהילה",
@@ -18200,6 +18356,7 @@
     "2022a"
    ],
    "last": "2025b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368324901&year=2024"
   },
   "03683270": {
@@ -18253,6 +18410,7 @@
     "2022b"
    ],
    "last": "2024a",
+   "credits": 4,
    "grades": {
     "mean": 85.7,
     "n": 82,
@@ -18299,6 +18457,7 @@
     "2022a"
    ],
    "last": "2024b",
+   "credits": 3,
    "grades": {
     "mean": 90.8,
     "n": 12,
@@ -18548,6 +18707,7 @@
     "2022b"
    ],
    "last": "2024b",
+   "credits": 5,
    "grades": {
     "mean": 96.2,
     "n": 25,
@@ -18590,6 +18750,7 @@
     "2022b"
    ],
    "last": "2024b",
+   "credits": 3,
    "grades": {
     "mean": 87.8,
     "n": 115,
@@ -18623,7 +18784,8 @@
   "03683315": {
    "name": "סמינר בכלים מתמטיים בניתוח רשתות המוניות",
    "dept": "מדעי המחשב",
-   "last": "2015a"
+   "last": "2015a",
+   "credits": 2
   },
   "03683319": {
    "name": "מבוא למדעי המידע",
@@ -18705,6 +18867,7 @@
     "2022b"
    ],
    "last": "2024b",
+   "credits": 2,
    "grades": {
     "mean": 83.2,
     "n": 9,
@@ -18764,6 +18927,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368334101&year=2022"
   },
   "03683349": {
@@ -18954,6 +19118,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368340401&year=2022"
   },
   "03683405": {
@@ -18971,6 +19136,7 @@
     "2023a"
    ],
    "last": "2026a",
+   "credits": 2,
    "grades": {
     "mean": 96.4,
     "n": 14,
@@ -19009,6 +19175,7 @@
     "2023a"
    ],
    "last": "2025a",
+   "credits": 2,
    "grades": {
     "mean": 98.7,
     "n": 15,
@@ -19139,6 +19306,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368340901&year=2025"
   },
   "03683410": {
@@ -19194,6 +19362,7 @@
     "2024b"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368341201&year=2025"
   },
   "03683413": {
@@ -19209,6 +19378,7 @@
     "2024b"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368341301&year=2025"
   },
   "03683414": {
@@ -19268,6 +19438,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368341601&year=2024"
   },
   "03683417": {
@@ -19319,6 +19490,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368341801&year=2024"
   },
   "03683419": {
@@ -19338,6 +19510,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 2,
    "grades": {
     "mean": 97.5,
     "n": 12,
@@ -19375,6 +19548,7 @@
     "2025a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368342001&year=2025"
   },
   "03683421": {
@@ -19390,6 +19564,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368342101&year=2024"
   },
   "03683422": {
@@ -19466,6 +19641,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368342401&year=2025"
   },
   "03683425": {
@@ -19486,6 +19662,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368342501&year=2025"
   },
   "03683426": {
@@ -19638,6 +19815,7 @@
     "2022a"
    ],
    "last": "2024a",
+   "credits": 3,
    "grades": {
     "mean": 86.6,
     "n": 116,
@@ -19681,6 +19859,7 @@
     "2022a"
    ],
    "last": "2024a",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368350201&year=2023"
   },
   "03683504": {
@@ -19695,6 +19874,7 @@
     "2022b"
    ],
    "last": "2022b",
+   "credits": 5,
    "grades": {
     "mean": 95.8,
     "n": 25,
@@ -19744,6 +19924,7 @@
     "2022a"
    ],
    "last": "2026b",
+   "credits": 5,
    "grades": {
     "mean": 96.6,
     "n": 62,
@@ -19841,6 +20022,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 5,
    "grades": {
     "mean": 86.2,
     "n": 10,
@@ -19879,6 +20061,7 @@
     "2022b"
    ],
    "last": "2024b",
+   "credits": 5,
    "grades": {
     "mean": 96.2,
     "n": 16,
@@ -19951,6 +20134,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 5,
    "grades": {
     "mean": 96.0,
     "n": 44,
@@ -20008,6 +20192,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368352801&year=2025"
   },
   "03683531": {
@@ -20022,6 +20207,7 @@
     "2022b"
    ],
    "last": "2024a",
+   "credits": 5,
    "grades": {
     "mean": 98.0,
     "n": 10,
@@ -20061,6 +20247,7 @@
     "2022a"
    ],
    "last": "2024a",
+   "credits": 5,
    "grades": {
     "mean": 95.0,
     "n": 9,
@@ -20204,6 +20391,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 5,
    "grades": {
     "mean": 98.7,
     "n": 6,
@@ -20243,6 +20431,7 @@
     "2022a"
    ],
    "last": "2024a",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368354201&year=2023"
   },
   "03683544": {
@@ -20338,6 +20527,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368354701&year=2023"
   },
   "03683548": {
@@ -20448,6 +20638,7 @@
     "2023b"
    ],
    "last": "2024a",
+   "credits": 5,
    "grades": {
     "mean": 90.2,
     "n": 24,
@@ -20486,6 +20677,7 @@
     "2023b"
    ],
    "last": "2025b",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368355901&year=2024"
   },
   "03683560": {
@@ -20507,6 +20699,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368356001&year=2025"
   },
   "03683561": {
@@ -20520,6 +20713,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 5,
    "grades": {
     "mean": 95.7,
     "n": 21,
@@ -20556,6 +20750,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368356201&year=2023"
   },
   "03683563": {
@@ -20595,6 +20790,7 @@
     "2025a"
    ],
    "last": "2026a",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368356401&year=2025"
   },
   "03683565": {
@@ -20642,6 +20838,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 5,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368356701&year=2024"
   },
   "03683568": {
@@ -20747,6 +20944,7 @@
     "2022b"
    ],
    "last": "2023a",
+   "credits": 2,
    "grades": {
     "mean": 96.4,
     "n": 16,
@@ -20842,6 +21040,7 @@
     "2022a"
    ],
    "last": "2023b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368371401&year=2022"
   },
   "03684004": {
@@ -20858,6 +21057,7 @@
     "2022b"
    ],
    "last": "2025a",
+   "credits": 4,
    "grades": {
     "mean": 99.0,
     "n": 21,
@@ -20896,6 +21096,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 4,
    "grades": {
     "mean": 92.8,
     "n": 72,
@@ -20958,6 +21159,7 @@
     "2026a"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368403101&year=2026"
   },
   "03684041": {
@@ -20976,6 +21178,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 3,
    "grades": {
     "mean": 88.1,
     "n": 17,
@@ -21110,6 +21313,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 3,
    "grades": {
     "mean": 92.6,
     "n": 28,
@@ -21147,6 +21351,7 @@
     "2022a"
    ],
    "last": "2026b",
+   "credits": 3,
    "grades": {
     "mean": 99.1,
     "n": 10,
@@ -21232,6 +21437,7 @@
     "2022a"
    ],
    "last": "2023a",
+   "credits": 2,
    "grades": {
     "mean": 96.2,
     "n": 12,
@@ -21315,6 +21521,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368408801&year=2022"
   },
   "03684093": {
@@ -21328,6 +21535,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368409301&year=2022"
   },
   "03684097": {
@@ -21360,6 +21568,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 2,
    "grades": {
     "mean": 100.0,
     "n": 6,
@@ -21396,6 +21605,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "grades": {
     "mean": 97.9,
     "n": 18,
@@ -21432,6 +21642,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368411501&year=2022"
   },
   "03684131": {
@@ -21447,6 +21658,7 @@
     "2023b"
    ],
    "last": "2024b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368413101&year=2023"
   },
   "03684139": {
@@ -21463,6 +21675,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "grades": {
     "mean": 92.1,
     "n": 12,
@@ -21499,6 +21712,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "grades": {
     "mean": 94.4,
     "n": 18,
@@ -21551,6 +21765,7 @@
     "2022a"
    ],
    "last": "2023a",
+   "credits": 3,
    "grades": {
     "mean": 96.3,
     "n": 42,
@@ -21596,6 +21811,7 @@
     "2022a"
    ],
    "last": "2027a",
+   "credits": 3,
    "grades": {
     "mean": 83.2,
     "n": 128,
@@ -21648,6 +21864,7 @@
     "2022a"
    ],
    "last": "2023b",
+   "credits": 2,
    "grades": {
     "mean": 97.9,
     "n": 10,
@@ -21809,6 +22026,7 @@
     "2023a"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368418801&year=2024"
   },
   "03684189": {
@@ -21880,6 +22098,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "grades": {
     "mean": 87.9,
     "n": 35,
@@ -21969,6 +22188,7 @@
     "2023b"
    ],
    "last": "2023b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368421201&year=2022"
   },
   "03684216": {
@@ -21984,6 +22204,7 @@
     "2022b"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368421601&year=2023"
   },
   "03684222": {
@@ -22001,6 +22222,7 @@
     "2022a"
    ],
    "last": "2023a",
+   "credits": 3,
    "grades": {
     "mean": 68.9,
     "n": 13,
@@ -22047,6 +22269,7 @@
     "2024a"
    ],
    "last": "2027b",
+   "credits": 4,
    "grades": {
     "mean": 96.8,
     "n": 15,
@@ -22083,6 +22306,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 4,
    "grades": {
     "mean": 98.7,
     "n": 9,
@@ -22120,6 +22344,7 @@
     "2022b"
    ],
    "last": "2023b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368423201&year=2022"
   },
   "03684233": {
@@ -22177,6 +22402,7 @@
     "2024b"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368423401&year=2024"
   },
   "03684235": {
@@ -22197,6 +22423,7 @@
     "2024a"
    ],
    "last": "2025a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368423501&year=2024"
   },
   "03684236": {
@@ -22247,6 +22474,7 @@
     "2024a"
    ],
    "last": "2024a",
+   "credits": 2,
    "grades": {
     "mean": 94.8,
     "n": 8,
@@ -22301,6 +22529,7 @@
     "2024b"
    ],
    "last": "2024b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368423901&year=2023"
   },
   "03684240": {
@@ -22340,6 +22569,7 @@
     "2024b"
    ],
    "last": "2026a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368424101&year=2025"
   },
   "03684242": {
@@ -22356,6 +22586,7 @@
     "2024b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368424201&year=2026"
   },
   "03684243": {
@@ -22370,6 +22601,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368424301&year=2024"
   },
   "03684244": {
@@ -22385,6 +22617,7 @@
     "2025b"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368424401&year=2025"
   },
   "03684246": {
@@ -22451,6 +22684,7 @@
     "2025a"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368425001&year=2025"
   },
   "03684251": {
@@ -22492,6 +22726,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368425201&year=2024"
   },
   "03684262": {
@@ -22594,6 +22829,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368426701&year=2025"
   },
   "03684270": {
@@ -22641,6 +22877,7 @@
     "2027a"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368427202&year=2026"
   },
   "03684273": {
@@ -22751,6 +22988,7 @@
     "2022a"
    ],
    "last": "2023a",
+   "credits": 3,
    "grades": {
     "mean": 91.0,
     "n": 35,
@@ -22881,6 +23119,7 @@
     "2027b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368429201&year=2026"
   },
   "03684355": {
@@ -22961,6 +23200,7 @@
     "2022a"
    ],
    "last": "2027a",
+   "credits": 3,
    "grades": {
     "mean": 90.8,
     "n": 5,
@@ -22998,6 +23238,7 @@
     "2022a"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368447201&year=2023"
   },
   "03684474": {
@@ -23104,6 +23345,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 4,
    "grades": {
     "mean": 90.3,
     "n": 39,
@@ -23145,6 +23387,7 @@
     "2024a"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368448501&year=2026"
   },
   "03684486": {
@@ -23162,6 +23405,7 @@
     "2027a"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368448601&year=2026"
   },
   "03684488": {
@@ -23218,6 +23462,7 @@
     "2027b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368449101&year=2026"
   },
   "03684492": {
@@ -23231,6 +23476,7 @@
     "2024a"
    ],
    "last": "2024a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368449201&year=2023"
   },
   "03684513": {
@@ -23244,6 +23490,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 3,
    "grades": {
     "mean": 100.0,
     "n": 7,
@@ -23281,6 +23528,7 @@
     "2022b"
    ],
    "last": "2023a",
+   "credits": 2,
    "grades": {
     "mean": 95.4,
     "n": 17,
@@ -23457,6 +23705,7 @@
     "2023a"
    ],
    "last": "2023b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368500101&year=2022"
   },
   "03685002": {
@@ -23616,6 +23865,7 @@
     "2024a"
    ],
    "last": "2024b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368501801&year=2023"
   },
   "03685022": {
@@ -23729,6 +23979,7 @@
     "2023a"
    ],
    "last": "2023b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368507301&year=2022"
   },
   "03685075": {
@@ -23801,6 +24052,7 @@
     "2024a"
    ],
    "last": "2024b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368511701&year=2023"
   },
   "03685130": {
@@ -23865,6 +24117,7 @@
     "2023a"
    ],
    "last": "2023b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368513401&year=2022"
   },
   "03685137": {
@@ -23958,6 +24211,7 @@
     "2024a"
    ],
    "last": "2024b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368515701&year=2023"
   },
   "03685158": {
@@ -24471,6 +24725,7 @@
     "2026a"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368534901&year=2025"
   },
   "03685552": {
@@ -24577,6 +24832,7 @@
     "2026a"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368555901&year=2025"
   },
   "03685600": {
@@ -24591,6 +24847,7 @@
     "2026a"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368560001&year=2025"
   },
   "03685601": {
@@ -24920,6 +25177,7 @@
     "2027a"
    ],
    "last": "2027b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0368562301&year=2026"
   },
   "03685624": {
@@ -25051,6 +25309,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 3,
    "grades": {
     "mean": 95.4,
     "n": 28,
@@ -25097,6 +25356,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372401401&year=2025"
   },
   "03724019": {
@@ -25121,6 +25381,7 @@
     "2023a"
    ],
    "last": "2027a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372401901&year=2026"
   },
   "03724033": {
@@ -25135,6 +25396,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372403301&year=2025"
   },
   "03724034": {
@@ -25148,6 +25410,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372403401&year=2024"
   },
   "03724041": {
@@ -25171,6 +25434,7 @@
     "2026b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372404101&year=2026"
   },
   "03724555": {
@@ -25185,6 +25449,7 @@
     "2026b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372455501&year=2026"
   },
   "03724660": {
@@ -25202,6 +25467,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0372466001&year=2025"
   },
   "04213815": {
@@ -32284,6 +32550,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 3,
    "grades": {
     "mean": 90.4,
     "n": 175,
@@ -32369,6 +32636,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0571418001&year=2024"
   },
   "05714182": {
@@ -32771,6 +33039,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0572511201&year=2024"
   },
   "06075438": {
@@ -33259,6 +33528,7 @@
     "2022a"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0618101901&year=2026"
   },
   "06181030": {
@@ -33331,6 +33601,7 @@
     "2022a"
    ],
    "last": "2027b",
+   "credits": 2,
    "grades": {
     "mean": 90.0,
     "n": 147,
@@ -33375,6 +33646,7 @@
     "2022b"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0618105901&year=2026"
   },
   "06271010": {
@@ -34000,6 +34272,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 6,
    "grades": {
     "mean": 86.3,
     "n": 18,
@@ -34082,6 +34355,7 @@
     "2023a"
    ],
    "last": "2023a",
+   "credits": 2,
    "grades": {
     "mean": 88.0,
     "n": 9,
@@ -34119,6 +34393,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627301201&year=2025"
   },
   "06273013": {
@@ -34133,6 +34408,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627301301&year=2024"
   },
   "06273016": {
@@ -34147,6 +34423,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627301601&year=2025"
   },
   "06273017": {
@@ -34197,6 +34474,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627302101&year=2025"
   },
   "06273022": {
@@ -34286,6 +34564,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627324001&year=2025"
   },
   "06273241": {
@@ -34306,6 +34585,7 @@
     "2022a"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627324101&year=2025"
   },
   "06273280": {
@@ -34502,6 +34782,7 @@
     "2023a"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627403701&year=2025"
   },
   "06274048": {
@@ -34518,6 +34799,7 @@
     "2024a"
    ],
    "last": "2026a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627404801&year=2025"
   },
   "06274054": {
@@ -34535,6 +34817,7 @@
     "2025a"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627405401&year=2025"
   },
   "06274058": {
@@ -34549,6 +34832,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627405801&year=2025"
   },
   "06274059": {
@@ -34582,6 +34866,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 6,
    "grades": {
     "mean": 94.0,
     "n": 15,
@@ -34624,6 +34909,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627406801&year=2024"
   },
   "06274069": {
@@ -34836,6 +35122,7 @@
     "2025b"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627409801&year=2025"
   },
   "06274150": {
@@ -34858,6 +35145,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0627415001&year=2025"
   },
   "06274198": {
@@ -34907,6 +35195,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0659211901&year=2026"
   },
   "06594613": {
@@ -34925,6 +35214,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0659461301&year=2026"
   },
   "06595415": {
@@ -34942,6 +35232,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0659541501&year=2025"
   },
   "06596126": {
@@ -34978,6 +35269,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0659624701&year=2025"
   },
   "06620204": {
@@ -35021,6 +35313,7 @@
     "2022a"
    ],
    "last": "2027b",
+   "credits": 2,
    "grades": {
     "mean": 87.5,
     "n": 33,
@@ -35076,6 +35369,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662101201&year=2024"
   },
   "06621035": {
@@ -35223,6 +35517,7 @@
     "2022a"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662118001&year=2025"
   },
   "06621303": {
@@ -35254,6 +35549,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662130501&year=2025"
   },
   "06621307": {
@@ -35268,6 +35564,7 @@
     "2025b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662130701&year=2025"
   },
   "06621340": {
@@ -35283,6 +35580,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662134001&year=2025"
   },
   "06621418": {
@@ -35322,6 +35620,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662145001&year=2025"
   },
   "06621757": {
@@ -35339,6 +35638,7 @@
     "2022b"
    ],
    "last": "2026a",
+   "credits": 2,
    "grades": {
     "mean": 88.6,
     "n": 57,
@@ -35417,6 +35717,7 @@
     "2023b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662196401&year=2024"
   },
   "06621965": {
@@ -35432,6 +35733,7 @@
     "2022a"
    ],
    "last": "2026b",
+   "credits": 2,
    "grades": {
     "mean": 87.9,
     "n": 36,
@@ -35469,6 +35771,7 @@
     "2023b"
    ],
    "last": "2025b",
+   "credits": 2,
    "grades": {
     "mean": 85.3,
     "n": 32,
@@ -35550,6 +35853,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662211901&year=2024"
   },
   "06622227": {
@@ -35693,6 +35997,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662224601&year=2025"
   },
   "06622247": {
@@ -35707,6 +36012,7 @@
     "2022b"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662224701&year=2025"
   },
   "06622249": {
@@ -35722,6 +36028,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662224901&year=2025"
   },
   "06622251": {
@@ -35737,6 +36044,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662225101&year=2025"
   },
   "06622252": {
@@ -35771,6 +36079,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662225301&year=2025"
   },
   "06622255": {
@@ -35787,6 +36096,7 @@
     "2022a"
    ],
    "last": "2024b",
+   "credits": 2,
    "grades": {
     "mean": 93.3,
     "n": 10,
@@ -35824,6 +36134,7 @@
     "2022a"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662260301&year=2024"
   },
   "06622607": {
@@ -35838,6 +36149,7 @@
     "2023a"
    ],
    "last": "2025a",
+   "credits": 2,
    "grades": {
     "mean": 86.2,
     "n": 41,
@@ -35875,6 +36187,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662261501&year=2025"
   },
   "06622617": {
@@ -35890,6 +36203,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662261701&year=2025"
   },
   "06622618": {
@@ -35907,6 +36221,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662261801&year=2025"
   },
   "06622620": {
@@ -35977,6 +36292,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "grades": {
     "mean": 86.8,
     "n": 13,
@@ -36017,6 +36333,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "grades": {
     "mean": 91.0,
     "n": 86,
@@ -36060,6 +36377,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662263301&year=2025"
   },
   "06622639": {
@@ -36075,6 +36393,7 @@
     "2022b"
    ],
    "last": "2026a",
+   "credits": 2,
    "grades": {
     "mean": 93.2,
     "n": 40,
@@ -36116,6 +36435,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662264001&year=2025"
   },
   "06622642": {
@@ -36131,6 +36451,7 @@
     "2022a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662264201&year=2025"
   },
   "06622643": {
@@ -36179,6 +36500,7 @@
     "2023b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662264801&year=2026"
   },
   "06622649": {
@@ -36195,6 +36517,7 @@
     "2023a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662264901&year=2025"
   },
   "06622652": {
@@ -36210,6 +36533,7 @@
     "2024a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662265201&year=2025"
   },
   "06622653": {
@@ -36223,6 +36547,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662265301&year=2025"
   },
   "06622654": {
@@ -36253,6 +36578,7 @@
     "2024b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662265501&year=2024"
   },
   "06622656": {
@@ -36271,6 +36597,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662265601&year=2025"
   },
   "06622659": {
@@ -36317,6 +36644,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662266101&year=2024"
   },
   "06622662": {
@@ -36330,6 +36658,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662266201&year=2024"
   },
   "06622663": {
@@ -36360,6 +36689,7 @@
     "2025a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662266401&year=2025"
   },
   "06622667": {
@@ -36373,6 +36703,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662266701&year=2025"
   },
   "06622668": {
@@ -36404,6 +36735,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662266901&year=2025"
   },
   "06622670": {
@@ -36463,6 +36795,7 @@
     "2022a"
    ],
    "last": "2024a",
+   "credits": 2,
    "grades": {
     "mean": 88.9,
     "n": 11,
@@ -36541,6 +36874,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662311601&year=2025"
   },
   "06623120": {
@@ -36614,6 +36948,7 @@
     "2022b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662312901&year=2024"
   },
   "06623132": {
@@ -36646,6 +36981,7 @@
     "2024b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662313301&year=2024"
   },
   "06623134": {
@@ -36660,6 +36996,7 @@
     "2026a"
    ],
    "last": "2027a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662313401&year=2026"
   },
   "06623135": {
@@ -36724,6 +37061,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662500201&year=2024"
   },
   "06625004": {
@@ -36737,6 +37075,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0662500401&year=2025"
   },
   "06625005": {
@@ -36856,6 +37195,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0687246401&year=2026"
   },
   "06872523": {
@@ -37002,6 +37342,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0910101001&year=2024"
   },
   "09101100": {
@@ -37015,6 +37356,7 @@
     "2025a"
    ],
    "last": "2025a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0910110001&year=2024"
   },
   "09101150": {
@@ -37046,6 +37388,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0910135001&year=2025"
   },
   "09102030": {
@@ -37060,6 +37403,7 @@
     "2025b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0910203001&year=2026"
   },
   "09104051": {
@@ -37111,6 +37455,7 @@
     "2025b"
    ],
    "last": "2025b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0910405801&year=2024"
   },
   "09204022": {
@@ -37179,6 +37524,7 @@
     "2025a"
    ],
    "last": "2026a",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0920611001&year=2025"
   },
   "09206120": {
@@ -37253,6 +37599,7 @@
     "2025b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=0920643001&year=2025"
   },
   "10111102": {
@@ -37649,6 +37996,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 4,
    "grades": {
     "mean": 75.6,
     "n": 498,
@@ -38139,6 +38487,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011319001&year=2025"
   },
   "10113191": {
@@ -38314,6 +38663,7 @@
     "2024a"
    ],
    "last": "2026a",
+   "credits": 2,
    "grades": {
     "mean": 78.2,
     "n": 33,
@@ -38454,6 +38804,7 @@
     "2026b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011335901&year=2025"
   },
   "10113369": {
@@ -38609,6 +38960,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 2,
    "grades": {
     "mean": 79.0,
     "n": 76,
@@ -38870,6 +39222,7 @@
     "2022a"
    ],
    "last": "2024b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011356102&year=2023"
   },
   "10113562": {
@@ -38907,6 +39260,7 @@
     "2022b"
    ],
    "last": "2026a",
+   "credits": 6,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011356201&year=2025"
   },
   "10113563": {
@@ -38920,6 +39274,7 @@
     "2022a"
    ],
    "last": "2022a",
+   "credits": 6,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011356301&year=2021"
   },
   "10113564": {
@@ -39019,6 +39374,7 @@
     "2022b"
    ],
    "last": "2024a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011356601&year=2023"
   },
   "10113567": {
@@ -39054,6 +39410,7 @@
     "2022a"
    ],
    "last": "2025a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011356701&year=2024"
   },
   "10113568": {
@@ -39090,6 +39447,7 @@
     "2022a"
    ],
    "last": "2025b",
+   "credits": 4,
    "grades": {
     "mean": 94.5,
     "n": 20,
@@ -39128,6 +39486,7 @@
     "2022b"
    ],
    "last": "2024a",
+   "credits": 4,
    "grades": {
     "mean": 94.7,
     "n": 20,
@@ -39190,6 +39549,7 @@
     "2022a"
    ],
    "last": "2022a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011357101&year=2021"
   },
   "10113572": {
@@ -39266,6 +39626,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 6,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011357301&year=2025"
   },
   "10113574": {
@@ -39279,6 +39640,7 @@
     "2022a"
    ],
    "last": "2022a",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011357401&year=2021"
   },
   "10113575": {
@@ -39322,6 +39684,7 @@
     "2022b"
    ],
    "last": "2022b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011357601&year=2021"
   },
   "10113577": {
@@ -39408,6 +39771,7 @@
     "2022b"
    ],
    "last": "2024b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011358001&year=2023"
   },
   "10113581": {
@@ -39422,6 +39786,7 @@
     "2023b"
    ],
    "last": "2024b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011358101&year=2023"
   },
   "10113582": {
@@ -39457,6 +39822,7 @@
     "2024a"
    ],
    "last": "2026a",
+   "credits": 6,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011358201&year=2025"
   },
   "10113583": {
@@ -39542,6 +39908,7 @@
     "2025a"
    ],
    "last": "2025b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011358502&year=2024"
   },
   "10113586": {
@@ -39601,6 +39968,7 @@
     "2026a"
    ],
    "last": "2026b",
+   "credits": 6,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1011358702&year=2025"
   },
   "10113588": {
@@ -39749,6 +40117,7 @@
     "2022b"
    ],
    "last": "2026b",
+   "credits": 4,
    "grades": {
     "mean": 84.9,
     "n": 34,
@@ -39790,6 +40159,7 @@
     "2026b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1031098902&year=2026"
   },
   "10311234": {
@@ -39803,6 +40173,7 @@
     "2026a"
    ],
    "last": "2026a",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1031123401&year=2025"
   },
   "10313982": {
@@ -39826,6 +40197,7 @@
     "2022b"
    ],
    "last": "2027b",
+   "credits": 3,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1031398202&year=2026"
   },
   "10313989": {
@@ -39862,6 +40234,7 @@
     "2024b"
    ],
    "last": "2026b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1031401502&year=2025"
   },
   "10711102": {
@@ -42247,6 +42620,7 @@
     "2025b"
    ],
    "last": "2027b",
+   "credits": 4,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1411782601&year=2026"
   },
   "15001002": {
@@ -42640,6 +43014,7 @@
     "2022a"
    ],
    "last": "2027b",
+   "credits": 2,
    "syllabus": "https://www.ims.tau.ac.il/Tal/Syllabus/Syllabus_L.aspx?course=1500201401&year=2026"
   },
   "15002015": {

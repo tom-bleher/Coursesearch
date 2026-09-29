@@ -43,6 +43,12 @@ def test_semester_grades_sums_groups_without_aggregate():
     assert ud.semester_grades(groups) == {"mean": 70.0, "n": 4, "dist": [2] + [0] * 8 + [2]}
 
 
+def test_plan_credits_prefers_newest_year():
+    newest = {"F": {"P": {"cat": {"courses": {"A": {"weight": "4.0"}, "B": None}}}}}
+    older = {"G": {"Q": {"cat": {"courses": {"A": {"weight": "3"}, "C": {"weight": "2.5"}}}, "empty": None}}}
+    assert ud.plan_credits([newest, None, older]) == {"A": 4, "C": 2.5}
+
+
 @pytest.mark.parametrize("name, expected", [
     ("שנה א' - סמסטר ב' - קורסי חובה", (1, 2, True)),
     ("שנים ב'+ ג' - קורסי בחירה במתמטיקה", (2, None, False)),
@@ -95,6 +101,9 @@ def test_grade_stats_are_consistent(data):
 def test_credits_are_numeric(data):
     assert all(isinstance(c["credits"], (int, float)) and c["credits"] > 0
                for c in data["courses"].values() if "credits" in c)
+    current = [c for c in data["courses"].values() if c.get("dept") in data["meta"]["departments"]
+               and c.get("last", "")[:4] == str(data["meta"]["latest_year"])]
+    assert sum("credits" in c for c in current) / len(current) > 0.65  # the rest are mostly seminars and theses
 
 
 def test_plans(data):

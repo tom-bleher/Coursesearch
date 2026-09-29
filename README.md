@@ -22,7 +22,7 @@ An interactive map of courses, prerequisites, study programs and grades for Math
 
 `scripts/update_data.py` builds `data/courses.json` using only the Python standard library. It draws on two sources:
 
-- **[Arazim Project](https://arazim-project.com) dumps:** semester schedules and prerequisites, the all-time course index, study plans (for joint programs) and TAU Factor grade distributions ([format](https://github.com/arazimproject/tau-search/blob/main/src/types.ts)).
+- **[Arazim Project](https://arazim-project.com) dumps:** semester schedules and prerequisites, the all-time course index, study plans (for joint programs, and credit points for courses outside the catalog programs) and TAU Factor grade distributions ([format](https://github.com/arazimproject/tau-search/blob/main/src/types.ts)).
 - **[TAU program catalog](https://www.tau.ac.il/search-studies-programs):** program structure, credit requirements, official notes and course credit points. The data comes from the GraphQL API behind the catalog pages. To cover every faculty, set `CATALOG_FACULTIES = {""}`.
 
 ```sh

@@ -181,8 +181,8 @@ def norm_name(name):
 
 
 def arazim_programs(plans):
-    """{program: {"categories": [...]}} from Arazim's plans-{year}.json (+ credit points per course)."""
-    out, credits = {}, {}
+    """{program: {"categories": [...]}} from Arazim's plans-{year}.json."""
+    out = {}
     for name, cats in (plans or {}).get(PLAN_FACULTY, {}).items():
         if not PLAN_PATTERN.search(name) or PLAN_EXCLUDE.search(name):
             continue
@@ -190,14 +190,27 @@ def arazim_programs(plans):
         for cat, info in cats.items():
             if "שאר רוח" in cat or not info.get("courses"):
                 continue
-            for cid, c in info["courses"].items():
-                weight = number((c or {}).get("weight"))  # Arazim stores it as a string
-                if weight:
-                    credits[cid] = weight
             categories.append(make_category(cat, info["courses"], info.get("count")))
         if categories:
             out[re.sub(r"\s+", " ", name).strip()] = {"categories": categories}
-    return out, credits
+    return out
+
+
+def plan_credits(plans_by_year):
+    """Credit points of every course in any faculty's study plan, newest year first.
+
+    The semester data has no credit points, so this covers courses outside the catalog programs.
+    """
+    credits = {}
+    for plans in plans_by_year:
+        for programs in (plans or {}).values():
+            for cats in programs.values():
+                for info in cats.values():
+                    for cid, c in ((info or {}).get("courses") or {}).items():
+                        weight = number((c or {}).get("weight"))  # Arazim stores it as a string
+                        if weight:
+                            credits.setdefault(cid, weight)
+    return credits
 
 
 def make_category(name, courses, count=None, credits=None, note=None):
@@ -303,7 +316,7 @@ def catalog_program(shana, tcid, counts):
 
 def build_plans(arazim_plans, shana):
     """Official catalog programs, plus Arazim's joint programs (linked to their official halves)."""
-    plans, credits = arazim_programs(arazim_plans)
+    plans, credits = arazim_programs(arazim_plans), {}
     counts = {norm_name(n): {norm_name(c["name"]): c.get("count") for c in p["categories"]} for n, p in plans.items()}
     try:
         official = catalog_programs(shana)
@@ -367,7 +380,9 @@ def main():
     first_year = latest_year - YEARS_BACK
 
     print("Fetching study programs, all-time index, grades…")
-    plans, credits = build_plans(fetch(f"plans-{latest_year}.json"), latest_year - 1)
+    plans_by_year = [fetch(f"plans-{y}.json") for y in range(latest_year, first_year - 1, -1)]
+    plans, credits = build_plans(plans_by_year[0], latest_year - 1)
+    credits = {**plan_credits(plans_by_year), **credits}  # the official catalog takes precedence
     all_time = fetch("courses.json") or {}
     grades = fetch("grades.json") or {}
 

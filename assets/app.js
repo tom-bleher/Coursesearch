@@ -773,6 +773,7 @@ function renderPlanner() {
     const available = candidates.filter(c => canTake(c, done)).sort(order);
     const almost = candidates.filter(c => !canTake(c, done) && missingCount(c.reqT, has) === 1).sort(order);
     const planned = [...state.plan.keys()];
+    const noCredits = [...state.taken, ...planned].filter(id => !COURSES.get(id)?.credits);
     const addButton = c => h('button', { class: 'btn btn-small', title: `הוספה ל${targetName}`, 'aria-label': `הוספת ${c.name} ל${targetName}`,
         onclick: () => setPlan(c.id, target) }, '+');
 
@@ -782,6 +783,8 @@ function renderPlanner() {
         h('div', { class: 'meta' },
             h('span', { class: 'tag' }, `עברתי: ${state.taken.size} קורסים · ${creditsOf([...state.taken])} ש״ס`),
             h('span', { class: 'tag' }, `מתוכננים: ${planned.length} · ${creditsOf(planned)} ש״ס`)),
+        noCredits.length > 0 && h('p', { class: 'muted small' },
+            `${noCredits.length} מהקורסים שסימנת או תכננת הם ללא נתוני ש״ס, ולכן אינם נספרים בסכומים. יש לבדוק אותם בידיעון.`),
         h('div', { class: 'plan-controls' },
             h('label', { class: 'field' }, h('span', {}, 'סמסטר יעד'),
                 h('select', { id: 'target', onchange: e => { state.target = e.target.value; saveProgress(); } },
