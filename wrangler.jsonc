@@ -1,0 +1,8 @@
+// Cloudflare Workers static-assets site. Build: stage the site into _site (see .github/workflows/site.yml).
+{
+  "name": "coursesearch",
+  "compatibility_date": "2026-09-26",
+  "assets": {
+    "directory": "./_site"
+  }
+}

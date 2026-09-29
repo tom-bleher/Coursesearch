@@ -1,4 +1,7 @@
 __pycache__/
 .pytest_cache/
 _site/
+firebase-debug.log
+.firebase/
+.wrangler/
 .DS_Store

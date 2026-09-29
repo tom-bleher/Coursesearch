@@ -39,6 +39,9 @@ def open_page(browser, base_url):
         page.errors = []
         page.on("pageerror", lambda e: page.errors.append(str(e)))
         page.on("console", lambda m: m.type == "error" and page.errors.append(m.text))
+        # Never talk to the live Firebase project from tests; sync is tested with a fake backend
+        page.route("**/assets/firebase-config.js", lambda route: route.fulfill(
+            content_type="application/javascript", body="window.FIREBASE_CONFIG = null;"))
         page.goto(base_url + hash_)
         page.wait_for_selector("#status.done", timeout=20000)
         pages.append(page)
