@@ -920,6 +920,7 @@ function pushSoon() {
     clearTimeout(cloud.timer);
     setSyncStatus('שומר…');
     cloud.timer = setTimeout(async () => {
+        cloud.timer = null;
         try {
             await cloud.api.save(localProgress());
             setSyncStatus('מסונכרן');
@@ -960,8 +961,12 @@ async function onCloudUser(user) {
 async function cloudSignOut({ deleteData = false } = {}) {
     if (deleteData && !confirm('למחוק את נתוני התכנון שלך מהענן? לא ניתן לשחזר.')) return;
     $('accountMenu').hidden = true;
+    const pending = cloud.timer;
+    clearTimeout(pending);
+    cloud.timer = null;
     try {
         if (deleteData) await cloud.api.remove();
+        else if (pending) await cloud.api.save(localProgress());  // don't lose a change made just before
         await cloud.api.signOut();
     } catch (err) {
         console.error(err);

@@ -249,6 +249,23 @@ def test_cloud_sync(open_page):
     assert page.errors == []
 
 
+def test_sign_out_keeps_pending_change(open_page):
+    page = open_page()
+    page.evaluate(FAKE_CLOUD, None)
+    page.evaluate("onCloudUser({ uid: 'u1', name: 'Test User' })")
+    page.wait_for_function("cloud.status === 'מסונכרן'")
+    # Signing out right after a change still saves it to the account
+    page.evaluate("(async () => { toggleTaken('03661101'); await cloudSignOut(); })()")
+    assert page.evaluate("window.fake.remote.taken") == ["03661101"]
+    # Deleting the account data right after a change doesn't re-create it
+    page.evaluate("onCloudUser({ uid: 'u1', name: 'Test User' })")
+    page.wait_for_function("cloud.status === 'מסונכרן'")
+    page.evaluate("(async () => { window.confirm = () => true; toggleTaken('03661102'); await cloudSignOut({ deleteData: true }); })()")
+    page.wait_for_timeout(1000)
+    assert page.evaluate("window.fake.remote") is None
+    assert page.errors == []
+
+
 def test_start_year_catalog(open_page):
     page = open_page("#program=תוכנית חד-חוגית בפיזיקה")
     current = page.evaluate("view.program.year")
