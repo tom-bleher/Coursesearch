@@ -180,8 +180,14 @@ def norm_name(name):
     return re.sub(r"[\s\-–]+", "", name or "")
 
 
+def short_faculty(name):
+    """'הפקולטה למדעי החברה ע"ש גרשון גורדון' → 'מדעי החברה'; 'בית הספר סגול למדעי המוח' → 'מדעי המוח'."""
+    name = re.sub(r'\s+ע["״]ש\s.*$', "", name.strip())
+    return re.sub(r"^(?:הפקולטה|בית הספר(?: סגול)?)\s+ל", "", name)
+
+
 def arazim_programs(plans):
-    """{program: {"categories": [...]}} from Arazim's plans-{year}.json."""
+    """{program: {"faculty": ..., "categories": [...]}} from Arazim's plans-{year}.json."""
     out = {}
     for name, cats in (plans or {}).get(PLAN_FACULTY, {}).items():
         if not PLAN_PATTERN.search(name) or PLAN_EXCLUDE.search(name):
@@ -192,7 +198,7 @@ def arazim_programs(plans):
                 continue
             categories.append(make_category(cat, info["courses"], info.get("count")))
         if categories:
-            out[re.sub(r"\s+", " ", name).strip()] = {"categories": categories}
+            out[re.sub(r"\s+", " ", name).strip()] = {"faculty": short_faculty(PLAN_FACULTY), "categories": categories}
     return out
 
 
@@ -272,7 +278,7 @@ def catalog_programs(shana):
             and not PLAN_EXCLUDE.search(p["teur"])]
 
 
-def catalog_program(shana, tcid, counts):
+def catalog_program(shana, tcid, counts, faculty=None):
     """One official program: structure, notes, links; `counts` maps category names to Arazim's "choose k"."""
     page = catalog_page("ydtochnit", shana, tcid)
     general = catalog_page("ydhesberklali", shana, tcid) or {}
@@ -304,6 +310,7 @@ def catalog_program(shana, tcid, counts):
     program = {
         "tcid": tcid,
         "url": CATALOG_PAGE.format(shana=shana, tcid=tcid),
+        "faculty": faculty,
         "degree": (page.get("teurtoar") or "").strip(),
         "total": number(general.get("michsa")),
         "about": html_text(page.get("hesbernosaf")),
@@ -328,7 +335,8 @@ def build_plans(arazim_plans, shana):
     for p in official:
         name = re.sub(r"\s+", " ", p["teur"]).strip()
         try:
-            program, program_credits = catalog_program(shana, p["tcid"], counts.get(norm_name(name), {}))
+            program, program_credits = catalog_program(shana, p["tcid"], counts.get(norm_name(name), {}),
+                                                        short_faculty(p["teurfaculta"]))
         except Exception as e:
             print(f"  skipped {name}: {e}")
             continue
@@ -432,7 +440,7 @@ def main():
             "latest_year": latest_year,
             "semesters": semesters,
             "grade_bins": GRADE_BINS,
-            "departments": DEPARTMENTS,
+            "faculties": {FACULTY: DEPARTMENTS},
             "catalog_year": latest_year - 1,
         },
         "courses": dict(sorted(courses.items())),

@@ -1100,7 +1100,7 @@ function renderChrome() {
     $('isolatedField').hidden = inProgram;
     $('electivesField').hidden = !inProgram;
 
-    $('deptBar').replaceChildren(...DATA.meta.departments.map(d =>
+    $('deptBar').replaceChildren(...Object.values(DATA.meta.faculties).flat().map(d =>
         chip(d, state.depts.has(d), () => { toggleIn(state.depts, d); render(); })));
 
     const counts = new Map();
@@ -1270,7 +1270,7 @@ function readHash() {
     const course = p.get('course');
     if (course && COURSES.has(course)) {
         const c = COURSES.get(course);
-        if (!state.program && DATA.meta.departments.includes(c.dept)) {
+        if (!state.program && Object.values(DATA.meta.faculties).flat().includes(c.dept)) {
             state.depts.add(c.dept);
             state.types.add(typeKey(c));
             if (!isOffered(c, state.offered)) state.offered = 'all';

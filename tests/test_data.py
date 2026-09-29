@@ -60,7 +60,24 @@ def test_parse_category(name, expected):
     assert ud.parse_category(name) == expected
 
 
+@pytest.mark.parametrize("name, expected", [
+    ("הפקולטה למדעים מדויקים", "מדעים מדויקים"),
+    ('הפקולטה למדעי החברה ע"ש גרשון גורדון', "מדעי החברה"),
+    ("בית הספר סגול למדעי המוח", "מדעי המוח"),
+    ("בית הספר לסביבה", "סביבה"),
+    ('בית הספר לעבודה סוציאלית ע"ש בוב שאפל', "עבודה סוציאלית"),
+    ('הפקולטה להנדסה ע"ש איבי ואלדר פליישמן', "הנדסה"),
+    ('הפקולטה למשפטים ע"ש בוכמן', "משפטים"),
+])
+def test_short_faculty(name, expected):
+    assert ud.short_faculty(name) == expected
+
+
 # ── Generated data ───────────────────────────────────────────────────────────
+def units(data):
+    return [u for us in data["meta"]["faculties"].values() for u in us]
+
+
 def test_meta(data):
     meta = data["meta"]
     assert meta["semesters"] == sorted(meta["semesters"], reverse=True)
@@ -69,7 +86,7 @@ def test_meta(data):
 
 
 def test_every_department_is_populated(data):
-    for dept in data["meta"]["departments"]:
+    for dept in units(data):
         current = [c for c in data["courses"].values()
                    if c.get("dept") == dept and c.get("last", "")[:4] == str(data["meta"]["latest_year"])]
         assert len(current) > 30, dept
@@ -101,7 +118,7 @@ def test_grade_stats_are_consistent(data):
 def test_credits_are_numeric(data):
     assert all(isinstance(c["credits"], (int, float)) and c["credits"] > 0
                for c in data["courses"].values() if "credits" in c)
-    current = [c for c in data["courses"].values() if c.get("dept") in data["meta"]["departments"]
+    current = [c for c in data["courses"].values() if c.get("dept") in units(data)
                and c.get("last", "")[:4] == str(data["meta"]["latest_year"])]
     assert sum("credits" in c for c in current) / len(current) > 0.65  # the rest are mostly seminars and theses
 
@@ -111,6 +128,8 @@ def test_plans(data):
     assert len(plans) > 20
     for name, program in plans.items():
         assert program["categories"], name
+        assert isinstance(program.get("faculty"), str) and program["faculty"], name
+    assert plans["תוכנית חד-חוגית בפיזיקה"]["faculty"] == "מדעים מדויקים"
     # a few programs from other faculties (e.g. Law) define tracks rather than mandatory courses
     without_required = [n for n, p in plans.items() if not any(c["required"] for c in p["categories"])]
     assert len(without_required) <= len(plans) * 0.05, without_required
