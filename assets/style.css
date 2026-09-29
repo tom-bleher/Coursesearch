@@ -367,6 +367,7 @@ legend, .field > span { font-size: 0.78rem; font-weight: 600; color: var(--muted
 .field { display: flex; flex-direction: column; }
 .check { display: flex; gap: 8px; align-items: center; font-size: 0.87rem; cursor: pointer; }
 .check input { width: 16px; height: 16px; accent-color: var(--accent); }
+.check.external { display: inline-flex; gap: 6px; font-size: inherit; }
 
 .details .close { position: absolute; top: 12px; inset-inline-end: 12px; }
 .details h2 { font-size: 1.18rem; line-height: 1.35; padding-inline-end: 40px; }

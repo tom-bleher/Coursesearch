@@ -14,7 +14,7 @@ An interactive map of courses, prerequisites, study programs and grades for Math
   - a semester-by-semester plan: planned courses count as done for later semesters, and you get warnings for missing prerequisites, unplanned co-requisites, or courses not offered that semester;
   - progress toward each category of your study program.
 
-  AND/OR prerequisite logic is taken into account, and everything is saved in the browser.
+  AND/OR prerequisite logic is taken into account. Prerequisites from other faculties can be marked as passed in the course card. Everything is saved in the browser.
 - **Details.** Each course card lists lecturers, exam type, credit hours and the semesters it's offered, with links to the syllabus and to the official prerequisites page.
 - Search by name or course number, shareable links (`#course=03661102`), dark mode and a mobile layout.
 

@@ -117,18 +117,15 @@ function prepare(data) {
     return courses;
 }
 
-// Courses outside the dataset can't be marked as passed, so they count as met — but within a
-// "one of" group only when the group has no alternative inside the dataset.
+// The part of a requirement the planner tracks (null when nothing is left). Courses outside the
+// dataset count as met, except as an alternative to a course inside it: there they count only once
+// marked as passed (from the prerequisite list in the course card).
 function trackable(req, courses) {
-    if (!req || typeof req === 'string') return req;
+    if (!req || typeof req === 'string') return courses.has(req) ? req : null;
     const [kind, items] = Object.entries(req)[0];
-    let kept = items;
-    if (kind === 'any') {
-        const inData = items.filter(r => reqIds(r).some(id => courses.has(id)));
-        if (inData.length) kept = inData;
-    }
-    kept = kept.map(r => trackable(r, courses));
-    return kept.length === 1 ? kept[0] : { [kind]: kept };
+    if (kind === 'any') return items.some(r => reqIds(r).some(id => courses.has(id))) ? req : null;
+    const kept = items.map(r => trackable(r, courses)).filter(Boolean);
+    return kept.length > 1 ? { all: kept } : kept[0] ?? null;
 }
 
 const courseName = id => COURSES.get(id)?.name ?? DATA.external[id] ?? formatId(id);
@@ -143,7 +140,7 @@ function isOffered(c, mode) {
 // ── Planning model ───────────────────────────────────────────────────────────
 // A course can be taken in semester S once its prerequisites were passed or planned before S;
 // co-requisites may also be planned for S itself.
-const meets = done => id => done.has(id) || !COURSES.has(id);
+const meets = done => id => done.has(id);
 const canTake = (c, done) => satisfied(c.reqT, meets(done));
 const partName = sem => (sem.endsWith('a') ? 'א׳' : 'ב׳');
 
@@ -516,12 +513,15 @@ function focusNode(id) {
     node.flashClass('focus', 1500);
 }
 
+// Courses outside the dataset have no card, so they are marked as passed right here
 function courseButton(id) {
     const inData = COURSES.has(id);
     return h('span', {},
         inData
             ? h('button', { class: `course-link${state.taken.has(id) ? ' done' : state.plan.has(id) ? ' planned' : ''}`, onclick: () => select(id, { focus: true }) }, courseName(id))
-            : h('span', {}, courseName(id)),
+            : h('label', { class: 'check external', title: 'קורס מחוץ לאתר: סמנו אם עברתם אותו' },
+                h('input', { type: 'checkbox', checked: state.taken.has(id), onchange: () => toggleTaken(id) }),
+                h('span', {}, courseName(id))),
         ' ', h('span', { class: 'course-id' }, formatId(id)));
 }
 
@@ -873,7 +873,7 @@ function mergeProgress(local, remote) {
 }
 
 function applyProgress(p) {
-    state.taken = new Set((p.taken || []).filter(id => COURSES.has(id)));
+    state.taken = new Set((p.taken || []).filter(id => typeof id === 'string'));  // may include courses outside the dataset
     state.plan = new Map(Object.entries(p.plan || {}).filter(([id]) => COURSES.has(id) && !state.taken.has(id)));
     store.set(STORAGE_KEY, [...state.taken]);
     store.set(PLAN_KEY, Object.fromEntries(state.plan));

@@ -93,9 +93,22 @@ def test_prerequisite_logic(open_page):
     assert not page.evaluate(can("03212105"))  # still needs one of an "any" group
     page.evaluate("state.taken.add('03661111')")
     assert page.evaluate(can("03212105"))
-    # An alternative outside the dataset must not satisfy a group that has in-dataset options
-    page.evaluate("state.taken = new Set()")
-    assert not page.evaluate(can("03683065"))
+    # An alternative outside the dataset counts only once marked as passed
+    page.evaluate("state.taken = new Set(['03682159'])")
+    assert not page.evaluate(can("03683065"))  # (03682162 or 05124402) + (03682159 or 05124400)
+    page.evaluate("state.taken.add('05124402')")
+    assert page.evaluate(can("03683065"))
+    # ...while an external course that is simply required counts as met
+    assert page.evaluate("trackable({all: ['03661101', '99999999']}, COURSES)") == "03661101"
+
+
+def test_external_prerequisite_can_be_marked(open_page):
+    page = open_page("#course=03683065")
+    name = page.evaluate("DATA.external['05124402']")
+    page.locator("#details label.external", has_text=name).first.locator("input").check()
+    assert page.evaluate("state.taken.has('05124402')")
+    assert "05124402" in page.evaluate("store.get(STORAGE_KEY, [])")
+    assert page.errors == []
 
 
 def test_planner_plans_forward(open_page):
