@@ -148,6 +148,12 @@ function planSemesters() {
     const y = DATA.meta.latest_year;
     return [...new Set([y, y + 1, y + 2].flatMap(v => [`${v}a`, `${v}b`]).concat([...state.plan.values()]))].sort();
 }
+// The semester under way, or the next one over the summer. Semester "2027a" starts in October 2026;
+// from February (semester א׳ exams) planning is for semester ב׳.
+function currentSemester(now = new Date()) {
+    const y = now.getFullYear(), m = now.getMonth();  // 0 = January
+    return m >= 7 ? `${y + 1}a` : m >= 1 ? `${y}b` : `${y}a`;
+}
 const plannedIn = sem => [...state.plan].filter(([, s]) => s === sem).map(([id]) => id).sort();
 const doneBefore = sem => new Set([...state.taken, ...[...state.plan].filter(([, s]) => s < sem).map(([id]) => id)]);
 // Future years are assumed to follow this year's schedule
@@ -1303,7 +1309,7 @@ async function main() {
     });
 
     for (const id of state.plan.keys()) if (!COURSES.has(id)) state.plan.delete(id);
-    state.target = planSemesters().find(s => s >= `${DATA.meta.latest_year}a`);
+    state.target = planSemesters().find(s => s >= currentSemester()) ?? planSemesters().at(-1);
     setupControls();
     setupSearch();
     setupCanvasTools();

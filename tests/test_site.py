@@ -123,6 +123,15 @@ def test_shared_courses_count_once(open_page):
     assert page.evaluate(done) == {"2": 4, "3": 4}
 
 
+@pytest.mark.parametrize("date, expected", [
+    ("2026-09-29", "2027a"), ("2027-01-15", "2027a"), ("2027-02-10", "2027b"),
+    ("2027-07-01", "2027b"), ("2027-08-01", "2028a"),
+])
+def test_current_semester(open_page, date, expected):
+    page = open_page()
+    assert page.evaluate(f"currentSemester(new Date('{date}T12:00'))") == expected
+
+
 def test_planner_plans_forward(open_page):
     page = open_page("#plan=1")
     page.wait_for_selector("#planner:not([hidden])")
