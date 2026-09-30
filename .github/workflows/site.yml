@@ -38,11 +38,12 @@ jobs:
         if: github.event_name != 'push' && github.ref == 'refs/heads/main'
         run: |
           python scripts/update_data.py
-          if ! git diff --quiet -- data; then
+          git add -A data  # the data is split into files that come and go with units and programs
+          if ! git diff --cached --quiet -- data; then
             python -m pytest tests/test_data.py -q
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -am "Update course data"
+            git commit -m "Update course data"
             git pull --rebase
             git push
           fi

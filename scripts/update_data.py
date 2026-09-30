@@ -1,5 +1,5 @@
 """
-Build data/courses.json from the Arazim Project's TAU data dumps.
+Build the site's data for all of Tel Aviv University from the Arazim Project's TAU data dumps.
 
 Sources (format documented at https://github.com/arazimproject/tau-search/blob/main/src/types.ts):
   courses-{sem}.json  per-semester offerings, groups, exams, structured prerequisites
@@ -10,33 +10,39 @@ Sources (format documented at https://github.com/arazimproject/tau-search/blob/m
 and from TAU's official program catalog (ידיעון, https://www.tau.ac.il/search-studies-programs):
   program structure, credit requirements, official notes and per-course credit points
 
+Output, split so the site loads only what it shows:
+  data/index.json            every course's name, unit, prerequisites, semesters, credits and average
+                             grade; the faculties and their units; the list of programs
+  data/courses/{unit}.json   course details by the first four digits of the course number (the unit):
+                             lecturers, exams, grade distribution, syllabus
+  data/programs/{id}.json    one program: its structure, notes and earlier catalog editions
+
 Run: python3 scripts/update_data.py   (stdlib only)
 """
 
+import hashlib
 import html
 import json
 import re
 import sys
 import urllib.request
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from pathlib import Path
 
 BASE = "https://arazim-project.com/data"
-OUT = Path(__file__).resolve().parent.parent / "data" / "courses.json"
+DATA = Path(__file__).resolve().parent.parent / "data"
 
-YEARS_BACK = 5  # offering / grade window: latest academic year and the 5 before it
-DEPARTMENTS = ["מתמטיקה", "פיזיקה", "מדעי המחשב"]
-FACULTY = "מדעים מדויקים"
-PLAN_FACULTY = "הפקולטה למדעים מדויקים"
-PLAN_PATTERN = re.compile("|".join(DEPARTMENTS))
-PLAN_EXCLUDE = re.compile("תואר שני|לימודי תעודה")
-# Official catalog programs to include: every undergraduate program of these faculties, plus any
-# program elsewhere whose name matches PLAN_PATTERN. Use {""} to include the whole university.
-CATALOG_FACULTIES = {"הפקולטה למדעים מדויקים"}
+YEARS_BACK = 5  # offering window: latest academic year and the 5 before it (grades: their whole history)
+OTHER = "אחר"  # faculty of courses and programs that don't name one
+# Arazim's study plans add the joint programs the catalog lists only per major; its graduate and
+# certificate plans duplicate the catalog's
+PLAN_EXCLUDE = re.compile("תואר שני|תואר שלישי|לימודי תעודה|תעודת הוראה")
+WORKERS = 3  # parallel requests to the catalog: polite, and enough
 CATALOG_API = "https://tochniot.tau.ac.il/graphql"
-CATALOG_PAGE = "https://www.tau.ac.il/study-program?safa=1&shana={shana}&tab=programStudy&tcid={tcid}"
-SCHEDULE_PAGE = "https://www.tau.ac.il/study-program?safa=1&shana={shana}&tab=schedule&tcid={tcid}&menu={menu}"
+CATALOG_PAGE = "https://www.tau.ac.il/study-program?safa={safa}&shana={shana}&tab=programStudy&tcid={tcid}"
+SCHEDULE_PAGE = "https://www.tau.ac.il/study-program?safa={safa}&shana={shana}&tab=schedule&tcid={tcid}&menu={menu}"
 PREVIOUS_CATALOGS = 2  # students follow the catalog of the year they started: keep the last two as well
 GRADE_BINS = ["0-49", "50-59", "60-64", "65-69", "70-74",
               "75-79", "80-84", "85-89", "90-94", "95-100"]
@@ -187,18 +193,20 @@ def short_faculty(name):
 
 
 def arazim_programs(plans):
-    """{program: {"faculty": ..., "categories": [...]}} from Arazim's plans-{year}.json."""
+    """{program: {"faculty": ..., "categories": [...]}} from Arazim's plans-{year}.json (every faculty)."""
     out = {}
-    for name, cats in (plans or {}).get(PLAN_FACULTY, {}).items():
-        if not PLAN_PATTERN.search(name) or PLAN_EXCLUDE.search(name):
-            continue
-        categories = []
-        for cat, info in cats.items():
-            if "שאר רוח" in cat or not info.get("courses"):
+    for faculty, programs in (plans or {}).items():
+        for name, cats in programs.items():
+            if PLAN_EXCLUDE.search(name):
                 continue
-            categories.append(make_category(cat, info["courses"], info.get("count")))
-        if categories:
-            out[re.sub(r"\s+", " ", name).strip()] = {"faculty": short_faculty(PLAN_FACULTY), "categories": categories}
+            categories = []
+            for cat, info in cats.items():
+                if "שאר רוח" in cat or not (info or {}).get("courses"):
+                    continue
+                categories.append(make_category(cat, info["courses"], info.get("count")))
+            if categories:
+                out[re.sub(r"\s+", " ", name).strip()] = {"faculty": short_faculty(faculty), "level": "ראשון",
+                                                            "categories": categories}
     return out
 
 
@@ -263,25 +271,25 @@ def catalog(query, variables):
     return out["data"]
 
 
-def catalog_page(api, shana, tcid):
+def catalog_page(api, shana, tcid, safa="1"):
+    """One page of a program; safa is the language: "1" Hebrew, "2" English (international programs)."""
     q = "query($api: String!, $f: JSON!) { results(apiUrl: $api, filters: $f) { body } }"
-    body = catalog(q, {"api": api, "f": {"safa": "1", "shana": str(shana), "tcid": tcid, "tab": "programStudy"}})
+    body = catalog(q, {"api": api, "f": {"safa": safa, "shana": str(shana), "tcid": tcid, "tab": "programStudy"}})
     return (body["results"]["body"] or [None])[0]
 
 
 def catalog_programs(shana):
+    """Every program of the year's catalog: all faculties and degrees."""
     q = ("query($s: JSON!) { getPrograms(search: $s, from: 0, size: 5000) "
          "{ results { tcid shana toar teur teurfaculta teurchug } } }")
     results = catalog(q, {"s": {"safa": "1", "isLoadPrograms": True}})["getPrograms"]["results"]
-    return [p for p in results if p["shana"] == str(shana) and p["toar"] == "ראשון" and p["tcid"] and p["teur"]
-            and (p["teurfaculta"] in CATALOG_FACULTIES or "" in CATALOG_FACULTIES or PLAN_PATTERN.search(p["teur"]))
-            and not PLAN_EXCLUDE.search(p["teur"])]
+    return [p for p in results if p["shana"] == str(shana) and p["tcid"] and p["teur"]]
 
 
-def catalog_program(shana, tcid, counts, faculty=None):
+def catalog_program(shana, tcid, counts, faculty=None, safa="1"):
     """One official program: structure, notes, links; `counts` maps category names to Arazim's "choose k"."""
-    page = catalog_page("ydtochnit", shana, tcid)
-    general = catalog_page("ydhesberklali", shana, tcid) or {}
+    page = catalog_page("ydtochnit", shana, tcid, safa)
+    general = catalog_page("ydhesberklali", shana, tcid, safa) or {}
     categories, sections, credits = [], [], {}
 
     def walk(node, path):
@@ -302,14 +310,14 @@ def catalog_program(shana, tcid, counts, faculty=None):
         sections.append({k: v for k, v in {
             "name": top.get("teurrama", "").strip(), "credits": credit_range(top.get("shaot")),
             "note": html_text(top.get("hesber")),
-            "schedule": SCHEDULE_PAGE.format(shana=shana, tcid=tcid, menu=menu)}.items() if v})
+            "schedule": SCHEDULE_PAGE.format(safa=safa, shana=shana, tcid=tcid, menu=menu)}.items() if v})
         walk(top, [])
 
     links = [{"title": t["Title"].strip(), "url": t["url"]} for t in page.get("terms") or [] if t.get("url")]
     links += [{"title": f"ידיעון {p['shana']}", "url": p["url"]} for p in (page.get("prev_newsletters") or [])[:1]]
     program = {
         "tcid": tcid,
-        "url": CATALOG_PAGE.format(shana=shana, tcid=tcid),
+        "url": CATALOG_PAGE.format(safa=safa, shana=shana, tcid=tcid),
         "faculty": faculty,
         "degree": (page.get("teurtoar") or "").strip(),
         "total": number(general.get("michsa")),
@@ -321,49 +329,122 @@ def catalog_program(shana, tcid, counts, faculty=None):
     return {k: v for k, v in program.items() if v not in (None, "", [])}, credits
 
 
+def fetch_program(p, shana, counts):
+    """One catalog program and its earlier editions; None when the catalog has no structure for it."""
+    name = re.sub(r"\s+", " ", p["teur"]).strip()
+    safa = "1" if re.search("[א-ת]", name) else "2"  # international programs exist only in English
+    try:
+        program, credits = catalog_program(shana, p["tcid"], counts.get(norm_name(name), {}),
+                                           short_faculty(p["teurfaculta"] or "") or OTHER, safa)
+    except Exception:  # "no data": programs without a published structure (PhD, MD, …)
+        return name, None, {}
+    if not program.get("categories"):
+        return name, None, {}
+    program["level"] = p["toar"] or OTHER
+    # Earlier catalogs of the same program, for students who started in those years
+    previous = {}
+    for year in range(shana - 1, shana - 1 - PREVIOUS_CATALOGS, -1):
+        try:
+            old, _ = catalog_program(year, p["tcid"], {}, safa=safa)
+        except Exception:
+            continue
+        if old.get("categories"):
+            previous[str(year)] = {k: old[k] for k in ("url", "total", "sections", "categories") if k in old}
+    if previous:
+        program["previous"] = previous
+    return name, program, credits
+
+
 def build_plans(arazim_plans, shana):
     """Official catalog programs, plus Arazim's joint programs (linked to their official halves)."""
-    plans, credits = arazim_programs(arazim_plans), {}
-    counts = {norm_name(n): {norm_name(c["name"]): c.get("count") for c in p["categories"]} for n, p in plans.items()}
+    arazim, credits = arazim_programs(arazim_plans), {}
+    counts = {norm_name(n): {norm_name(c["name"]): c.get("count") for c in p["categories"]} for n, p in arazim.items()}
     try:
         official = catalog_programs(shana)
     except Exception as e:  # keep the Arazim data if the catalog is unavailable
         print(f"  catalog unavailable ({e}); using Arazim plans only")
-        return plans, credits
-    print(f"  {len(official)} catalog programs")
-    by_name = {}
-    for p in official:
-        name = re.sub(r"\s+", " ", p["teur"]).strip()
-        try:
-            program, program_credits = catalog_program(shana, p["tcid"], counts.get(norm_name(name), {}),
-                                                        short_faculty(p["teurfaculta"]))
-        except Exception as e:
-            print(f"  skipped {name}: {e}")
-            continue
-        if not program.get("categories"):
-            continue
-        # Earlier catalogs of the same program, for students who started in those years
-        previous = {}
-        for year in range(shana - 1, shana - 1 - PREVIOUS_CATALOGS, -1):
-            try:
-                old, _ = catalog_program(year, p["tcid"], {})
-            except Exception:
-                continue
-            if old.get("categories"):
-                previous[str(year)] = {k: old[k] for k in ("url", "total", "sections", "categories") if k in old}
-        if previous:
-            program["previous"] = previous
-        plans[name] = program
-        credits.update(program_credits)
-        by_name[name] = p
+        return arazim, credits
+    print(f"  {len(official)} catalog programs", flush=True)
+    catalog_plans, by_name = {}, {}
+    with ThreadPoolExecutor(WORKERS) as pool:
+        for i, (p, (name, program, program_credits)) in enumerate(
+                zip(official, pool.map(lambda p: fetch_program(p, shana, counts), official)), 1):
+            if program:
+                catalog_plans[name] = program
+                credits.update(program_credits)
+                by_name[name] = p
+            if i % 50 == 0:
+                print(f"  {i}/{len(official)}", flush=True)
+    # Arazim adds what the catalog lacks: mostly joint programs (the same name spelled differently is a duplicate)
+    known = {norm_name(n) for n in catalog_plans}
+    plans = {**{n: p for n, p in arazim.items() if norm_name(n) not in known}, **catalog_plans}
     # Joint programs (e.g. "דו-חוגית במתמטיקה ובמדעי המחשב") are two "…ובחוג נוסף" catalog programs
     halves = [(p["teurchug"], name) for name, p in by_name.items() if "חוג נוסף" in name and p.get("teurchug")]
     for name, program in plans.items():
         if "tcid" not in program:
             # match on the major's leading name ("מדעי כדור הארץ וכוכבי הלכת" → "מדעי כדור הארץ")
             program["parts"] = [{"name": half, "url": plans[half]["url"]} for chug, half in halves
-                                if chug.split(" ו")[0] in name]
+                                if re.search(rf"ו?ב{re.escape(chug.split(' ו')[0])}(\s|$)", name)]
     return dict(sorted(plans.items())), credits
+
+
+# ── Output ───────────────────────────────────────────────────────────────────
+INDEX_FIELDS = ("name", "dept", "type", "req", "coreq", "semesters", "last", "credits")
+DETAIL_FIELDS = ("lecturers", "exams", "grades", "syllabus")
+
+
+def program_id(name, program):
+    """File name of a program: its catalog id, or a stable hash of its name (Arazim's joint programs)."""
+    return program.get("tcid") or "a" + hashlib.sha1(name.encode()).hexdigest()[:10]
+
+
+def split(courses, plans):
+    """{relative path: content}: the index, course details by unit code, one file per program."""
+    index_courses, details = {}, {}
+    for cid, c in courses.items():
+        entry = {k: c[k] for k in INDEX_FIELDS if k in c}
+        if "grades" in c:
+            entry["mean"] = c["grades"]["mean"]
+        index_courses[cid] = entry
+        # every unit gets a file, even an empty one, so the site never asks for a missing file
+        unit = details.setdefault(f"courses/{cid[:4]}.json", {})
+        detail = {k: c[k] for k in DETAIL_FIELDS if k in c}
+        if detail:
+            unit[cid] = detail
+    programs, files = {}, {}
+    for name, program in plans.items():
+        pid = program_id(name, program)
+        programs[name] = {"id": pid, "faculty": program.get("faculty") or OTHER, "level": program.get("level") or OTHER}
+        files[f"programs/{pid}.json"] = program
+    return index_courses, programs, {**details, **files}
+
+
+def write_json(path, content):
+    """Write if different; True when the file changed."""
+    text = json.dumps(content, ensure_ascii=False, separators=(",", ":")) + "\n"
+    if path.exists() and path.read_text(encoding="utf-8") == text:
+        return False
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+    return True
+
+
+def write_site_data(index, files):
+    """Write the data files, removing ones no longer produced. The index's date changes only with the data."""
+    changed = False
+    for folder in ("courses", "programs"):
+        for old in (DATA / folder).glob("*.json"):
+            if f"{folder}/{old.name}" not in files:
+                old.unlink()
+                changed = True
+    for rel, content in files.items():
+        changed |= write_json(DATA / rel, content)
+    old = DATA / "index.json"
+    if not changed and old.exists():
+        previous = json.loads(old.read_text(encoding="utf-8"))
+        if {**index, "meta": {**index["meta"], "generated": previous["meta"]["generated"]}} == previous:
+            return False
+    return write_json(old, index) or changed
 
 
 # ── Main ─────────────────────────────────────────────────────────────────────
@@ -371,51 +452,48 @@ def main():
     info = fetch("info.json") or {}
     years = sorted({int(s[:4]) for s in info.get("semesters", {})}, reverse=True)
 
-    print("Fetching semesters…")
+    print("Fetching semesters…", flush=True)
     offerings = {}  # sem -> {cid: info}
-    for year in years:
-        if offerings and year < int(max(offerings)[:4]) - YEARS_BACK:
-            break
+    for year in range(years[0], years[0] - YEARS_BACK - 1, -1):
         for part in "ba":
             data = fetch(f"courses-{year}{part}.json")
             if data:
                 offerings[f"{year}{part}"] = data
-                print(f"  {year}{part}: {len(data)} courses")
+                print(f"  {year}{part}: {len(data)} courses", flush=True)
     if not offerings:
         sys.exit("No semester data found")
     semesters = sorted(offerings, reverse=True)
     latest_year = int(semesters[0][:4])
-    first_year = latest_year - YEARS_BACK
 
-    print("Fetching study programs, all-time index, grades…")
-    plans_by_year = [fetch(f"plans-{y}.json") for y in range(latest_year, first_year - 1, -1)]
+    print("Fetching study programs, all-time index, grades…", flush=True)
+    plans_by_year = [fetch(f"plans-{y}.json") for y in range(latest_year, latest_year - YEARS_BACK - 1, -1)]
     plans, credits = build_plans(plans_by_year[0], latest_year - 1)
     credits = {**plan_credits(plans_by_year), **credits}  # the official catalog takes precedence
     all_time = fetch("courses.json") or {}
     grades = fetch("grades.json") or {}
-
-    dept_faculties = {f"{FACULTY}/{d}" for d in DEPARTMENTS}
     plan_ids = {c for p in plans.values()
                 for edition in [p, *p.get("previous", {}).values()] for cat in edition["categories"] for c in cat["courses"]}
 
-    # Latest offering of every in-scope course within the window
-    courses = {}
+    # Every course offered in the window, described by its latest offering
+    courses, unit_courses = {}, {}
     for sem in semesters:  # newest first
         for cid, cinfo in offerings[sem].items():
             if cid in courses:
                 courses[cid]["semesters"].append(sem)
-            elif cinfo.get("faculty") in dept_faculties or cid in plan_ids:
-                courses[cid] = build_offering(cid, cinfo, sem)
-                courses[cid]["semesters"] = [sem]
+                continue
+            courses[cid] = build_offering(cid, cinfo, sem)
+            courses[cid]["semesters"] = [sem]
+            faculty = (cinfo.get("faculty") or "").split("/")[0] or OTHER
+            unit_courses.setdefault(faculty, Counter())[courses[cid]["dept"]] += 1
 
-    # Plan courses not offered in the window: name / faculty from the all-time index
+    # Program courses not offered in the window: name and unit from the all-time index
     for cid in plan_ids - courses.keys():
         a = all_time.get(cid)
         if a:
             courses[cid] = {"name": a.get("name", "").strip(), "dept": (a.get("faculty") or "").split("/")[-1],
                             "semesters": []}
 
-    # Names for out-of-scope courses referenced by prerequisites (shown in details, not as nodes)
+    # Names for other courses referenced by prerequisites (shown in details, not as nodes)
     referenced = {i for c in courses.values() for k in ("req", "coreq") for i in req_ids(c.get(k))}
     external = {cid: all_time[cid]["name"].strip() for cid in sorted(referenced - courses.keys())
                 if all_time.get(cid, {}).get("name")}
@@ -424,7 +502,8 @@ def main():
         last_ever = next(iter(all_time.get(cid, {}).get("semesters") or []), None)
         c["last"] = c["semesters"][0] if c["semesters"] else last_ever
         c["credits"] = credits.get(cid)
-        g = grade_stats(grades.get(cid), first_year, latest_year)
+        # grade data has thinned out in recent years, so a course's whole history is used
+        g = grade_stats(grades.get(cid), 0, latest_year)
         if g:
             c["grades"] = g
         sem, group = c.pop("sem", None), c.pop("group", None)
@@ -434,33 +513,27 @@ def main():
         for k in [k for k, v in c.items() if v in (None, [], "")]:
             del c[k]
 
-    out = {
+    index_courses, programs, files = split(dict(sorted(courses.items())), plans)
+    index = {
         "meta": {
             "generated": date.today().isoformat(),
             "latest_year": latest_year,
             "semesters": semesters,
             "grade_bins": GRADE_BINS,
-            "faculties": {FACULTY: DEPARTMENTS},
+            # faculties, largest first, and their units, largest first
+            "faculties": {f: [u for u, _ in units.most_common() if u]
+                          for f, units in sorted(unit_courses.items(), key=lambda x: -sum(x[1].values()))},
             "catalog_year": latest_year - 1,
         },
-        "courses": dict(sorted(courses.items())),
+        "courses": index_courses,
         "external": external,
-        "plans": plans,
+        "programs": programs,
     }
-    if OUT.exists():
-        old = json.loads(OUT.read_text(encoding="utf-8"))
-        old["meta"]["generated"] = out["meta"]["generated"]
-        if old == out:
-            print("No changes.")
-            return
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-
-    depts = Counter(c.get("dept") for c in courses.values())
-    print(f"\nWrote {OUT.relative_to(OUT.parent.parent)}: {len(courses)} courses, "
-          f"{sum(1 for c in courses.values() if 'grades' in c)} with grades, "
-          f"{len(plans)} programs, {len(external)} external refs")
-    print("  " + ", ".join(f"{d}: {n}" for d, n in depts.most_common(6)))
+    if not write_site_data(index, files):
+        print("No changes.")
+        return
+    print(f"\nWrote data/: {len(courses)} courses ({sum('grades' in c for c in courses.values())} with grades) "
+          f"in {len(unit_courses)} faculties, {len(plans)} programs, {len(external)} external refs")
 
 
 if __name__ == "__main__":

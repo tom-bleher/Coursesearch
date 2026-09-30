@@ -1,4 +1,4 @@
-"""Checks for the data pipeline and the generated data/courses.json (no network)."""
+"""Checks for the data pipeline and the generated data/ files (no network)."""
 
 import importlib.util
 import json
@@ -12,9 +12,17 @@ ud = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ud)
 
 
+def read(rel):
+    return json.loads((ROOT / "data" / rel).read_text(encoding="utf-8"))
+
+
 @pytest.fixture(scope="module")
-def data():
-    return json.loads((ROOT / "data" / "courses.json").read_text(encoding="utf-8"))
+def index():
+    return read("index.json")
+
+
+def program(index, name):
+    return read(f"programs/{index['programs'][name]['id']}.json")
 
 
 # ── Pipeline units ───────────────────────────────────────────────────────────
@@ -74,72 +82,82 @@ def test_short_faculty(name, expected):
 
 
 # ── Generated data ───────────────────────────────────────────────────────────
-def units(data):
-    return [u for us in data["meta"]["faculties"].values() for u in us]
+def current(index, dept):
+    return [c for c in index["courses"].values()
+            if c.get("dept") == dept and c.get("last", "")[:4] == str(index["meta"]["latest_year"])]
 
 
-def test_meta(data):
-    meta = data["meta"]
+def test_meta(index):
+    meta = index["meta"]
     assert meta["semesters"] == sorted(meta["semesters"], reverse=True)
     assert int(meta["semesters"][0][:4]) == meta["latest_year"]
     assert len(meta["grade_bins"]) == 10
 
 
-def test_every_department_is_populated(data):
-    for dept in units(data):
-        current = [c for c in data["courses"].values()
-                   if c.get("dept") == dept and c.get("last", "")[:4] == str(data["meta"]["latest_year"])]
-        assert len(current) > 30, dept
+def test_whole_university(index):
+    faculties = index["meta"]["faculties"]
+    assert len(faculties) >= 10 and sum(map(len, faculties.values())) >= 100
+    assert {"מתמטיקה", "פיזיקה", "מדעי המחשב"} <= set(faculties["מדעים מדויקים"])
+    for dept in ("מתמטיקה", "פיזיקה", "מדעי המחשב", "כלכלה", "פילוסופיה"):
+        assert len(current(index, dept)) > 30, dept
+    assert len(index["courses"]) > 10000
 
 
-def test_known_prerequisites(data):
-    calc2 = data["courses"]["03661102"]
+def test_split_files_exist(index):
+    assert {f"{cid[:4]}.json" for cid in index["courses"]} == {f.name for f in (ROOT / "data" / "courses").glob("*.json")}
+    assert {f"{p['id']}.json" for p in index["programs"].values()} == \
+        {f.name for f in (ROOT / "data" / "programs").glob("*.json")}
+
+
+def test_known_prerequisites(index):
+    calc2 = index["courses"]["03661102"]
     assert calc2["req"] == "03661101"
     assert calc2["coreq"] == "03661112"
 
 
-def test_requirements_resolve(data):
-    courses, external = data["courses"], data["external"]
+def test_requirements_resolve(index):
+    courses, external = index["courses"], index["external"]
     leaves = [i for c in courses.values() for k in ("req", "coreq") for i in ud.req_ids(c.get(k))]
     unresolved = [i for i in leaves if i not in courses and i not in external]
     assert len(unresolved) / len(leaves) < 0.02, unresolved[:10]
 
 
-def test_grade_stats_are_consistent(data):
-    for cid, c in data["courses"].items():
-        g = c.get("grades")
-        if not g:
-            continue
-        assert g["n"] == sum(g["dist"]) == sum(n for _, _, n in g["by_sem"]), cid
-        assert 0 <= g["mean"] <= 100, cid
-        assert all(s[:4] >= str(data["meta"]["latest_year"] - ud.YEARS_BACK) for s, _, _ in g["by_sem"]), cid
+def test_grade_stats_are_consistent(index):
+    with_grades = 0
+    for unit in (ROOT / "data" / "courses").glob("*.json"):
+        for cid, d in read(f"courses/{unit.name}").items():
+            g = d.get("grades")
+            if not g:
+                continue
+            with_grades += 1
+            assert g["n"] == sum(g["dist"]) == sum(n for _, _, n in g["by_sem"]), cid
+            assert 0 <= g["mean"] <= 100 and index["courses"][cid]["mean"] == g["mean"], cid
+    assert with_grades > 2000
 
 
-def test_credits_are_numeric(data):
+def test_credits_are_numeric(index):
     assert all(isinstance(c["credits"], (int, float)) and c["credits"] > 0
-               for c in data["courses"].values() if "credits" in c)
-    current = [c for c in data["courses"].values() if c.get("dept") in units(data)
-               and c.get("last", "")[:4] == str(data["meta"]["latest_year"])]
-    assert sum("credits" in c for c in current) / len(current) > 0.65  # the rest are mostly seminars and theses
+               for c in index["courses"].values() if "credits" in c)
+    courses = [c for d in ("מתמטיקה", "פיזיקה", "מדעי המחשב") for c in current(index, d)]
+    assert sum("credits" in c for c in courses) / len(courses) > 0.65  # the rest are mostly seminars and theses
 
 
-def test_plans(data):
-    plans = data["plans"]
-    assert len(plans) > 20
-    for name, program in plans.items():
-        assert program["categories"], name
-        assert isinstance(program.get("faculty"), str) and program["faculty"], name
-    assert plans["תוכנית חד-חוגית בפיזיקה"]["faculty"] == "מדעים מדויקים"
-    # a few programs from other faculties (e.g. Law) define tracks rather than mandatory courses
-    without_required = [n for n, p in plans.items() if not any(c["required"] for c in p["categories"])]
-    assert len(without_required) <= len(plans) * 0.05, without_required
+def test_programs(index):
+    programs = index["programs"]
+    assert len(programs) > 300
+    assert {p["level"] for p in programs.values()} >= {"ראשון", "שני"}
+    assert programs["תוכנית חד-חוגית בפיזיקה"]["faculty"] == "מדעים מדויקים"
+    bachelors = [n for n, p in programs.items() if p["level"] == "ראשון"]
+    assert len(bachelors) > 150
+    for name in bachelors:
+        assert program(index, name)["categories"], name
 
 
-def test_official_catalog_programs(data):
-    physics = data["plans"]["תוכנית חד-חוגית בפיזיקה"]
+def test_official_catalog_programs(index):
+    physics = program(index, "תוכנית חד-חוגית בפיזיקה")
     assert physics["tcid"] and physics["url"].startswith("https://www.tau.ac.il/study-program")
     assert physics["total"] > 100
     electives = next(c for c in physics["categories"] if not c["required"])
     assert electives.get("credits") and electives.get("note")
-    joint = data["plans"]["תוכנית דו-חוגית במתמטיקה ובמדעי המחשב"]
+    joint = program(index, "תוכנית דו-חוגית במתמטיקה ובמדעי המחשב")
     assert {p["name"] for p in joint["parts"]} == {"תוכנית דו-חוגית במתמטיקה ובחוג נוסף", "תוכנית דו-חוגית במדעי המחשב ובחוג נוסף"}
