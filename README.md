@@ -1,32 +1,34 @@
 # Coursesearch
 
-An interactive map of courses, prerequisites, study programs and grades for Mathematics, Physics and Computer Science at Tel Aviv University.
+An interactive map of courses, prerequisites, study programs and grades for all of Tel Aviv University.
 
 **[Open the site →](https://tom-bleher.github.io/Coursesearch/)**
 
 ## Features
 
 - **Prerequisite graph.** Courses are grouped by study year. Edges show required courses, alternatives ("one of") and co-requisites. Click a course to highlight its whole prerequisite chain and the courses it unlocks.
-- **Study programs.** Pick any undergraduate program in the Exact Sciences, or any other program involving math, physics or CS (49 in total). Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
-- **Grades.** A coloured strip on each course shows the average final grade (מועד קובע) over the last five years. The course card has the distribution and a per-semester breakdown.
+- **Study programs.** Pick any program in the official catalog, from every faculty and degree (bachelor's, master's and more), or a joint program. Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
+- **Grades.** A coloured strip on each course shows the average final grade (מועד קובע) over the years for which TAU Factor has grades. The course card has the distribution and a per-semester breakdown.
 - **My degree.** Pick a faculty and a program (and the catalog year you started in) to get your degree as a checklist, organized like the official catalog: years, their required and elective parts, and each part's courses.
   - Mark courses as passed (a whole mandatory semester at once), add your grade, or plan a course for a semester. Requirements without a course list, such as "שאר רוח", take credits entered by hand.
   - Progress is shown for the whole degree, each year and each part, in credit points (a course listed in several parts counts toward one), with your credit-weighted average.
   - Each course shows what it still needs; the semesters view lays out your plan term by term and warns about missing prerequisites, unplanned co-requisites and courses not offered that semester. Planned courses count as done for later semesters.
   - AND/OR prerequisite logic is taken into account. Prerequisites from other faculties can be marked as passed in the course card. Everything is saved in the browser.
-- **Map.** The same program, or any academic unit's courses, as a prerequisite graph; passed and planned courses are marked on it.
+- **Map.** The same program, or any academic unit's courses, as a prerequisite graph; passed and planned courses are marked on it. A program's map shows its required courses, plus electives on demand. Arrow keys move between courses.
 - **Details.** Each course card lists lecturers, exam type, credit hours and the semesters it's offered, with links to the syllabus and to the official prerequisites page.
 - Search by name or course number, shareable links (`#course=03661102`), dark mode and a mobile layout.
 
 ## Data
 
-`scripts/update_data.py` builds `data/courses.json` using only the Python standard library. It draws on two sources:
+`scripts/update_data.py` builds the data for the whole university using only the Python standard library. It draws on two sources:
 
 - **[Arazim Project](https://arazim-project.com) dumps:** semester schedules and prerequisites, the all-time course index, study plans (for joint programs, and credit points for courses outside the catalog programs) and TAU Factor grade distributions ([format](https://github.com/arazimproject/tau-search/blob/main/src/types.ts)).
-- **[TAU program catalog](https://www.tau.ac.il/search-studies-programs):** program structure, credit requirements, official notes and course credit points. The data comes from the GraphQL API behind the catalog pages. To cover every faculty, set `CATALOG_FACULTIES = {""}`.
+- **[TAU program catalog](https://www.tau.ac.il/search-studies-programs):** program structure, credit requirements, official notes and course credit points. The data comes from the GraphQL API behind the catalog pages.
+
+The output is split so the site loads only what it shows: `data/index.json` (every course's name, unit, prerequisites, semesters, credits and average grade, and the list of programs), `data/courses/{unit}.json` (lecturers, exams, grade distributions and syllabus links, by the course number's first four digits) and `data/programs/{id}.json` (one program each).
 
 ```sh
-python3 scripts/update_data.py   # fetch the latest data and rebuild data/courses.json
+python3 scripts/update_data.py   # fetch the latest data and rebuild data/ (about 10 minutes)
 python3 -m http.server           # then open http://localhost:8000
 ```
 

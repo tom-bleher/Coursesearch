@@ -52,8 +52,20 @@ def open_page(browser, base_url):
         page.close()
 
 
-def test_default_view_renders(open_page):
+def test_first_visit_opens_program_chooser(open_page):
     page = open_page()
+    assert page.evaluate("state.view") == "list" and page.is_visible(".chooser")
+    # the chooser's search narrows the list
+    page.fill(".chooser-search", "פיזיקה")
+    shown = page.locator(".chooser-item:visible").all_inner_texts()
+    assert shown and all("פיזיקה" in n for n in shown)
+    page.get_by_role("button", name="רק לעיין בקורסים").click()
+    assert page.evaluate("[state.view, state.scope]") == ["map", "unit"] and page.is_hidden("#sheet")
+    assert page.errors == []
+
+
+def test_default_view_renders(open_page):
+    page = open_page(UNIT)
     assert page.evaluate("cy.nodes().length") > 20
     assert page.evaluate("cy.edges().length") > 20
     assert page.locator(".band-label").count() >= 3
@@ -61,16 +73,17 @@ def test_default_view_renders(open_page):
 
 
 def test_click_opens_details_and_highlights(open_page):
-    page = open_page()
+    page = open_page(UNIT)
     click_node(page, "03661102")
     page.wait_for_selector("#details:not([hidden])")
     assert "חשבון דיפרנציאלי ואינטגרלי 2א" in page.inner_text("#details h2")
     assert page.evaluate("cy.getElementById('03661101').hasClass('hl')")
     assert "course=03661102" in page.url
+    assert page.is_hidden("#hint")  # the tip goes once used
 
 
 def test_search_by_course_number(open_page):
-    page = open_page()
+    page = open_page(UNIT)
     page.fill("#search", "0366-1112")
     page.keyboard.press("Enter")
     page.wait_for_selector("#details:not([hidden])")
@@ -111,11 +124,14 @@ def test_prerequisite_logic(open_page):
 
 
 def test_external_prerequisite_can_be_marked(open_page):
-    page = open_page("#course=03683065")
-    name = page.evaluate("DATA.external['05124402']")
+    # a prerequisite outside the data (e.g. no longer offered) is marked as passed in the card
+    cid, ext = open_page().evaluate(
+        "(() => { for (const c of COURSES.values()) { const e = reqIds(c.req).find(i => DATA.external[i]); if (e) return [c.id, e]; } })()")
+    page = open_page(f"#course={cid}")
+    name = page.evaluate(f"DATA.external['{ext}']")
     page.locator("#details label.external", has_text=name).first.locator("input").check()
-    assert page.evaluate("state.taken.has('05124402')")
-    assert "05124402" in page.evaluate("store.get(STORAGE_KEY, [])")
+    assert page.evaluate(f"state.taken.has('{ext}')")
+    assert ext in page.evaluate("store.get(STORAGE_KEY, [])")
     assert page.errors == []
 
 
@@ -141,6 +157,7 @@ def test_current_semester(open_page, date, expected):
 
 
 CS = "תוכנית חד-חוגית במדעי המחשב"
+UNIT = "#unit=מתמטיקה"
 
 
 def test_planning_across_semesters(open_page):
@@ -162,7 +179,7 @@ def test_planning_across_semesters(open_page):
     assert page.evaluate("cy.getElementById('03661102').hasClass('invalid')")
     # Adding from a semester column offers the program's courses that semester
     page.evaluate("setPlan('03661102', null)")
-    page.click(".term:nth-child(3) .term-add .picker-btn")
+    page.click(".terms .term:nth-child(2) .term-add .picker-btn")
     page.click('.picker-pop:not([hidden]) [role=option][data-value="03661102"]')
     assert page.evaluate(f"state.plan.get('03661102')") == second
     assert page.errors == []
@@ -193,9 +210,13 @@ def test_degree_checklist(open_page):
     page.fill(".cat-body.manual input", "6")
     page.locator(".cat-body.manual input").dispatch_event("change")
     assert page.inner_text("#summary .summary-total b") == str(credits + 6)
-    # Hiding passed courses collapses the completed category
-    page.check(".degree-tools input")
+    # A part completed now stays open for its grades; on the next visit it starts folded, and opens on a click
+    assert page.locator(".cat").first.locator(".row").count() == len(ids)
+    page.reload()
+    page.wait_for_selector("#status.done")
     assert page.locator(".cat").first.locator(".row").count() == 0
+    page.locator(".cat").first.locator(".cat-toggle").click()
+    assert page.locator(".cat").first.locator(".row").count() == len(ids)
     assert page.errors == []
 
 
@@ -260,20 +281,50 @@ def test_map_click_opens_card_with_progress(open_page):
 
 def test_faculty_and_program_choice(open_page):
     page = open_page("#program=")
+    first = page.evaluate("programFaculties()[0].value")
     assert page.locator(".chooser-item").count() == page.evaluate(
-        "Object.keys(DATA.plans).filter(n => programFaculty(n) === state.faculty).length")
-    page.get_by_role("button", name="חד-חוגית בפיזיקה", exact=True).click()
-    assert page.evaluate("state.program") == "תוכנית חד-חוגית בפיזיקה"
+        f"Object.keys(DATA.programs).filter(n => programFaculty(n) === {first!r}).length")
+    page.locator(".chooser .chip", has_text="מדעים מדויקים").click()
+    page.get_by_role("button", name="פיזיקה", exact=True).click()
+    page.wait_for_function("state.program === 'תוכנית חד-חוגית בפיזיקה'")  # loads the program first
+    assert "חד-חוגית בפיזיקה" in page.inner_text(".page-head h1")
     # A returning student lands on their degree
     page.goto(page.url.split("#")[0])
     page.wait_for_selector("#status.done")
-    assert page.evaluate("state.mode === 'program' && state.program === 'תוכנית חד-חוגית בפיזיקה'")
-    # Another faculty lists only its own programs
-    other = page.evaluate("facultyOptions().map(o => o.value).find(f => f !== state.faculty)")
-    pick(page, "#faculty", other)
-    assert page.evaluate("state.program") == ""
-    names = page.locator(".chooser-item").all_inner_texts()
-    assert names and all(page.evaluate(f"programFaculty('תוכנית ' + {n!r}) === {other!r} || programFaculty('תכנית ' + {n!r}) === {other!r} || programFaculty({n!r}) === {other!r}") for n in names)
+    assert page.evaluate("state.view === 'list' && state.program === 'תוכנית חד-חוגית בפיזיקה'")
+    # The program's title opens the chooser: another faculty lists only its own programs...
+    page.click(".program-switch")
+    dialog = page.locator("#programDialog")
+    other = page.evaluate("programFaculties()[1].value")
+    dialog.locator(".chip", has_text=other).click()
+    names = dialog.locator(".chooser-item").all_inner_texts()
+    expected = page.evaluate(f"programOptions.filter(o => programFaculty(o.value) === {other!r}).map(o => o.label)")
+    assert names and names == expected
+    # ...and the search looks through every faculty
+    dialog.locator(".chooser-search").fill("משפטים")
+    first = dialog.locator(".chooser-item").first
+    law = first.inner_text()
+    assert "משפטים" in law
+    first.click()
+    page.wait_for_function("!document.getElementById('programDialog').open && state.program.includes('משפטים')")
+    assert page.evaluate("shortProgram(state.program)") == law
+    assert page.errors == []
+
+
+def test_tabs_and_map_scope(open_page):
+    page = open_page(f"#program={CS}")
+    page.click("#tabs [data-view=map]")
+    assert page.evaluate("[state.view, state.scope]") == ["map", "program"] and page.is_hidden("#sheet")
+    assert page.evaluate("cy.nodes().every(n => view.categories.has(n.id()))")  # the program's courses
+    page.click("#scopeUnit")
+    assert "unit=" in page.url and page.is_visible("#deptBar")
+    # the program stays the context of the other tabs
+    page.click("#tabs [data-view=timeline]")
+    assert page.is_visible(".timeline") and page.evaluate("state.program") == CS
+    # switching tabs keeps the open course card
+    page.evaluate("select('03661101')")
+    page.click("#tabs [data-view=list]")
+    assert page.is_visible("#details") and page.evaluate("state.selected") == "03661101"
     assert page.errors == []
 
 
@@ -289,9 +340,11 @@ def test_narrow_screens(open_page, width):
     page = open_page("#course=03661102", width=width, height=900)
     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
     assert page.is_visible("#details")
-    # the selected course stays on screen, above the bottom sheet
+    # the selected course stays on screen, above the bottom sheet (once the zoom to it has finished)
+    page.wait_for_function("!cy.animated()")
     x, y = page.evaluate("(() => { const p = cy.getElementById('03661102').renderedPosition(); return [p.x, p.y]; })()")
-    assert 0 < x < width and 0 < y < page.locator("#details").bounding_box()["y"]
+    top = page.locator("#cy").bounding_box()["y"]
+    assert 0 < x < width and top < top + y < page.locator("#details").bounding_box()["y"]
 
 
 def test_accounts_hidden_without_config(open_page):
@@ -373,11 +426,64 @@ def test_sign_out_keeps_pending_change(open_page):
 def test_start_year_catalog(open_page):
     page = open_page("#program=תוכנית חד-חוגית בפיזיקה")
     current = page.evaluate("view.program.year")
-    previous = page.evaluate("Object.keys(DATA.plans[state.program].previous).sort().reverse()[0]")
+    previous = page.evaluate("Object.keys(DATA.programs[state.program].previous).sort().reverse()[0]")
     pick(page, "#startYear", previous)
     assert page.evaluate("view.program.year") == previous != current
     assert f"start={previous}" in page.url
     # planner semesters are labelled with the student's year of study
     first = page.evaluate("planSemesters()[0]")
     assert "שנה ב׳" in page.evaluate(f"semOption('{first}')")
+    assert page.errors == []
+
+
+def test_bulk_changes_can_be_undone(open_page):
+    page = open_page(f"#program={CS}")
+    page.locator(".cat").first.get_by_role("button", name="סימון הכל כעבר").click()
+    assert page.evaluate("state.taken.size") > 0
+    page.locator("#toast").get_by_role("button", name="ביטול").click()
+    assert page.evaluate("state.taken.size") == 0 and page.is_hidden("#toast")
+    page.evaluate("markTaken(['03661101'])")
+    page.get_by_role("button", name="מחיקת כל הסימונים").click()
+    assert page.evaluate("state.taken.size") == 0
+    page.locator("#toast").get_by_role("button", name="ביטול").click()
+    assert page.evaluate("state.taken.has('03661101')")
+    assert page.errors == []
+
+
+def test_phone_checklist(open_page):
+    page = open_page(f"#program={CS}", width=390, height=844)
+    # one header row on top; the tabs sit at the bottom
+    assert page.locator(".topbar").bounding_box()["height"] <= 56
+    assert page.locator("#tabs").bounding_box()["y"] > 844 - 70
+    # the semester picker at the row's far end opens fully on screen, not squeezed
+    page.locator(".row:not(.done) .row-status .picker-btn").first.click()
+    pop = page.locator(".picker-pop:not([hidden])").bounding_box()
+    assert pop["x"] >= 8 and pop["width"] > 120
+    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+    assert page.errors == []
+
+
+def test_graph_keyboard_navigation(open_page):
+    page = open_page(UNIT)
+    page.focus("#cy")
+    page.keyboard.press("ArrowDown")
+    first = page.evaluate("state.selected")
+    assert first and page.is_visible("#details")
+    page.keyboard.press("ArrowDown")
+    second = page.evaluate("state.selected")
+    assert second != first
+    assert page.evaluate(f"cy.getElementById('{second}').position('y') > cy.getElementById('{first}').position('y')")
+
+
+def test_program_map_electives(open_page):
+    page = open_page(f"#program={CS}&view=map")
+    assert page.is_hidden("#filtersBtn")
+    few = page.evaluate("cy.nodes().length")
+    page.click("#electivesBtn")
+    assert page.evaluate("cy.nodes().length") > few
+    page.click("#electivesBtn")
+    # a passed elective stays on the map without the others
+    elective = page.evaluate("view.cats.find(c => !c.required).courses.find(id => COURSES.has(id))")
+    page.evaluate(f"toggleTaken('{elective}')")
+    assert page.evaluate(f"cy.getElementById('{elective}').length") == 1
     assert page.errors == []

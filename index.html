@@ -22,6 +22,20 @@
             <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><circle cx="16" cy="9" r="3.2"/><circle cx="9" cy="23" r="3.2"/><circle cx="23" cy="23" r="3.2"/><path d="M16 12L9 20M16 12l7 8"/></svg>
             <span class="brand-name">עץ הקורסים</span>
         </a>
+        <nav id="tabs" class="tabs" aria-label="תצוגה">
+            <button data-view="list">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10M4 6l1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17"/></svg>
+                <span>התואר שלי</span>
+            </button>
+            <button data-view="timeline">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                <span>סמסטרים</span>
+            </button>
+            <button data-view="map">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M10.8 7.2 6.2 16.8M13.2 7.2l4.6 9.6"/></svg>
+                <span>מפה</span>
+            </button>
+        </nav>
         <div class="search">
             <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
             <input type="search" id="search" placeholder="חיפוש קורס" autocomplete="off"
@@ -30,6 +44,9 @@
             <ul id="searchResults" class="search-results" role="listbox" hidden></ul>
         </div>
         <div class="actions">
+            <button id="searchOpen" class="btn btn-icon" aria-label="חיפוש קורס">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </button>
             <button id="helpBtn" class="btn btn-icon" aria-label="עזרה">?</button>
             <div class="account">
                 <button id="accountBtn" class="btn" hidden></button>
@@ -38,28 +55,19 @@
         </div>
     </header>
 
-    <nav class="toolbar" aria-label="תצוגה">
-        <div class="segmented" role="group" aria-label="מה להציג">
-            <button id="modeProgram" aria-pressed="false">התואר שלי</button>
-            <button id="modeDept" aria-pressed="true">לפי יחידה</button>
+    <nav id="mapbar" class="toolbar" aria-label="המפה" hidden>
+        <div class="segmented" role="group" aria-label="מה להציג במפה">
+            <button id="scopeProgram">התוכנית שלי</button>
+            <button id="scopeUnit">לפי יחידה</button>
         </div>
         <div id="facultySlot"></div>
         <div id="deptBar" class="chips" role="group" aria-label="יחידות אקדמיות"></div>
-        <div id="programBar" class="program-bar" hidden>
-            <div id="programSlot"></div>
-            <div id="startSlot"></div>
-            <button id="programInfoBtn" class="btn btn-quiet">פרטי התוכנית</button>
-        </div>
         <span class="spacer"></span>
-        <div id="viewTabs" class="segmented" role="group" aria-label="תצוגת התוכנית" hidden>
-            <button data-view="list">רשימה</button>
-            <button data-view="timeline">סמסטרים</button>
-            <button data-view="map">מפה</button>
-        </div>
         <span id="count" class="count-label"></span>
-        <button id="filtersBtn" class="btn" aria-expanded="false" aria-controls="filters">
+        <button id="electivesBtn" class="chip" aria-pressed="false" hidden>קורסי בחירה</button>
+        <button id="filtersBtn" class="btn" aria-label="מסננים" aria-expanded="false" aria-controls="filters">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-            מסננים<span id="filterBadge" class="badge" hidden></span>
+            <span class="btn-text">מסננים</span><span id="filterBadge" class="badge" hidden></span>
         </button>
     </nav>
 
@@ -67,7 +75,7 @@
         <div id="bands"></div>
         <main id="cy" aria-label="גרף הקורסים"></main>
         <div id="margin"></div>
-        <section id="sheet" class="sheet" hidden aria-label="התואר שלי"></section>
+        <section id="sheet" class="sheet" hidden></section>
 
         <div id="empty" class="empty" hidden>
             <p>אין קורסים שמתאימים לבחירה הנוכחית.</p>
@@ -80,21 +88,17 @@
         </div>
 
         <section id="filters" class="card filters" hidden aria-label="מסננים">
-            <fieldset id="typeField">
+            <fieldset>
                 <legend>סוג קורס</legend>
                 <div class="chips" id="typeChips"></div>
             </fieldset>
-            <fieldset id="offeredField">
+            <fieldset>
                 <legend>מוצע</legend>
                 <div class="chips" id="offeredChips"></div>
             </fieldset>
-            <label class="check" id="isolatedField">
+            <label class="check">
                 <input type="checkbox" id="isolated">
                 <span>גם קורסים בלי קשרי קדם</span>
-            </label>
-            <label class="check" id="electivesField" hidden>
-                <input type="checkbox" id="electives" checked>
-                <span>קורסי בחירה</span>
             </label>
             <button id="resetBtn" class="btn btn-quiet">איפוס</button>
         </section>
@@ -120,14 +124,16 @@
                     <div class="legend-row"><span class="swatch-line coreq"></span>במקביל</div>
                     <div class="legend-row"><span class="swatch-box dashed"></span>לא מוצע השנה</div>
                     <div class="legend-row"><span class="swatch-grad"></span><span id="gradeScale"></span></div>
-                    <div class="legend-row progress-only"><span class="swatch-box taken"></span>עברתי</div>
+                    <div class="legend-row progress-only"><span class="swatch-box taken">✓</span>עברתי</div>
                     <div class="legend-row progress-only"><span class="swatch-box planned"></span>מתוכנן</div>
-                    <div class="legend-row progress-only"><span class="swatch-box invalid"></span>בעיה בתכנון</div>
+                    <div class="legend-row progress-only"><span class="swatch-box invalid">⚠</span>בעיה בתכנון</div>
                 </div>
             </div>
         </div>
 
         <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+
+        <div id="toast" class="toast card" role="status" hidden></div>
 
         <div id="status" class="status">
             <div class="spinner"></div>
@@ -135,16 +141,17 @@
         </div>
     </div>
 
+    <dialog id="programDialog" class="program-dialog" aria-label="בחירת תוכנית"></dialog>
+
     <dialog id="help">
         <form method="dialog" class="dialog-head">
             <h2>איך משתמשים</h2>
             <button class="btn btn-icon btn-small" aria-label="סגירה">×</button>
         </form>
         <ul>
-            <li><b>התואר שלי:</b> בחרו פקולטה ותוכנית. ברשימה מסמנים קורסים שעברתם, ציון ותכנון לסמסטר, ורואים כמה נקודות נשארו בכל חלק של התואר.</li>
+            <li><b>התואר שלי:</b> בחרו תוכנית, סמנו קורסים שעברתם, ציון ותכנון לסמסטר, וראו כמה נקודות נשארו בכל חלק של התואר.</li>
             <li><b>סמסטרים:</b> הקורסים שתכננתם לכל סמסטר, עם אזהרה על דרישות קדם חסרות. קורס מתוכנן נחשב כעבר בסמסטרים שאחריו. ההיצע בשנים הבאות משוער לפי השנה הנוכחית.</li>
-            <li><b>מפה:</b> דרישות הקדם כגרף. לחיצה על קורס מראה מה נדרש לפניו, מה הוא פותח, ציונים וסילבוס. הפס הצבעוני הוא ממוצע הציון הסופי בחמש השנים האחרונות.</li>
-            <li><b>לפי יחידה:</b> כל קורסי היחידה האקדמית, בלי קשר לתוכנית.</li>
+            <li><b>מפה:</b> דרישות הקדם של התוכנית, או של כל יחידה אקדמית, כגרף. לחיצה על קורס מראה מה נדרש לפניו, מה הוא פותח, ציונים וסילבוס. הפס הצבעוני הוא ממוצע הציון הסופי לאורך השנים.</li>
             <li><b>שמירה</b> בדפדפן, ובחשבון Google אם התחברתם.</li>
             <li><kbd>/</kbd> חיפוש · <kbd>Esc</kbd> סגירה</li>
         </ul>

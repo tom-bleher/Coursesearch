@@ -5,16 +5,16 @@ const LEVEL_LABELS = { 1: 'שנה א׳', 2: 'שנה ב׳', 3: 'שנה ג׳', 4: 
 const MAIN_TYPES = ['שיעור', 'סמינר', 'מעבדה', 'קריאה מודרכת'];
 const OTHER_TYPE = 'אחר';
 const GRADE_DOMAIN = [55, 90];           // fixed so colours mean the same in every view
-const READABLE_ZOOM = 0.6;               // below this node labels become unreadable
+const READABLE_ZOOM = 0.75;              // below this node labels become hard to read (about 10px)
 const NODE_FONT = "Heebo, system-ui, sans-serif";
 const NODE_W = 160, NODE_H = 50, H_GAP = 24, LINE_GAP = 26, ROW_GAP = 64, BAND_GAP = 40;
 const STORAGE_KEY = 'coursesearch_taken', PLAN_KEY = 'coursesearch_plan';
 const MOBILE = matchMedia('(max-width: 760px)');  // keep in sync with style.css
 const OFFERED = [['current', 'השנה'], ['recent', 'בשלוש השנים האחרונות'], ['all', 'הכל']];
-const DEFAULTS = { depts: ['מתמטיקה'], types: ['שיעור'], offered: 'current', isolated: false, electives: true };
+const DEFAULTS = { depts: ['מתמטיקה'], types: ['שיעור'], offered: 'current', isolated: false, electives: false };
 const VIEWS = ['list', 'timeline', 'map'];
 const HINT_KEY = 'coursesearch_hint_seen', PROGRAM_KEY = 'coursesearch_program';
-const GRADES_KEY = 'coursesearch_grades', MANUAL_KEY = 'coursesearch_manual', HIDE_DONE_KEY = 'coursesearch_hide_done';
+const GRADES_KEY = 'coursesearch_grades', MANUAL_KEY = 'coursesearch_manual';
 const UPDATED_KEY = 'coursesearch_updated', SYNCED_KEY = 'coursesearch_synced_uid', START_KEY = 'coursesearch_start';
 
 // ── Small helpers ────────────────────────────────────────────────────────────
@@ -38,7 +38,7 @@ const store = {
 };
 
 // ── Picker: a dropdown in the page's direction (native <select> popups ignore RTL on macOS) ──
-let openPicker = null;
+let openPicker = null, pickerCount = 0;
 
 function picker({ id, label, onchange, search = false, key, placeholder = '—' }) {
     const button = h('button', { type: 'button', class: 'picker-btn', id, 'data-focus-key': key, 'aria-haspopup': 'listbox', 'aria-expanded': 'false', 'aria-label': label });
@@ -47,10 +47,15 @@ function picker({ id, label, onchange, search = false, key, placeholder = '—' 
     const pop = h('div', { class: 'picker-pop card', hidden: true }, input, list);
     const el = h('div', { class: 'picker' }, button, pop);
     let options = [], shown = [], value = null, active = 0;
+    const optionId = i => `${list.id}-${i}`;
+    list.id = `pick-${++pickerCount}`;
 
     const paint = () => [...list.querySelectorAll('[role=option]')].forEach((li, i) => {
         li.classList.toggle('active', i === active);
-        if (i === active) li.scrollIntoView({ block: 'nearest' });
+        if (i === active) {
+            li.scrollIntoView({ block: 'nearest' });
+            (input || list).setAttribute('aria-activedescendant', li.id);
+        }
     });
     const fill = () => {
         const term = input ? input.value.trim() : '';
@@ -58,14 +63,15 @@ function picker({ id, label, onchange, search = false, key, placeholder = '—' 
         let group;
         list.replaceChildren(...shown.flatMap((o, i) => [
             o.group && o.group !== group && h('li', { class: 'picker-group', role: 'presentation' }, (group = o.group)),
-            h('li', { role: 'option', 'data-value': o.value, 'aria-selected': String(o.value === value),
+            h('li', { role: 'option', id: optionId(i), 'data-value': o.value, 'aria-selected': String(o.value === value),
                 onmousedown: e => { e.preventDefault(); choose(o.value); }, onmousemove: () => { if (active !== i) { active = i; paint(); } } }, o.label),
         ]).filter(Boolean));
         if (!shown.length) list.append(h('li', { class: 'picker-empty' }, 'אין תוצאות'));
         active = Math.max(0, shown.findIndex(o => o.value === value));
         paint();
     };
-    // Fixed position, so the popup isn't clipped by scrolling toolbars and panels
+    // Fixed position, so the popup isn't clipped by scrolling toolbars and panels. It opens from the
+    // button's start (right) edge, shifted back onto the screen when it would run past the left edge.
     const place = () => {
         const r = button.getBoundingClientRect(), below = innerHeight - r.bottom - 12, above = r.top - 12;
         const up = below < 240 && above > below;
@@ -74,6 +80,8 @@ function picker({ id, label, onchange, search = false, key, placeholder = '—' 
             top: up ? '' : `${r.bottom + 4}px`, bottom: up ? `${innerHeight - r.top + 4}px` : '',
             maxHeight: `${Math.min(440, up ? above : below)}px`,
         });
+        const overflow = 8 - pop.getBoundingClientRect().left;
+        if (overflow > 0) pop.style.right = `${Math.max(8, innerWidth - r.right - overflow)}px`;
     };
     const open = () => {
         openPicker?.close();
@@ -81,8 +89,9 @@ function picker({ id, label, onchange, search = false, key, placeholder = '—' 
         pop.hidden = false;
         button.setAttribute('aria-expanded', 'true');
         if (input) input.value = '';
-        place();
         fill();
+        place();
+        paint();
         (input || list).focus();
     };
     const close = (refocus = false) => {
@@ -106,7 +115,7 @@ function picker({ id, label, onchange, search = false, key, placeholder = '—' 
 
     button.addEventListener('click', () => (pop.hidden ? open() : close()));
     button.addEventListener('keydown', e => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(); } });
-    input?.addEventListener('input', fill);
+    input?.addEventListener('input', () => { fill(); place(); });
     pop.addEventListener('keydown', e => {
         if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
             e.preventDefault();
@@ -159,6 +168,9 @@ function canvasLabel(name) {
     return /^[^\p{L}]*\p{Script=Latin}/u.test(name) ? `\u200E${name.replace(/([^\p{L}\p{N}\s])/gu, '\u200E$1\u200E')}\u200E` : name;
 }
 const shortProgram = name => name.replace(/^(תוכנית|תכנית)\s+(לימודים\s+)?/, '');
+// Under a "חד-חוגיות" / "דו-חוגיות" / "תואר שני" heading: "חד-חוגית במדעי המחשב" → "מדעי המחשב"
+const programTitle = name => shortProgram(name)
+    .replace(/^((חד|דו)[- ]חוגית\s+(לתואר ראשון\s+)?|לתואר (שני|שלישי)\s+)ב(?=\S)/, '');
 
 // ── Requirement trees: "id" | {all: [...]} | {any: [...]} ───────────────────
 function reqIds(req) {
@@ -192,10 +204,10 @@ const state = {
     offered: DEFAULTS.offered,
     isolated: DEFAULTS.isolated,
     electives: DEFAULTS.electives,
-    mode: 'unit',                        // 'program': my degree | 'unit': browse an academic unit's courses
-    view: 'list',                        // program mode: 'list' | 'timeline' | 'map'
-    faculty: '',                         // faculty whose programs (program mode) or units (unit mode) are listed
-    program: '',
+    view: 'list',                        // the tab: 'list' (my degree) | 'timeline' (semesters) | 'map'
+    scope: 'program',                    // what the map shows: 'program' | 'unit' (an academic unit's courses)
+    faculty: '',                         // faculty whose academic units the map offers
+    program: '',                         // the student's program, the context of every tab
     selected: null,
     info: null,                          // program panel: {type: 'program'} | {type: 'category', index}
     start: store.get(START_KEY, '') || '', // catalog year the student started in ('' = current catalog)
@@ -203,7 +215,6 @@ const state = {
     plan: new Map(Object.entries(store.get(PLAN_KEY, {}))),  // course id → semester, e.g. "2027b"
     grades: new Map(Object.entries(store.get(GRADES_KEY, {}))),  // course id → final grade (passed courses)
     manual: new Map(Object.entries(store.get(MANUAL_KEY, {}))),  // requirement without a course list → credits
-    hideDone: store.get(HIDE_DONE_KEY, false),
 };
 
 function prepare(data) {
@@ -307,11 +318,13 @@ function deptView() {
         .filter(c => state.depts.has(c.dept) && state.types.has(typeKey(c)) && isOffered(c, state.offered))
         .map(c => c.id);
     if (!state.isolated) {
+        // courses without prerequisite links are left out, unless that leaves nothing (e.g. most humanities units)
         const visible = new Set(ids);
-        ids = ids.filter(id => {
+        const linked = ids.filter(id => {
             const c = COURSES.get(id);
             return [...c.prereqs, ...c.coreqs, ...c.dependents].some(n => visible.has(n));
         });
+        if (linked.length) ids = linked;
     }
     const byLevel = new Map();
     ids.forEach(id => byLevel.set(level(id), [...(byLevel.get(level(id)) || []), id]));
@@ -330,8 +343,9 @@ function programView() {
             categories.set(id, [...(categories.get(id) || []), cat.name]);
             if (isMandatory(cat)) required.add(id);
         });
-        if (!cat.required && !state.electives) continue;
-        const ids = cat.courses.filter(id => COURSES.has(id) && !placed.has(id));
+        // Without electives, the map still shows the ones the student passed or planned
+        const ids = cat.courses.filter(id => COURSES.has(id) && !placed.has(id)
+            && (cat.required || state.electives || state.taken.has(id) || state.plan.has(id)));
         ids.forEach(id => placed.add(id));
         if (!ids.length) continue;
         bands.push({ parts: bandParts(cat), title: cat.name, credits: cat.credits, category: cat.i, ids });
@@ -341,8 +355,8 @@ function programView() {
 
 // A program as described in the catalog of the student's start year (students keep their start-year rules)
 function programEdition(name) {
-    const p = DATA.plans[name];
-    if (!p) return null;
+    const p = DATA.programs[name];
+    if (!p?.categories) return null;  // not loaded (see loadProgram)
     const edition = state.start && p.previous?.[state.start];
     return edition ? { ...p, ...edition, year: state.start } : { ...p, year: String(DATA.meta.catalog_year) };
 }
@@ -371,7 +385,8 @@ function bandParts(cat) {
 }
 const bandLabel = cat => bandParts(cat).join(' · ');
 
-const inProgram = () => state.mode === 'program' && Boolean(state.program);
+// Whether the program is what's on screen (every tab but a map of an academic unit)
+const inProgram = () => Boolean(state.program) && (state.view !== 'map' || state.scope === 'program');
 const currentView = () => (inProgram() ? programView() : deptView());
 
 // ── Layout: bands → rows by in-band prerequisite depth → barycentre ordering ─
@@ -409,8 +424,8 @@ function layout(view) {
         });
     }
 
-    // Place rows, wrapping long ones onto several lines
-    const perLine = MOBILE.matches ? 4 : 8;
+    // Place rows, wrapping long ones onto several lines; phones get as many as fit at a readable size
+    const perLine = MOBILE.matches ? Math.max(2, Math.floor(cy.width() / ((NODE_W + H_GAP) * 0.85))) : 8;
     const bandGap = bandGapNow();
     const positions = new Map(), bands = [];
     let y = 0;
@@ -442,9 +457,8 @@ function readPalette() {
     const v = name => css.getPropertyValue(name).trim();
     const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
     palette = {
-        text: v('--text'), node: v('--node'), nodeBorder: v('--node-border'), edge: v('--edge'), noGrade: v('--no-grade'),
-        accent: v('--accent'), taken: v('--taken'), takenBg: v('--taken-bg'), open: v('--open'),
-        plannedBg: v('--planned-bg'), warn: v('--warn'), highlight: v('--highlight'), highlightBorder: v('--highlight-border'),
+        text: v('--text'), muted: v('--muted'), node: v('--node'), nodeBorder: v('--node-border'), edge: v('--edge'), noGrade: v('--no-grade'),
+        accent: v('--accent'), done: v('--surface-2'), open: v('--open'), plannedBg: v('--planned-bg'), warn: v('--warn'),
         grades: [v('--grade-low'), v('--grade-mid'), v('--grade-high')].map(rgb),
     };
 }
@@ -480,19 +494,20 @@ function graphStyle() {
                 'target-arrow-shape': 'triangle', 'arrow-scale': 0.75, 'curve-style': 'bezier', 'opacity': 0.4,
             },
         },
+        // Dense graphs keep their edges in the background until a course is hovered or selected
+        { selector: 'edge.quiet', style: { 'opacity': 0.14 } },
         { selector: 'edge.alt', style: { 'line-style': 'dotted', 'width': 1.5 } },
         { selector: 'edge.coreq', style: { 'line-style': 'dashed', 'target-arrow-shape': 'none' } },
         { selector: '.faded', style: { 'opacity': 0.15 } },
         { selector: 'edge.hl', style: { 'line-color': palette.accent, 'target-arrow-color': palette.accent, 'opacity': 1, 'width': 1.8 } },
         { selector: 'node.hl', style: { 'border-color': palette.accent, 'border-width': 1.5 } },
         { selector: 'node.focus', style: { 'border-color': palette.accent, 'border-width': 3 } },
-        // Planning: the course's status replaces its grade colour
-        { selector: 'node.taken, node.open, node.planned, node.locked', style: { 'background-fill': 'solid' } },
-        { selector: 'node.taken', style: { 'background-color': palette.takenBg, 'border-color': palette.taken, 'border-width': 1.5 } },
-        { selector: 'node.open', style: { 'background-color': palette.highlight, 'border-color': palette.highlightBorder, 'border-width': 1.5 } },
+        // Planning: the course's status replaces its grade colour. Passed courses recede (✓ on a plain
+        // fill), planned ones are blue, problems get a red outline and ⚠, so no status relies on colour alone.
+        { selector: 'node.taken, node.planned', style: { 'background-fill': 'solid' } },
+        { selector: 'node.taken', style: { 'background-color': palette.done, 'color': palette.muted } },
         { selector: 'node.planned', style: { 'background-color': palette.plannedBg, 'border-color': palette.open, 'border-width': 1.5 } },
-        { selector: 'node.invalid', style: { 'border-color': palette.warn, 'border-style': 'double', 'border-width': 4 } },
-        { selector: 'node.locked', style: { 'background-color': palette.node, 'opacity': 0.35 } },
+        { selector: 'node.invalid', style: { 'border-color': palette.warn, 'border-width': 2.5 } },
         { selector: 'edge.peek', style: { 'line-color': palette.accent, 'target-arrow-color': palette.accent, 'opacity': 0.9, 'width': 1.8 } },
     ];
 }
@@ -500,8 +515,11 @@ function graphStyle() {
 // ── Rendering ────────────────────────────────────────────────────────────────
 let view = null;
 
-const nodeLabel = id => (state.taken.has(id) ? '✓ ' : '') + canvasLabel(COURSES.get(id).name)
-    + (state.plan.has(id) ? `\n${semLabel(state.plan.get(id))}` : '');
+function nodeLabel(id) {
+    const sem = state.plan.get(id);
+    const mark = state.taken.has(id) ? '✓ ' : sem && planIssues(id, sem).length ? '⚠ ' : '';
+    return mark + canvasLabel(COURSES.get(id).name) + (sem ? `\n${semLabel(sem)}` : '');
+}
 
 function render({ fit = true } = {}) {
     view = currentView();
@@ -510,7 +528,7 @@ function render({ fit = true } = {}) {
     for (const [id, position] of positions) {
         const c = COURSES.get(id);
         elements.push({
-            group: 'nodes', data: { id, label: nodeLabel(id), color: gradeColor(c.grades?.mean) }, position,
+            group: 'nodes', data: { id, label: nodeLabel(id), color: gradeColor(c.mean) }, position,
             classes: [offeredNow(c) ? '' : 'past', view.required.has(id) ? 'required' : ''].join(' '),
         });
         const edge = (source, kind) => {
@@ -522,7 +540,12 @@ function render({ fit = true } = {}) {
         c.prereqs.forEach(p => edge(p, c.alts.has(p) ? 'alt' : 'prereq'));
         c.coreqs.forEach(p => edge(p, 'coreq'));
     }
-    cy.batch(() => { cy.elements().remove(); cy.add(elements); });
+    cy.batch(() => {
+        cy.elements().remove();
+        cy.add(elements);
+        // paths are hard to follow past ~50 nodes: keep the edges quiet until a course is in focus
+        if (positions.size > 50) cy.edges().addClass('quiet');
+    });
     bandModel = bands;
     applyHighlight();
     drawBands();
@@ -532,8 +555,9 @@ function render({ fit = true } = {}) {
     if (fit) fitGraph(cy.nodes());
 }
 
-// Fit nodes into the part of the viewport not covered by band labels (right) or the details panel
-function fitGraph(eles, animate = false) {
+// Fit nodes into the part of the viewport not covered by band labels (right) or the details panel.
+// Large graphs stop at a readable zoom and start at the top (or at `anchor`); `whole` shrinks to show everything.
+function fitGraph(eles, animate = false, { whole = false, anchor = null } = {}) {
     if (!eles.length) return;
     const pad = 32, mobile = MOBILE.matches;
     const panel = $('details');
@@ -546,10 +570,13 @@ function fitGraph(eles, animate = false) {
     const bottom = pad + (!panel.hidden && mobile ? panel.offsetHeight + 8 : tools);
     const w = Math.max(80, cy.width() - left - pad - gutterNow), hgt = Math.max(80, cy.height() - top - bottom);
     const bb = eles.boundingBox();
-    // Tall graphs: rather than shrinking past readability, fit the width and start at the top
-    const zoom = Math.min(1.3, w / bb.w, Math.max(hgt / bb.h, READABLE_ZOOM));
-    const x = left + (w - bb.w * zoom) / 2, y = top + Math.max(0, (hgt - bb.h * zoom) / 2);
+    const zoom = Math.max(whole ? 0 : READABLE_ZOOM, Math.min(1.3, w / bb.w, hgt / bb.h));
+    // centred when it fits, otherwise from the start (right) edge
+    const x = left + Math.min(w - bb.w * zoom, (w - bb.w * zoom) / 2), y = top + Math.max(0, (hgt - bb.h * zoom) / 2);
     const pan = { x: x - bb.x1 * zoom, y: y - bb.y1 * zoom };
+    // content larger than the screen: keep the anchor course in the middle
+    if (anchor && bb.w * zoom > w) pan.x = left + w / 2 - anchor.position('x') * zoom;
+    if (anchor && bb.h * zoom > hgt) pan.y = top + hgt / 2 - anchor.position('y') * zoom;
     if (animate) cy.animate({ zoom, pan, duration: 350 });
     else cy.viewport({ zoom, pan });
 }
@@ -636,7 +663,7 @@ function select(id, { focus = false } = {}) {
     const node = state.selected && cy.getElementById(state.selected);
     if (focus && node?.length) {
         const eles = cy.nodes().filter(n => relatedCourses(state.selected).has(n.id()));
-        fitGraph(eles, true);
+        fitGraph(eles, true, { anchor: node });
     }
     writeHash();
 }
@@ -707,27 +734,21 @@ function renderDetails() {
     const inGraph = cy.getElementById(c.id).length > 0;
     const dependents = [...c.dependents].sort();
     const cats = view.categories.get(c.id);
-    const g = c.grades;
+    const g = c.grades;  // with the rest of the details, loaded on demand
+    if (!c.loaded) {
+        c.loaded = true;
+        loadDetails(c.id).then(() => { if (state.selected === c.id) renderDetails(); });
+    }
 
     const facts = [['מרצים', c.lecturers?.join(', ')], ['הערכה', c.exams?.join(', ')], ['בתוכנית', cats?.join(' · ')]]
         .filter(([, v]) => v);
 
+    // Order: what it is, what I do with it (passed / plan), the numbers, then the details
     $('detailsBody').replaceChildren(h('div', {},
         h('h2', {}, c.name),
         h('p', { class: 'card-sub' }, [formatId(c.id), c.type !== 'שיעור' && c.type, view.required.has(c.id) && 'חובה בתוכנית']
             .filter(Boolean).join(' · ')),
-        h('div', { class: 'stats' },
-            statBox(g ? g.mean.toFixed(1) : '—', 'ממוצע', g && gradeColor(g.mean)),
-            statBox(c.credits > 0 ? c.credits : '—', 'ש״ס'),
-            thisYear.length
-                ? statBox(thisYear.join(' + '), `סמסטר ב${hebrewYear(latest)}`)
-                : statBox('לא השנה', c.last ? `לאחרונה ${semLabel(c.last)}` : 'לא מוצע')),
-        !inGraph && h('p', { class: 'muted small', style: 'margin-top:10px' }, 'לא מוצג בגרף עם המסננים הנוכחיים'),
-        [h('h3', {}, 'דרישות קדם'), c.req ? reqList(c.req) : h('p', { class: 'muted' }, 'אין')],
-        c.coreq && [h('h3', {}, 'במקביל'), reqList(c.coreq)],
         h('div', { class: 'plan-box' },
-            state.taken.size > 0 && !state.taken.has(c.id) && h('p', { class: canTake(c, state.taken) ? 'ok' : 'warn' },
-                canTake(c, state.taken) ? '✓ עמדת בדרישות' : `חסר: ${reqText(unmet(c.reqT, meets(state.taken)))}`),
             h('div', { class: 'plan-row' },
                 h('label', { class: 'check' },
                     h('input', { type: 'checkbox', checked: state.taken.has(c.id), onchange: () => toggleTaken(c.id) }),
@@ -735,10 +756,21 @@ function renderDetails() {
                 state.taken.has(c.id)
                     ? h('label', { class: 'check' }, h('span', {}, 'ציון'), gradeInput(c.id))
                     : h('div', { class: 'check' }, h('span', {}, 'מתוכנן ל־'), planPicker(c.id, '—').el)),
-            state.plan.has(c.id) && planIssues(c.id, state.plan.get(c.id)).map(t => h('p', { class: 'warn' }, `⚠ ${t}`))),
+            state.plan.has(c.id) ? planIssues(c.id, state.plan.get(c.id)).map(t => h('p', { class: 'warn' }, `⚠ ${t}`))
+                : state.taken.size > 0 && !state.taken.has(c.id) && h('p', { class: canTake(c, state.taken) ? 'ok' : 'warn' },
+                    canTake(c, state.taken) ? '✓ עמדת בדרישות' : `חסר: ${reqText(unmet(c.reqT, meets(state.taken)))}`)),
+        h('div', { class: 'stats' },
+            statBox(c.mean != null ? c.mean.toFixed(1) : '—', 'ממוצע', c.mean != null && gradeColor(c.mean)),
+            statBox(c.credits > 0 ? c.credits : '—', 'ש״ס'),
+            thisYear.length
+                ? statBox(thisYear.join(' + '), `סמסטר ב${hebrewYear(latest)}`)
+                : statBox('לא השנה', c.last ? `לאחרונה ${semLabel(c.last)}` : 'לא מוצע')),
         h('div', { class: 'links' },
             c.syllabus && h('a', { href: c.syllabus, target: '_blank', rel: 'noopener' }, 'סילבוס'),
             drishot && h('a', { href: drishot, target: '_blank', rel: 'noopener' }, 'דרישות באתר האוניברסיטה')),
+        state.view === 'map' && !inGraph && h('p', { class: 'muted small', style: 'margin-top:10px' }, 'לא מוצג במפה עם הבחירה הנוכחית'),
+        [h('h3', {}, 'דרישות קדם'), c.req ? reqList(c.req) : h('p', { class: 'muted' }, 'אין')],
+        c.coreq && [h('h3', {}, 'במקביל'), reqList(c.coreq)],
         g && [
             h('h3', {}, 'התפלגות ציונים'),
             histogram(g),
@@ -804,7 +836,7 @@ function renderProgramInfo() {
             p.parts?.length > 0 && [
                 h('p', { class: 'note' }, 'תוכנית זו מורכבת משני חוגים. הכללים המלאים מופיעים בידיעון של כל חוג:'),
                 h('ul', { class: 'req' }, p.parts.map(x => h('li', {},
-                    DATA.plans[x.name] ? h('button', { class: 'course-link', onclick: () => setProgram(x.name) }, shortProgram(x.name)) : shortProgram(x.name)))),
+                    DATA.programs[x.name] ? h('button', { class: 'course-link', onclick: () => setProgram(x.name) }, shortProgram(x.name)) : shortProgram(x.name)))),
             ],
             p.about && h('details', { class: 'about' }, h('summary', {}, 'על התוכנית'), h('div', { class: 'note' }, p.about)),
             p.sections?.length > 0 && [
@@ -838,7 +870,7 @@ function syncPanels() {
 // ── Recording progress: passed courses (with an optional grade), planned courses, credits by hand ──
 // `quiet` saves without re-rendering, for inputs that are still being edited
 function saveProgress({ quiet = false } = {}) {
-    if (inProgram()) store.set(PROGRAM_KEY, state.program);
+    if (state.program) store.set(PROGRAM_KEY, state.program);
     store.set(STORAGE_KEY, [...state.taken]);
     store.set(PLAN_KEY, Object.fromEntries(state.plan));
     store.set(GRADES_KEY, Object.fromEntries(state.grades));
@@ -850,6 +882,8 @@ function saveProgress({ quiet = false } = {}) {
 }
 
 function refreshProgress() {
+    // a map without electives shows the passed and planned ones, so its courses may change
+    if (inProgram() && state.view === 'map' && !state.electives) return render({ fit: false });
     applyHighlight();
     renderSheet();
     renderDetails();
@@ -863,8 +897,26 @@ function toggleTaken(id) {
 }
 
 function markTaken(ids) {
+    const undo = snapshot();
     ids.forEach(id => { state.taken.add(id); state.plan.delete(id); });
     saveProgress();
+    toast(`${ids.length} קורסים סומנו כעברו`, undo);
+}
+
+// Bulk changes can be undone for a few seconds, instead of asking for confirmation first
+function snapshot() {
+    const saved = { taken: new Set(state.taken), plan: new Map(state.plan), grades: new Map(state.grades), manual: new Map(state.manual) };
+    return () => { Object.assign(state, saved); saveProgress(); };
+}
+
+let toastTimer;
+function toast(text, undo) {
+    const el = $('toast');
+    clearTimeout(toastTimer);
+    el.replaceChildren(h('span', {}, text),
+        undo && h('button', { class: 'btn-link', onclick: () => { el.hidden = true; undo(); } }, 'ביטול'));
+    el.hidden = false;
+    toastTimer = setTimeout(() => { el.hidden = true; }, 6000);
 }
 
 function setPlan(id, sem) {
@@ -872,9 +924,11 @@ function setPlan(id, sem) {
     saveProgress();
 }
 
-function setGrade(id, value) {
+function setGrade(id, value, field) {
     const grade = Number(value);
-    if (value !== '' && !(grade >= 0 && grade <= 100)) return;  // the field shows it as invalid
+    const invalid = value !== '' && !(grade >= 0 && grade <= 100);
+    field?.setCustomValidity(invalid ? 'ציון בין 0 ל־100' : '');
+    if (invalid) { field?.reportValidity(); return; }  // kept on screen with a message, not saved
     if (value === '') state.grades.delete(id);
     else state.grades.set(id, Math.round(grade * 10) / 10);
     // the same course may have a grade field in both the checklist and its card
@@ -891,12 +945,13 @@ function setManual(key, value) {
 }
 
 function clearProgress() {
-    if (!confirm('למחוק את כל הקורסים, הציונים והתכנון שסימנת?')) return;
-    state.taken.clear();
-    state.plan.clear();
-    state.grades.clear();
-    state.manual.clear();
+    const undo = snapshot();
+    state.taken = new Set();
+    state.plan = new Map();
+    state.grades = new Map();
+    state.manual = new Map();
     saveProgress();
+    toast('כל הסימונים נמחקו', undo);
 }
 
 // Credit-weighted average of the grades entered; courses without credit data are left out
@@ -915,7 +970,8 @@ function weightedAverage() {
 const gradeInput = id => h('input', {
     type: 'number', class: 'grade', min: 0, max: 100, step: 'any', inputmode: 'decimal', placeholder: 'ציון',
     'data-course': id, 'aria-label': `ציון ב${courseName(id)}`, value: state.grades.get(id) ?? '',
-    onchange: e => setGrade(id, e.target.value),
+    onchange: e => setGrade(id, e.target.value, e.target),
+    oninput: e => e.target.setCustomValidity(''),
 });
 
 const planPicker = (id, empty, key) => picker({ label: `תכנון ${courseName(id)}`, key, onchange: v => setPlan(id, v || null) })
@@ -990,21 +1046,26 @@ const creditText = ({ done, planned, need }) => `${done}${planned ? ` + ${planne
 
 let degree = null;  // the rendered program: {program, sections, alloc}
 const openLists = new Set();  // folded course lists the student opened (kept across re-renders)
+const toggled = new Map();    // program parts the student opened or closed: key → open
 
 function renderSheet() {
     const sheet = $('sheet');
-    sheet.hidden = state.mode !== 'program' || (state.program && state.view === 'map');
+    sheet.hidden = state.view === 'map';
     if (sheet.hidden) return;
     // Keep keyboard focus: on the same control, or where it was if that control is gone
     const focusKey = document.activeElement?.dataset?.focusKey;
     const focusIndex = [...sheet.querySelectorAll('[data-focus-key]')].indexOf(document.activeElement);
     if (!state.program) {
         degree = null;
-        sheet.replaceChildren(programChooser());
+        sheet.replaceChildren(h('div', { class: 'sheet-inner chooser-page' },
+            h('h1', {}, 'בחרו תוכנית לימודים'),
+            programChooser(),
+            h('button', { class: 'btn-link chooser-browse', onclick: () => setView('map') }, 'רק לעיין בקורסים ←')));
     } else {
         const program = view.program;
         degree = { program, sections: degreeSections(program, view.cats), alloc: allocateCredits(view.cats) };
-        sheet.replaceChildren(h('div', { class: 'sheet-inner' },
+        sheet.replaceChildren(h('div', { class: `sheet-inner${state.view === 'timeline' ? ' wide' : ''}` },
+            pageHead(program),
             h('div', { id: 'summary', class: 'summary' }),
             state.view === 'timeline' ? timeline() : degreeList()));
         renderSummary();
@@ -1048,17 +1109,27 @@ function renderSectionHeads() {
     });
 }
 
+// The page's title: the program (a button that switches it), the start year and the program's details
+function pageHead(program) {
+    const years = Object.keys(DATA.programs[state.program].previous || {}).sort().reverse();
+    const start = years.length > 0 && picker({ id: 'startYear', label: 'שנת התחלת הלימודים', key: 'start', onchange: setStart })
+        .set([String(DATA.meta.catalog_year), ...years].map((y, i) => ({ value: i ? y : '', label: `התחלתי ב${hebrewYear(+y + 1)}` })),
+            years.includes(state.start) ? state.start : '');
+    if (start) start.el.title = 'חלים עליך כללי הידיעון של שנת ההתחלה';
+    return h('div', { class: 'page-head' },
+        h('h1', {}, h('button', { class: 'program-switch', 'data-focus-key': 'program', 'aria-haspopup': 'dialog',
+            title: 'החלפת תוכנית', onclick: openProgramDialog }, h('span', {}, shortProgram(state.program)))),
+        h('div', { class: 'page-meta' },
+            start && start.el,
+            h('button', { class: 'btn-link', onclick: () => showInfo({ type: 'program' }) }, 'פרטי התוכנית'),
+            program.url && h('a', { href: program.url, target: '_blank', rel: 'noopener' }, 'הידיעון')));
+}
+
 function degreeList() {
     const { sections, alloc } = degree;
     const home = new Map();  // course → the category it counts toward
     alloc.forEach((a, i) => a.ids.forEach(id => home.set(id, i)));
     return h('div', { class: 'degree' },
-        h('div', { class: 'degree-tools' },
-            h('label', { class: 'check' }, h('input', { type: 'checkbox', checked: state.hideDone, 'data-focus-key': 'hide-done',
-                onchange: e => { state.hideDone = e.target.checked; store.set(HIDE_DONE_KEY, state.hideDone); renderSheet(); } }), h('span', {}, 'הסתרת קורסים שעברתי')),
-            degree.program.url && h('a', { href: degree.program.url, target: '_blank', rel: 'noopener' }, 'הידיעון'),
-            (degree.program.parts || []).length > 0 && h('span', {}, 'הכללים המלאים בידיעון של כל חוג: ',
-                degree.program.parts.map((x, i) => [i > 0 && ' · ', h('a', { href: x.url, target: '_blank', rel: 'noopener' }, shortProgram(x.name))]))),
         sections.map((section, si) => {
             const progress = sectionProgress(section, alloc);
             return h('section', { class: 'degree-section', id: `sec-${si}` },
@@ -1095,24 +1166,28 @@ function categoryBlock(cat, section, got, home) {
     const status = need ? creditText({ ...got, need }) : pick ? `נבחרו ${got.ids.length} מתוך ${pick}` : `${listed.filter(id => state.taken.has(id)).length}/${listed.length} קורסים`;
     const open = listed.filter(id => !state.taken.has(id));
     // Long elective lists fold after the first few, in catalog order (rows never move when marked)
-    const ids = state.hideDone ? listed.filter(id => !state.taken.has(id)) : listed;
-    const shown = mandatory || ids.length <= 10 ? ids : ids.slice(0, 8), folded = ids.slice(shown.length);
+    const shown = mandatory || listed.length <= 10 ? listed : listed.slice(0, 8), folded = listed.slice(shown.length);
     const chosenInFold = folded.filter(id => rank(id) < 2).length;
     const rows = ids => h('ul', { class: 'rows' }, ids.map(id => courseRow(id, cat, home)));
     const listKey = `${state.program}:${cat.i}`;
+    // Parts already complete start folded, so what's left stands out. A part completed now stays open
+    // (for its grades), and the student can open or close any part.
+    const expanded = toggled.get(listKey) ?? !complete;
+    if (expanded) toggled.set(listKey, true);
     return h('div', { class: `cat${complete ? ' complete' : ''}` },
         h('div', { class: 'cat-head' },
-            h('div', {},
+            h('button', { class: 'cat-toggle', 'aria-expanded': String(expanded), 'data-focus-key': `cat:${cat.i}`,
+                onclick: () => { toggled.set(listKey, !expanded); renderSheet(); } },
                 h('span', { class: 'cat-title', title: cat.name }, parts.join(' · ')),
                 h('span', { class: 'cat-status' }, complete ? `✓ ${status}` : status)),
-            mandatory && open.length > 1 && h('button', { class: 'btn btn-small', onclick: () => markTaken(open) }, 'סימון הכל כעבר')),
+            expanded && mandatory && open.length > 1 && h('button', { class: 'btn btn-small', onclick: () => markTaken(open) }, 'סימון הכל כעבר')),
         need > 0 && meter(got.done, got.planned, need),
-        !(state.hideDone && complete) && [
+        expanded && [
             rows(shown),
             folded.length > 0 && h('details', { class: 'more', open: openLists.has(listKey), ontoggle: e => { e.target.open ? openLists.add(listKey) : openLists.delete(listKey); } },
                 h('summary', {}, `עוד ${folded.length} קורסים${chosenInFold ? ` (${chosenInFold} נבחרו)` : ''}`), rows(folded)),
-        ],
-        cat.note && h('details', { class: 'about' }, h('summary', {}, 'הערות'), h('div', { class: 'note' }, cat.note)));
+            cat.note && h('details', { class: 'about' }, h('summary', {}, 'הערות'), h('div', { class: 'note' }, cat.note)),
+        ]);
 }
 
 const rank = id => (state.taken.has(id) ? 0 : state.plan.has(id) ? 1 : 2);
@@ -1124,14 +1199,18 @@ function courseRow(id, cat, home) {
     if (taken || sem) {
         if (home.has(id) && home.get(id) !== cat.i) pills.push(h('span', { class: 'pill' }, 'נספר בחלק אחר'));
     }
-    if (c && sem) planIssues(id, sem).forEach(t => pills.push(h('span', { class: 'pill warn' }, t)));
+    if (c && sem) planIssues(id, sem).forEach(t => pills.push(h('span', { class: 'pill warn', title: t }, t)));
     else if (c && !taken) {
-        const missing = unmet(c.reqT, meets(new Set([...state.taken, ...state.plan.keys()])));
-        if (missing) pills.push(h('span', { class: 'pill', title: reqText(missing) }, `חסר: ${reqText(missing)}`));
+        // what's still missing, once the student has recorded something (before that, it's every course)
+        const has = meets(new Set([...state.taken, ...state.plan.keys()]));
+        const missing = state.taken.size + state.plan.size > 0 && unmet(c.reqT, has);
+        const n = missing && missingCount(missing, has);
+        if (missing) pills.push(h('span', { class: 'pill', title: reqText(missing) }, n > 1 ? `חסרים ${n} קורסים` : `חסר: ${reqText(missing)}`));
         if (!offeredNow(c)) pills.push(h('span', { class: 'pill' }, 'לא מוצע השנה'));
     }
     return h('li', { class: `row${taken ? ' done' : sem ? ' planned' : ''}` },
-        h('input', { type: 'checkbox', checked: taken, 'data-focus-key': `${key}:taken`, 'aria-label': `עברתי: ${courseName(id)}`, onchange: () => toggleTaken(id) }),
+        h('label', { class: 'row-check' },
+            h('input', { type: 'checkbox', checked: taken, 'data-focus-key': `${key}:taken`, 'aria-label': `עברתי: ${courseName(id)}`, onchange: () => toggleTaken(id) })),
         h('div', { class: 'row-main' },
             c ? h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, c.name)) : h('bdi', {}, courseName(id)),
             h('span', { class: 'course-id' }, formatId(id.slice(0, 8))),
@@ -1148,9 +1227,13 @@ function timeline() {
         h('div', { class: 'term-head' }, h('b', {}, title), h('span', { class: 'muted' }, sub)),
         ids.length ? h('ul', { class: 'term-list' }, ids.map(footer.item)) : h('p', { class: 'muted small term-empty' }, footer.empty),
         footer.add);
+    // Courses to add come in catalog order: by year, mandatory parts first (view.cats is sorted that way)
+    const order = new Map();
+    view.cats.forEach((cat, i) => cat.courses.forEach(id => { if (!order.has(id)) order.set(id, i); }));
     const addPicker = sem => {
         const done = doneBefore(sem);
-        const candidates = [...inProgramIds].filter(id => !state.taken.has(id) && !state.plan.has(id) && offeredInPart(COURSES.get(id), sem));
+        const candidates = [...inProgramIds].filter(id => !state.taken.has(id) && !state.plan.has(id) && offeredInPart(COURSES.get(id), sem))
+            .sort((a, b) => order.get(a) - order.get(b) || courseName(a).localeCompare(courseName(b), 'he'));
         // the name is direction-isolated (\u2068…\u2069) so an English name doesn't swallow the Hebrew after it
         const opt = (id, group) => ({ value: id, label: `\u2068${COURSES.get(id).name}\u2069${COURSES.get(id).credits ? ` · ${COURSES.get(id).credits} ש״ס` : ''}`, group });
         const ready = candidates.filter(id => canTake(COURSES.get(id), done)), blocked = candidates.filter(id => !ready.includes(id));
@@ -1159,6 +1242,8 @@ function timeline() {
         p.el.classList.add('term-add');
         return p.el;
     };
+    // Passed courses in a column at the start; then a year per row, semesters א׳ and ב׳ side by side
+    const place = (el, sem) => { el.style.setProperty('--col', sem.endsWith('a') ? 1 : 2); return el; };
     return h('div', { class: 'timeline' },
         column('עברתי', `${passed.length} קורסים · ${creditsOf(passed)} ש״ס`, passed, {
             empty: 'סמנו קורסים שעברתם ברשימה.',
@@ -1166,9 +1251,9 @@ function timeline() {
                 h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, courseName(id))),
                 h('span', { class: 'muted small' }, [COURSES.get(id).credits && `${COURSES.get(id).credits} ש״ס`, state.grades.has(id) && `ציון ${state.grades.get(id)}`].filter(Boolean).join(' · '))),
         }, 'passed'),
-        planSemesters().map(sem => {
+        h('div', { class: 'terms' }, planSemesters().map(sem => {
             const ids = plannedIn(sem).filter(id => COURSES.has(id));
-            return column(semOption(sem), `${creditsOf(ids)} ש״ס`, ids, {
+            return place(column(semOption(sem), `${creditsOf(ids)} ש״ס`, ids, {
                 empty: 'אין קורסים מתוכננים.',
                 add: addPicker(sem),
                 item: id => {
@@ -1178,23 +1263,63 @@ function timeline() {
                             h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, courseName(id))),
                             h('button', { class: 'btn btn-icon btn-small', 'aria-label': `הסרת ${courseName(id)} מהתכנון`, 'data-focus-key': `rm:${sem}:${id}`, onclick: () => setPlan(id, null) }, '×')),
                         h('span', { class: 'muted small' }, COURSES.get(id).credits ? `${COURSES.get(id).credits} ש״ס` : ''),
-                        issues.map(t => h('span', { class: 'pill warn' }, t)));
+                        issues.map(t => h('span', { class: 'pill warn', title: t }, t)));
                 },
-            });
-        }));
+            }), sem);
+        })));
 }
 
-// Program mode before a program is chosen: the faculty's programs
+// Choosing a program: a faculty's programs by kind, or a search across every faculty. Shown as the
+// page when no program is chosen yet, and in a dialog from the program's title.
+let programOptions = [];  // [{value, label, group}] in display order
+
 function programChooser() {
-    const options = pickers.program.options.filter(o => programFaculty(o.value) === state.faculty);
-    let group;
-    return h('div', { class: 'sheet-inner chooser' },
-        h('h2', {}, 'בחרו תוכנית לימודים'),
-        h('p', { class: 'muted' }, 'תוכניות הפקולטה ל' + state.faculty + '. אפשר להחליף פקולטה בסרגל למעלה.'),
-        h('ul', { class: 'chooser-list' }, options.map(o => [
-            o.group !== group && h('li', { class: 'chooser-group' }, (group = o.group)),
-            h('li', {}, h('button', { class: 'chooser-item', onclick: () => setProgram(o.value) }, o.label)),
-        ])));
+    let faculty = state.program ? programFaculty(state.program) : programFaculties()[0]?.value;
+    const list = h('ul', { class: 'chooser-list' });
+    const facultyBar = h('div', { class: 'chips', role: 'group', 'aria-label': 'פקולטה' });
+    const search = h('input', { type: 'search', class: 'chooser-search', placeholder: 'חיפוש תוכנית', 'aria-label': 'חיפוש תוכנית', autocomplete: 'off' });
+    const fill = () => {
+        const term = search.value.trim();
+        const shown = programOptions.filter(o => (term ? shortProgram(o.value).includes(term) : programFaculty(o.value) === faculty));
+        // while searching, results are grouped by faculty, since they may come from any of them
+        const groupOf = o => (term ? programFaculty(o.value) : o.group);
+        const groups = [...new Set(shown.map(groupOf))];
+        list.replaceChildren(...groups.flatMap(g => [
+            h('li', { class: 'chooser-group' }, g),
+            shown.filter(o => groupOf(o) === g).map(o => h('li', {},
+                h('button', { class: `chooser-item${o.value === state.program ? ' current' : ''}`, onclick: () => pickProgram(o.value) },
+                    term ? shortProgram(o.value) : o.label))),
+        ]).flat());
+        if (!shown.length) list.append(h('li', { class: 'muted chooser-empty' }, 'אין תוכניות מתאימות'));
+        replaceChips(facultyBar, programFaculties().map(f => chip(f.value, !term && f.value === faculty, () => {
+            faculty = f.value;
+            search.value = '';
+            fill();
+        }, f.count)));
+    };
+    search.addEventListener('input', fill);
+    search.addEventListener('keydown', e => {
+        const items = list.querySelectorAll('.chooser-item');
+        if (e.key === 'Enter' && items.length === 1) items[0].click();
+    });
+    fill();
+    return h('div', { class: 'chooser' }, h('div', { class: 'chooser-tools' }, search, facultyBar), list);
+}
+
+function pickProgram(name) {
+    if ($('programDialog').open) $('programDialog').close();
+    setProgram(name);
+}
+
+function openProgramDialog() {
+    const dialog = $('programDialog');
+    dialog.replaceChildren(
+        h('div', { class: 'dialog-head' },
+            h('h2', {}, 'בחירת תוכנית'),
+            h('button', { class: 'btn btn-icon btn-small', 'aria-label': 'סגירה', onclick: () => dialog.close() }, '×')),
+        programChooser());
+    dialog.showModal();
+    dialog.querySelector('.chooser-search').focus();
 }
 
 // ── Cloud sync (enabled when assets/firebase-config.js provides a Firebase config) ──
@@ -1369,9 +1494,15 @@ function setupSearch() {
     const input = $('search'), list = $('searchResults');
     let results = [], active = -1;
 
-    const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); active = -1; };
+    const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); active = -1; };
     const choose = id => { close(); input.value = ''; input.blur(); select(id, { focus: true }); };
-    const paint = () => [...list.children].forEach((li, i) => li.setAttribute('aria-selected', i === active));
+    const paint = () => {
+        [...list.children].forEach((li, i) => li.setAttribute('aria-selected', i === active));
+        if (results[active]) input.setAttribute('aria-activedescendant', `sr-${active}`);
+    };
+    // Phones: search opens from an icon over the header, and closes when left
+    $('searchOpen').addEventListener('click', () => { document.body.classList.add('searching'); input.focus(); });
+    input.addEventListener('blur', () => document.body.classList.remove('searching'));
 
     input.addEventListener('input', () => {
         const term = input.value.trim().toLowerCase();
@@ -1384,16 +1515,16 @@ function setupSearch() {
             .slice(0, 12);
         active = results.length ? 0 : -1;
         list.replaceChildren(...(results.length
-            ? results.map(c => h('li', { role: 'option', onmousedown: e => { e.preventDefault(); choose(c.id); } },
+            ? results.map((c, i) => h('li', { role: 'option', id: `sr-${i}`, onmousedown: e => { e.preventDefault(); choose(c.id); } },
                 h('div', {}, c.name),
-                h('div', { class: 'sub' }, [formatId(c.id), c.dept, c.grades && `ממוצע ${c.grades.mean.toFixed(1)}`].filter(Boolean).join(' · '))))
+                h('div', { class: 'sub' }, [formatId(c.id), c.dept, c.mean != null && `ממוצע ${c.mean.toFixed(1)}`].filter(Boolean).join(' · '))))
             : [h('li', { class: 'sub' }, 'לא נמצאו קורסים')]));
         list.hidden = false;
         input.setAttribute('aria-expanded', 'true');
         paint();
     });
     input.addEventListener('keydown', e => {
-        if (list.hidden) return;
+        if (list.hidden) { if (e.key === 'Escape') input.blur(); return; }
         if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
             e.preventDefault();
             active = (active + (e.key === 'ArrowDown' ? 1 : -1) + results.length) % Math.max(results.length, 1);
@@ -1424,41 +1555,39 @@ function toggleIn(set, value) {
     set.has(value) ? set.delete(value) : set.add(value);
 }
 
-// Faculties: of academic units (unit mode, from the data's meta) and of programs (program mode)
+// Faculties: of academic units (the map, from the data's meta) and of programs (the program chooser)
 const unitFaculties = () => DATA.meta.faculties || {};
-const programFaculty = name => DATA.plans[name]?.faculty || 'אחר';
+const programFaculty = name => DATA.programs[name]?.faculty || 'אחר';
 const facultyOfUnits = () => Object.keys(unitFaculties()).find(f => unitFaculties()[f].some(u => state.depts.has(u)))
     || Object.keys(unitFaculties())[0] || '';
 
-function facultyOptions() {
-    if (state.mode === 'unit') return Object.keys(unitFaculties()).map(f => ({ value: f, label: f }));
+// Faculties with programs, the largest first
+function programFaculties() {
     const counts = new Map();
-    Object.keys(DATA.plans).forEach(n => counts.set(programFaculty(n), (counts.get(programFaculty(n)) || 0) + 1));
-    return [...counts].sort((a, b) => b[1] - a[1]).map(([f, n]) => ({ value: f, label: `${f} (${n})`, short: f }));
+    Object.keys(DATA.programs).forEach(n => counts.set(programFaculty(n), (counts.get(programFaculty(n)) || 0) + 1));
+    return [...counts].sort((a, b) => b[1] - a[1]).map(([value, count]) => ({ value, count }));
 }
 
 function renderChrome() {
-    const program = state.mode === 'program', map = !program || (state.program && state.view === 'map');
-    document.title = `${inProgram() ? shortProgram(state.program) : program ? 'התואר שלי' : [...state.depts].join(', ') || 'עץ הקורסים'} · עץ הקורסים`;
-    document.body.classList.toggle('program', inProgram());
+    const map = state.view === 'map', unit = map && !inProgram();
+    document.title = `${inProgram() ? shortProgram(state.program) : unit ? [...state.depts].join(', ') || 'מפה' : 'בחירת תוכנית'} · עץ הקורסים`;
     document.body.classList.toggle('has-progress', state.taken.size + state.plan.size > 0);
-    $('modeDept').setAttribute('aria-pressed', String(!program));
-    $('modeProgram').setAttribute('aria-pressed', String(program));
-    $('deptBar').hidden = program;
-    $('programBar').hidden = !program;
-    $('programInfoBtn').hidden = !state.program;
-    $('viewTabs').hidden = !inProgram();
-    [...$('viewTabs').children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === state.view)));
-    $('count').hidden = !map;
-    $('filtersBtn').hidden = !map;
-    if (!map) { $('filters').hidden = true; $('filtersBtn').setAttribute('aria-expanded', 'false'); }
+    [...$('tabs').children].forEach(b => b.toggleAttribute('aria-current', b.dataset.view === state.view));
 
-    $('typeField').hidden = inProgram();
-    $('offeredField').hidden = inProgram();
-    $('isolatedField').hidden = inProgram();
-    $('electivesField').hidden = !inProgram();
+    // The map's bar: its scope, then the academic units (by unit) or the electives toggle (by program)
+    if ($('mapbar').hidden === map) {  // the bar changes the canvas's height
+        $('mapbar').hidden = !map;
+        cy.resize();
+    }
+    $('scopeProgram').setAttribute('aria-pressed', String(map && !unit));
+    $('scopeUnit').setAttribute('aria-pressed', String(unit));
+    pickers.faculty.el.hidden = !unit;
+    $('deptBar').hidden = !unit;
+    $('filtersBtn').hidden = !unit;
+    $('electivesBtn').hidden = unit;
+    if (!unit) { $('filters').hidden = true; $('filtersBtn').setAttribute('aria-expanded', 'false'); }
 
-    pickers.faculty.set(facultyOptions(), state.faculty);
+    pickers.faculty.set(Object.keys(unitFaculties()).map(f => ({ value: f, label: f })), state.faculty);
     replaceChips($('deptBar'), (unitFaculties()[state.faculty] || []).map(d =>
         chip(d, state.depts.has(d), () => { toggleIn(state.depts, d); render(); writeHash(); })));
 
@@ -1472,79 +1601,71 @@ function renderChrome() {
     replaceChips($('offeredChips'), OFFERED.map(([value, label]) =>
         chip(label, state.offered === value, () => { state.offered = value; render(); })));
     $('isolated').checked = state.isolated;
-    $('electives').checked = state.electives;
-    pickers.program.set(pickers.program.options.filter(o => programFaculty(o.value) === state.faculty), state.program);
-    pickers.program.el.hidden = !program;
-    const years = Object.keys(DATA.plans[state.program]?.previous || {}).sort().reverse();
-    pickers.start.el.hidden = !inProgram() || !years.length;
-    pickers.start.set([String(DATA.meta.catalog_year), ...years].map((y, i) => ({ value: i ? y : '', label: `התחלתי ב${hebrewYear(+y + 1)}` })),
-        years.includes(state.start) ? state.start : '');
+    $('electivesBtn').setAttribute('aria-pressed', String(state.electives));
 
-    const changed = inProgram() ? Number(state.electives !== DEFAULTS.electives)
-        : Number(state.offered !== DEFAULTS.offered) + Number(state.isolated !== DEFAULTS.isolated)
-          + Number([...state.types].sort().join() !== [...DEFAULTS.types].sort().join());
+    const changed = Number(state.offered !== DEFAULTS.offered) + Number(state.isolated !== DEFAULTS.isolated)
+        + Number([...state.types].sort().join() !== [...DEFAULTS.types].sort().join());
     $('filterBadge').hidden = !changed;
     $('filterBadge').textContent = changed;
 
     const shown = cy.nodes().length;
     $('count').textContent = `${shown} קורסים`;
-    $('empty').hidden = shown > 0;
+    $('empty').hidden = !map || shown > 0;
     $('count').title = `שנה״ל ${hebrewYear(DATA.meta.latest_year)} · הנתונים עודכנו ${DATA.meta.generated}`;
     $('dataInfo').textContent = `הנתונים עודכנו ב־${DATA.meta.generated}.`;
     $('gradeScale').textContent = `ממוצע ${GRADE_DOMAIN[0]}–${GRADE_DOMAIN[1]}+`;
     syncPanels();
 }
 
-// Program mode ("my degree") or unit mode (browse one academic unit's courses)
-function setMode(mode) {
-    if (mode === state.mode) return;
-    state.mode = mode;
-    if (mode === 'program') {
-        if (!state.program && DATA.plans[store.get(PROGRAM_KEY, '')]) state.program = store.get(PROGRAM_KEY, '');
-        state.faculty = state.program ? programFaculty(state.program)
-            : facultyOptions().find(o => o.value === facultyOfUnits())?.value || facultyOptions()[0]?.value || '';
-    } else {
-        state.faculty = facultyOfUnits();
-    }
-    state.selected = null;
-    state.info = null;
+// Navigation: the tab, the map's scope, the academic units' faculty and the student's program
+function navigate(changes) {
+    Object.assign(state, changes, { selected: null, info: null });
+    if (!state.program) state.scope = 'unit';  // without a program, the map shows an academic unit
     renderDetails();
-    render();
+    render({ fit: state.view === 'map' });
     writeHash();
+}
+
+// Switching tabs keeps the open course card; the map zooms to that course
+function setView(v) {
+    state.view = VIEWS.includes(v) ? v : 'list';
+    if (!state.program) state.scope = 'unit';
+    render({ fit: state.view === 'map' });
+    if (state.view === 'map' && state.selected) select(state.selected, { focus: true });
+    writeHash();
+}
+
+function setScope(scope) {
+    if (scope === 'program' && !state.program) return openProgramDialog();
+    navigate({ scope, faculty: facultyOfUnits() });
 }
 
 function setFaculty(faculty) {
-    state.faculty = faculty;
-    if (state.mode === 'unit') state.depts = new Set((unitFaculties()[faculty] || []).slice(0, 1));
-    else if (programFaculty(state.program) !== faculty) state.program = '';
-    state.selected = null;
-    state.info = null;
-    renderDetails();
-    render();
-    writeHash();
+    navigate({ faculty, depts: new Set((unitFaculties()[faculty] || []).slice(0, 1)) });
 }
 
-function setProgram(name) {
-    state.program = name && DATA.plans[name] ? name : '';
-    if (state.program) {
-        state.mode = 'program';
-        state.faculty = programFaculty(state.program);
-        store.set(PROGRAM_KEY, state.program);
-        store.set(UPDATED_KEY, Date.now());
-        pushSoon();
+async function setProgram(name) {
+    if (!DATA.programs[name]) return;
+    try {
+        await loadProgram(name);
+    } catch (err) {
+        console.error(err);
+        return toast('טעינת התוכנית נכשלה. נסו שוב.');
     }
-    state.selected = null;
-    state.info = null;
-    renderDetails();
-    render();
-    writeHash();
+    store.set(PROGRAM_KEY, name);
+    store.set(UPDATED_KEY, Date.now());
+    pushSoon();
+    navigate({ program: name, scope: 'program' });
 }
 
-function setView(v) {
-    state.view = VIEWS.includes(v) ? v : 'list';
-    renderSheet();
-    renderChrome();
-    if (state.view === 'map') fitGraph(cy.nodes());
+function setStart(value) {
+    state.start = value;
+    state.info = state.info?.type === 'program' ? state.info : null;  // part numbers differ between catalog years
+    store.set(START_KEY, state.start);
+    store.set(UPDATED_KEY, Date.now());
+    pushSoon();
+    render({ fit: false });
+    renderDetails();
     writeHash();
 }
 
@@ -1558,18 +1679,24 @@ function resetFilters() {
     writeHash();
 }
 
+function dismissHint() {
+    if ($('hint').hidden) return;
+    $('hint').hidden = true;
+    store.set(HINT_KEY, true);
+}
+
 function setupCanvasTools() {
     const zoomBy = f => cy.animate({ zoom: { level: cy.zoom() * f, renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 } }, duration: 150 });
     $('zoomIn').addEventListener('click', () => zoomBy(1.25));
     $('zoomOut').addEventListener('click', () => zoomBy(0.8));
-    $('zoomFit').addEventListener('click', () => fitGraph(cy.nodes(), true));
+    $('zoomFit').addEventListener('click', () => fitGraph(cy.nodes(), true, { whole: true }));
 
     const toggle = $('legendToggle');
     if (MOBILE.matches) toggle.setAttribute('aria-expanded', 'false');
     toggle.addEventListener('click', () => toggle.setAttribute('aria-expanded', String(toggle.getAttribute('aria-expanded') !== 'true')));
 
     if (!store.get(HINT_KEY, false)) $('hint').hidden = false;
-    $('hintClose').addEventListener('click', () => { $('hint').hidden = true; store.set(HINT_KEY, true); });
+    $('hintClose').addEventListener('click', dismissHint);
 
     // Hover card (pointer devices)
     const tip = $('tooltip');
@@ -1578,7 +1705,7 @@ function setupCanvasTools() {
         const c = COURSES.get(e.target.id()), p = e.target.renderedPosition();
         const sems = (c.semesters || []).filter(s => +s.slice(0, 4) === DATA.meta.latest_year).map(partName).reverse();
         tip.replaceChildren(h('b', {}, c.name),
-            h('div', { class: 'sub' }, [c.grades && `ממוצע ${c.grades.mean.toFixed(1)}`, c.credits > 0 && `${c.credits} ש״ס`,
+            h('div', { class: 'sub' }, [c.mean != null && `ממוצע ${c.mean.toFixed(1)}`, c.credits > 0 && `${c.credits} ש״ס`,
                 sems.length ? `סמסטר ${sems.join(' + ')}` : 'לא השנה'].filter(Boolean).join(' · ')));
         tip.hidden = false;
         const x = Math.min(Math.max(8, p.x - tip.offsetWidth / 2), cy.width() - tip.offsetWidth - 8);
@@ -1587,42 +1714,55 @@ function setupCanvasTools() {
         tip.style.top = `${y < 8 ? p.y + (NODE_H / 2) * cy.zoom() + 8 : y}px`;
     });
     cy.on('mouseout viewport tap', () => { tip.hidden = true; });
+
+    // Keyboard: the canvas takes focus, and the arrow keys move to the nearest course that way
+    const dirs = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] };
+    $('cy').tabIndex = 0;
+    $('cy').addEventListener('keydown', e => {
+        const d = dirs[e.key], from = state.selected && cy.getElementById(state.selected);
+        if (!d || !cy.nodes().length) return;
+        e.preventDefault();
+        let next = null, best = Infinity;
+        if (!from?.length) {  // start from the first course in reading order: top row, right end
+            next = cy.nodes().sort((a, b) => a.position('y') - b.position('y') || b.position('x') - a.position('x'))[0];
+        } else {
+            const p = from.position();
+            cy.nodes().forEach(n => {
+                const dx = n.position('x') - p.x, dy = n.position('y') - p.y;
+                const along = dx * d[0] + dy * d[1], score = along + 2 * Math.abs(dx * d[1] + dy * d[0]);
+                if (along > 0 && score < best) { best = score; next = n; }
+            });
+        }
+        if (!next) return;
+        select(next.id());
+        const r = next.renderedPosition();
+        if (r.x < 0 || r.y < 0 || r.x > cy.width() || r.y > cy.height()) cy.animate({ center: { eles: next }, duration: 200 });
+    });
     cy.on('mouseover', 'node', e => e.target.connectedEdges().addClass('peek'));
     cy.on('mouseout', 'node', e => e.target.connectedEdges().removeClass('peek'));
 }
 
+// Programs are grouped by degree, and bachelor's programs by kind
+const GROUPS = ['חד-חוגיות', 'דו-חוגיות', 'תואר ראשון - אחר', 'תואר שני', 'תואר שלישי'];
+function programGroup(name) {
+    const level = DATA.programs[name].level;
+    if (level !== 'ראשון') return { 'שני': 'תואר שני', 'שלישי': 'תואר שלישי' }[level] || level;
+    return /חד[- ]חוגי/.test(name) ? GROUPS[0] : /דו[- ]חוגי/.test(name) ? GROUPS[1] : GROUPS[2];
+}
+
 function setupControls() {
-    const groups = [['חד-חוגיות', /חד[- ]חוגי/], ['דו-חוגיות', /דו[- ]חוגי/], ['משולבות ואחרות', /./]];
-    const names = Object.keys(DATA.plans), used = new Set(), options = [];
-    for (const [group, re] of groups) {
-        const members = names.filter(n => !used.has(n) && re.test(n));
-        members.forEach(n => { used.add(n); options.push({ value: n, label: shortProgram(n), group }); });
-    }
+    const rank = g => (GROUPS.includes(g) ? GROUPS.indexOf(g) : GROUPS.length);
+    programOptions = Object.keys(DATA.programs).map(n => ({ value: n, label: programTitle(n), group: programGroup(n) }))
+        .sort((a, b) => rank(a.group) - rank(b.group) || a.group.localeCompare(b.group, 'he') || a.label.localeCompare(b.label, 'he'));
     pickers.faculty = picker({ id: 'faculty', label: 'פקולטה', onchange: setFaculty });
-    pickers.program = picker({ id: 'program', label: 'תוכנית לימודים', search: true, placeholder: 'בחרו תוכנית', onchange: setProgram });
-    pickers.program.options = options;
-    pickers.start = picker({ id: 'startYear', label: 'שנת התחלת הלימודים', onchange: value => {
-        state.start = value;
-        store.set(START_KEY, state.start);
-        store.set(UPDATED_KEY, Date.now());
-        pushSoon();
-        state.info = state.info?.type === 'program' ? state.info : null;
-        render();
-        renderDetails();
-        writeHash();
-    } });
     $('facultySlot').replaceWith(pickers.faculty.el);
-    $('programSlot').replaceWith(pickers.program.el);
-    pickers.start.el.title = 'חלים עליך כללי הידיעון של שנת ההתחלה';
-    $('startSlot').replaceWith(pickers.start.el);
-    $('modeDept').addEventListener('click', () => setMode('unit'));
-    $('modeProgram').addEventListener('click', () => setMode('program'));
-    [...$('viewTabs').children].forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
-    $('programInfoBtn').addEventListener('click', () => showInfo({ type: 'program' }));
+    [...$('tabs').children].forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+    $('scopeProgram').addEventListener('click', () => setScope('program'));
+    $('scopeUnit').addEventListener('click', () => setScope('unit'));
     $('emptyReset').addEventListener('click', resetFilters);
 
     $('isolated').addEventListener('change', e => { state.isolated = e.target.checked; render(); });
-    $('electives').addEventListener('change', e => { state.electives = e.target.checked; render(); });
+    $('electivesBtn').addEventListener('click', () => { state.electives = !state.electives; render(); });
     $('resetBtn').addEventListener('click', resetFilters);
 
     // Filters open as a dropdown under their button; clicking elsewhere closes it
@@ -1636,64 +1776,89 @@ function setupControls() {
     });
     $('detailsClose').addEventListener('click', () => select(null));
     $('helpBtn').addEventListener('click', () => $('help').showModal());
+    // The program dialog closes on a click on its backdrop
+    $('programDialog').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
     document.addEventListener('keydown', e => {
         const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName);
         if (e.key === '/' && !typing) { e.preventDefault(); $('search').focus(); }
-        if (e.key !== 'Escape' || $('help').open) return;
+        if (e.key !== 'Escape' || $('help').open || $('programDialog').open) return;
         if (!$('filters').hidden) { $('filtersBtn').click(); $('filtersBtn').focus(); }
         else if (state.selected || state.info) select(null);
     });
 }
 
-// ── URL state: #program=…&view=timeline&course=03661102 | #unit=מתמטיקה ────
+// ── URL state: #program=…&view=timeline&course=03661102 | #unit=מתמטיקה (the map by unit) ──
 function writeHash() {
     const p = new URLSearchParams();
-    if (state.mode === 'program') {
+    if (inProgram()) {
         p.set('program', state.program);
-        if (state.program && state.start) p.set('start', state.start);
-        if (state.program && state.view !== 'list') p.set('view', state.view);
-    } else {
-        p.set('unit', [...state.depts].join(','));
+        if (state.start) p.set('start', state.start);
     }
+    if (state.view === 'map' && !inProgram()) p.set('unit', [...state.depts].join(','));
+    else if (state.view !== 'list') p.set('view', state.view);
     if (state.selected) p.set('course', state.selected);
     history.replaceState(null, '', `#${p}`);
 }
 
-// No hash (a fresh visit): a returning student sees their degree, anyone else the default unit
+// No hash (a fresh visit): "my degree", with the student's program or the program chooser.
+// Unit links, and links to a course alone, open the map by unit.
 function readHash() {
     const p = new URLSearchParams(location.hash.slice(1));
-    const remembered = DATA.plans[store.get(PROGRAM_KEY, '')] ? store.get(PROGRAM_KEY, '') : '';
+    const remembered = DATA.programs[store.get(PROGRAM_KEY, '')] ? store.get(PROGRAM_KEY, '') : '';
     const legacyPlan = p.has('plan');  // older links opened the planner
-    state.mode = p.has('program') || legacyPlan || (!p.has('unit') && !p.has('course') && remembered) ? 'program' : 'unit';
-    state.program = DATA.plans[p.get('program')] ? p.get('program') : state.mode === 'program' && !p.has('program') ? remembered : '';
-    state.view = VIEWS.includes(p.get('view')) ? p.get('view') : legacyPlan ? 'timeline' : 'list';
+    const course = p.get('course');
+    const c = course && COURSES.get(course);
+    const unit = p.has('unit') || (c && !p.has('program') && !p.has('view') && !legacyPlan);
+    state.program = p.has('program') ? (DATA.programs[p.get('program')] ? p.get('program') : '') : remembered;
+    state.view = unit ? 'map' : VIEWS.includes(p.get('view')) ? p.get('view') : legacyPlan ? 'timeline' : 'list';
+    state.scope = unit || !state.program ? 'unit' : 'program';
     if (/^\d{4}$/.test(p.get('start') || '')) state.start = p.get('start');
     const units = Object.values(unitFaculties()).flat();
     const chosen = (p.get('unit') || '').split(',').filter(u => units.includes(u));
     if (chosen.length) state.depts = new Set(chosen);
-    const course = p.get('course');
-    const c = course && COURSES.get(course);
-    if (c && state.mode === 'unit' && units.includes(c.dept)) {
+    if (c && !inProgram() && units.includes(c.dept)) {
         state.depts.add(c.dept);
         state.types.add(typeKey(c));
         if (!isOffered(c, state.offered)) state.offered = 'all';
     }
-    state.faculty = state.mode === 'program'
-        ? (state.program ? programFaculty(state.program) : facultyOptions()[0]?.value || '')
-        : facultyOfUnits();
+    state.faculty = facultyOfUnits();
     return c ? course : null;
+}
+
+// ── Loading: the index first; a program and course details when they're shown ──
+async function loadProgram(name) {
+    const p = DATA.programs[name];
+    if (!p || p.categories) return;
+    const res = await fetch(`data/programs/${p.id}.json`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    Object.assign(p, await res.json());
+}
+
+// Details come in one file per unit (the course number's first four digits)
+const detailFiles = new Map();
+function loadDetails(id) {
+    const unit = id.slice(0, 4);
+    if (!detailFiles.has(unit)) {
+        detailFiles.set(unit, fetch(`data/courses/${unit}.json`)
+            .then(res => (res.ok ? res.json() : {}))
+            .then(details => Object.entries(details).forEach(([cid, d]) => Object.assign(COURSES.get(cid) || {}, d)))
+            .catch(err => console.error(err)));
+    }
+    return detailFiles.get(unit);
 }
 
 // ── Boot ─────────────────────────────────────────────────────────────────────
 async function main() {
     try {
-        const res = await fetch('data/courses.json');
+        const res = await fetch('data/index.json');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         DATA = await res.json();
         COURSES = prepare(DATA);
     } catch (err) {
         console.error(err);
-        $('status').replaceChildren(h('p', {}, 'שגיאה בטעינת הנתונים. נסו לרענן את הדף.'));
+        $('tabs').hidden = true;
+        $('status').replaceChildren(h('p', {}, 'שגיאה בטעינת הנתונים.'),
+            h('button', { class: 'btn', onclick: () => location.reload() }, 'נסו שוב'));
         return;
     }
 
@@ -1706,8 +1871,8 @@ async function main() {
         minZoom: 0.08, maxZoom: 2.5, boxSelectionEnabled: false, autoungrabify: true,
     });
     cy.on('tap', 'node', e => {
-        const id = e.target.id();
-        select(id);
+        dismissHint();  // the tip has done its job
+        select(e.target.id());
     });
     cy.on('tap', e => { if (e.target === cy) select(null); });
     cy.on('viewport', placeBands);
@@ -1724,13 +1889,19 @@ async function main() {
     setupSearch();
     setupCanvasTools();
     setupCloud();
-    const boot = () => {
+    const boot = async () => {
         const initial = readHash();
+        try {
+            await loadProgram(state.program);
+        } catch (err) {
+            console.error(err);
+            Object.assign(state, { program: '', scope: 'unit' });
+        }
         render();
         if (initial) select(initial, { focus: true });
         else renderDetails();
     };
-    boot();
+    await boot();
     window.addEventListener('hashchange', () => { state.selected = null; boot(); });
     $('status').classList.add('done');
 }
