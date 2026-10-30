@@ -694,12 +694,13 @@ def test_cloud_data_deleted_elsewhere(open_page):
 
 
 def test_sync_conflicts(open_page):
-    page = open_page()
+    page = open_page(f"#program={CS}")
     sync = "onCloudUser({ uid: 'u1', name: 'Test User' })"
     synced = "cloud.status === 'מסונכרן'"
     page.evaluate(FAKE_CLOUD, {"taken": ["03661101"], "plan": {}, "program": "", "updatedAt": 1000})
     page.evaluate(sync)
     page.wait_for_function(synced)
+    assert page.evaluate("state.program") == CS  # an account without a program leaves the one shown
     # Another device's change is taken, though this device's clock is ahead
     page.evaluate("store.set(UPDATED_KEY, 5000); store.set(SEEN_KEY, 5000)")
     page.evaluate("window.fake.remote = { taken: ['03661102'], plan: {}, program: '', updatedAt: 2000 }")
@@ -719,6 +720,13 @@ def test_sync_conflicts(open_page):
     page.wait_for_function(f"{synced} && window.fake.remote.taken.includes('03661112')")
     assert page.evaluate("state.taken.has('03661112')")
     assert page.errors == []
+    # A first sync that failed is tried again on the next edit
+    page.evaluate("() => { const load = cloud.api.load; cloud.api.load = async () => { cloud.api.load = load; throw new Error('offline'); }; }")
+    page.evaluate(sync)
+    page.wait_for_function("cloud.status === 'שגיאת סנכרון'")
+    page.evaluate("toggleTaken('03661119')")
+    page.wait_for_function(f"{synced} && window.fake.remote.taken.includes('03661119')")
+    assert all("offline" in e for e in page.errors)
 
 
 def test_start_year_catalog(open_page):

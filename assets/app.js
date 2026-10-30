@@ -1488,14 +1488,14 @@ function mergeProgress(local, remote) {
         updatedAt: Date.now() };
 }
 
-// The screen switches to the account's program, unless it shows another one from a link
-// (`force`: switch anyway, so signing out leaves no program on screen)
+// The screen switches to the account's program, unless it shows another one from a link or the
+// account has none (`force`: switch anyway, so signing out leaves no program on screen)
 async function applyProgress(p, { force = false } = {}) {
-    const follow = force || ownProgram();
+    const program = DATA.programs[p.program] ? p.program : '', start = /^\d{4}$/.test(p.start || '') ? p.start : '';
+    const follow = force || (program && ownProgram());
     // A copy without grades or hand-entered credits (saved by an older version of the site) keeps the local ones
     Object.assign(state, cleanProgress({ grades: Object.fromEntries(state.grades), manual: Object.fromEntries(state.manual), ...p }));
     storeProgress();
-    const program = DATA.programs[p.program] ? p.program : '', start = /^\d{4}$/.test(p.start || '') ? p.start : '';
     store.set(PROGRAM_KEY, typeof p.program === 'string' ? p.program : '');
     store.set(START_KEY, start);
     store.set(UPDATED_KEY, Number.isFinite(p.updatedAt) ? p.updatedAt : 0);
@@ -1522,7 +1522,10 @@ function setSyncStatus(text) {
 // Edits are pushed once the first sync after signing in is done. A push updates the account's copy,
 // so one deleted from another device isn't brought back from here.
 function pushSoon() {
-    if (!cloud.ready) return;
+    if (!cloud.ready) {
+        if (cloud.user && cloud.status === 'שגיאת סנכרון') onCloudUser(cloud.user);  // try the first sync again
+        return;
+    }
     clearTimeout(cloud.timer);
     setSyncStatus('שומר…');
     cloud.timer = setTimeout(async () => {
