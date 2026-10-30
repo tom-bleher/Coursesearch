@@ -399,6 +399,17 @@ def test_tabs_and_map_scope(open_page):
     assert page.errors == []
 
 
+def test_sheet_hides_the_canvas(open_page):
+    # the checklist covers the map: the map's controls leave the tab order until it is shown again
+    page = open_page(f"#program={CS}")
+    covered = "[...document.querySelectorAll('#cy, #margin, #hint, .canvas-tools')].map(e => e.inert)"
+    assert all(page.evaluate(covered))
+    assert page.evaluate("document.querySelector('main').contains(document.getElementById('sheet'))")
+    page.click("#tabs [data-view=map]")
+    assert not any(page.evaluate(covered))
+    assert page.errors == []
+
+
 def test_hash_navigation(open_page):
     page = open_page()
     page.evaluate("location.hash = 'course=03661112'")

@@ -1141,6 +1141,8 @@ const toggled = new Map();    // program parts the student opened or closed: key
 function renderSheet() {
     const sheet = $('sheet');
     sheet.hidden = state.view === 'map';
+    // the sheet covers the canvas: its controls leave the tab order and the accessibility tree
+    document.querySelectorAll('#cy, #margin, #hint, .canvas-tools').forEach(el => { el.inert = !sheet.hidden; });
     if (sheet.hidden) return;
     // Keep keyboard focus: on the same control, or where it was if that control is gone
     const focusKey = document.activeElement?.dataset?.focusKey;
