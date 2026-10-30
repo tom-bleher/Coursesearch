@@ -75,6 +75,13 @@ def test_default_view_renders(open_page):
     assert page.errors == []
 
 
+def test_data_is_preloaded(open_page):
+    # the index download starts from the page's head, and app.js uses that response
+    page = open_page()
+    loads = page.evaluate("performance.getEntriesByType('resource').filter(e => e.name.endsWith('data/index.json')).map(e => e.initiatorType)")
+    assert loads == ["link"]
+
+
 def test_click_opens_details_and_highlights(open_page):
     page = open_page(UNIT)
     click_node(page, "03661102")
