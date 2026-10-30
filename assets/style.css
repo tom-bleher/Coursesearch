@@ -15,7 +15,6 @@
     --edge: #94a3b8;
     --node: #ffffff;
     --node-border: #cbd5e1;
-    --no-grade: #e2e8f0;
     --taken: #16a34a;
     --taken-bg: #dcfce7;
     --open: #2563eb;
@@ -47,7 +46,6 @@
         --edge: #64748b;
         --node: #0f172a;
         --node-border: #334155;
-        --no-grade: #334155;
         --taken: #4ade80;
         --taken-bg: #14532d;
         --open: #60a5fa;
@@ -503,7 +501,6 @@ body.panel-open .canvas-tools { inset-inline-end: calc(var(--panel-w) + 16px); m
 .swatch-box.planned { background: var(--planned-bg); border-color: var(--open); }
 .swatch-box.invalid { border: 2px solid var(--warn); }
 .swatch-box.taken, .swatch-box.invalid { width: 16px; height: 14px; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; line-height: 1; color: var(--muted); }
-.swatch-grad { width: 36px; height: 6px; border-radius: 3px; background: linear-gradient(to left, var(--grade-low), var(--grade-mid), var(--grade-high)); }
 .progress-only { display: none !important; }
 body.has-progress .progress-only { display: flex !important; }
 

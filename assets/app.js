@@ -456,14 +456,13 @@ function readPalette() {
     const v = name => css.getPropertyValue(name).trim();
     const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
     palette = {
-        text: v('--text'), muted: v('--muted'), node: v('--node'), nodeBorder: v('--node-border'), edge: v('--edge'), noGrade: v('--no-grade'),
+        text: v('--text'), muted: v('--muted'), node: v('--node'), nodeBorder: v('--node-border'), edge: v('--edge'),
         accent: v('--accent'), done: v('--surface-2'), open: v('--open'), plannedBg: v('--planned-bg'), warn: v('--warn'),
         grades: [v('--grade-low'), v('--grade-mid'), v('--grade-high')].map(rgb),
     };
 }
 
 function gradeColor(mean) {
-    if (mean == null) return palette.noGrade;
     const t = Math.min(1, Math.max(0, (mean - GRADE_DOMAIN[0]) / (GRADE_DOMAIN[1] - GRADE_DOMAIN[0]))) * 2;
     const [a, b] = t <= 1 ? [palette.grades[0], palette.grades[1]] : [palette.grades[1], palette.grades[2]];
     const f = t <= 1 ? t : t - 1;
@@ -475,11 +474,7 @@ function graphStyle() {
         {
             selector: 'node', style: {
                 'label': 'data(label)', 'shape': 'round-rectangle', 'corner-radius': 6, 'width': NODE_W, 'height': NODE_H,
-                // a plain card with the grade colour as a strip on its right (start) edge
-                'background-color': palette.node, 'background-fill': 'linear-gradient', 'background-gradient-direction': 'to-left',
-                'background-gradient-stop-colors': n => `${n.data('color')} ${n.data('color')} ${palette.node} ${palette.node}`,
-                'background-gradient-stop-positions': '0 4 4 100',
-                'border-width': 1, 'border-color': palette.nodeBorder,
+                'background-color': palette.node, 'border-width': 1, 'border-color': palette.nodeBorder,
                 'color': palette.text, 'font-family': NODE_FONT, 'font-size': 13.5, 'line-height': 1.2,
                 'font-weight': 500, 'text-wrap': 'wrap', 'text-max-width': NODE_W - 22,
                 'text-valign': 'center', 'text-halign': 'center',
@@ -501,13 +496,14 @@ function graphStyle() {
         { selector: 'edge.hl', style: { 'line-color': palette.accent, 'target-arrow-color': palette.accent, 'opacity': 1, 'width': 1.8 } },
         { selector: 'node.hl', style: { 'border-color': palette.accent, 'border-width': 1.5 } },
         { selector: 'node.focus', style: { 'border-color': palette.accent, 'border-width': 3 } },
-        // Planning: the course's status replaces its grade colour. Passed courses recede (✓ on a plain
-        // fill), planned ones are blue, problems get a red outline and ⚠, so no status relies on colour alone.
-        { selector: 'node.taken, node.planned', style: { 'background-fill': 'solid' } },
+        // Planning: passed courses recede (✓ on a plain fill), planned ones are blue, problems get a red
+        // outline and ⚠, so no status relies on colour alone.
         { selector: 'node.taken', style: { 'background-color': palette.done, 'color': palette.muted } },
         { selector: 'node.planned', style: { 'background-color': palette.plannedBg, 'border-color': palette.open, 'border-width': 1.5 } },
         { selector: 'node.invalid', style: { 'border-color': palette.warn, 'border-width': 2.5 } },
+        // Hover: the course's arrows and the courses at their other end light up
         { selector: 'edge.peek', style: { 'line-color': palette.accent, 'target-arrow-color': palette.accent, 'opacity': 0.9, 'width': 1.8 } },
+        { selector: 'node.peek', style: { 'underlay-color': palette.accent, 'underlay-opacity': 0.3, 'underlay-padding': 4, 'underlay-shape': 'round-rectangle' } },
     ];
 }
 
@@ -527,7 +523,7 @@ function render({ fit = true } = {}) {
     for (const [id, position] of positions) {
         const c = COURSES.get(id);
         elements.push({
-            group: 'nodes', data: { id, label: nodeLabel(id), color: gradeColor(c.mean) }, position,
+            group: 'nodes', data: { id, label: nodeLabel(id) }, position,
             classes: [offeredNow(c) ? '' : 'past', view.required.has(id) ? 'required' : ''].join(' '),
         });
         const edge = (source, kind) => {
@@ -632,7 +628,7 @@ function placeBands() {
 function applyHighlight() {
     cy.batch(() => {
         cy.elements().removeClass('faded hl focus taken planned invalid');
-        // Recorded progress: passed and planned courses replace their grade colour
+        // Recorded progress: passed and planned courses
         cy.nodes().forEach(n => {
             const id = n.id();
             n.data('label', nodeLabel(id));
@@ -1626,7 +1622,6 @@ function renderChrome() {
     $('empty').hidden = !map || shown > 0;
     $('count').title = `שנה״ל ${hebrewYear(DATA.meta.latest_year)} · הנתונים עודכנו ${DATA.meta.generated}`;
     $('dataInfo').textContent = `הנתונים עודכנו ב־${DATA.meta.generated}.`;
-    $('gradeScale').textContent = `ממוצע ${GRADE_DOMAIN[0]}–${GRADE_DOMAIN[1]}+`;
     syncPanels();
 }
 
@@ -1751,8 +1746,9 @@ function setupCanvasTools() {
         const r = next.renderedPosition();
         if (r.x < 0 || r.y < 0 || r.x > cy.width() || r.y > cy.height()) cy.animate({ center: { eles: next }, duration: 200 });
     });
-    cy.on('mouseover', 'node', e => e.target.connectedEdges().addClass('peek'));
-    cy.on('mouseout', 'node', e => e.target.connectedEdges().removeClass('peek'));
+    const peek = n => n.connectedEdges().add(n.neighborhood('node')).add(n);
+    cy.on('mouseover', 'node', e => peek(e.target).addClass('peek'));
+    cy.on('mouseout', 'node', e => peek(e.target).removeClass('peek'));
 }
 
 // Programs (all bachelor's) are grouped by kind
