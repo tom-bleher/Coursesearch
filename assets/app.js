@@ -4,7 +4,7 @@
 const LEVEL_LABELS = { 1: 'שנה א׳', 2: 'שנה ב׳', 3: 'שנה ג׳', 4: 'מתקדמים ותואר שני' };
 const MAIN_TYPES = ['שיעור', 'סמינר', 'מעבדה', 'קריאה מודרכת'];
 const OTHER_TYPE = 'אחר';
-const GRADE_DOMAIN = [55, 90];           // fixed so colours mean the same in every view
+const GRADE_DOMAIN = [55, 90];           // fixed so grade colours mean the same for every course
 const READABLE_ZOOM = 0.75;              // below this node labels become hard to read (about 10px)
 const NODE_FONT = "Heebo, system-ui, sans-serif";
 const NODE_W = 160, NODE_H = 50, H_GAP = 24, LINE_GAP = 26, ROW_GAP = 64, BAND_GAP = 40;
@@ -713,7 +713,7 @@ function histogram(g) {
                 const bar = h('div', { class: 'bar', title: n }, h('span', {}, n || ''));
                 const [lo, hi] = DATA.meta.grade_bins[i].split('-').map(Number);
                 bar.style.height = `${(n / max) * 100}%`;
-                bar.style.background = gradeColor((lo + hi) / 2);  // same scale as the courses on the map
+                bar.style.background = gradeColor((lo + hi) / 2);  // same scale as the average
                 return bar;
             })),
         h('div', { class: 'hist-axis' }, DATA.meta.grade_bins.map(b => h('span', {}, b))),

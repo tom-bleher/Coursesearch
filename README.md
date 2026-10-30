@@ -8,7 +8,7 @@ An interactive map of courses, prerequisites, study programs and grades for all 
 
 - **Prerequisite graph.** Courses are grouped by study year. Edges show required courses, alternatives ("one of") and co-requisites. Click a course to highlight its whole prerequisite chain and the courses it unlocks.
 - **Study programs.** Pick any program in the official catalog, from every faculty and degree (bachelor's, master's and more), or a joint program. Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
-- **Grades.** A coloured strip on each course shows the average final grade (מועד קובע) over the years for which TAU Factor has grades. The course card has the distribution and a per-semester breakdown.
+- **Grades.** The course card shows the average final grade (מועד קובע) over the years for which TAU Factor has grades, its distribution and a per-semester breakdown.
 - **My degree.** Pick a faculty and a program (and the catalog year you started in) to get your degree as a checklist, organized like the official catalog: years, their required and elective parts, and each part's courses.
   - Mark courses as passed (a whole mandatory semester at once), add your grade, or plan a course for a semester. Requirements without a course list, such as "שאר רוח", take credits entered by hand.
   - Progress is shown for the whole degree, each year and each part, in credit points (a course listed in several parts counts toward one), with your credit-weighted average.
