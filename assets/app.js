@@ -552,12 +552,11 @@ function render({ fit = true } = {}) {
     if (!$('details').hidden) renderDetails();  // e.g. the course may have left the graph
     renderChrome();  // before fitting: it sets the body classes the legend's size depends on
     if (fit) fitGraph(cy.nodes());
+    else limitZoom();
 }
 
-// Fit nodes into the part of the viewport not covered by band labels (right) or the details panel.
-// Large graphs stop at a readable zoom and start at the top (or at `anchor`); `whole` shrinks to show everything.
-function fitGraph(eles, animate = false, { whole = false, anchor = null } = {}) {
-    if (!eles.length) return;
+// The part of the viewport not covered by band labels (right), the details panel, the tip or the tools
+function freeArea() {
     const pad = 32, mobile = MOBILE.matches;
     const panel = $('details');
     const gutterNow = mobile || !gutter ? 0 : gutter + 24;
@@ -567,7 +566,22 @@ function fitGraph(eles, animate = false, { whole = false, anchor = null } = {}) 
     // keep clear of the zoom and legend (desktop) or the bottom sheet (mobile)
     const tools = document.querySelector('.canvas-tools').offsetHeight;
     const bottom = pad + (!panel.hidden && mobile ? panel.offsetHeight + 8 : tools);
-    const w = Math.max(80, cy.width() - left - pad - gutterNow), hgt = Math.max(80, cy.height() - top - bottom);
+    return { left, top, w: Math.max(80, cy.width() - left - pad - gutterNow), hgt: Math.max(80, cy.height() - top - bottom) };
+}
+
+// Zooming out stops a little past where the whole graph fits
+function limitZoom() {
+    if (!cy.nodes().length) return;
+    const { w, hgt } = freeArea(), bb = cy.nodes().boundingBox();
+    cy.minZoom(0.8 * Math.min(1, w / bb.w, hgt / bb.h));
+}
+
+// Fit nodes into the free area.
+// Large graphs stop at a readable zoom and start at the top (or at `anchor`); `whole` shrinks to show everything.
+function fitGraph(eles, animate = false, { whole = false, anchor = null } = {}) {
+    if (!eles.length) return;
+    const { left, top, w, hgt } = freeArea();
+    limitZoom();
     const bb = eles.boundingBox();
     const zoom = Math.max(whole ? 0 : READABLE_ZOOM, Math.min(1.3, w / bb.w, hgt / bb.h));
     // centred when it fits, otherwise from the start (right) edge
@@ -1862,7 +1876,7 @@ async function main() {
     readPalette();
     cy = cytoscape({
         container: $('cy'), style: graphStyle(), layout: { name: 'preset' },
-        minZoom: 0.08, maxZoom: 2.5, boxSelectionEnabled: false, autoungrabify: true,
+        maxZoom: 2.5, boxSelectionEnabled: false, autoungrabify: true,
     });
     cy.on('tap', 'node', e => {
         dismissHint();  // the tip has done its job
@@ -1870,7 +1884,7 @@ async function main() {
     });
     cy.on('tap', e => { if (e.target === cy) select(null); });
     cy.on('viewport', placeBands);
-    cy.on('resize', drawBands);
+    cy.on('resize', () => { drawBands(); limitZoom(); });
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         readPalette();
         cy.style(graphStyle());
