@@ -504,6 +504,7 @@ body.has-progress .progress-only { display: flex !important; }
 }
 .panel .close { position: absolute; top: 16px; inset-inline-end: 16px; }
 .panel h2 { font-size: 18px; font-weight: 600; line-height: 1.35; padding-inline-end: 36px; }
+.panel h2:focus { outline: none; }  /* focused by script, to start reading a new card from its title */
 .panel h3 { font-size: 12.5px; font-weight: 500; color: var(--muted); margin: 22px 0 8px; }
 .panel p { line-height: 1.6; }
 .card-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }

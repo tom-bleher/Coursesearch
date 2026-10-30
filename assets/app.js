@@ -723,7 +723,7 @@ function courseButton(id) {
         inData
             ? h('button', { class: `course-link${state.taken.has(id) ? ' done' : state.plan.has(id) ? ' planned' : ''}`, onclick: () => select(id, { focus: true }) }, h('bdi', {}, courseName(id)))
             : h('label', { class: 'check external', title: 'קורס מחוץ לאתר: סמנו אם עברתם אותו' },
-                h('input', { type: 'checkbox', checked: state.taken.has(id), onchange: () => toggleTaken(id) }),
+                h('input', { type: 'checkbox', checked: state.taken.has(id), 'data-focus-key': `external:${id}`, onchange: () => toggleTaken(id) }),
                 h('bdi', {}, courseName(id))),
         ' ', h('span', { class: 'course-id' }, formatId(id)));
 }
@@ -765,13 +765,45 @@ function statBox(value, label, swatch) {
     return h('div', { class: 'stat' }, h('b', {}, sw, String(value)), h('span', {}, label));
 }
 
+// The card is rebuilt on every change. Keyboard focus stays on the same control (data-focus-key),
+// moves to the heading of a newly shown card, and goes back where it came from when the card closes.
+let cardOpener = null, cardShown = null;
 function renderDetails() {
+    const panel = $('details'), active = document.activeElement, inside = panel.contains(active);
+    if (panel.hidden) cardOpener = { el: active, key: active?.dataset?.focusKey };
+    drawDetails();
+    const shown = panel.hidden ? null : state.selected || JSON.stringify(state.info);
+    if (shown !== cardShown) panel.scrollTop = 0;
+    if (inside && panel.hidden) returnFocus();
+    else if (inside && !active.isConnected) {
+        const key = shown === cardShown && active.dataset.focusKey;
+        const same = key && panel.querySelector(`[data-focus-key="${CSS.escape(key)}"]`);
+        if (same) same.focus(); else focusCard();
+    }
+    cardShown = shown;
+    syncPanels();
+}
+
+function focusCard() {
+    const heading = !$('details').hidden && $('details').querySelector('h2');
+    if (!heading) return;
+    heading.tabIndex = -1;
+    heading.focus({ preventScroll: true });
+}
+
+function returnFocus() {
+    const { el, key } = cardOpener || {};
+    const usable = t => t && t !== document.body && t.isConnected && !t.closest('[inert]') && (t.checkVisibility?.() ?? true);
+    [el, key && document.querySelector(`[data-focus-key="${CSS.escape(key)}"]`), state.view === 'map' && $('cy')]
+        .find(usable)?.focus({ preventScroll: true });
+}
+
+function drawDetails() {
     const panel = $('details');
     const c = state.selected && COURSES.get(state.selected);
     if (!c) {
         if (state.info && view.program) renderProgramInfo();
         else panel.hidden = true;
-        syncPanels();
         return;
     }
 
@@ -799,11 +831,11 @@ function renderDetails() {
         h('div', { class: 'plan-box' },
             h('div', { class: 'plan-row' },
                 h('label', { class: 'check' },
-                    h('input', { type: 'checkbox', checked: state.taken.has(c.id), onchange: () => toggleTaken(c.id) }),
+                    h('input', { type: 'checkbox', checked: state.taken.has(c.id), 'data-focus-key': 'card:taken', onchange: () => toggleTaken(c.id) }),
                     h('span', {}, 'עברתי')),
                 state.taken.has(c.id)
                     ? h('label', { class: 'check' }, h('span', {}, 'ציון'), gradeInput(c.id))
-                    : h('div', { class: 'check' }, h('span', {}, 'מתוכנן ל־'), planPicker(c.id, '—').el)),
+                    : h('div', { class: 'check' }, h('span', {}, 'מתוכנן ל־'), planPicker(c.id, '—', 'card:plan').el)),
             state.plan.has(c.id) ? planIssues(c.id, state.plan.get(c.id)).map(t => h('p', { class: 'warn' }, `⚠ ${t}`))
                 : state.taken.size > 0 && !state.taken.has(c.id) && h('p', { class: canTake(c, state.taken) ? 'ok' : 'warn' },
                     canTake(c, state.taken) ? '✓ עמדת בדרישות' : `חסר: ${reqText(unmet(c.reqT, meets(state.taken)))}`)),
@@ -832,8 +864,6 @@ function renderDetails() {
         dependents.length > 0 && [h('h3', {}, `פותח את (${dependents.length})`), courseList(dependents, 5)],
     ));
     panel.hidden = false;
-    panel.scrollTop = 0;
-    syncPanels();
 }
 
 // A course missing from the map: the map of its academic unit, with filters that let it show
@@ -920,7 +950,6 @@ function renderProgramInfo() {
     }
     $('detailsBody').replaceChildren(h('div', {}, body));
     $('details').hidden = false;
-    $('details').scrollTop = 0;
 }
 
 // Track whether a side panel is open (canvas tools move out of its way)
@@ -1277,7 +1306,7 @@ function courseRow(id, cat, home) {
         h('label', { class: 'row-check' },
             h('input', { type: 'checkbox', checked: taken, 'data-focus-key': `${key}:taken`, 'aria-label': `עברתי: ${courseName(id)}`, onchange: () => toggleTaken(id) })),
         h('div', { class: 'row-main' },
-            c ? h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, c.name)) : h('bdi', {}, courseName(id)),
+            c ? h('button', { class: 'course-link', 'data-focus-key': `${key}:name`, onclick: () => select(id) }, h('bdi', {}, c.name)) : h('bdi', {}, courseName(id)),
             h('span', { class: 'course-id' }, formatId(id.slice(0, 8))),
             pills.length > 0 && h('div', { class: 'pills' }, pills)),
         h('span', { class: 'row-credits', title: c?.credits ? null : 'אין נתוני נקודות זכות' }, c?.credits ? `${c.credits} ש״ס` : '—'),
@@ -1313,7 +1342,7 @@ function timeline() {
         column('עברתי', `${passed.length} קורסים · ${creditsOf(passed)} ש״ס`, passed, {
             empty: 'סמנו קורסים שעברתם ברשימה.',
             item: id => h('li', { class: 'term-item' },
-                h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, courseName(id))),
+                h('button', { class: 'course-link', 'data-focus-key': `term:${id}`, onclick: () => select(id) }, h('bdi', {}, courseName(id))),
                 h('span', { class: 'muted small' }, [COURSES.get(id).credits && `${COURSES.get(id).credits} ש״ס`, state.grades.has(id) && `ציון ${state.grades.get(id)}`].filter(Boolean).join(' · '))),
         }, 'passed'),
         h('div', { class: 'terms' }, planSemesters().map(sem => {
@@ -1325,7 +1354,7 @@ function timeline() {
                     const issues = planIssues(id, sem);
                     return h('li', { class: `term-item${issues.length ? ' invalid' : ''}` },
                         h('div', { class: 'term-row' },
-                            h('button', { class: 'course-link', onclick: () => select(id) }, h('bdi', {}, courseName(id))),
+                            h('button', { class: 'course-link', 'data-focus-key': `term:${id}`, onclick: () => select(id) }, h('bdi', {}, courseName(id))),
                             h('button', { class: 'btn btn-icon btn-small', 'aria-label': `הסרת ${courseName(id)} מהתכנון`, 'data-focus-key': `rm:${sem}:${id}`, onclick: () => setPlan(id, null) }, '×')),
                         h('span', { class: 'muted small' }, COURSES.get(id).credits ? `${COURSES.get(id).credits} ש״ס` : ''),
                         issues.map(t => h('span', { class: 'pill warn', title: t }, t)));
@@ -1563,7 +1592,7 @@ function setupSearch() {
     let results = [], active = -1;
 
     const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); active = -1; };
-    const choose = id => { close(); input.value = ''; input.blur(); select(id, { focus: true }); };
+    const choose = id => { close(); input.value = ''; select(id, { focus: true }); focusCard(); };
     const paint = () => {
         [...list.children].forEach((li, i) => li.setAttribute('aria-selected', i === active));
         if (results[active]) input.setAttribute('aria-activedescendant', `sr-${active}`);

@@ -121,6 +121,36 @@ def test_search_ranks_exact_name_first(open_page):
     assert page.errors == []
 
 
+def test_course_card_keeps_keyboard_focus(open_page):
+    page = open_page(UNIT)
+    focused = "document.activeElement.closest('#details') && (document.activeElement.dataset.focusKey || document.activeElement.tagName)"
+    page.fill("#search", "0366-1112")
+    page.keyboard.press("Enter")
+    page.wait_for_selector("#details:not([hidden])")
+    assert page.evaluate(focused) == "H2"  # a course opened from the search is read from its title
+    # the card is rebuilt on every change; focus stays on the control that made it
+    page.focus("#details input[type=checkbox]")
+    page.keyboard.press("Space")
+    assert page.evaluate("state.taken.has('03661112')") and page.evaluate(focused) == "card:taken"
+    page.keyboard.press("Space")
+    page.focus("#details .picker-btn")
+    page.keyboard.press("ArrowDown")
+    page.keyboard.press("ArrowDown")
+    page.keyboard.press("Enter")
+    sem = page.evaluate("state.plan.get('03661112')")
+    assert sem and page.evaluate(focused) == "card:plan"
+    assert page.get_attribute("#details .picker-btn", "aria-label").endswith(page.evaluate(f"semOption('{sem}')"))
+    # a related course replaces the card: focus moves to its title
+    page.focus("#details .course-link")
+    page.keyboard.press("Enter")
+    assert page.evaluate("state.selected") != "03661112" and page.evaluate(focused) == "H2"
+    # closing the card returns focus to where it was opened from
+    page.focus("#detailsClose")
+    page.keyboard.press("Enter")
+    assert page.is_hidden("#details") and page.evaluate("document.activeElement.id") == "search"
+    assert page.errors == []
+
+
 def test_program_view(open_page):
     page = open_page("#program=תוכנית חד-חוגית בפיזיקה&view=map")
     assert page.is_hidden("#sheet")
