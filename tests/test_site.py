@@ -530,6 +530,10 @@ FAKE_CLOUD = """remote => {
     cloud.api = {
         load: async () => window.fake.remote,
         save: async d => { window.fake.saved.push(d); window.fake.remote = d; },
+        update: async d => {
+            if (!window.fake.remote) throw Object.assign(new Error('No document'), { code: 'not-found' });
+            window.fake.saved.push(d); window.fake.remote = d;
+        },
         remove: async () => { window.fake.remote = null; },
         signOut: async () => onCloudUser(null),
         signIn: async () => {},
@@ -657,6 +661,51 @@ def test_sign_out_keeps_pending_change(open_page):
     page.evaluate("(async () => { window.confirm = () => true; toggleTaken('03661102'); await cloudSignOut({ deleteData: true }); })()")
     page.wait_for_timeout(1000)
     assert page.evaluate("window.fake.remote") is None
+    assert page.errors == []
+
+
+def test_cloud_data_deleted_elsewhere(open_page):
+    page = open_page()
+    # A device that synced before finds the account's copy gone: it signs out and clears, without uploading
+    page.evaluate(FAKE_CLOUD, None)
+    page.evaluate("toggleTaken('03661101'); store.set(SYNCED_KEY, 'u1'); onCloudUser({ uid: 'u1', name: 'Test User' })")
+    page.wait_for_function("!cloud.user && state.taken.size === 0")
+    assert page.evaluate("[window.fake.remote, window.fake.saved.length]") == [None, 0]
+    assert "נמחקו" in page.inner_text("#toast")
+    # ...and so does a device that's open when it happens, on its next edit
+    page.evaluate("toggleTaken('03661101'); onCloudUser({ uid: 'u1', name: 'Test User' })")
+    page.wait_for_function("cloud.status === 'מסונכרן' && window.fake.remote")
+    page.evaluate("window.fake.remote = null; toggleTaken('03661102')")
+    page.wait_for_function("!cloud.user && state.taken.size === 0")
+    assert page.evaluate("window.fake.remote") is None
+    assert page.errors == []
+
+
+def test_sync_conflicts(open_page):
+    page = open_page()
+    sync = "onCloudUser({ uid: 'u1', name: 'Test User' })"
+    synced = "cloud.status === 'מסונכרן'"
+    page.evaluate(FAKE_CLOUD, {"taken": ["03661101"], "plan": {}, "program": "", "updatedAt": 1000})
+    page.evaluate(sync)
+    page.wait_for_function(synced)
+    # Another device's change is taken, though this device's clock is ahead
+    page.evaluate("store.set(UPDATED_KEY, 5000); store.set(SEEN_KEY, 5000)")
+    page.evaluate("window.fake.remote = { taken: ['03661102'], plan: {}, program: '', updatedAt: 2000 }")
+    page.evaluate(sync)
+    page.wait_for_function(f"{synced} && state.taken.has('03661102')")
+    # This device's change is kept, though the other device's clock is ahead
+    page.evaluate("window.fake.remote.updatedAt = Date.now() + 1e6; store.set(SEEN_KEY, window.fake.remote.updatedAt)")
+    page.evaluate("cloud.ready = false; toggleTaken('03661105')")
+    page.evaluate(sync)
+    page.wait_for_function(f"{synced} && window.fake.remote.taken.includes('03661105')")
+    assert page.evaluate("state.taken.has('03661105')")
+    # A change made while the account's copy loads isn't overwritten by it, and is pushed
+    page.evaluate("""() => { window.fake.remote = { taken: ['03661111'], plan: {}, program: '', updatedAt: Date.now() + 2e6 };
+        const load = cloud.api.load; cloud.api.load = () => new Promise(r => setTimeout(r, 300)).then(load); }""")
+    page.evaluate(sync)
+    page.evaluate("toggleTaken('03661112')")
+    page.wait_for_function(f"{synced} && window.fake.remote.taken.includes('03661112')")
+    assert page.evaluate("state.taken.has('03661112')")
     assert page.errors == []
 
 

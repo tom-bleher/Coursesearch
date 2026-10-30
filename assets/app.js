@@ -1442,7 +1442,8 @@ function openProgramDialog() {
 }
 
 // ── Cloud sync (enabled when assets/firebase-config.js provides a Firebase config) ──
-const cloud = { api: null, user: null, timer: null, status: '' };
+const cloud = { api: null, user: null, timer: null, status: '', ready: false };
+const SEEN_KEY = 'coursesearch_synced_at';  // the account copy's updatedAt when this device last synced
 
 function localProgress() {
     return {
@@ -1515,42 +1516,63 @@ function setSyncStatus(text) {
     renderAccount();
 }
 
+// Edits are pushed once the first sync after signing in is done. A push updates the account's copy,
+// so one deleted from another device isn't brought back from here.
 function pushSoon() {
-    if (!cloud.user) return;
+    if (!cloud.ready) return;
     clearTimeout(cloud.timer);
     setSyncStatus('שומר…');
     cloud.timer = setTimeout(async () => {
         cloud.timer = null;
         try {
-            await cloud.api.save(localProgress());
+            await upload(localProgress(), 'update');
             setSyncStatus('מסונכרן');
         } catch (err) {
+            if (err?.code === 'not-found') return cloudDeleted();
             console.error(err);
             setSyncStatus('שגיאת סנכרון');
         }
     }, 800);
 }
 
+async function upload(p, method = 'save') {
+    await cloud.api[method](p);
+    store.set(SEEN_KEY, p.updatedAt);
+}
+
 async function onCloudUser(user) {
     cloud.user = user;
+    cloud.ready = false;
     renderAccount();
     if (!user) return;
     try {
         setSyncStatus('מסנכרן…');
+        const synced = store.get(SYNCED_KEY, null) === user.uid, before = store.get(UPDATED_KEY, 0);
         const remote = await cloud.api.load(), local = localProgress();
+        if (!remote && synced) return cloudDeleted();
         if (!remote) {
-            await cloud.api.save({ ...local, updatedAt: local.updatedAt || Date.now() });
-        } else if (store.get(SYNCED_KEY, null) !== user.uid) {
+            store.set(UPDATED_KEY, local.updatedAt || Date.now());
+            await upload(localProgress());
+        } else if (!synced) {
             const merged = mergeProgress(local, remote);
             await applyProgress(merged);
-            await cloud.api.save(merged);
-        } else if ((remote.updatedAt || 0) >= (local.updatedAt || 0)) {
-            await applyProgress(remote);
+            await upload(merged);
         } else {
-            await cloud.api.save(local);
+            // Whichever side changed since this device last synced wins. If both did, the later change
+            // does, and changes made on this device while loading always do.
+            const seen = store.get(SEEN_KEY, null);
+            const localWins = local.updatedAt !== seen && (remote.updatedAt === seen
+                || local.updatedAt !== before || local.updatedAt > remote.updatedAt);
+            if (localWins) await upload(local);
+            else if (remote.updatedAt !== seen) {
+                store.set(SEEN_KEY, remote.updatedAt);
+                await applyProgress(remote);
+            }
         }
         store.set(SYNCED_KEY, user.uid);
+        cloud.ready = true;
         setSyncStatus('מסונכרן');
+        if (store.get(UPDATED_KEY, 0) !== store.get(SEEN_KEY, null)) pushSoon();  // changed while syncing
     } catch (err) {
         console.error(err);
         setSyncStatus('שגיאת סנכרון');
@@ -1566,14 +1588,30 @@ async function cloudSignOut({ deleteData = false } = {}) {
     cloud.timer = null;
     try {
         if (deleteData) await cloud.api.remove();
-        else if (pending) await cloud.api.save(localProgress());  // don't lose a change made just before
+        else if (pending) {  // don't lose a change made just before
+            await upload(localProgress(), 'update').catch(err => { if (err?.code !== 'not-found') throw err; });
+        }
         await cloud.api.signOut();
     } catch (err) {
         console.error(err);
         alert('הפעולה נכשלה. נסו שוב.');
         return;
     }
+    await clearDevice();
+}
+
+// The account's copy was deleted from another device: sign out here too, as there
+async function cloudDeleted() {
+    clearTimeout(cloud.timer);
+    cloud.timer = null;
+    await cloud.api.signOut().catch(err => console.error(err));
+    await clearDevice();
+    toast('הנתונים נמחקו מהענן במכשיר אחר');
+}
+
+async function clearDevice() {
     store.set(SYNCED_KEY, null);
+    store.set(SEEN_KEY, null);
     await applyProgress({ taken: [], plan: {}, grades: {}, manual: {}, program: '', updatedAt: 0 }, { force: true });
 }
 

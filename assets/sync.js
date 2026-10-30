@@ -3,7 +3,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut }
     from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, deleteDoc }
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc }
     from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-lite.js';
 
 export function createCloud(config, onUser) {
@@ -16,6 +16,7 @@ export function createCloud(config, onUser) {
         signOut: () => signOut(auth),
         load: async () => { const snap = await getDoc(ref()); return snap.exists() ? snap.data() : null; },
         save: data => setDoc(ref(), data),
+        update: data => updateDoc(ref(), data),  // fails with code 'not-found' if the document is gone
         remove: () => deleteDoc(ref()),
     };
 }
