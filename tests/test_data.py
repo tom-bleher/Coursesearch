@@ -63,6 +63,22 @@ def test_plan_credits_prefers_newest_year():
     assert ud.plan_credits([newest, None, older]) == {"A": 4, "C": 2.5}
 
 
+def test_check_programs_kept(tmp_path, monkeypatch):
+    monkeypatch.setattr(ud, "DATA", tmp_path)
+    old = {f"P{i}": {"id": str(i)} for i in range(20)}
+    files = {f"programs/{i}.json": {"previous": {"2024": {}, "2023": {}}} for i in range(20)}
+    (tmp_path / "programs").mkdir()
+    (tmp_path / "index.json").write_text(json.dumps({"programs": old}))
+    for rel, content in files.items():
+        (tmp_path / rel).write_text(json.dumps(content))
+    ud.check_programs_kept(old, files)  # unchanged
+    ud.check_programs_kept(dict(list(old.items())[1:]), files)  # one program gone
+    with pytest.raises(SystemExit):  # many programs gone
+        ud.check_programs_kept(dict(list(old.items())[5:]), files)
+    with pytest.raises(SystemExit):  # earlier catalog editions gone
+        ud.check_programs_kept(old, {rel: {} for rel in files})
+
+
 @pytest.mark.parametrize("name, expected", [
     ("שנה א' - סמסטר ב' - קורסי חובה", (1, 2, True)),
     ("שנים ב'+ ג' - קורסי בחירה במתמטיקה", (2, None, False)),
@@ -141,6 +157,12 @@ def test_grade_stats_are_consistent(index):
     assert with_grades > 2000
 
 
+def test_grade_means_are_not_missing(index):
+    # TAU Factor gives a mean of 0 for semesters it has no mean for; a course average of 0 means it leaked
+    assert not [cid for cid, c in index["courses"].items() if c.get("mean") == 0]
+    assert 85 < index["courses"]["06621137"]["mean"] < 95  # mostly 80-100, but 0 reported for 2014-2015
+
+
 def test_credits_are_numeric(index):
     assert all(isinstance(c["credits"], (int, float)) and c["credits"] > 0
                for c in index["courses"].values() if "credits" in c)
@@ -155,6 +177,16 @@ def test_programs(index):
     assert len(programs) > 150
     for name in programs:
         assert program(index, name)["categories"], name
+
+
+def test_program_courses_resolve(index):
+    ids = [cid for name in index["programs"] for p in [program(index, name)]
+           for edition in [p, *p.get("previous", {}).values()] for cat in edition["categories"] for cid in cat["courses"]]
+    assert all(len(cid) == 8 and cid.isdigit() for cid in ids), {cid for cid in ids if len(cid) != 8}
+    assert sum(cid in index["courses"] for cid in ids) / len(ids) > 0.97
+    law = program(index, "תוכנית חד-חוגית במשפטים")  # its catalog lists courses with their group number
+    required = [cid for cat in law["categories"] if cat["required"] for cid in cat["courses"]]
+    assert required and all(index["courses"].get(cid, {}).get("credits") for cid in required)
 
 
 def test_official_catalog_programs(index):
