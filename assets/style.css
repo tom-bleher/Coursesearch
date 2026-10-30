@@ -5,8 +5,7 @@
     --surface-2: #f1f5f9;
     --subtle: #f8fafc;
     --text: #0f172a;
-    --muted: #64748b;
-    --faint: #94a3b8;
+    --muted: #5f6f85;
     --border: #e2e8f0;
     --border-strong: #cbd5e1;
     --accent: #2563eb;
@@ -14,13 +13,13 @@
     --accent-border: #bfdbfe;
     --edge: #94a3b8;
     --node: #ffffff;
-    --node-border: #cbd5e1;
-    --taken: #16a34a;
+    --node-border: #8594a9;  /* 3:1 on the canvas: the dashed "not offered" border is the only cue */
+    --taken: #15803d;
     --taken-bg: #dcfce7;
     --open: #2563eb;
     --planned-bg: #dbeafe;
     --warn: #dc2626;
-    --ok: #16a34a;
+    --ok: #15803d;
     --grade-low: #ef4444;
     --grade-mid: #f59e0b;
     --grade-high: #22c55e;
@@ -37,7 +36,6 @@
         --subtle: #0b1222;
         --text: #f1f5f9;
         --muted: #94a3b8;
-        --faint: #64748b;
         --border: #1e293b;
         --border-strong: #334155;
         --accent: #60a5fa;
@@ -45,7 +43,7 @@
         --accent-border: rgba(96, 165, 250, 0.35);
         --edge: #64748b;
         --node: #0f172a;
-        --node-border: #334155;
+        --node-border: #64748b;
         --taken: #4ade80;
         --taken-bg: #14532d;
         --open: #60a5fa;
@@ -179,8 +177,8 @@ kbd {
 }
 .chip:hover { background: var(--surface-2); }
 .chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
-.chip .count { color: var(--faint); font-size: 12px; }
-.chip[aria-pressed="true"] .count { color: inherit; opacity: 0.7; }
+.chip .count { color: var(--muted); font-size: 12px; }
+.chip[aria-pressed="true"] .count { color: inherit; }
 
 .check { display: flex; gap: 8px; align-items: center; cursor: pointer; }
 .check input { width: 16px; height: 16px; accent-color: var(--accent); }
@@ -226,7 +224,7 @@ fieldset > legend, .field > span { font-size: 12.5px; font-weight: 500; color: v
 .picker-list [role="option"] { padding: 6px 10px; border-radius: 4px; cursor: pointer; line-height: 1.45; }
 .picker-list .active { background: var(--surface-2); }
 .picker-list [aria-selected="true"] { color: var(--accent); font-weight: 500; }
-.picker-group { padding: 10px 10px 4px; font-size: 12px; font-weight: 500; color: var(--faint); }
+.picker-group { padding: 10px 10px 4px; font-size: 12px; font-weight: 500; color: var(--muted); }
 .picker-empty { padding: 10px; color: var(--muted); }
 
 /* ── Header: the same bar on every tab; the map adds its own bar under it ── */
@@ -288,9 +286,9 @@ fieldset > legend, .field > span { font-size: 12.5px; font-weight: 500; color: v
     background: var(--bg);
     transition: border-color 0.15s, box-shadow 0.15s;
 }
-.search input::placeholder { color: var(--faint); }
+.search input::placeholder { color: var(--muted); }
 .search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.search-icon { position: absolute; top: 50%; inset-inline-start: 12px; transform: translateY(-50%); color: var(--faint); pointer-events: none; }
+.search-icon { position: absolute; top: 50%; inset-inline-start: 12px; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
 .search-kbd { position: absolute; top: 50%; inset-inline-end: 10px; transform: translateY(-50%); pointer-events: none; }
 .search input:focus ~ .search-kbd, .search input:not(:placeholder-shown) ~ .search-kbd { display: none; }
 .search-results {
@@ -532,7 +530,7 @@ body.has-progress .progress-only { display: flex !important; }
 .course-link:hover { text-decoration: underline; }
 .course-link.done::after { content: " ✓"; color: var(--taken); }
 .course-link.planned::after { content: " ◷"; color: var(--open); }
-.course-id { color: var(--faint); font-size: 12px; direction: ltr; unicode-bidi: isolate; }
+.course-id { color: var(--muted); font-size: 12px; direction: ltr; unicode-bidi: isolate; }
 details.more summary, details.about summary { cursor: pointer; font-size: 13px; color: var(--accent); margin-top: 6px; }
 details.more[open] summary { margin-bottom: 4px; }
 details.about summary { margin-top: 14px; }
@@ -561,7 +559,7 @@ details.about summary { margin-top: 14px; }
 .hist .bar { flex: 1; border-radius: 2px 2px 0 0; position: relative; min-height: 1px; }
 .hist .bar span { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--muted); }
 .hist-axis { display: flex; gap: 3px; direction: ltr; border-top: 1px solid var(--border); padding-top: 2px; }
-.hist-axis span { flex: 1; font-size: 9.5px; color: var(--faint); text-align: center; }
+.hist-axis span { flex: 1; font-size: 10px; white-space: nowrap; color: var(--muted); text-align: center; }
 .trend { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 4px; margin-top: 8px; }
 .trend li { font-size: 12.5px; color: var(--muted); }
 .trend b { color: var(--text); font-weight: 600; }
