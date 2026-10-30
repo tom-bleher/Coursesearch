@@ -503,7 +503,7 @@ def test_accounts_hidden_without_config(open_page):
 FAKE_SYNC = """export function createCloud(config, onUser) {
     window.syncLoads = (window.syncLoads || 0) + 1;
     return { signIn: async () => {}, signOut: async () => onUser(null),
-             load: async () => null, save: async () => {}, remove: async () => {} };
+             load: async () => ({ taken: [], updatedAt: 1 }), save: async () => {}, update: async () => {}, remove: async () => {} };
 }"""
 
 
