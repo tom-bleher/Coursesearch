@@ -2005,7 +2005,8 @@ let step = null;      // the tab and card of the current history entry (null whi
 let linkRest = null;  // the current link without its course
 const stepKey = () => `${state.view}|${Boolean(state.selected)}`;
 
-function writeHash() {
+// The link to what's shown, without the course
+function link() {
     const p = new URLSearchParams();
     if (inProgram()) {
         p.set('program', state.program);
@@ -2013,6 +2014,11 @@ function writeHash() {
     }
     if (state.view === 'map' && !inProgram()) p.set('unit', [...state.depts].join(','));
     else if (state.view !== 'list') p.set('view', state.view);
+    return p;
+}
+
+function writeHash() {
+    const p = link();
     linkRest = String(p);
     if (state.selected) p.set('course', state.selected);
     history[step && step !== stepKey() ? 'pushState' : 'replaceState'](null, '', `#${p}`);
@@ -2127,16 +2133,17 @@ async function main() {
         render();
         if (initial) select(initial, { focus: true });
         else renderDetails();
+        linkRest = String(link());  // what's shown now, for the back button
+        step = stepKey();
     };
     await boot();
-    step = stepKey();
     // Back, forward or an edited link: a course card opens or closes in place; anything else reloads the link
     window.addEventListener('hashchange', () => {
         const p = new URLSearchParams(location.hash.slice(1)), course = p.get('course');
         p.delete('course');
         step = null;
         if (linkRest && String(p) === linkRest && (!course || COURSES.has(course))) select(course, { focus: state.view === 'map' });
-        else { state.selected = null; boot().then(() => { step = stepKey(); }); }
+        else { state.selected = null; linkRest = null; boot(); }  // until it's shown, later steps reload too
     });
     $('status').classList.add('done');
 }

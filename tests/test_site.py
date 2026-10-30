@@ -441,10 +441,12 @@ def test_back_button(open_page):
     assert page.evaluate("[state.view, state.selected]") == ["map", None]
     page.go_back()
     page.wait_for_function("state.view === 'list'")
-    page.go_forward()
-    page.go_forward()
+    page.evaluate("history.go(2)")  # forward twice at once
     page.wait_for_selector("#details:not([hidden])")
     assert page.evaluate("[state.view, state.selected]") == ["map", "03661101"]
+    page.go_back()
+    page.wait_for_selector("#details", state="hidden")
+    assert page.evaluate("state.view") == "map"
     assert page.errors == []
 
 
