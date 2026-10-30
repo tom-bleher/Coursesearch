@@ -554,6 +554,22 @@ def test_cloud_sync(open_page):
     assert page.errors == []
 
 
+def test_cleared_grades_sync(open_page):
+    page = open_page()
+    page.evaluate(FAKE_CLOUD, {"taken": ["03661101"], "plan": {}, "program": "", "updatedAt": 1,
+                               "grades": {"03661101": 90}, "manual": {"שאר רוח": 4}})
+    page.evaluate("store.set(SYNCED_KEY, 'u1'); onCloudUser({ uid: 'u1', name: 'Test User' })")
+    page.wait_for_function("cloud.status === 'מסונכרן' && state.grades.size === 1")
+    # Clearing the last grade and hand-entered credits reaches the account, as empty maps...
+    page.evaluate("setGrade('03661101', ''); setManual('שאר רוח', '')")
+    page.wait_for_function("window.fake.saved.length && !Object.keys(window.fake.remote.grades).length")
+    assert page.evaluate("window.fake.remote.manual") == {}
+    # ...so another device drops its copies instead of keeping (and pushing back) the old ones
+    page.evaluate("state.grades.set('03661101', 90); applyProgress(window.fake.remote)")
+    assert page.evaluate("state.grades.size") == 0
+    assert page.errors == []
+
+
 def test_sign_out_keeps_pending_change(open_page):
     page = open_page()
     page.evaluate(FAKE_CLOUD, None)

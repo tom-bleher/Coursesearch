@@ -1429,15 +1429,12 @@ function openProgramDialog() {
 // ── Cloud sync (enabled when assets/firebase-config.js provides a Firebase config) ──
 const cloud = { api: null, user: null, timer: null, status: '' };
 
-// Grades and hand-entered credits are sent only when there are any (accounts from before they existed stay valid)
 function localProgress() {
-    const p = {
+    return {
         taken: [...state.taken], plan: Object.fromEntries(state.plan),
+        grades: Object.fromEntries(state.grades), manual: Object.fromEntries(state.manual),
         program: store.get(PROGRAM_KEY, '') || '', start: state.start, updatedAt: store.get(UPDATED_KEY, 0),
     };
-    if (state.grades.size) p.grades = Object.fromEntries(state.grades);
-    if (state.manual.size) p.manual = Object.fromEntries(state.manual);
-    return p;
 }
 
 // First sync of a device with an account: union of passed courses; the newer side wins planned conflicts
@@ -1447,8 +1444,8 @@ function mergeProgress(local, remote) {
     const plan = Object.fromEntries(Object.entries({ ...(older.plan || {}), ...(newer.plan || {}) })
         .filter(([id]) => !taken.includes(id)));
     const grades = { ...(older.grades || {}), ...(newer.grades || {}) }, manual = { ...(older.manual || {}), ...(newer.manual || {}) };
-    return { taken, plan, program: newer.program || older.program || '', start: newer.start || older.start || '', updatedAt: Date.now(),
-        ...(Object.keys(grades).length && { grades }), ...(Object.keys(manual).length && { manual }) };
+    return { taken, plan, grades, manual, program: newer.program || older.program || '', start: newer.start || older.start || '',
+        updatedAt: Date.now() };
 }
 
 function applyProgress(p) {
