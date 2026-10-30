@@ -482,6 +482,18 @@ def test_narrow_screens(open_page, width):
     assert 0 < x < width and top < top + y < page.locator("#details").bounding_box()["y"]
 
 
+def test_failed_details_load_is_retried(open_page):
+    page = open_page(UNIT)
+    failures = [1]
+    page.route("**/data/courses/0366.json", lambda route: route.abort() if failures and failures.pop() else route.continue_())
+    page.evaluate("select('03661102')")
+    page.wait_for_function("COURSES.get('03661102').loaded === false && !detailFiles.has('0366')")
+    assert not failures
+    page.evaluate("select(null); select('03661102')")
+    page.wait_for_function("COURSES.get('03661102').lecturers")
+    assert all("0366" in e or "Failed" in e for e in page.errors)
+
+
 def test_accounts_hidden_without_config(open_page):
     page = open_page()
     assert page.is_hidden("#accountBtn")

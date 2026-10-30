@@ -817,7 +817,10 @@ function drawDetails() {
     const g = c.grades;  // with the rest of the details, loaded on demand
     if (!c.loaded) {
         c.loaded = true;
-        loadDetails(c.id).then(() => { if (state.selected === c.id) renderDetails(); });
+        loadDetails(c.id).then(ok => {
+            if (!ok) c.loaded = false;  // tried again the next time the card is drawn
+            else if (state.selected === c.id) renderDetails();
+        });
     }
 
     const facts = [['מרצים', c.lecturers?.join(', ')], ['הערכה', c.exams?.join(', ')], ['בתוכנית', cats?.join(' · ')]]
@@ -2044,15 +2047,16 @@ async function loadProgram(name) {
     Object.assign(p, await res.json());
 }
 
-// Details come in one file per unit (the course number's first four digits)
+// Details come in one file per unit (the course number's first four digits). Resolves to whether
+// they loaded; a failed load is forgotten, to be tried again.
 const detailFiles = new Map();
 function loadDetails(id) {
     const unit = id.slice(0, 4);
     if (!detailFiles.has(unit)) {
         detailFiles.set(unit, fetch(`data/courses/${unit}.json`)
-            .then(res => (res.ok ? res.json() : {}))
-            .then(details => Object.entries(details).forEach(([cid, d]) => Object.assign(COURSES.get(cid) || {}, d)))
-            .catch(err => console.error(err)));
+            .then(res => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.json(); })
+            .then(details => { Object.entries(details).forEach(([cid, d]) => Object.assign(COURSES.get(cid) || {}, d)); return true; })
+            .catch(err => { console.error(err); detailFiles.delete(unit); return false; }));
     }
     return detailFiles.get(unit);
 }
