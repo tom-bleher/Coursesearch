@@ -761,13 +761,11 @@ body.panel-open .sheet { inset-inline-end: var(--panel-w); }
 .pill {
     min-width: 0;
     max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;  /* long warnings wrap: phones have no tooltips */
     font-size: 11.5px;
-    line-height: 20px;
-    padding: 0 8px;
-    border-radius: 999px;
+    line-height: 16px;
+    padding: 2px 8px;
+    border-radius: 10px;
     background: var(--surface-2);
     color: var(--muted);
 }
