@@ -961,14 +961,18 @@ function syncPanels() {
 // `quiet` saves without re-rendering, for inputs that are still being edited
 function saveProgress({ quiet = false } = {}) {
     if (state.program) store.set(PROGRAM_KEY, state.program);
-    store.set(STORAGE_KEY, [...state.taken]);
-    store.set(PLAN_KEY, Object.fromEntries(state.plan));
-    store.set(GRADES_KEY, Object.fromEntries(state.grades));
-    store.set(MANUAL_KEY, Object.fromEntries(state.manual));
+    storeProgress();
     store.set(UPDATED_KEY, Date.now());
     pushSoon();
     if (quiet) renderSummary();
     else refreshProgress();
+}
+
+function storeProgress() {
+    store.set(STORAGE_KEY, [...state.taken]);
+    store.set(PLAN_KEY, Object.fromEntries(state.plan));
+    store.set(GRADES_KEY, Object.fromEntries(state.grades));
+    store.set(MANUAL_KEY, Object.fromEntries(state.manual));
 }
 
 function refreshProgress() {
@@ -1437,6 +1441,27 @@ function localProgress() {
     };
 }
 
+// Progress as stored (in the browser or the account), checked: malformed entries are dropped, and
+// course ids with a group number ("1411910101") become the course number ("14119101")
+const courseId = id => (/^\d{10}$/.test(id) ? id.slice(0, 8) : id);
+function validEntries(obj, valid, key = courseId) {
+    const out = new Map();
+    for (const [k, v] of Object.entries(obj && typeof obj === 'object' ? obj : {})) {
+        if (valid(v) && !out.has(key(k))) out.set(key(k), v);
+    }
+    return out;
+}
+function cleanProgress(p) {
+    // passed courses may be outside the dataset (prerequisites from other faculties)
+    const taken = new Set((Array.isArray(p.taken) ? p.taken : []).filter(id => typeof id === 'string').map(courseId));
+    const plan = validEntries(p.plan, sem => typeof sem === 'string' && /^\d{4}[ab]$/.test(sem));
+    const grades = validEntries(p.grades, g => Number.isFinite(g) && g >= 0 && g <= 100);
+    taken.forEach(id => plan.delete(id));
+    [...plan.keys()].forEach(id => COURSES.has(id) || plan.delete(id));
+    [...grades.keys()].forEach(id => taken.has(id) || grades.delete(id));
+    return { taken, plan, grades, manual: validEntries(p.manual, n => Number.isFinite(n) && n > 0, k => k) };
+}
+
 // First sync of a device with an account: union of passed courses; the newer side wins planned conflicts
 function mergeProgress(local, remote) {
     const [older, newer] = (remote.updatedAt || 0) > (local.updatedAt || 0) ? [local, remote] : [remote, local];
@@ -1449,17 +1474,9 @@ function mergeProgress(local, remote) {
 }
 
 function applyProgress(p) {
-    state.taken = new Set((p.taken || []).filter(id => typeof id === 'string'));  // may include courses outside the dataset
-    state.plan = new Map(Object.entries(p.plan || {}).filter(([id]) => COURSES.has(id) && !state.taken.has(id)));
     // A copy without grades or hand-entered credits (saved by an older version of the site) keeps the local ones
-    const grades = 'grades' in p ? p.grades : Object.fromEntries(state.grades);
-    const manual = 'manual' in p ? p.manual : Object.fromEntries(state.manual);
-    state.grades = new Map(Object.entries(grades || {}).filter(([id, g]) => state.taken.has(id) && typeof g === 'number'));
-    state.manual = new Map(Object.entries(manual || {}).filter(([, n]) => typeof n === 'number'));
-    store.set(STORAGE_KEY, [...state.taken]);
-    store.set(PLAN_KEY, Object.fromEntries(state.plan));
-    store.set(GRADES_KEY, Object.fromEntries(state.grades));
-    store.set(MANUAL_KEY, Object.fromEntries(state.manual));
+    Object.assign(state, cleanProgress({ grades: Object.fromEntries(state.grades), manual: Object.fromEntries(state.manual), ...p }));
+    storeProgress();
     store.set(PROGRAM_KEY, p.program || '');
     state.start = /^\d{4}$/.test(p.start || '') ? p.start : '';
     store.set(START_KEY, state.start);
@@ -2009,7 +2026,7 @@ async function main() {
         renderDetails();  // grade swatches and histogram bars use the new palette
     });
 
-    for (const id of state.plan.keys()) if (!COURSES.has(id)) state.plan.delete(id);
+    Object.assign(state, cleanProgress(localProgress()));
     setupControls();
     setupSearch();
     setupCanvasTools();

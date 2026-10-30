@@ -570,6 +570,29 @@ def test_cleared_grades_sync(open_page):
     assert page.errors == []
 
 
+def test_stored_progress_is_checked(open_page):
+    page = open_page()
+    # A malformed account copy loses only its bad entries
+    page.evaluate("""applyProgress({ taken: ['03661101', 7, null, '03661102'], updatedAt: 1,
+        plan: { '03661105': '2027c', '03661119': 2027, '03661111': ['2027a'], '03661112': '2027b' },
+        grades: { '03661101': 140, '03661102': '90', '03661111': 80 }, manual: { 'שאר רוח': -2, 'סדנה': 4 } })""")
+    assert sorted(page.evaluate("[...state.taken]")) == ["03661101", "03661102"]
+    assert page.evaluate("Object.fromEntries(state.plan)") == {"03661112": "2027b"}
+    assert page.evaluate("state.grades.size") == 0
+    assert page.evaluate("Object.fromEntries(state.manual)") == {"סדנה": 4}
+    # Course ids with a group number become course numbers, in the account copy and in the browser
+    page.evaluate("""applyProgress({ taken: ['0366110101', '03661101', '0366110201'], updatedAt: 1,
+        plan: { '0366111201': '2027b' }, grades: { '0366110101': 85 } })""")
+    assert sorted(page.evaluate("[...state.taken]")) == ["03661101", "03661102"]
+    assert page.evaluate("Object.fromEntries(state.plan)") == {"03661112": "2027b"}
+    assert page.evaluate("Object.fromEntries(state.grades)") == {"03661101": 85}
+    page.evaluate("store.set(STORAGE_KEY, ['0366110501']); store.set(PLAN_KEY, { '0366111101': '2027a' })")
+    page.reload()
+    page.wait_for_selector("#status.done")
+    assert page.evaluate("[[...state.taken], Object.fromEntries(state.plan)]") == [["03661105"], {"03661111": "2027a"}]
+    assert page.errors == []
+
+
 def test_sign_out_keeps_pending_change(open_page):
     page = open_page()
     page.evaluate(FAKE_CLOUD, None)
