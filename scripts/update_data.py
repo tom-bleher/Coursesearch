@@ -228,11 +228,13 @@ def plan_credits(plans_by_year):
                     for cid, c in ((info or {}).get("courses") or {}).items():
                         weight = number((c or {}).get("weight"))  # Arazim stores it as a string
                         if weight:
-                            credits.setdefault(cid, weight)
+                            credits.setdefault(cid[:8], weight)
     return credits
 
 
 def make_category(name, courses, count=None, credits=None, note=None):
+    # some programs (e.g. law) list each group: course number + 2-digit group
+    courses = list(dict.fromkeys(c[:8] for c in courses))
     name = re.sub(r"\s+", " ", name).strip()
     year, sem, required = parse_category(name)
     # Mandatory even when not labelled "חובה": every listed course is required, or the official
@@ -240,7 +242,7 @@ def make_category(name, courses, count=None, credits=None, note=None):
     required = required or ("בחירה" not in name and (count == len(courses)
                                                     or bool(re.search(r"קורסי\s+ה?חובה", (note or "")[:60]))))
     cat = {"name": name, "year": year, "sem": sem, "required": required, "count": count,
-           "credits": credits, "note": note, "courses": list(courses)}
+           "credits": credits, "note": note, "courses": courses}
     return {k: v for k, v in cat.items() if v not in (None, "")}
 
 
@@ -320,8 +322,7 @@ def catalog_program(shana, tcid, counts, faculty=None, safa="1"):
             if number(k.get("shaotuni")):
                 credits[k["kursid"][:8]] = number(k["shaotuni"])
         if courses and "שאר רוח" not in name:
-            # some programs (e.g. law) list each group: course number + 2-digit group
-            categories.append(make_category(name, dict.fromkeys(k["kursid"][:8] for k in courses),
+            categories.append(make_category(name, [k["kursid"] for k in courses],
                                             counts.get(norm_name(name)), credit_range(node.get("shaot")),
                                             html_text(node.get("hesber"))))
         for child in node.get("rama") or []:
