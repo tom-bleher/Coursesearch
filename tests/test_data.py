@@ -51,6 +51,12 @@ def test_semester_grades_sums_groups_without_aggregate():
     assert ud.semester_grades(groups) == {"mean": 70.0, "n": 4, "dist": [2] + [0] * 8 + [2]}
 
 
+def test_semester_grades_estimates_missing_mean():
+    # TAU Factor reports a mean of 0 for many semesters that have a distribution
+    groups = {"00": [{"moed": 0, "distribution": [0] * 6 + [2, 0, 2, 0], "mean": 0.0}]}
+    assert ud.semester_grades(groups)["mean"] == 87.0  # midpoints 82 and 92
+
+
 def test_plan_credits_prefers_newest_year():
     newest = {"F": {"P": {"cat": {"courses": {"A": {"weight": "4.0"}, "B": None}}}}}
     older = {"G": {"Q": {"cat": {"courses": {"A": {"weight": "3"}, "C": {"weight": "2.5"}}}, "empty": None}}}

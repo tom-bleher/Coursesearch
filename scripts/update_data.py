@@ -46,6 +46,7 @@ SCHEDULE_PAGE = "https://www.tau.ac.il/study-program?safa={safa}&shana={shana}&t
 PREVIOUS_CATALOGS = 2  # students follow the catalog of the year they started: keep the last two as well
 GRADE_BINS = ["0-49", "50-59", "60-64", "65-69", "70-74",
               "75-79", "80-84", "85-89", "90-94", "95-100"]
+BIN_MIDPOINTS = [sum(map(int, b.split("-"))) / 2 for b in GRADE_BINS]
 HEBREW_ORD = {"א": 1, "ב": 2, "ג": 3, "ד": 4}
 
 
@@ -140,16 +141,17 @@ def semester_grades(groups):
         return next((e for e in entries or [] if e.get("moed") == 0 and e.get("distribution")), None)
 
     entries = [final(groups["00"])] if "00" in groups else [final(v) for v in groups.values()]
-    entries = [e for e in entries if e and e.get("mean") is not None]
-    if not entries:
-        return None
-    dist = [sum(e["distribution"][i] if i < len(e["distribution"]) else 0 for e in entries)
-            for i in range(len(GRADE_BINS))]
+    dist, total = [0] * len(GRADE_BINS), 0.0
+    for e in filter(None, entries):
+        d = (e["distribution"] + [0] * len(GRADE_BINS))[:len(GRADE_BINS)]
+        n = sum(d)
+        if n:
+            # TAU Factor gives a mean of 0 (or none) for many semesters, mostly 2014-2016:
+            # estimate it from the bin midpoints (within a point on average where both are given)
+            total += (e.get("mean") or sum(c * m for c, m in zip(d, BIN_MIDPOINTS)) / n) * n
+            dist = [a + b for a, b in zip(dist, d)]
     n = sum(dist)
-    if n == 0:
-        return None
-    mean = sum(e["mean"] * sum(e["distribution"][:len(GRADE_BINS)]) for e in entries) / n
-    return {"mean": round(mean, 1), "n": n, "dist": dist}
+    return {"mean": round(total / n, 1), "n": n, "dist": dist} if n else None
 
 
 def grade_stats(course_grades, first_year, last_year):
