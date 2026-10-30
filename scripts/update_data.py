@@ -22,9 +22,11 @@ Run: python3 scripts/update_data.py   (stdlib only)
 
 import hashlib
 import html
+import http.client
 import json
 import re
 import sys
+import time
 import urllib.request
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
@@ -44,6 +46,7 @@ CATALOG_API = "https://tochniot.tau.ac.il/graphql"
 CATALOG_PAGE = "https://www.tau.ac.il/study-program?safa={safa}&shana={shana}&tab=programStudy&tcid={tcid}"
 SCHEDULE_PAGE = "https://www.tau.ac.il/study-program?safa={safa}&shana={shana}&tab=schedule&tcid={tcid}&menu={menu}"
 PREVIOUS_CATALOGS = 2  # students follow the catalog of the year they started: keep the last two as well
+MAX_LOST = 0.05  # share of programs (or catalog editions) that may disappear in one update
 GRADE_BINS = ["0-49", "50-59", "60-64", "65-69", "70-74",
               "75-79", "80-84", "85-89", "90-94", "95-100"]
 BIN_MIDPOINTS = [sum(map(int, b.split("-"))) / 2 for b in GRADE_BINS]
@@ -263,13 +266,26 @@ def html_text(fragment):
 
 
 # ── Official catalog ─────────────────────────────────────────────────────────
-def catalog(query, variables):
+class NoData(Exception):
+    """The catalog's answer that it has nothing for a request, e.g. a program without a published structure."""
+
+
+def catalog(query, variables, tries=4):
+    """A catalog API request; network errors are retried, then raised so a partial fetch never goes out."""
     body = json.dumps({"query": query, "variables": variables}).encode()
     req = urllib.request.Request(CATALOG_API, body, {"content-type": "application/json", "User-Agent": "Coursesearch"})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        out = json.load(r)
+    for attempt in range(tries):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                out = json.load(r)
+            break
+        except (OSError, http.client.HTTPException) as e:  # incl. HTTP errors and timeouts
+            if attempt == tries - 1:
+                raise
+            print(f"  catalog request failed ({e}); retrying", flush=True)
+            time.sleep(15 * 2 ** attempt)
     if out.get("errors"):
-        raise RuntimeError(out["errors"][0].get("message"))
+        raise NoData(out["errors"][0].get("message"))
     return out["data"]
 
 
@@ -291,6 +307,8 @@ def catalog_programs(shana):
 def catalog_program(shana, tcid, counts, faculty=None, safa="1"):
     """One official program: structure, notes, links; `counts` maps category names to Arazim's "choose k"."""
     page = catalog_page("ydtochnit", shana, tcid, safa)
+    if not page:
+        raise NoData(f"no page for {tcid} in {shana}")
     general = catalog_page("ydhesberklali", shana, tcid, safa) or {}
     categories, sections, credits = [], [], {}
 
@@ -339,7 +357,7 @@ def fetch_program(p, shana, counts):
     try:
         program, credits = catalog_program(shana, p["tcid"], counts.get(norm_name(name), {}),
                                            short_faculty(p["teurfaculta"] or "") or OTHER, safa)
-    except Exception:  # "no data": programs without a published structure (PhD, MD, …)
+    except NoData:  # programs without a published structure (PhD, MD, …)
         return name, None, {}
     if not program.get("categories"):
         return name, None, {}
@@ -349,7 +367,7 @@ def fetch_program(p, shana, counts):
     for year in range(shana - 1, shana - 1 - PREVIOUS_CATALOGS, -1):
         try:
             old, _ = catalog_program(year, p["tcid"], {}, safa=safa)
-        except Exception:
+        except NoData:  # not in that year's catalog
             continue
         if old.get("categories"):
             previous[str(year)] = {k: old[k] for k in ("url", "total", "sections", "categories") if k in old}
@@ -363,14 +381,11 @@ def build_plans(arazim_plans, shana):
     Credits come from every catalog program, graduate ones included."""
     arazim, credits = arazim_programs(arazim_plans), {}
     counts = {norm_name(n): {norm_name(c["name"]): c.get("count") for c in p["categories"]} for n, p in arazim.items()}
-    try:
-        official = catalog_programs(shana)
-    except Exception as e:  # keep the Arazim data if the catalog is unavailable
-        print(f"  catalog unavailable ({e}); using Arazim plans only")
-        return arazim, credits
+    official = catalog_programs(shana)
     print(f"  {len(official)} catalog programs", flush=True)
     catalog_plans, by_name = {}, {}
-    with ThreadPoolExecutor(WORKERS) as pool:
+    pool = ThreadPoolExecutor(WORKERS)
+    try:
         for i, (p, (name, program, program_credits)) in enumerate(
                 zip(official, pool.map(lambda p: fetch_program(p, shana, counts), official)), 1):
             if program:
@@ -379,6 +394,8 @@ def build_plans(arazim_plans, shana):
                 by_name[name] = p
             if i % 50 == 0:
                 print(f"  {i}/{len(official)}", flush=True)
+    finally:
+        pool.shutdown(cancel_futures=True)  # after a failure, don't wait for the remaining programs
     # Arazim adds what the catalog lacks: mostly joint programs (the same name spelled differently is a duplicate)
     known = {norm_name(n) for n in catalog_plans}
     plans = {**{n: p for n, p in arazim.items() if norm_name(n) not in known}, **catalog_plans}
@@ -431,6 +448,27 @@ def write_json(path, content):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
     return True
+
+
+def read_data(rel):
+    path = DATA / rel
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+def check_programs_kept(programs, files):
+    """Stop before publishing data that lost many programs or catalog editions: a sign of a failed fetch."""
+    old = (read_data("index.json") or {}).get("programs")
+    if not old:
+        return
+
+    def editions(programs, read):
+        return sum(1 + len((read(f"programs/{p['id']}.json") or {}).get("previous", {})) for p in programs.values())
+
+    lost = sorted(old.keys() - programs.keys())
+    before, after = editions(old, read_data), editions(programs, files.get)
+    if len(lost) > MAX_LOST * len(old) or after < (1 - MAX_LOST) * before:
+        sys.exit(f"Not writing: {len(lost)} of {len(old)} programs gone ({', '.join(lost[:5])}), "
+                 f"catalog editions {before} → {after}. If expected, delete data/index.json and rerun.")
 
 
 def write_site_data(index, files):
@@ -533,6 +571,7 @@ def main():
         "external": external,
         "programs": programs,
     }
+    check_programs_kept(programs, files)
     if not write_site_data(index, files):
         print("No changes.")
         return
