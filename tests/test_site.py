@@ -555,8 +555,12 @@ def test_program_map_electives(open_page):
     page = open_page(f"#program={CS}&view=map")
     assert page.is_hidden("#filtersBtn")
     few = page.evaluate("cy.nodes().length")
+    # required courses keep their places among themselves (by row, then column)
+    places = "cy.nodes('.required').sort((a, b) => a.position('y') - b.position('y') || a.position('x') - b.position('x')).map(n => `${n.id()}:${n.position('x')}`)"
+    required = page.evaluate(places)
     page.click("#electivesBtn")
     assert page.evaluate("cy.nodes().length") > few
+    assert page.evaluate(places) == required
     page.click("#electivesBtn")
     # a passed elective stays on the map without the others
     elective = page.evaluate("view.cats.find(c => !c.required).courses.find(id => COURSES.has(id))")

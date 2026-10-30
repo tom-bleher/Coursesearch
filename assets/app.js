@@ -347,16 +347,21 @@ function programView() {
     const cats = (program?.categories || [])
         .map((cat, i) => ({ ...cat, i }))
         .sort((a, b) => (a.year ?? 9) - (b.year ?? 9) || b.required - a.required || (a.sem ?? 3) - (b.sem ?? 3) || a.i - b.i);
-    const placed = new Set(), required = new Set(), categories = new Map(), bands = [];
+    const required = new Set(), categories = new Map(), bands = [];
+    // Without electives, the map still shows the ones the student passed or planned
+    const shown = cat => cat.courses.filter(id => COURSES.has(id)
+        && (cat.required || state.electives || state.taken.has(id) || state.plan.has(id)));
+    // A course listed in several parts is drawn once, in a required part if it has one (so turning
+    // electives on doesn't take courses out of required parts)
+    const home = new Map();
+    [...cats.filter(c => c.required), ...cats.filter(c => !c.required)]
+        .forEach(cat => shown(cat).forEach(id => { if (!home.has(id)) home.set(id, cat.i); }));
     for (const cat of cats) {
         cat.courses.filter(id => COURSES.has(id)).forEach(id => {
             categories.set(id, [...(categories.get(id) || []), cat.name]);
             if (isMandatory(cat)) required.add(id);
         });
-        // Without electives, the map still shows the ones the student passed or planned
-        const ids = cat.courses.filter(id => COURSES.has(id) && !placed.has(id)
-            && (cat.required || state.electives || state.taken.has(id) || state.plan.has(id)));
-        ids.forEach(id => placed.add(id));
+        const ids = shown(cat).filter(id => home.get(id) === cat.i);
         if (!ids.length) continue;
         bands.push({ parts: bandParts(cat), title: cat.name, credits: cat.credits, category: cat.i, ids });
     }
@@ -417,22 +422,28 @@ function layout(view) {
         [...byDepth.keys()].sort((x, y) => x - y).forEach(k => rows.push({ band: b, ids: byDepth.get(k).sort() }));
     });
 
-    // Order each row by the mean position of its neighbours (a few up/down sweeps)
+    // Order each row by the mean position of its neighbours (a few up/down sweeps). A program's required
+    // parts are ordered first, among themselves, so turning electives on leaves them in place.
     const pos = new Map(), rowOf = new Map();
     const setPos = row => row.ids.forEach((id, i) => pos.set(id, (i + 0.5) / row.ids.length));
     rows.forEach((row, r) => { row.ids.forEach(id => rowOf.set(id, r)); setPos(row); });
     const neighbours = id => { const c = COURSES.get(id); return [...c.prereqs, ...c.coreqs, ...c.dependents]; };
-    for (let sweep = 0; sweep < 8; sweep++) {
-        (sweep % 2 ? [...rows].reverse() : rows).forEach(row => {
-            const r = rows.indexOf(row);
-            const bary = new Map(row.ids.map(id => {
-                const ns = neighbours(id).filter(n => pos.has(n) && rowOf.get(n) !== r);
-                return [id, ns.length ? ns.reduce((s, n) => s + pos.get(n), 0) / ns.length : pos.get(id)];
-            }));
-            row.ids.sort((a, b) => bary.get(a) - bary.get(b));
-            setPos(row);
-        });
-    }
+    const order = (movable, known) => {
+        for (let sweep = 0; sweep < 8; sweep++) {
+            (sweep % 2 ? [...movable].reverse() : movable).forEach(row => {
+                const r = rows.indexOf(row);
+                const bary = new Map(row.ids.map(id => {
+                    const ns = neighbours(id).filter(n => known.has(n) && rowOf.get(n) !== r);
+                    return [id, ns.length ? ns.reduce((s, n) => s + pos.get(n), 0) / ns.length : pos.get(id)];
+                }));
+                row.ids.sort((a, b) => bary.get(a) - bary.get(b));
+                setPos(row);
+            });
+        }
+    };
+    const core = row => view.cats.find(c => c.i === view.bands[row.band].category)?.required ?? true;
+    order(rows.filter(core), new Set(rows.filter(core).flatMap(row => row.ids)));
+    order(rows.filter(row => !core(row)), pos);
 
     // Place rows, wrapping long ones onto several lines; phones get as many as fit at a readable size
     const perLine = MOBILE.matches ? Math.max(2, Math.floor(cy.width() / ((NODE_W + H_GAP) * 0.85))) : 8;
