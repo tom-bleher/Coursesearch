@@ -519,10 +519,11 @@ function graphStyle() {
 // ── Rendering ────────────────────────────────────────────────────────────────
 let view = null;
 
+// Planned courses are marked by their colour; the card names the semester
 function nodeLabel(id) {
     const sem = state.plan.get(id);
     const mark = state.taken.has(id) ? '✓ ' : sem && planIssues(id, sem).length ? '⚠ ' : '';
-    return mark + canvasLabel(COURSES.get(id).name) + (sem ? `\n${semLabel(sem)}` : '');
+    return mark + canvasLabel(COURSES.get(id).name);
 }
 
 function render({ fit = true } = {}) {
