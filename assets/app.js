@@ -2052,7 +2052,12 @@ async function loadProgram(name) {
     if (!p || p.categories) return;
     const res = await fetch(`data/programs/${p.id}.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    Object.assign(p, await res.json());
+    const data = await res.json();
+    // course numbers, as in the student's progress (older data lists some courses with a group number)
+    [data, ...Object.values(data.previous || {})].forEach(e => e.categories?.forEach(cat => {
+        cat.courses = [...new Set(cat.courses.map(courseId))];
+    }));
+    Object.assign(p, data);
 }
 
 // Details come in one file per unit (the course number's first four digits). Resolves to whether
