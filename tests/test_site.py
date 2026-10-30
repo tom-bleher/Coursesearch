@@ -225,6 +225,8 @@ def test_current_semester(open_page, date, expected):
 
 
 CS = "תוכנית חד-חוגית במדעי המחשב"
+PHYSICS, CHEM = "תוכנית חד-חוגית בפיזיקה", "תוכנית חד-חוגית בכימיה"
+MATH = "תוכנית חד-חוגית במתמטיקה במגמת מתמטיקה עיונית"
 UNIT = "#unit=מתמטיקה"
 
 
@@ -443,6 +445,28 @@ def test_back_button(open_page):
     page.go_forward()
     page.wait_for_selector("#details:not([hidden])")
     assert page.evaluate("[state.view, state.selected]") == ["map", "03661101"]
+    assert page.errors == []
+
+
+SLOW_PROGRAM = """([name, delay]) => {
+    const file = `data/programs/${DATA.programs[name].id}.json`, fetchNow = window.fetch;
+    window.fetch = (url, ...rest) => new Promise(r => setTimeout(r, url === file ? delay : 0)).then(() => fetchNow(url, ...rest));
+}"""
+
+
+def test_quick_program_switches(open_page):
+    page = open_page()
+    shown = "[state.program, view.program && view.program.id === DATA.programs[state.program].id]"
+    # The later navigation wins, whether the earlier one finishes loading first or last
+    page.evaluate(SLOW_PROGRAM, [PHYSICS, 300])
+    page.evaluate(SLOW_PROGRAM, [CS, 600])
+    page.evaluate(f"location.hash = 'program={PHYSICS}'; setTimeout(() => {{ location.hash = 'program={CS}'; }}, 50)")
+    page.wait_for_timeout(1000)
+    assert page.evaluate(shown) == [CS, True] and page.errors == []
+    page.evaluate(SLOW_PROGRAM, [MATH, 600])
+    page.evaluate(f"setProgram({MATH!r}); setProgram({CHEM!r})")
+    page.wait_for_timeout(1000)
+    assert page.evaluate(shown) == [CHEM, True]
     assert page.errors == []
 
 

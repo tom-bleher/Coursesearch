@@ -976,6 +976,7 @@ function storeProgress() {
 }
 
 function refreshProgress() {
+    if (!view) return;  // not drawn yet
     // a map without electives shows the passed and planned ones, so its courses may change
     if (inProgram() && state.view === 'map' && !state.electives) return render({ fit: false });
     applyHighlight();
@@ -1156,6 +1157,7 @@ function renderSheet() {
     // Keep keyboard focus: on the same control, or where it was if that control is gone
     const focusKey = document.activeElement?.dataset?.focusKey;
     const focusIndex = [...sheet.querySelectorAll('[data-focus-key]')].indexOf(document.activeElement);
+    if (state.program && !view.program) return;  // the program is still loading
     if (!state.program) {
         degree = null;
         sheet.replaceChildren(h('div', { class: 'sheet-inner chooser-page' },
@@ -1792,12 +1794,14 @@ function setFaculty(faculty) {
 
 async function setProgram(name) {
     if (!DATA.programs[name]) return;
+    const nav = ++navigation;
     try {
         await loadProgram(name);
     } catch (err) {
         console.error(err);
         return toast('טעינת התוכנית נכשלה. נסו שוב.');
     }
+    if (nav !== navigation) return;
     store.set(PROGRAM_KEY, name);
     store.set(UPDATED_KEY, Date.now());
     pushSoon();
@@ -1966,6 +1970,7 @@ function readHash() {
 }
 
 // ── Loading: the index first; a program and course details when they're shown ──
+let navigation = 0;  // counts program switches: one still loading when another starts is dropped
 async function loadProgram(name) {
     const p = DATA.programs[name];
     if (!p || p.categories) return;
@@ -2032,13 +2037,11 @@ async function main() {
     setupCanvasTools();
     setupCloud();
     const boot = async () => {
+        const nav = ++navigation;
         const initial = readHash();
-        try {
-            await loadProgram(state.program);
-        } catch (err) {
-            console.error(err);
-            Object.assign(state, { program: '', scope: 'unit' });
-        }
+        const loaded = await loadProgram(state.program).then(() => true, err => { console.error(err); return false; });
+        if (nav !== navigation) return;
+        if (!loaded) Object.assign(state, { program: '', scope: 'unit' });
         render();
         if (initial) select(initial, { focus: true });
         else renderDetails();
