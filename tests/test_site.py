@@ -485,6 +485,15 @@ def test_graph_keyboard_navigation(open_page):
     assert page.evaluate(f"cy.getElementById('{second}').position('y') > cy.getElementById('{first}').position('y')")
 
 
+def test_reduced_motion(open_page):
+    page = open_page(UNIT)
+    page.emulate_media(reduced_motion="reduce")
+    zoom = page.evaluate("cy.zoom()")
+    page.click("#zoomIn")
+    page.evaluate("new Promise(requestAnimationFrame)")  # one frame, instead of a 150ms animation
+    assert page.evaluate("cy.zoom()") > zoom and not page.evaluate("cy.animated()")
+
+
 def test_program_map_electives(open_page):
     page = open_page(f"#program={CS}&view=map")
     assert page.is_hidden("#filtersBtn")

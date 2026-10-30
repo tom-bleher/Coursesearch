@@ -10,6 +10,8 @@ const NODE_FONT = "Heebo, system-ui, sans-serif";
 const NODE_W = 160, NODE_H = 50, H_GAP = 24, LINE_GAP = 26, ROW_GAP = 64, BAND_GAP = 40;
 const STORAGE_KEY = 'coursesearch_taken', PLAN_KEY = 'coursesearch_plan';
 const MOBILE = matchMedia('(max-width: 760px)');  // keep in sync with style.css
+const REDUCED_MOTION = matchMedia('(prefers-reduced-motion: reduce)');
+const motion = ms => (REDUCED_MOTION.matches ? 0 : ms);  // animation length, none when reduced motion is asked for
 const OFFERED = [['current', 'השנה'], ['recent', 'בשלוש השנים האחרונות'], ['all', 'הכל']];
 const DEFAULTS = { depts: ['מתמטיקה'], types: ['שיעור'], offered: 'current', isolated: false, electives: false };
 const VIEWS = ['list', 'timeline', 'map'];
@@ -487,7 +489,7 @@ function graphStyle() {
                 'color': palette.text, 'font-family': NODE_FONT, 'font-size': 13.5, 'line-height': 1.2,
                 'font-weight': 500, 'text-wrap': 'wrap', 'text-max-width': NODE_W - 22,
                 'text-valign': 'center', 'text-halign': 'center',
-                'transition-property': 'opacity', 'transition-duration': '150ms',
+                'transition-property': 'opacity', 'transition-duration': `${motion(150)}ms`,
             },
         },
         { selector: 'node.past', style: { 'border-style': 'dashed' } },
@@ -596,7 +598,7 @@ function fitGraph(eles, animate = false, { whole = false, anchor = null } = {}) 
     // content larger than the screen: keep the anchor course in the middle
     if (anchor && bb.w * zoom > w) pan.x = left + w / 2 - anchor.position('x') * zoom;
     if (anchor && bb.h * zoom > hgt) pan.y = top + hgt / 2 - anchor.position('y') * zoom;
-    if (animate) cy.animate({ zoom, pan, duration: 350 });
+    if (animate) cy.animate({ zoom, pan, duration: motion(350) });
     else cy.viewport({ zoom, pan });
 }
 
@@ -1114,7 +1116,7 @@ function renderSummary() {
                 issues > 0 && h('button', { class: 'btn-link warn', onclick: () => setView('timeline') }, issues === 1 ? 'בעיה אחת בתכנון' : `${issues} בעיות בתכנון`))),
         need > 0 && meter(done, planned, need),
         h('div', { class: 'summary-sections' }, parts.map(p => h('a', { href: `#sec-${sections.indexOf(p.s)}`, class: `section-chip${p.need && p.done >= p.need ? ' complete' : ''}`,
-            onclick: e => { e.preventDefault(); $(`sec-${sections.indexOf(p.s)}`)?.scrollIntoView({ block: 'start', behavior: 'smooth' }); } },
+            onclick: e => { e.preventDefault(); $(`sec-${sections.indexOf(p.s)}`)?.scrollIntoView({ block: 'start', behavior: REDUCED_MOTION.matches ? 'auto' : 'smooth' }); } },
             h('span', {}, p.s.name), h('b', {}, `${p.done}${p.need ? `/${p.need}` : ''}`)))),
     ].filter(Boolean));
 }
@@ -1714,7 +1716,7 @@ function dismissHint() {
 }
 
 function setupCanvasTools() {
-    const zoomBy = f => cy.animate({ zoom: { level: cy.zoom() * f, renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 } }, duration: 150 });
+    const zoomBy = f => cy.animate({ zoom: { level: cy.zoom() * f, renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 } }, duration: motion(150) });
     $('zoomIn').addEventListener('click', () => zoomBy(1.25));
     $('zoomOut').addEventListener('click', () => zoomBy(0.8));
     $('zoomFit').addEventListener('click', () => fitGraph(cy.nodes(), true, { whole: true }));
@@ -1747,7 +1749,7 @@ function setupCanvasTools() {
         if (!next) return;
         select(next.id());
         const r = next.renderedPosition();
-        if (r.x < 0 || r.y < 0 || r.x > cy.width() || r.y > cy.height()) cy.animate({ center: { eles: next }, duration: 200 });
+        if (r.x < 0 || r.y < 0 || r.x > cy.width() || r.y > cy.height()) cy.animate({ center: { eles: next }, duration: motion(200) });
     });
     const peek = n => n.connectedEdges().add(n.neighborhood('node')).add(n);
     cy.on('mouseover', 'node', e => peek(e.target).addClass('peek'));
