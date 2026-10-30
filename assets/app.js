@@ -999,14 +999,19 @@ function snapshot() {
     return () => { Object.assign(state, saved); saveProgress(); };
 }
 
+// Stays while the pointer or keyboard focus is on it
 let toastTimer;
 function toast(text, undo) {
     const el = $('toast');
-    clearTimeout(toastTimer);
     el.replaceChildren(h('span', {}, text),
         undo && h('button', { class: 'btn-link', onclick: () => { el.hidden = true; undo(); } }, 'ביטול'));
     el.hidden = false;
-    toastTimer = setTimeout(() => { el.hidden = true; }, 6000);
+    hideToastSoon();
+}
+function hideToastSoon() {
+    clearTimeout(toastTimer);
+    const el = $('toast');
+    if (!el.matches(':hover, :focus-within')) toastTimer = setTimeout(() => { el.hidden = true; }, 8000);
 }
 
 function setPlan(id, sem) {
@@ -1887,6 +1892,8 @@ function setupControls() {
     });
     $('detailsClose').addEventListener('click', () => select(null));
     $('helpBtn').addEventListener('click', () => $('help').showModal());
+    ['pointerenter', 'focusin'].forEach(type => $('toast').addEventListener(type, () => clearTimeout(toastTimer)));
+    ['pointerleave', 'focusout'].forEach(type => $('toast').addEventListener(type, () => setTimeout(hideToastSoon)));
     // The program dialog closes on a click on its backdrop
     $('programDialog').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
     document.addEventListener('keydown', e => {
