@@ -82,6 +82,22 @@ def test_click_opens_details_and_highlights(open_page):
     assert page.is_hidden("#hint")  # the tip goes once used
 
 
+def test_click_pans_card_out_of_the_way(open_page):
+    page = open_page(UNIT)
+    # a course at the start (left) edge, where the card opens
+    page.evaluate("cy.viewport({ zoom: 0.75, pan: { x: 0, y: 0 } }); cy.pan({ x: 120 - cy.getElementById('03661102').renderedPosition('x'), y: 200 })")
+    click_node(page, "03661102")
+    page.wait_for_function("!cy.animated()")
+    zoom, card, box = page.evaluate("""[cy.zoom(), document.getElementById('details').getBoundingClientRect().right - document.getElementById('cy').getBoundingClientRect().left,
+        cy.nodes('.hl, .focus').renderedBoundingBox()]""")
+    assert zoom == 0.75 and box["x1"] > card  # panned, not zoomed, until none is under the card
+    # nothing moves when everything is already in view
+    pan = page.evaluate("cy.pan()")
+    click_node(page, "03661101")
+    page.wait_for_function("!cy.animated()")
+    assert page.evaluate("cy.pan()") == pan
+
+
 def test_search_by_course_number(open_page):
     page = open_page(UNIT)
     page.fill("#search", "0366-1112")

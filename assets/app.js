@@ -602,6 +602,21 @@ function fitGraph(eles, animate = false, { whole = false, anchor = null } = {}) 
     else cy.viewport({ zoom, pan });
 }
 
+// Pan, without zooming, just enough to bring `eles` into the free area (as much of them as fits),
+// keeping `node` in it. Nothing moves when they're already in view.
+function reveal(eles, node = eles) {
+    const { left, top, w, hgt } = freeArea(), bb = eles.renderedBoundingBox(), nb = node.renderedBoundingBox();
+    // Along one axis: the shift closest to 0 that puts the box inside the free span (or the span inside
+    // the box, when it's larger), then nudged to keep the node inside
+    const shift = (lo, hi, start, size, nlo, nhi) => {
+        const a = start - lo, b = start + size - hi;
+        const s = Math.min(Math.max(0, Math.min(a, b)), Math.max(a, b));
+        return Math.min(Math.max(s, start - nlo), start + size - nhi);
+    };
+    const x = shift(bb.x1, bb.x2, left, w, nb.x1, nb.x2), y = shift(bb.y1, bb.y2, top, hgt, nb.y1, nb.y2);
+    if (Math.abs(x) + Math.abs(y) > 1) cy.animate({ panBy: { x, y }, duration: motion(250) });
+}
+
 // Bands are drawn under the graph; their labels sit in the page margin above it (so they stay clickable)
 let gutter = 0;
 
@@ -1748,8 +1763,7 @@ function setupCanvasTools() {
         }
         if (!next) return;
         select(next.id());
-        const r = next.renderedPosition();
-        if (r.x < 0 || r.y < 0 || r.x > cy.width() || r.y > cy.height()) cy.animate({ center: { eles: next }, duration: motion(200) });
+        reveal(next);
     });
     const peek = n => n.connectedEdges().add(n.neighborhood('node')).add(n);
     cy.on('mouseover', 'node', e => peek(e.target).addClass('peek'));
@@ -1882,6 +1896,7 @@ async function main() {
     cy.on('tap', 'node', e => {
         dismissHint();  // the tip has done its job
         select(e.target.id());
+        reveal(cy.nodes('.hl, .focus'), e.target);  // the card may cover the course or the ones it lights up
         $('cy').focus({ preventScroll: true, focusVisible: false });  // the arrow keys go on from here (Cytoscape keeps focus off the canvas)
     });
     cy.on('tap', e => { if (e.target === cy) select(null); });
