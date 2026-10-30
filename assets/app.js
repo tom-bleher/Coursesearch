@@ -1706,23 +1706,6 @@ function setupCanvasTools() {
     if (!store.get(HINT_KEY, false)) $('hint').hidden = false;
     $('hintClose').addEventListener('click', dismissHint);
 
-    // Hover card (pointer devices)
-    const tip = $('tooltip');
-    cy.on('mouseover', 'node', e => {
-        if (!matchMedia('(hover: hover)').matches) return;
-        const c = COURSES.get(e.target.id()), p = e.target.renderedPosition();
-        const sems = (c.semesters || []).filter(s => +s.slice(0, 4) === DATA.meta.latest_year).map(partName).reverse();
-        tip.replaceChildren(h('b', {}, c.name),
-            h('div', { class: 'sub' }, [c.mean != null && `ממוצע ${c.mean.toFixed(1)}`, c.credits > 0 && `${c.credits} ש״ס`,
-                sems.length ? `סמסטר ${sems.join(' + ')}` : 'לא השנה'].filter(Boolean).join(' · ')));
-        tip.hidden = false;
-        const x = Math.min(Math.max(8, p.x - tip.offsetWidth / 2), cy.width() - tip.offsetWidth - 8);
-        const y = p.y - (NODE_H / 2) * cy.zoom() - tip.offsetHeight - 8;
-        tip.style.left = `${x}px`;
-        tip.style.top = `${y < 8 ? p.y + (NODE_H / 2) * cy.zoom() + 8 : y}px`;
-    });
-    cy.on('mouseout viewport tap', () => { tip.hidden = true; });
-
     // Keyboard: the canvas takes focus, and the arrow keys move to the nearest course that way
     const dirs = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] };
     $('cy').tabIndex = 0;
