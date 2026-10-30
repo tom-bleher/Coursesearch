@@ -648,14 +648,36 @@ def test_stored_progress_is_checked(open_page):
     assert page.evaluate("Object.fromEntries(state.manual)") == {"סדנה": 4}
     # Course ids with a group number become course numbers, in the account copy and in the browser
     page.evaluate("""applyProgress({ taken: ['0366110101', '03661101', '0366110201'], updatedAt: 1,
-        plan: { '0366111201': '2027b' }, grades: { '0366110101': 85 } })""")
+        plan: { '0366111201': '2027b' }, grades: { '0366110101': 85, '03661101': 92, '0366110201': 70 } })""")
     assert sorted(page.evaluate("[...state.taken]")) == ["03661101", "03661102"]
     assert page.evaluate("Object.fromEntries(state.plan)") == {"03661112": "2027b"}
-    assert page.evaluate("Object.fromEntries(state.grades)") == {"03661101": 85}
+    # where both forms are stored, the course number's entry wins
+    assert page.evaluate("Object.fromEntries(state.grades)") == {"03661101": 92, "03661102": 70}
     page.evaluate("store.set(STORAGE_KEY, ['0366110501']); store.set(PLAN_KEY, { '0366111101': '2027a' })")
     page.reload()
     page.wait_for_selector("#status.done")
     assert page.evaluate("[[...state.taken], Object.fromEntries(state.plan)]") == [["03661105"], {"03661111": "2027a"}]
+    assert page.errors == []
+
+
+def test_account_switch_drops_the_old_sync(open_page):
+    page = open_page()
+    page.evaluate(FAKE_CLOUD, None)
+    # The first account's copy is still loading when another account signs in
+    page.evaluate("""(() => {
+        let release;
+        cloud.api.load = () => new Promise(r => { release = () => r(null); });
+        onCloudUser({ uid: 'u1', name: 'A' });
+        cloud.api.load = async () => window.fake.remote;
+        window.fake.remote = { taken: ['03661102'], updatedAt: 5 };
+        onCloudUser({ uid: 'u2', name: 'B' });
+        window.releaseFirst = release;
+    })()""")
+    page.wait_for_function("cloud.status === 'מסונכרן'")
+    saved = page.evaluate("window.fake.saved.length")
+    page.evaluate("window.releaseFirst()")
+    page.wait_for_timeout(100)
+    assert page.evaluate("[cloud.user.uid, window.fake.saved.length]") == ["u2", saved]
     assert page.errors == []
 
 

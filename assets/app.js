@@ -1462,7 +1462,7 @@ const courseId = id => (/^\d{10}$/.test(id) ? id.slice(0, 8) : id);
 function validEntries(obj, valid, key = courseId) {
     const out = new Map();
     for (const [k, v] of Object.entries(obj && typeof obj === 'object' ? obj : {})) {
-        if (valid(v) && !out.has(key(k))) out.set(key(k), v);
+        if (valid(v) && (!out.has(key(k)) || key(k) === k)) out.set(key(k), v);  // the course number wins
     }
     return out;
 }
@@ -1547,14 +1547,17 @@ async function upload(p, method = 'save') {
 }
 
 async function onCloudUser(user) {
+    if (user?.uid !== cloud.user?.uid) { clearTimeout(cloud.timer); cloud.timer = null; }  // a push for another account
     cloud.user = user;
     cloud.ready = false;
     renderAccount();
     if (!user) return;
+    const stale = () => cloud.user !== user;  // the account changed while syncing
     try {
         setSyncStatus('מסנכרן…');
         const synced = store.get(SYNCED_KEY, null) === user.uid, before = store.get(UPDATED_KEY, 0);
         const remote = await cloud.api.load(), local = localProgress();
+        if (stale()) return;
         if (!remote && synced) return cloudDeleted();
         if (!remote) {
             store.set(UPDATED_KEY, local.updatedAt || Date.now());
@@ -1562,6 +1565,7 @@ async function onCloudUser(user) {
         } else if (!synced) {
             const merged = mergeProgress(local, remote);
             await applyProgress(merged);
+            if (stale()) return;
             await upload(merged);
         } else {
             // Whichever side changed since this device last synced wins. If both did, the later change
@@ -1575,6 +1579,7 @@ async function onCloudUser(user) {
                 await applyProgress(remote);
             }
         }
+        if (stale()) return;
         store.set(SYNCED_KEY, user.uid);
         cloud.ready = true;
         setSyncStatus('מסונכרן');
