@@ -7,8 +7,8 @@ An interactive map of courses, prerequisites, study programs and grades for all 
 ## Features
 
 - **Prerequisite graph.** Courses are grouped by study year. Edges show required courses, alternatives ("one of") and co-requisites. Click a course to highlight its whole prerequisite chain and the courses it unlocks.
-- **Study programs.** Pick any program in the official catalog, from every faculty and degree (bachelor's, master's and more), or a joint program. Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
-- **Grades.** The course card shows the average final grade (מועד קובע) over the years for which TAU Factor has grades, its distribution and a per-semester breakdown.
+- **Study programs.** Pick any bachelor's program in the official catalog, from every faculty, or a joint program. Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
+- **Grades.** Each course card shows the average final grade (מועד קובע) over the years for which TAU Factor has grades, with the distribution and a per-semester breakdown.
 - **My degree.** Pick a faculty and a program (and the catalog year you started in) to get your degree as a checklist, organized like the official catalog: years, their required and elective parts, and each part's courses.
   - Mark courses as passed (a whole mandatory semester at once), add your grade, or plan a course for a semester. Requirements without a course list, such as "שאר רוח", take credits entered by hand.
   - Progress is shown for the whole degree, each year and each part, in credit points (a course listed in several parts counts toward one), with your credit-weighted average.
@@ -32,9 +32,9 @@ python3 scripts/update_data.py   # fetch the latest data and rebuild data/ (abou
 python3 -m http.server           # then open http://localhost:8000
 ```
 
-A GitHub Actions workflow refreshes the data every week and deploys the site to GitHub Pages.
+A GitHub Actions workflow refreshes the data every week and deploys the site to GitHub Pages. If the catalog can't be reached, or many programs would disappear, the update fails and the current data stays.
 
-Grade statistics use each semester's all-groups final-grade distribution, weighted by the number of students. Non-numeric grades are excluded. Always confirm requirements on the [university website](https://www.ims.tau.ac.il/Tal/).
+Grade statistics use each semester's all-groups final-grade distribution, weighted by the number of students; where TAU Factor gives no mean for a semester, it is estimated from the distribution. Non-numeric grades are excluded. Always confirm requirements on the [university website](https://www.ims.tau.ac.il/Tal/).
 
 ## Google sign-in (optional)
 
@@ -45,7 +45,7 @@ Progress is always saved in the browser. To also let students sign in with Googl
 3. **Firestore Database:** create a database, then deploy the access rules with `npx firebase-tools deploy --only firestore:rules --project <project-id>`.
 4. Paste the web app's config object into `assets/firebase-config.js` (`window.FIREBASE_CONFIG = {...}`). The web config is public by design; access is enforced by the rules.
 
-Each user gets one document, `users/{uid}`, holding only their passed courses, grades, planned courses, credits entered by hand, chosen program and a timestamp. Users can delete it from the account menu. After changing `firestore.rules`, deploy them again (step 3).
+Each user gets one document, `users/{uid}`, holding only their passed courses, grades, planned courses, credits entered by hand, chosen program, the catalog year they started in and a timestamp. Users can delete it from the account menu. After changing `firestore.rules`, deploy them again (step 3).
 
 ## Tests
 
