@@ -483,6 +483,10 @@ def test_graph_keyboard_navigation(open_page):
     second = page.evaluate("state.selected")
     assert second != first
     assert page.evaluate(f"cy.getElementById('{second}').position('y') > cy.getElementById('{first}').position('y')")
+    # ...and on from a course clicked on the map
+    click_node(page, "03661101")
+    page.keyboard.press("ArrowDown")
+    assert page.evaluate("state.selected") not in ("03661101", None)
 
 
 def test_reduced_motion(open_page):

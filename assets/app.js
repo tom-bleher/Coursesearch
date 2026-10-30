@@ -1882,6 +1882,7 @@ async function main() {
     cy.on('tap', 'node', e => {
         dismissHint();  // the tip has done its job
         select(e.target.id());
+        $('cy').focus({ preventScroll: true, focusVisible: false });  // the arrow keys go on from here (Cytoscape keeps focus off the canvas)
     });
     cy.on('tap', e => { if (e.target === cy) select(null); });
     cy.on('viewport', placeBands);
