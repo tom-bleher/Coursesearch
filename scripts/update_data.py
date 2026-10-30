@@ -300,9 +300,10 @@ def catalog_program(shana, tcid, counts, faculty=None, safa="1"):
         courses = [k for k in node.get("kurs") or [] if k.get("mevutal") != "1"]
         for k in courses:
             if number(k.get("shaotuni")):
-                credits[k["kursid"]] = number(k["shaotuni"])
+                credits[k["kursid"][:8]] = number(k["shaotuni"])
         if courses and "שאר רוח" not in name:
-            categories.append(make_category(name, dict.fromkeys(k["kursid"] for k in courses),
+            # some programs (e.g. law) list each group: course number + 2-digit group
+            categories.append(make_category(name, dict.fromkeys(k["kursid"][:8] for k in courses),
                                             counts.get(norm_name(name)), credit_range(node.get("shaot")),
                                             html_text(node.get("hesber"))))
         for child in node.get("rama") or []:
