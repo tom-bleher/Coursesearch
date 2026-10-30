@@ -647,6 +647,28 @@ def test_start_year_catalog(open_page):
     assert page.errors == []
 
 
+def test_program_link_is_only_shown(open_page):
+    page = open_page(f"#program={CS}")
+    page.evaluate("toggleTaken('03661101'); setStart('2024')")  # before choosing, progress keeps the program shown
+    assert page.evaluate("[savedProgram(), store.get(START_KEY, '')]") == [CS, "2024"]
+    # Another program's link, with a start year, is shown without replacing the student's own
+    page.evaluate(f"location.hash = 'program={PHYSICS}&start=2025'")
+    page.wait_for_function(f"state.program === {PHYSICS!r} && view.program?.year === '2025'")
+    page.evaluate("toggleTaken('03661102'); setStart('')")
+    assert page.evaluate("[localProgress().program, localProgress().start]") == [CS, "2024"]
+    # Back on their own program, without a start year in the link, it's the student's start year
+    page.evaluate(f"location.hash = 'program={CS}'")
+    page.wait_for_function(f"state.program === {CS!r}")
+    assert page.evaluate("state.start") == "2024"
+    # Choosing the program makes it theirs, with the start year shown
+    page.evaluate(f"location.hash = 'program={PHYSICS}&start=2025'")
+    page.wait_for_function(f"state.program === {PHYSICS!r}")
+    page.evaluate(f"pickProgram({PHYSICS!r})")
+    page.wait_for_function(f"savedProgram() === {PHYSICS!r}")
+    assert page.evaluate("store.get(START_KEY, '')") == "2025"
+    assert page.errors == []
+
+
 def test_bulk_changes_can_be_undone(open_page):
     page = open_page(f"#program={CS}")
     page.locator(".cat").first.get_by_role("button", name="סימון הכל כעבר").click()

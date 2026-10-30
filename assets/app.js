@@ -958,9 +958,18 @@ function syncPanels() {
 }
 
 // ── Recording progress: passed courses (with an optional grade), planned courses, credits by hand ──
+// The student's own program and start year are saved (and synced) when they choose them, or when they
+// record progress before choosing any; a program opened from a link is only shown.
+const savedProgram = () => store.get(PROGRAM_KEY, '') || '';
+const ownProgram = () => !savedProgram() || state.program === savedProgram();
+function keepProgram() {
+    store.set(PROGRAM_KEY, state.program);
+    store.set(START_KEY, state.start);
+}
+
 // `quiet` saves without re-rendering, for inputs that are still being edited
 function saveProgress({ quiet = false } = {}) {
-    if (state.program) store.set(PROGRAM_KEY, state.program);
+    if (!savedProgram()) keepProgram();
     storeProgress();
     store.set(UPDATED_KEY, Date.now());
     pushSoon();
@@ -1439,7 +1448,7 @@ function localProgress() {
     return {
         taken: [...state.taken], plan: Object.fromEntries(state.plan),
         grades: Object.fromEntries(state.grades), manual: Object.fromEntries(state.manual),
-        program: store.get(PROGRAM_KEY, '') || '', start: state.start, updatedAt: store.get(UPDATED_KEY, 0),
+        program: savedProgram(), start: store.get(START_KEY, '') || '', updatedAt: store.get(UPDATED_KEY, 0),
     };
 }
 
@@ -1802,18 +1811,20 @@ async function setProgram(name) {
         return toast('טעינת התוכנית נכשלה. נסו שוב.');
     }
     if (nav !== navigation) return;
-    store.set(PROGRAM_KEY, name);
+    navigate({ program: name, scope: 'program' });
+    keepProgram();
     store.set(UPDATED_KEY, Date.now());
     pushSoon();
-    navigate({ program: name, scope: 'program' });
 }
 
 function setStart(value) {
     state.start = value;
     state.info = state.info?.type === 'program' ? state.info : null;  // part numbers differ between catalog years
-    store.set(START_KEY, state.start);
-    store.set(UPDATED_KEY, Date.now());
-    pushSoon();
+    if (ownProgram()) {
+        keepProgram();
+        store.set(UPDATED_KEY, Date.now());
+        pushSoon();
+    }
     render({ fit: false });
     renderDetails();
     writeHash();
@@ -1948,7 +1959,7 @@ function writeHash() {
 // Unit links, and links to a course alone, open the map by unit.
 function readHash() {
     const p = new URLSearchParams(location.hash.slice(1));
-    const remembered = DATA.programs[store.get(PROGRAM_KEY, '')] ? store.get(PROGRAM_KEY, '') : '';
+    const remembered = DATA.programs[savedProgram()] ? savedProgram() : '';
     const legacyPlan = p.has('plan');  // older links opened the planner
     const course = p.get('course');
     const c = course && COURSES.get(course);
@@ -1956,7 +1967,8 @@ function readHash() {
     state.program = p.has('program') ? (DATA.programs[p.get('program')] ? p.get('program') : '') : remembered;
     state.view = unit ? 'map' : VIEWS.includes(p.get('view')) ? p.get('view') : legacyPlan ? 'timeline' : 'list';
     state.scope = unit || !state.program ? 'unit' : 'program';
-    if (/^\d{4}$/.test(p.get('start') || '')) state.start = p.get('start');
+    const start = p.get('start') || '';  // a link's start year, else the student's own for their program
+    state.start = /^\d{4}$/.test(start) ? start : state.program === remembered ? store.get(START_KEY, '') || '' : '';
     const units = Object.values(unitFaculties()).flat();
     const chosen = (p.get('unit') || '').split(',').filter(u => units.includes(u));
     if (chosen.length) state.depts = new Set(chosen);
