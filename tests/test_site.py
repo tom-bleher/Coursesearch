@@ -594,6 +594,32 @@ def test_cleared_grades_sync(open_page):
     assert page.errors == []
 
 
+def test_sync_shows_account_program(open_page):
+    page = open_page()
+    assert page.is_visible(".chooser")
+    # A new device shows the account's program, in the catalog year the student started in
+    page.evaluate(FAKE_CLOUD, {"taken": [], "plan": {}, "program": PHYSICS, "start": "2024", "updatedAt": 1})
+    page.evaluate("onCloudUser({ uid: 'u1', name: 'Test User' })")
+    page.wait_for_function("cloud.status === 'מסונכרן'")
+    assert page.evaluate("[state.program, view.program.year]") == [PHYSICS, "2024"]
+    assert "start=2024" in page.url and page.is_visible(".page-head")
+    # A program chosen on another device replaces this one, and edits keep it
+    page.evaluate(f"window.fake.remote = {{ taken: [], plan: {{}}, program: {CS!r}, updatedAt: Date.now() + 1e6 }}")
+    page.evaluate("onCloudUser({ uid: 'u1', name: 'Test User' })")
+    page.wait_for_function(f"cloud.status === 'מסונכרן' && state.program === {CS!r}")
+    page.evaluate("toggleTaken('03661101')")
+    page.wait_for_function("window.fake.remote.taken.length === 1")
+    assert page.evaluate("[window.fake.remote.program, window.fake.remote.start]") == [CS, ""]
+    # Signing out leaves no program behind, on screen, in the link or after a reload
+    page.evaluate("cloudSignOut()")
+    page.wait_for_function("!cloud.user && !state.program")
+    assert "program=" not in page.url and page.is_visible(".chooser")
+    page.reload()
+    page.wait_for_selector("#status.done")
+    assert page.evaluate("state.program") == "" and page.is_visible(".chooser")
+    assert page.errors == []
+
+
 def test_stored_progress_is_checked(open_page):
     page = open_page()
     # A malformed account copy loses only its bad entries

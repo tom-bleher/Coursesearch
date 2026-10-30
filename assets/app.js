@@ -1484,15 +1484,30 @@ function mergeProgress(local, remote) {
         updatedAt: Date.now() };
 }
 
-function applyProgress(p) {
+// The screen switches to the account's program, unless it shows another one from a link
+// (`force`: switch anyway, so signing out leaves no program on screen)
+async function applyProgress(p, { force = false } = {}) {
+    const follow = force || ownProgram();
     // A copy without grades or hand-entered credits (saved by an older version of the site) keeps the local ones
     Object.assign(state, cleanProgress({ grades: Object.fromEntries(state.grades), manual: Object.fromEntries(state.manual), ...p }));
     storeProgress();
-    store.set(PROGRAM_KEY, p.program || '');
-    state.start = /^\d{4}$/.test(p.start || '') ? p.start : '';
-    store.set(START_KEY, state.start);
-    store.set(UPDATED_KEY, p.updatedAt || 0);
-    refreshProgress();
+    const program = DATA.programs[p.program] ? p.program : '', start = /^\d{4}$/.test(p.start || '') ? p.start : '';
+    store.set(PROGRAM_KEY, typeof p.program === 'string' ? p.program : '');
+    store.set(START_KEY, start);
+    store.set(UPDATED_KEY, Number.isFinite(p.updatedAt) ? p.updatedAt : 0);
+    if (!follow || (program === state.program && start === state.start)) return refreshProgress();
+    const nav = ++navigation;
+    try {
+        await loadProgram(program);
+    } catch (err) {
+        console.error(err);
+        return refreshProgress();
+    }
+    if (nav !== navigation) return;
+    if (program !== state.program) return navigate({ program, start, scope: state.view === 'map' ? state.scope : 'program' });
+    state.start = start;
+    render({ fit: false });
+    writeHash();
 }
 
 function setSyncStatus(text) {
@@ -1527,10 +1542,10 @@ async function onCloudUser(user) {
             await cloud.api.save({ ...local, updatedAt: local.updatedAt || Date.now() });
         } else if (store.get(SYNCED_KEY, null) !== user.uid) {
             const merged = mergeProgress(local, remote);
-            applyProgress(merged);
+            await applyProgress(merged);
             await cloud.api.save(merged);
         } else if ((remote.updatedAt || 0) >= (local.updatedAt || 0)) {
-            applyProgress(remote);
+            await applyProgress(remote);
         } else {
             await cloud.api.save(local);
         }
@@ -1559,7 +1574,7 @@ async function cloudSignOut({ deleteData = false } = {}) {
         return;
     }
     store.set(SYNCED_KEY, null);
-    applyProgress({ taken: [], plan: {}, grades: {}, manual: {}, program: '', updatedAt: 0 });
+    await applyProgress({ taken: [], plan: {}, grades: {}, manual: {}, program: '', updatedAt: 0 }, { force: true });
 }
 
 function renderAccount() {
