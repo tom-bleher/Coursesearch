@@ -44,7 +44,7 @@ const store = {
 let openPicker = null, pickerCount = 0;
 
 function picker({ id, label, onchange, search = false, key, placeholder = '—' }) {
-    const button = h('button', { type: 'button', class: 'picker-btn', id, 'data-focus-key': key, 'aria-haspopup': 'listbox', 'aria-expanded': 'false', 'aria-label': label });
+    const button = h('button', { type: 'button', class: 'picker-btn', id, 'data-focus-key': key, 'aria-haspopup': 'listbox', 'aria-expanded': 'false' });
     const list = h('ul', { class: 'picker-list', role: 'listbox', tabindex: '-1', 'aria-label': label });
     const input = search ? h('input', { type: 'search', class: 'picker-search', placeholder: 'חיפוש', autocomplete: 'off', 'aria-label': label }) : null;
     const pop = h('div', { class: 'picker-pop card', hidden: true }, input, list);
@@ -114,6 +114,7 @@ function picker({ id, label, onchange, search = false, key, placeholder = '—' 
     const render = () => {
         const current = options.find(o => o.value === value);
         button.replaceChildren(h('span', { class: 'picker-value' }, current ? current.short ?? current.label : placeholder));
+        button.setAttribute('aria-label', current ? `${label}: ${current.label}` : label);  // the name includes the value
     };
 
     button.addEventListener('click', () => (pop.hidden ? open() : close()));
