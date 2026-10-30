@@ -16,6 +16,7 @@ const VIEWS = ['list', 'timeline', 'map'];
 const HINT_KEY = 'coursesearch_hint_seen', PROGRAM_KEY = 'coursesearch_program';
 const GRADES_KEY = 'coursesearch_grades', MANUAL_KEY = 'coursesearch_manual';
 const UPDATED_KEY = 'coursesearch_updated', SYNCED_KEY = 'coursesearch_synced_uid', START_KEY = 'coursesearch_start';
+const SPREAD_KEY = 'coursesearch_spread';
 
 // ── Small helpers ────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -210,6 +211,7 @@ const state = {
     selected: null,
     info: null,                          // program panel: {type: 'program'} | {type: 'category', index}
     start: store.get(START_KEY, '') || '', // catalog year the student started in ('' = current catalog)
+    spread: store.get(SPREAD_KEY, 0) || 0, // years added to the program's length (פריסה)
     taken: new Set(store.get(STORAGE_KEY, [])),
     plan: new Map(Object.entries(store.get(PLAN_KEY, {}))),  // course id → semester, e.g. "2027b"
     grades: new Map(Object.entries(store.get(GRADES_KEY, {}))),  // course id → final grade (passed courses)
@@ -259,9 +261,16 @@ const meets = done => id => done.has(id);
 const canTake = (c, done) => satisfied(c.reqT, meets(done));
 const partName = sem => (sem.endsWith('a') ? 'א׳' : 'ב׳');
 
+const yearsText = n => (n === 1 ? 'שנה אחת' : n === 2 ? 'שנתיים' : `־${n} שנים`);  // after ל
+// The program's length in years (3 when unknown)
+const programYears = () => (inProgram() && Math.max(0, ...view.cats.map(c => c.year || 0))) || 3;
+const firstYear = () => +(state.start || DATA.meta.catalog_year) + 1;
+
+// From this year to the end of the degree, spread over extra years if the student chose to
 function planSemesters() {
-    const y = DATA.meta.latest_year;
-    return [...new Set([y, y + 1, y + 2].flatMap(v => [`${v}a`, `${v}b`]).concat([...state.plan.values()]))].sort();
+    const now = DATA.meta.latest_year, last = Math.max(now, firstYear() + programYears() + state.spread - 1);
+    const years = Array.from({ length: last - now + 1 }, (_, i) => now + i);
+    return [...new Set(years.flatMap(v => [`${v}a`, `${v}b`]).concat([...state.plan.values()]))].sort();
 }
 // The semester under way, or the next one over the summer. Semester "2027a" starts in October 2026;
 // from February (semester א׳ exams) planning is for semester ב׳.
@@ -363,8 +372,8 @@ function programEdition(name) {
 // "2027b" → "תשפ״ז ב׳ · שנה ב׳" when the student's start year is known
 function semOption(sem) {
     if (!inProgram()) return semLabel(sem);
-    const n = +sem.slice(0, 4) - (+(state.start || DATA.meta.catalog_year) + 1) + 1;
-    return n >= 1 && n <= 5 ? `${semLabel(sem)} · שנה ${'אבגדה'[n - 1]}׳` : semLabel(sem);
+    const n = +sem.slice(0, 4) - firstYear() + 1;
+    return n >= 1 && n <= 8 ? `${semLabel(sem)} · שנה ${'אבגדהוזח'[n - 1]}׳` : semLabel(sem);
 }
 
 const choose = cat => (cat.count && cat.count < cat.courses.length ? cat.count : null);
@@ -1125,11 +1134,15 @@ function pageHead(program) {
         .set([String(DATA.meta.catalog_year), ...years].map((y, i) => ({ value: i ? y : '', label: `התחלתי ב${hebrewYear(+y + 1)}` })),
             years.includes(state.start) ? state.start : '');
     if (start) start.el.title = 'חלים עליך כללי הידיעון של שנת ההתחלה';
+    const length = programYears();
+    const spread = state.view === 'timeline' && picker({ id: 'spread', label: 'פריסה', key: 'spread', onchange: setSpread })
+        .set([0, 1, 2, 3].map(n => ({ value: n, label: `פריסה ל${yearsText(length + n)}` })), state.spread);
     return h('div', { class: 'page-head' },
         h('h1', {}, h('button', { class: 'program-switch', 'data-focus-key': 'program', 'aria-haspopup': 'dialog',
             title: 'החלפת תוכנית', onclick: openProgramDialog }, h('span', {}, shortProgram(state.program)))),
         h('div', { class: 'page-meta' },
             start && start.el,
+            spread && spread.el,
             h('button', { class: 'btn-link', onclick: () => showInfo({ type: 'program' }) }, 'פרטי התוכנית'),
             program.url && h('a', { href: program.url, target: '_blank', rel: 'noopener' }, 'הידיעון')));
 }
@@ -1675,6 +1688,12 @@ function setStart(value) {
     render({ fit: false });
     renderDetails();
     writeHash();
+}
+
+function setSpread(value) {
+    state.spread = value;
+    store.set(SPREAD_KEY, value);
+    renderSheet();
 }
 
 function resetFilters() {

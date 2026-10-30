@@ -185,6 +185,16 @@ def test_planning_across_semesters(open_page):
     assert page.errors == []
 
 
+def test_spread_adds_semesters(open_page):
+    page = open_page("#program=תוכנית חד-חוגית בפיזיקה&view=timeline")
+    assert page.locator(".terms .term").count() == 6  # a three-year program, starting this year
+    pick(page, "#spread", 2)
+    assert page.locator(".terms .term").count() == 10
+    assert "שנה ה׳" in page.locator(".terms .term-head b").last.inner_text()
+    assert page.evaluate("localStorage.getItem('coursesearch_spread')") == "2"
+    assert page.errors == []
+
+
 def pick(page, picker, value):
     page.click(picker)
     page.click(f'.picker-pop:not([hidden]) [role=option][data-value="{value}"]')
