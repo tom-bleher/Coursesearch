@@ -59,6 +59,9 @@ def test_first_visit_opens_program_chooser(open_page):
     page.fill(".chooser-search", "פיזיקה")
     shown = page.locator(".chooser-item:visible").all_inner_texts()
     assert shown and all("פיזיקה" in n for n in shown)
+    # closest names first
+    page.fill(".chooser-search", "מדעי המחשב")
+    assert page.locator(".chooser-item").first.inner_text() == "חד-חוגית במדעי המחשב"
     page.get_by_role("button", name="רק לעיין בקורסים").click()
     assert page.evaluate("[state.view, state.scope]") == ["map", "unit"] and page.is_hidden("#sheet")
     assert page.errors == []
@@ -104,6 +107,18 @@ def test_search_by_course_number(open_page):
     page.keyboard.press("Enter")
     page.wait_for_selector("#details:not([hidden])")
     assert "אלגברה לינארית 2א" in page.inner_text("#details h2")
+
+
+def test_search_ranks_exact_name_first(open_page):
+    page = open_page(f"#program={CS}&view=map")
+    page.fill("#search", "אלגוריתמים")
+    assert page.locator("#searchResults li div").first.inner_text() == "אלגוריתמים"
+    # a course missing from the map: its card offers the map of its unit
+    page.fill("#search", "אלגוריתמים באופטימיזציה רציפה")
+    page.keyboard.press("Enter")
+    page.locator("#details").get_by_role("button", name="הצגה במפת").click()
+    assert page.evaluate("[state.scope, state.selected, cy.getElementById('03654414').length]") == ["unit", "03654414", 1]
+    assert page.errors == []
 
 
 def test_program_view(open_page):

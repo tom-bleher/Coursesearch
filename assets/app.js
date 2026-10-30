@@ -804,7 +804,8 @@ function renderDetails() {
         h('div', { class: 'links' },
             c.syllabus && h('a', { href: c.syllabus, target: '_blank', rel: 'noopener' }, 'סילבוס'),
             drishot && h('a', { href: drishot, target: '_blank', rel: 'noopener' }, 'דרישות באתר האוניברסיטה')),
-        state.view === 'map' && !inGraph && h('p', { class: 'muted small', style: 'margin-top:10px' }, 'לא מוצג במפה עם הבחירה הנוכחית'),
+        state.view === 'map' && !inGraph && h('p', { class: 'muted small', style: 'margin-top:10px' }, 'לא מוצג במפה עם הבחירה הנוכחית',
+            isUnit(c.dept) && [h('br'), h('button', { class: 'btn-link', onclick: () => showInUnit(c.id) }, `הצגה במפת ${c.dept}`)]),
         [h('h3', {}, 'דרישות קדם'), c.req ? reqList(c.req) : h('p', { class: 'muted' }, 'אין')],
         c.coreq && [h('h3', {}, 'במקביל'), reqList(c.coreq)],
         g && [
@@ -821,6 +822,18 @@ function renderDetails() {
     panel.hidden = false;
     panel.scrollTop = 0;
     syncPanels();
+}
+
+// A course missing from the map: the map of its academic unit, with filters that let it show
+function showInUnit(id) {
+    const c = COURSES.get(id);
+    Object.assign(state, { scope: 'unit', depts: new Set([c.dept]) });
+    state.faculty = facultyOfUnits();
+    state.types.add(typeKey(c));
+    if (!isOffered(c, state.offered)) state.offered = 'all';
+    render();
+    if (!cy.getElementById(id).length) { state.isolated = true; render(); }  // no prerequisite links in its unit
+    select(id, { focus: true });
 }
 
 // ── Program & category info ─────────────────────────────────────────────────
@@ -1321,6 +1334,9 @@ function programChooser() {
     const fill = () => {
         const term = search.value.trim();
         const shown = programOptions.filter(o => (term ? shortProgram(o.value).includes(term) : programFaculty(o.value) === faculty));
+        // closest matches first: the name itself, then names that start with the term, then the shortest
+        const closeness = o => (o.label === term ? 0 : o.label.startsWith(term) ? 1 : 2);
+        if (term) shown.sort((a, b) => closeness(a) - closeness(b) || a.label.length - b.label.length);
         // while searching, results are grouped by faculty, since they may come from any of them
         const groupOf = o => (term ? programFaculty(o.value) : o.group);
         const groups = [...new Set(shown.map(groupOf))];
@@ -1548,7 +1564,13 @@ function setupSearch() {
         const term = input.value.trim().toLowerCase();
         const digits = term.replace(/\D/g, '');
         if (!term) return close();
-        const score = c => (c.name.toLowerCase().startsWith(term) ? 0 : 1) + (cy.getElementById(c.id).length ? 0 : 2);
+        // The exact name first, then names that start with the term; within each, the student's program
+        // and the map's courses, then courses offered this year
+        const near = new Set([...cy.nodes().map(n => n.id()), ...(programEdition(state.program)?.categories || []).flatMap(c => c.courses)]);
+        const score = c => {
+            const name = c.name.toLowerCase();
+            return (name === term || c.id === digits ? 0 : name.startsWith(term) ? 4 : 8) + (near.has(c.id) ? 0 : 2) + (offeredNow(c) ? 0 : 1);
+        };
         results = [...COURSES.values()]
             .filter(c => c.name.toLowerCase().includes(term) || (digits.length >= 3 && c.id.includes(digits)))
             .sort((a, b) => score(a) - score(b) || a.id.localeCompare(b.id))
@@ -1598,6 +1620,7 @@ function toggleIn(set, value) {
 // Faculties: of academic units (the map, from the data's meta) and of programs (the program chooser)
 const unitFaculties = () => DATA.meta.faculties || {};
 const programFaculty = name => DATA.programs[name]?.faculty || 'אחר';
+const isUnit = dept => Object.values(unitFaculties()).some(units => units.includes(dept));
 const facultyOfUnits = () => Object.keys(unitFaculties()).find(f => unitFaculties()[f].some(u => state.depts.has(u)))
     || Object.keys(unitFaculties())[0] || '';
 
