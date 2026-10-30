@@ -3,5 +3,4 @@ __pycache__/
 _site/
 firebase-debug.log
 .firebase/
-.wrangler/
 .DS_Store
