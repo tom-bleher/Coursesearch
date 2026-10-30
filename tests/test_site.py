@@ -464,6 +464,43 @@ def test_accounts_hidden_without_config(open_page):
     assert page.errors == []
 
 
+FAKE_SYNC = """export function createCloud(config, onUser) {
+    window.syncLoads = (window.syncLoads || 0) + 1;
+    return { signIn: async () => {}, signOut: async () => onUser(null),
+             load: async () => null, save: async () => {}, remove: async () => {} };
+}"""
+
+
+@pytest.mark.parametrize("signed_in_before", [False, True])
+def test_firebase_loads_when_needed(browser, base_url, signed_in_before):
+    # Firebase is about 100 KB: a device that never signed in gets it once idle, or from the sign-in button
+    page = browser.new_page()
+    page.add_init_script("window.requestIdleCallback = () => {};"  # never idle, for the test
+                         + ("localStorage.setItem('coursesearch_synced_uid', '\"u1\"');" if signed_in_before else ""))
+    page.route("**/assets/firebase-config.js", lambda route: route.fulfill(
+        content_type="application/javascript", body="window.FIREBASE_CONFIG = {};"))
+    page.route("**/assets/sync.js", lambda route: route.fulfill(content_type="application/javascript", body=FAKE_SYNC))
+    page.goto(base_url)
+    page.wait_for_selector("#status.done", timeout=20000)
+    if signed_in_before:
+        page.wait_for_function("window.syncLoads === 1")
+    else:
+        page.wait_for_timeout(300)
+        assert page.evaluate("window.syncLoads") is None and "התחברות" in page.inner_text("#accountBtn")
+        assert page.get_attribute("#accountBtn", "aria-expanded") is None  # signing in is an action, not a menu
+        page.hover("#accountBtn")
+        page.wait_for_function("window.syncLoads === 1")
+    page.evaluate("onCloudUser({ uid: 'u1', name: 'Test User' })")
+    page.wait_for_function("cloud.status === 'מסונכרן'")
+    # signed in, the button opens the account menu; Esc closes it
+    page.click("#accountBtn")
+    assert page.is_visible("#accountMenu") and page.get_attribute("#accountBtn", "aria-expanded") == "true"
+    page.keyboard.press("Escape")
+    assert page.is_hidden("#accountMenu") and page.get_attribute("#accountBtn", "aria-expanded") == "false"
+    assert page.evaluate("document.activeElement.id") == "accountBtn"
+    page.close()
+
+
 FAKE_CLOUD = """remote => {
     window.fake = { remote, saved: [] };
     cloud.api = {

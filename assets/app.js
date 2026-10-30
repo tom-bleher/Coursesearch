@@ -1515,7 +1515,7 @@ async function onCloudUser(user) {
 // Signing out leaves nothing behind on shared computers; the progress stays in the account
 async function cloudSignOut({ deleteData = false } = {}) {
     if (deleteData && !confirm('למחוק את נתוני התכנון שלך מהענן? לא ניתן לשחזר.')) return;
-    $('accountMenu').hidden = true;
+    showAccountMenu(false);
     const pending = cloud.timer;
     clearTimeout(pending);
     cloud.timer = null;
@@ -1534,9 +1534,11 @@ async function cloudSignOut({ deleteData = false } = {}) {
 
 function renderAccount() {
     const btn = $('accountBtn');
-    if (!cloud.api) return;
+    if (!window.FIREBASE_CONFIG && !cloud.api) return;
     btn.hidden = false;
     const u = cloud.user;
+    if (u) btn.setAttribute('aria-expanded', String(!$('accountMenu').hidden));
+    else { btn.removeAttribute('aria-expanded'); $('accountMenu').hidden = true; }  // signing in is an action, not a menu
     const avatar = u?.photo ? h('img', { src: u.photo, alt: '', class: 'avatar', referrerpolicy: 'no-referrer' })
         : u && h('span', { class: 'avatar' }, (u.name || u.email || '?')[0]);
     btn.replaceChildren(...(u ? [avatar, h('span', { class: 'account-name' }, (u.name || u.email || '').split(' ')[0])]
@@ -1562,18 +1564,32 @@ function googleIcon() {
     return svg;
 }
 
-async function setupCloud() {
+function showAccountMenu(open) {
+    $('accountMenu').hidden = !open;
+    if (cloud.user) $('accountBtn').setAttribute('aria-expanded', String(open));
+}
+
+// Firebase (about 100 KB) loads at once on a device that signed in before; for everyone else once the
+// page is idle, or sooner when the sign-in button is approached. Signing in shouldn't have to wait for
+// it: Safari may block a popup that opens after a download.
+function setupCloud() {
     if (!window.FIREBASE_CONFIG) return;
-    try {
-        const { createCloud } = await import('./sync.js');
-        cloud.api = createCloud(window.FIREBASE_CONFIG, onCloudUser);
-    } catch (err) {
-        console.error('Cloud sync unavailable', err);
-        return;
+    const btn = $('accountBtn');
+    let loading = null;
+    const load = () => loading ??= import('./sync.js')
+        .then(({ createCloud }) => { cloud.api = createCloud(window.FIREBASE_CONFIG, onCloudUser); renderAccount(); })
+        .catch(err => { console.error('Cloud sync unavailable', err); btn.hidden = true; });
+    if (store.get(SYNCED_KEY, null)) load();
+    else {
+        renderAccount();
+        if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 5000 });
+        else setTimeout(load, 2000);
+        ['pointerenter', 'touchstart', 'focus'].forEach(type => btn.addEventListener(type, load, { once: true, passive: true }));
     }
-    renderAccount();
-    $('accountBtn').addEventListener('click', async () => {
-        if (cloud.user) { $('accountMenu').hidden = !$('accountMenu').hidden; return; }
+    btn.addEventListener('click', async () => {
+        if (cloud.user) return showAccountMenu($('accountMenu').hidden);
+        if (!cloud.api) await load();
+        if (!cloud.api) return;
         try {
             await cloud.api.signIn();
         } catch (err) {
@@ -1584,7 +1600,13 @@ async function setupCloud() {
         }
     });
     document.addEventListener('click', e => {
-        if (!e.target.closest('#accountMenu, #accountBtn')) $('accountMenu').hidden = true;
+        if (!e.target.closest('#accountMenu, #accountBtn')) showAccountMenu(false);
+    });
+    btn.parentElement.addEventListener('keydown', e => {
+        if (e.key !== 'Escape' || $('accountMenu').hidden) return;
+        e.stopPropagation();  // only the menu closes, not the course card
+        showAccountMenu(false);
+        btn.focus();
     });
 }
 
