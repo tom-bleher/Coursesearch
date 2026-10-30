@@ -376,6 +376,28 @@ def test_hash_navigation(open_page):
     assert "אלגברה לינארית 2א" in page.inner_text("#details h2")
 
 
+def test_back_button(open_page):
+    page = open_page(f"#program={CS}", width=390, height=844)
+    page.click("#tabs [data-view=map]")
+    click_node(page, "03661101")
+    page.wait_for_selector("#details:not([hidden])")
+    # filters only update the current step
+    steps = page.evaluate("history.length")
+    page.evaluate("setStart(Object.keys(DATA.programs[state.program].previous)[0])")
+    assert page.evaluate("history.length") == steps
+    # back closes the card (the bottom sheet on phones), then returns to the previous tab
+    page.go_back()
+    page.wait_for_selector("#details", state="hidden")
+    assert page.evaluate("[state.view, state.selected]") == ["map", None]
+    page.go_back()
+    page.wait_for_function("state.view === 'list'")
+    page.go_forward()
+    page.go_forward()
+    page.wait_for_selector("#details:not([hidden])")
+    assert page.evaluate("[state.view, state.selected]") == ["map", "03661101"]
+    assert page.errors == []
+
+
 @pytest.mark.parametrize("width", [390, 740])
 def test_narrow_screens(open_page, width):
     page = open_page("#course=03661102", width=width, height=900)
