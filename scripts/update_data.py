@@ -356,7 +356,8 @@ def fetch_program(p, shana, counts):
 
 
 def build_plans(arazim_plans, shana):
-    """Official catalog programs, plus Arazim's joint programs (linked to their official halves)."""
+    """Bachelor's programs: the official catalog's, plus Arazim's joint programs (linked to their official halves).
+    Credits come from every catalog program, graduate ones included."""
     arazim, credits = arazim_programs(arazim_plans), {}
     counts = {norm_name(n): {norm_name(c["name"]): c.get("count") for c in p["categories"]} for n, p in arazim.items()}
     try:
@@ -385,7 +386,7 @@ def build_plans(arazim_plans, shana):
             # match on the major's leading name ("מדעי כדור הארץ וכוכבי הלכת" → "מדעי כדור הארץ")
             program["parts"] = [{"name": half, "url": plans[half]["url"]} for chug, half in halves
                                 if re.search(rf"ו?ב{re.escape(chug.split(' ו')[0])}(\s|$)", name)]
-    return dict(sorted(plans.items())), credits
+    return dict(sorted((n, p) for n, p in plans.items() if p.get("level") == "ראשון")), credits
 
 
 # ── Output ───────────────────────────────────────────────────────────────────

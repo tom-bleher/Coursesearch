@@ -168,9 +168,8 @@ function canvasLabel(name) {
     return /^[^\p{L}]*\p{Script=Latin}/u.test(name) ? `\u200E${name.replace(/([^\p{L}\p{N}\s])/gu, '\u200E$1\u200E')}\u200E` : name;
 }
 const shortProgram = name => name.replace(/^(תוכנית|תכנית)\s+(לימודים\s+)?/, '');
-// Under a "חד-חוגיות" / "דו-חוגיות" / "תואר שני" heading: "חד-חוגית במדעי המחשב" → "מדעי המחשב"
-const programTitle = name => shortProgram(name)
-    .replace(/^((חד|דו)[- ]חוגית\s+(לתואר ראשון\s+)?|לתואר (שני|שלישי)\s+)ב(?=\S)/, '');
+// Under a "חד-חוגיות" / "דו-חוגיות" heading: "חד-חוגית במדעי המחשב" → "מדעי המחשב"
+const programTitle = name => shortProgram(name).replace(/^(חד|דו)[- ]חוגית\s+(לתואר ראשון\s+)?ב(?=\S)/, '');
 
 // ── Requirement trees: "id" | {all: [...]} | {any: [...]} ───────────────────
 function reqIds(req) {
@@ -1742,18 +1741,13 @@ function setupCanvasTools() {
     cy.on('mouseout', 'node', e => e.target.connectedEdges().removeClass('peek'));
 }
 
-// Programs are grouped by degree, and bachelor's programs by kind
-const GROUPS = ['חד-חוגיות', 'דו-חוגיות', 'תואר ראשון - אחר', 'תואר שני', 'תואר שלישי'];
-function programGroup(name) {
-    const level = DATA.programs[name].level;
-    if (level !== 'ראשון') return { 'שני': 'תואר שני', 'שלישי': 'תואר שלישי' }[level] || level;
-    return /חד[- ]חוגי/.test(name) ? GROUPS[0] : /דו[- ]חוגי/.test(name) ? GROUPS[1] : GROUPS[2];
-}
+// Programs (all bachelor's) are grouped by kind
+const GROUPS = ['חד-חוגיות', 'דו-חוגיות', 'אחר'];
+const programGroup = name => /חד[- ]חוגי/.test(name) ? GROUPS[0] : /דו[- ]חוגי/.test(name) ? GROUPS[1] : GROUPS[2];
 
 function setupControls() {
-    const rank = g => (GROUPS.includes(g) ? GROUPS.indexOf(g) : GROUPS.length);
     programOptions = Object.keys(DATA.programs).map(n => ({ value: n, label: programTitle(n), group: programGroup(n) }))
-        .sort((a, b) => rank(a.group) - rank(b.group) || a.group.localeCompare(b.group, 'he') || a.label.localeCompare(b.label, 'he'));
+        .sort((a, b) => GROUPS.indexOf(a.group) - GROUPS.indexOf(b.group) || a.label.localeCompare(b.label, 'he'));
     pickers.faculty = picker({ id: 'faculty', label: 'פקולטה', onchange: setFaculty });
     $('facultySlot').replaceWith(pickers.faculty.el);
     [...$('tabs').children].forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));

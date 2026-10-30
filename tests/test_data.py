@@ -144,12 +144,10 @@ def test_credits_are_numeric(index):
 
 def test_programs(index):
     programs = index["programs"]
-    assert len(programs) > 300
-    assert {p["level"] for p in programs.values()} >= {"ראשון", "שני"}
+    assert {p["level"] for p in programs.values()} == {"ראשון"}  # bachelor's only
     assert programs["תוכנית חד-חוגית בפיזיקה"]["faculty"] == "מדעים מדויקים"
-    bachelors = [n for n, p in programs.items() if p["level"] == "ראשון"]
-    assert len(bachelors) > 150
-    for name in bachelors:
+    assert len(programs) > 150
+    for name in programs:
         assert program(index, name)["categories"], name
 
 
