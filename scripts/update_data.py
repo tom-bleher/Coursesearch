@@ -282,6 +282,9 @@ def catalog(query, variables, tries=4):
                 out = json.load(r)
             break
         except (OSError, http.client.HTTPException) as e:  # incl. HTTP errors and timeouts
+            code = getattr(e, "code", None)
+            if isinstance(code, int) and 400 <= code < 500 and code != 429:  # a definite answer, not a passing failure
+                raise NoData(f"HTTP {code}") from e
             if attempt == tries - 1:
                 raise
             print(f"  catalog request failed ({e}); retrying", flush=True)
