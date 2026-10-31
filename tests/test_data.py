@@ -79,6 +79,22 @@ def test_check_programs_kept(tmp_path, monkeypatch):
         ud.check_programs_kept(old, {rel: {} for rel in files})
 
 
+def test_catalog_down_keeps_published_programs(tmp_path, monkeypatch):
+    monkeypatch.setattr(ud, "DATA", tmp_path)
+    (tmp_path / "programs").mkdir()
+    (tmp_path / "index.json").write_text(json.dumps({
+        "programs": {"P": {"id": "1"}}, "courses": {"14119101": {"credits": 4}, "14119102": {}}}))
+    (tmp_path / "programs/1.json").write_text(json.dumps({"level": "ראשון", "categories": [
+        {"courses": ["1411910101", "1411910102", "14119102"]}], "previous": {"2025": {"categories": []}}}))
+
+    def down(shana):
+        raise OSError("HTTP 503")
+    monkeypatch.setattr(ud, "catalog_programs", down)
+    plans, credits = ud.build_plans({}, 2026)
+    assert plans["P"]["categories"][0]["courses"] == ["14119101", "14119102"]
+    assert credits == {"14119101": 4}
+
+
 @pytest.mark.parametrize("name, expected", [
     ("שנה א' - סמסטר ב' - קורסי חובה", (1, 2, True)),
     ("שנים ב'+ ג' - קורסי בחירה במתמטיקה", (2, None, False)),

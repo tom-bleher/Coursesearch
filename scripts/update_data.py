@@ -232,9 +232,13 @@ def plan_credits(plans_by_year):
     return credits
 
 
+def course_numbers(ids):
+    """Some programs (e.g. law) list each group: course number + 2-digit group."""
+    return list(dict.fromkeys(c[:8] for c in ids))
+
+
 def make_category(name, courses, count=None, credits=None, note=None):
-    # some programs (e.g. law) list each group: course number + 2-digit group
-    courses = list(dict.fromkeys(c[:8] for c in courses))
+    courses = course_numbers(courses)
     name = re.sub(r"\s+", " ", name).strip()
     year, sem, required = parse_category(name)
     # Mandatory even when not labelled "חובה": every listed course is required, or the official
@@ -385,7 +389,11 @@ def build_plans(arazim_plans, shana):
     Credits come from every catalog program, graduate ones included."""
     arazim, credits = arazim_programs(arazim_plans), {}
     counts = {norm_name(n): {norm_name(c["name"]): c.get("count") for c in p["categories"]} for n, p in arazim.items()}
-    official = catalog_programs(shana)
+    try:
+        official = catalog_programs(shana)
+    except (OSError, http.client.HTTPException) as e:
+        print(f"  catalog unavailable ({e}); keeping the published programs", flush=True)
+        return published_plans()
     print(f"  {len(official)} catalog programs", flush=True)
     catalog_plans, by_name = {}, {}
     pool = ThreadPoolExecutor(WORKERS)
@@ -411,6 +419,18 @@ def build_plans(arazim_plans, shana):
             program["parts"] = [{"name": half, "url": plans[half]["url"]} for chug, half in halves
                                 if re.search(rf"ו?ב{re.escape(chug.split(' ו')[0])}(\s|$)", name)]
     return dict(sorted((n, p) for n, p in plans.items() if p.get("level") == "ראשון")), credits
+
+
+def published_plans():
+    """The programs and credits already published: what an update keeps while the catalog is down."""
+    index = read_data("index.json") or {}
+    plans = {name: read_data(f"programs/{p['id']}.json") for name, p in index.get("programs", {}).items()}
+    for program in plans.values():
+        for edition in [program, *program.get("previous", {}).values()]:
+            for cat in edition["categories"]:
+                cat["courses"] = course_numbers(cat["courses"])
+    credits = {cid: c["credits"] for cid, c in index.get("courses", {}).items() if c.get("credits")}
+    return plans, credits
 
 
 # ── Output ───────────────────────────────────────────────────────────────────

@@ -32,7 +32,7 @@ python3 scripts/update_data.py   # fetch the latest data and rebuild data/ (abou
 python3 -m http.server           # then open http://localhost:8000
 ```
 
-A GitHub Actions workflow refreshes the data every week and deploys the site to GitHub Pages. If the catalog can't be reached, or many programs would disappear, the update fails and the current data stays.
+A GitHub Actions workflow refreshes the data every week and deploys the site to GitHub Pages. While the catalog is down, the update keeps the published programs; if it fails partway, or many programs would disappear, the update stops and the current data stays.
 
 Grade statistics use each semester's all-groups final-grade distribution, weighted by the number of students; where TAU Factor gives no mean for a semester, it is estimated from the distribution. Non-numeric grades are excluded. Always confirm requirements on the [university website](https://www.ims.tau.ac.il/Tal/).
 
