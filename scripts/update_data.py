@@ -5,7 +5,7 @@ Sources (format documented at https://github.com/arazimproject/tau-search/blob/m
   courses-{sem}.json  per-semester offerings, groups, exams, structured prerequisites
   courses.json        all-time course index (names, semesters offered)
   grades.json         grade distributions per semester / group / moed
-  plans-{year}.json   study programs, incl. joint programs the official catalog lists only per major
+  plans-{year}.json   study programs: "choose k" counts, credit points, and programs the catalog has no structure for
 
 and from TAU's official program catalog (ידיעון, https://www.tau.ac.il/search-studies-programs):
   program structure, credit requirements, official notes and per-course credit points
@@ -38,8 +38,9 @@ DATA = Path(__file__).resolve().parent.parent / "data"
 
 YEARS_BACK = 5  # offering window: latest academic year and the 5 before it (grades: their whole history)
 OTHER = "אחר"  # faculty of courses and programs that don't name one
-# Arazim's study plans add the joint programs the catalog lists only per major; its graduate and
-# certificate plans duplicate the catalog's
+LEVELS = ("ראשון", "שני")  # the degrees the site offers
+# Arazim's study plans add programs the catalog has no structure for; its graduate and certificate plans
+# duplicate the catalog's
 PLAN_EXCLUDE = re.compile("תואר שני|תואר שלישי|לימודי תעודה|תעודת הוראה")
 WORKERS = 3  # parallel requests to the catalog: polite, and enough
 CATALOG_API = "https://tochniot.tau.ac.il/graphql"
@@ -299,27 +300,67 @@ def catalog(query, variables, tries=4):
     return out["data"]
 
 
-def catalog_page(api, shana, tcid, safa="1"):
-    """One page of a program; safa is the language: "1" Hebrew, "2" English (international programs)."""
+def catalog_page(api, shana, safa="1", **ids):
+    """One page of a program or group (tcid= or egedid=); safa is the language: "1" Hebrew, "2" English.
+    The catalog answers with a status object instead of a list when it has no such page."""
     q = "query($api: String!, $f: JSON!) { results(apiUrl: $api, filters: $f) { body } }"
-    body = catalog(q, {"api": api, "f": {"safa": safa, "shana": str(shana), "tcid": tcid, "tab": "programStudy"}})
-    return (body["results"]["body"] or [None])[0]
+    body = catalog(q, {"api": api, "f": {"safa": safa, "shana": str(shana), "tab": "programStudy", **ids}})
+    body = body["results"]["body"]
+    return body[0] if isinstance(body, list) and body else None
 
 
-def catalog_programs(shana):
-    """Every program of the year's catalog: all faculties and degrees."""
+def group_programs(group):
+    """The programs of a catalog group, which has no program id of its own. A joint program is one
+    program under its id (each major's page shows the same structure); other groups list separate tracks."""
+    try:
+        page = catalog_page("ydhesberklali", group["shana"], group["currentSafa"], egedid=group["egedid"]) or {}
+    except NoData:
+        return []
+    if page.get("tcid"):
+        return [{**group, "tcid": page["tcid"]}]
+    # named by their own pages
+    return [{**group, "tcid": t["tcid"], "teur": None, "group": group["teur"]} for t in page.get("tochnit") or []]
+
+
+def catalog_programs():
+    """Every program in the catalog, each at its latest edition: all faculties and degrees, including
+    closed programs and those listed only inside a group."""
     q = ("query($s: JSON!) { getPrograms(search: $s, from: 0, size: 5000) "
-         "{ results { tcid shana toar teur teurfaculta teurchug } } }")
+         "{ results { tcid egedid shana toar teur teurfaculta teurchug currentSafa } } }")
     results = catalog(q, {"s": {"safa": "1", "isLoadPrograms": True}})["getPrograms"]["results"]
-    return [p for p in results if p["shana"] == str(shana) and p["tcid"] and p["teur"]]
+    with ThreadPoolExecutor(WORKERS) as pool:
+        grouped = pool.map(group_programs, [p for p in results if not p["tcid"] and p["egedid"]])
+        members = [m for group in grouped for m in group]
+    programs = {}  # a program may sit in several groups, or also be listed by itself
+    for p in sorted([p for p in results if p["tcid"]] + members, key=lambda p: (p["shana"], bool(p["toar"])), reverse=True):
+        programs.setdefault(p["tcid"], p)
+    return list(programs.values())
 
 
-def catalog_program(shana, tcid, counts, faculty=None, safa="1"):
-    """One official program: structure, notes, links; `counts` maps category names to Arazim's "choose k"."""
-    page = catalog_page("ydtochnit", shana, tcid, safa)
+def catalog_faculties():
+    """{unit code: faculty}, for programs inside groups: the first four digits of a program's long key."""
+    q = "query($s: JSON!) { getProgramsHierarchy(search: $s) { name rama { id rama { id } } } }"
+    tree = catalog(q, {"s": {"safa": "1"}})["getProgramsHierarchy"]
+    return {unit["id"]: faculty["name"] for faculty in tree for school in faculty["rama"] or []
+            for unit in [school, *(school["rama"] or [])]}
+
+
+def degree_level(degree):
+    """'M.A. בפילוסופיה' → 'שני', '.B.Sc בפיזיקה' → 'ראשון': groups' programs don't state their level."""
+    if re.search(r"M\.|\bM[A-Z]|מוסמך", degree or ""):
+        return "שני"
+    return "ראשון" if re.search(r"B\.|בוגר", degree or "") else None
+
+
+def catalog_program(shana, tcid, counts, safa="1", name=None):
+    """One official program: structure, notes, links; `counts` maps program and category names to Arazim's
+    "choose k". A program without a `name` takes its page's."""
+    page = catalog_page("ydtochnit", shana, safa, tcid=tcid)
     if not page:
         raise NoData(f"no page for {tcid} in {shana}")
-    general = catalog_page("ydhesberklali", shana, tcid, safa) or {}
+    general = catalog_page("ydhesberklali", shana, safa, tcid=tcid) or {}
+    name = name or re.sub(r"\s+", " ", page.get("teurtochnit") or "").strip()
+    counts = counts.get(norm_name(name), {})
     categories, sections, credits = [], [], {}
 
     def walk(node, path):
@@ -346,9 +387,12 @@ def catalog_program(shana, tcid, counts, faculty=None, safa="1"):
     links = [{"title": t["Title"].strip(), "url": t["url"]} for t in page.get("terms") or [] if t.get("url")]
     links += [{"title": f"ידיעון {p['shana']}", "url": p["url"]} for p in (page.get("prev_newsletters") or [])[:1]]
     program = {
+        "name": name,
         "tcid": tcid,
+        "year": str(shana),
+        "closed": page.get("pail") not in (None, "1") or None,
         "url": CATALOG_PAGE.format(safa=safa, shana=shana, tcid=tcid),
-        "faculty": faculty,
+        "unit": (page.get("tclongkey") or "")[:4],
         "degree": (page.get("teurtoar") or "").strip(),
         "total": number(general.get("michsa")),
         "about": html_text(page.get("hesbernosaf")),
@@ -359,23 +403,29 @@ def catalog_program(shana, tcid, counts, faculty=None, safa="1"):
     return {k: v for k, v in program.items() if v not in (None, "", [])}, credits
 
 
-def fetch_program(p, shana, counts):
+def fetch_program(p, counts, faculties):
     """One catalog program and its earlier editions; None when the catalog has no structure for it."""
-    name = re.sub(r"\s+", " ", p["teur"]).strip()
-    safa = "1" if re.search("[א-ת]", name) else "2"  # international programs exist only in English
-    try:
-        program, credits = catalog_program(shana, p["tcid"], counts.get(norm_name(name), {}),
-                                           short_faculty(p["teurfaculta"] or "") or OTHER, safa)
-    except NoData:  # programs without a published structure (PhD, MD, …)
-        return name, None, {}
-    if not program.get("categories"):
-        return name, None, {}
-    program["level"] = p["toar"] or OTHER
+    shana = int(p["shana"])
+    name = re.sub(r"\s+", " ", p["teur"] or "").strip() or None
+    # A group's Hebrew listing may hold a program that exists only in English
+    for safa in dict.fromkeys((p["currentSafa"] or "1", "1", "2")):
+        try:
+            program, credits = catalog_program(shana, p["tcid"], counts, safa, name)
+            break
+        except NoData:  # programs without a published structure (PhD, MD, …)
+            continue
+    else:
+        return None, None, {}
+    name = program.pop("name")
+    program["faculty"] = short_faculty(p["teurfaculta"] or faculties.get(program.pop("unit", "")) or "") or OTHER
+    if not name or not program.get("categories"):
+        return None, None, {}
+    program["level"] = p["toar"] or degree_level(program.get("degree")) or OTHER
     # Earlier catalogs of the same program, for students who started in those years
     previous = {}
     for year in range(shana - 1, shana - 1 - PREVIOUS_CATALOGS, -1):
         try:
-            old, _ = catalog_program(year, p["tcid"], {}, safa=safa)
+            old, _ = catalog_program(year, p["tcid"], {}, safa=safa, name=name)
         except NoData:  # not in that year's catalog
             continue
         if old.get("categories"):
@@ -385,41 +435,69 @@ def fetch_program(p, shana, counts):
     return name, program, credits
 
 
-def build_plans(arazim_plans, shana):
-    """Bachelor's programs: the official catalog's, plus Arazim's joint programs (linked to their official halves).
-    Credits come from every catalog program, graduate ones included."""
+def structure(program):
+    """What makes two same-named programs different."""
+    return sorted(sorted(c["courses"]) for c in program["categories"])
+
+
+def unique_names(found):
+    """{name: program}; `found` is (name, program, listing), newest first. Identical same-named programs are
+    kept once. Different ones (each unit's part of a joint degree, research tracks by school, editions, ...)
+    are told apart by the first property that differs, and the newest alone keeps the plain name."""
+    by_name = {}
+    for name, program, p in found:
+        same = by_name.setdefault(name, [])
+        if all(structure(program) != structure(other) for other, _ in same):
+            same.append((program, p))
+    plans = {}
+    for name, same in by_name.items():
+        labels = next(labels for labels in (
+            [p.get("teurchug") for _, p in same],
+            [program.get("degree") for program, _ in same],
+            [f"ידיעון {program['year']}" for program, _ in same],
+            [next((s["name"] for s in program.get("sections", [])), None) for program, _ in same],
+            [p.get("group") for _, p in same],
+            [program.get("total") and f'{program["total"]} ש"ס' for program, _ in same],
+            [f"מס' {program['tcid']}" for program, _ in same]) if all(labels) and len(set(labels)) == len(same))
+        sole_newest = len(same) > 1 and same[0][0]["year"] > same[1][0]["year"]
+        for i, ((program, _), label) in enumerate(zip(same, labels)):
+            plans[name if len(same) == 1 or (sole_newest and i == 0) else f"{name} ({label})"] = program
+    return plans
+
+
+def build_plans(arazim_plans):
+    """The first and second degrees' programs: the official catalog's, plus Arazim's for what it has no
+    structure for. Credits come from every catalog program, whatever its degree."""
     arazim, credits = arazim_programs(arazim_plans), {}
     counts = {norm_name(n): {norm_name(c["name"]): c.get("count") for c in p["categories"]} for n, p in arazim.items()}
     try:
-        official = catalog_programs(shana)
+        official = catalog_programs()
+        faculties = catalog_faculties()
     except (OSError, http.client.HTTPException) as e:
         print(f"  catalog unavailable ({e}); keeping the published programs", flush=True)
         return published_plans()
     print(f"  {len(official)} catalog programs", flush=True)
-    catalog_plans, by_name = {}, {}
+    found = []
     pool = ThreadPoolExecutor(WORKERS)
     try:
         for i, (p, (name, program, program_credits)) in enumerate(
-                zip(official, pool.map(lambda p: fetch_program(p, shana, counts), official)), 1):
+                zip(official, pool.map(lambda p: fetch_program(p, counts, faculties), official)), 1):
             if program:
-                catalog_plans[name] = program
+                found.append((name, program, p))
                 credits.update(program_credits)
-                by_name[name] = p
             if i % 50 == 0:
                 print(f"  {i}/{len(official)}", flush=True)
     finally:
         pool.shutdown(cancel_futures=True)  # after a failure, don't wait for the remaining programs
-    # Arazim adds what the catalog lacks: mostly joint programs (the same name spelled differently is a duplicate)
-    known = {norm_name(n) for n in catalog_plans}
-    plans = {**{n: p for n, p in arazim.items() if norm_name(n) not in known}, **catalog_plans}
-    # Joint programs (e.g. "דו-חוגית במתמטיקה ובמדעי המחשב") are two "…ובחוג נוסף" catalog programs
-    halves = [(p["teurchug"], name) for name, p in by_name.items() if "חוג נוסף" in name and p.get("teurchug")]
-    for name, program in plans.items():
-        if "tcid" not in program:
-            # match on the major's leading name ("מדעי כדור הארץ וכוכבי הלכת" → "מדעי כדור הארץ")
-            program["parts"] = [{"name": half, "url": plans[half]["url"]} for chug, half in halves
-                                if re.search(rf"ו?ב{re.escape(chug.split(' ו')[0])}(\s|$)", name)]
-    return dict(sorted((n, p) for n, p in plans.items() if p.get("level") == "ראשון")), credits
+    # Programs last published before the newest catalog no longer take new students
+    newest = max((program["year"] for _, program, _ in found), default=None)
+    for _, program, _ in found:
+        if program["year"] != newest:
+            program["closed"] = True
+    # the same name spelled differently is a duplicate
+    known = {norm_name(n) for n, _, _ in found}
+    plans = {**{n: p for n, p in arazim.items() if norm_name(n) not in known}, **unique_names(found)}
+    return dict(sorted((n, p) for n, p in plans.items() if p.get("level") in LEVELS)), credits
 
 
 def published_plans():
@@ -440,7 +518,7 @@ DETAIL_FIELDS = ("lecturers", "exams", "grades", "syllabus")
 
 
 def program_id(name, program):
-    """File name of a program: its catalog id, or a stable hash of its name (Arazim's joint programs)."""
+    """File name of a program: its catalog id, or a stable hash of its name (Arazim's programs)."""
     return program.get("tcid") or "a" + hashlib.sha1(name.encode()).hexdigest()[:10]
 
 
@@ -461,6 +539,10 @@ def split(courses, plans):
     for name, program in plans.items():
         pid = program_id(name, program)
         programs[name] = {"id": pid, "faculty": program.get("faculty") or OTHER, "level": program.get("level") or OTHER}
+        if program.get("closed"):
+            programs[name]["closed"] = True
+        if program.get("degree"):  # searchable: "MBA" appears in no program's name
+            programs[name]["degree"] = program["degree"]
         files[f"programs/{pid}.json"] = program
     return index_courses, programs, {**details, **files}
 
@@ -534,7 +616,7 @@ def main():
 
     print("Fetching study programs, all-time index, grades…", flush=True)
     plans_by_year = [fetch(f"plans-{y}.json") for y in range(latest_year, latest_year - YEARS_BACK - 1, -1)]
-    plans, credits = build_plans(plans_by_year[0], latest_year - 1)
+    plans, credits = build_plans(plans_by_year[0])
     credits = {**plan_credits(plans_by_year), **credits}  # the official catalog takes precedence
     all_time = fetch("courses.json") or {}
     grades = fetch("grades.json") or {}

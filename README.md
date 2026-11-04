@@ -7,7 +7,7 @@ An interactive map of courses, prerequisites, study programs and grades for all 
 ## Features
 
 - **Prerequisite graph.** Courses are grouped by study year. Edges show required courses, alternatives ("one of") and co-requisites. Click a course to highlight its whole prerequisite chain and the courses it unlocks.
-- **Study programs.** Pick any bachelor's program in the official catalog, from every faculty, or a joint program. Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
+- **Study programs.** Pick any first- or second-degree program in the official catalog, from every faculty, including joint programs, each research or coursework track and programs closed to new students. Its courses are laid out by year and semester, straight from the official catalog (ידיעון): credit requirements, official notes and rules for each part, the degree's credit quota, and links to the catalog and regulations. Click a year or semester band to see its rules.
 - **Grades.** Each course card shows the average final grade (מועד קובע) over the years for which TAU Factor has grades, with the distribution and a per-semester breakdown.
 - **My degree.** Pick a faculty and a program (and the catalog year you started in) to get your degree as a checklist, organized like the official catalog: years, their required and elective parts, and each part's courses.
   - Mark courses as passed (a whole mandatory semester at once), add your grade, or plan a course for a semester. Requirements without a course list, such as "שאר רוח", take credits entered by hand.
@@ -22,13 +22,13 @@ An interactive map of courses, prerequisites, study programs and grades for all 
 
 `scripts/update_data.py` builds the data for the whole university using only the Python standard library. It draws on two sources:
 
-- **[Arazim Project](https://arazim-project.com) dumps:** semester schedules and prerequisites, the all-time course index, study plans (for joint programs, and credit points for courses outside the catalog programs) and TAU Factor grade distributions ([format](https://github.com/arazimproject/tau-search/blob/main/src/types.ts)).
+- **[Arazim Project](https://arazim-project.com) dumps:** semester schedules and prerequisites, the all-time course index, study plans (for programs the catalog has no structure for, and credit points for courses outside the catalog programs) and TAU Factor grade distributions ([format](https://github.com/arazimproject/tau-search/blob/main/src/types.ts)).
 - **[TAU program catalog](https://www.tau.ac.il/search-studies-programs):** program structure, credit requirements, official notes and course credit points. The data comes from the GraphQL API behind the catalog pages.
 
 The output is split so the site loads only what it shows: `data/index.json` (every course's name, unit, prerequisites, semesters, credits and average grade, and the list of programs), `data/courses/{unit}.json` (lecturers, exams, grade distributions and syllabus links, by the course number's first four digits) and `data/programs/{id}.json` (one program each).
 
 ```sh
-python3 scripts/update_data.py   # fetch the latest data and rebuild data/ (about 10 minutes)
+python3 scripts/update_data.py   # fetch the latest data and rebuild data/ (about 20 minutes)
 python3 -m http.server           # then open http://localhost:8000
 ```
 

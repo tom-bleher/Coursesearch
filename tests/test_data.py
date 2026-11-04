@@ -87,12 +87,31 @@ def test_catalog_down_keeps_published_programs(tmp_path, monkeypatch):
     (tmp_path / "programs/1.json").write_text(json.dumps({"level": "ראשון", "categories": [
         {"courses": ["1411910101", "1411910102", "14119102"]}], "previous": {"2025": {"categories": []}}}))
 
-    def down(shana):
+    def down():
         raise OSError("HTTP 503")
     monkeypatch.setattr(ud, "catalog_programs", down)
-    plans, credits = ud.build_plans({}, 2026)
+    plans, credits = ud.build_plans({})
     assert plans["P"]["categories"][0]["courses"] == ["14119101", "14119102"]
     assert credits == {"14119101": 4}
+
+
+def test_group_programs(monkeypatch):
+    group = {"tcid": None, "egedid": "9", "shana": "2026", "currentSafa": "1", "teur": "קבוצה"}
+    pages = {"9": {"tochnit": [{"tcid": "1"}, {"tcid": "2"}]},   # separate tracks, named by their own pages
+             "40": {"tcid": "7612", "tochnit": [{"tcid": "5959"}, {"tcid": "7612"}]}}  # one joint program
+    monkeypatch.setattr(ud, "catalog_page", lambda api, shana, safa, egedid: pages.get(egedid))
+    assert [(p["tcid"], p["teur"]) for p in ud.group_programs(group)] == [("1", None), ("2", None)]
+    assert [(p["tcid"], p["teur"]) for p in ud.group_programs({**group, "egedid": "40"})] == [("7612", "קבוצה")]
+    assert ud.group_programs({**group, "egedid": "none"}) == []
+
+
+@pytest.mark.parametrize("degree, level", [
+    ("M.A. בפילוסופיה", "שני"), (".M.Mus במוזיקה", "שני"), ("מוסמך אוניברסיטה (M.F.A.) בתיאטרון", "שני"), ("M.S.W בעבודה סוציאלית", "שני"),
+    ("LL.M. במשפטים", "שני"), (".B.Sc בפיזיקה", "ראשון"), ("B.Mus. במוזיקה", "ראשון"), ("LL.B. במשפטים", "ראשון"),
+    ("תעודת אמן בזמרה", None), ("", None), (None, None),
+])
+def test_degree_level(degree, level):
+    assert ud.degree_level(degree) == level
 
 
 def test_required_category_counts_listed_groups():
@@ -100,6 +119,18 @@ def test_required_category_counts_listed_groups():
     assert ud.make_category("שנה א", ["1000000001", "1000000002", "2000000001"], 3)["required"]
     assert ud.make_category("שנה א", ["1000000001", "1000000002"], 1)["required"]
     assert not ud.make_category("שנה א", ["10000000", "20000000", "30000000"], 2)["required"]
+
+
+def test_unique_names():
+    def found(name, tcid, courses, year="2026", chug="יחידה"):
+        return name, {"tcid": tcid, "year": year, "categories": [{"courses": courses}]}, {"teurchug": chug}
+    # one program listed under each of its units is kept once
+    assert list(ud.unique_names([found("א", "1", ["x"]), found("א", "2", ["x"], chug="אחרת")])) == ["א"]
+    # different programs are told apart by what differs
+    assert sorted(ud.unique_names([found("ב", "1", ["x"], chug="צמח"), found("ב", "2", ["y"], chug="גנטיקה")])) == ["ב (גנטיקה)", "ב (צמח)"]
+    assert sorted(ud.unique_names([found("ג", "1", ["x"]), found("ג", "2", ["y"])])) == ["ג (מס' 1)", "ג (מס' 2)"]
+    # the newest of different editions keeps the plain name that students saved
+    assert sorted(ud.unique_names([found("ד", "1", ["x"]), found("ד", "2", ["y"], year="2024")])) == ["ד", "ד (ידיעון 2024)"]
 
 
 @pytest.mark.parametrize("name, expected", [
@@ -197,9 +228,10 @@ def test_credits_are_numeric(index):
 
 def test_programs(index):
     programs = index["programs"]
-    assert {p["level"] for p in programs.values()} == {"ראשון"}  # bachelor's only
+    assert {p["level"] for p in programs.values()} == {"ראשון", "שני"}
     assert programs["תוכנית חד-חוגית בפיזיקה"]["faculty"] == "מדעים מדויקים"
-    assert len(programs) > 150
+    assert sum(p["level"] == "ראשון" for p in programs.values()) > 150
+    assert sum(p["level"] == "שני" for p in programs.values()) > 150
     for name in programs:
         assert program(index, name)["categories"], name
 
@@ -220,5 +252,12 @@ def test_official_catalog_programs(index):
     assert physics["total"] > 100
     electives = next(c for c in physics["categories"] if not c["required"])
     assert electives.get("credits") and electives.get("note")
+    # Joint programs are listed only as catalog groups, with a structure of their own
     joint = program(index, "תוכנית דו-חוגית במתמטיקה ובמדעי המחשב")
-    assert {p["name"] for p in joint["parts"]} == {"תוכנית דו-חוגית במתמטיקה ובחוג נוסף", "תוכנית דו-חוגית במדעי המחשב ובחוג נוסף"}
+    assert joint["tcid"] == "7612" and joint["total"] > 100
+    # Tracks inside a catalog group are programs too, whichever degree
+    assert index["programs"]["תוכנית לתואר שני בפילוסופיה במסלול מחקרי"]["level"] == "שני"
+    assert index["programs"]["תוכנית חד-חוגית בתולדות האמנות"]["level"] == "ראשון"
+    # Programs closed to new students keep their last edition
+    closed = [p for p in index["programs"].values() if p.get("closed")]
+    assert closed and all(read(f"programs/{p['id']}.json").get("year") for p in closed)
