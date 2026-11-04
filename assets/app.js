@@ -41,6 +41,125 @@ const store = {
 };
 
 // ── Picker: a dropdown in the page's direction (native <select> popups ignore RTL on macOS) ──
+// ── Matching search terms ────────────────────────────────────────────────────
+// Names of one thing that share no spelling. Each group's names find each other.
+const SAME_NAMES = [
+    ['מדעי המחשב', 'מדמ"ח', 'cs', 'computer science'], ['חשבון דיפרנציאלי ואינטגרלי', 'חדו"א', 'calculus'],
+    ['מנהל עסקים', 'מנע"ס', 'mba', 'business administration'], ['בינה מלאכותית', 'ai', 'artificial intelligence'],
+    ['למידת מכונה', 'ml', 'machine learning'], ['למידה עמוקה', 'deep learning'], ['אלגברה לינארית', 'linear algebra'],
+    ['מבני נתונים', 'data structures'], ['פיזיקה', 'פיסיקה', 'physics'], ['מתמטיקה', 'math', 'mathematics'],
+    ['סטטיסטיקה', 'stats', 'statistics'], ['ביולוגיה', 'biology'], ['כימיה', 'chemistry'], ['פסיכולוגיה', 'psychology'],
+    ['כלכלה', 'economics'], ['משפטים', 'law'], ['ניהול', 'management'], ['סוציולוגיה', 'sociology'], ['פילוסופיה', 'philosophy'],
+    ['היסטוריה', 'history'], ['הנדסה', 'engineering'], ['רפואה', 'medicine'], ['מוזיקה', 'music'], ['קולנוע', 'film'],
+    ['חינוך', 'education'], ['תקשורת', 'communication'],
+];
+const LATIN_KEYS = "qwertyuiopasdfghjkl;'zxcvbnm,./", HEBREW_KEYS = "/'קראטוןםפשדגכעיחלךף,זסבהנמצתץ.";
+const retype = (text, from, to) => [...text].map(ch => (from.includes(ch) ? to[from.indexOf(ch)] : ch)).join('');
+
+// Lowercase, without niqqud or quotes ('מדמ"ח' = 'מדמח'), other punctuation as spaces, no final letters
+const fold = text => text.toLowerCase().replace(/[֑-ׇ"'`״׳“”‘’]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
+    .replace(/[ךםןףץ]/g, ch => 'כמנפצ'['ךםןףץ'.indexOf(ch)]);
+// Without ו and י, full and defective spelling are one: תוכנית = תכנית, ליניארית = לינארית
+const skeleton = word => word.replace(/[וי]/g, '') || word;
+// A word and the word without an attached ו and prefix (ובמדעי → מדעי), each also as a skeleton. Only one
+// prefix: a second would take the word's root apart (המחשב → חשב, as in חישוב).
+function stems(word) {
+    const out = [word];
+    let i = word[0] === 'ו' ? 1 : 0;
+    if (i && word.length - i >= 3) out.push(word.slice(i));
+    if ('הבלמשכ'.includes(word[i]) && word.length - i - 1 >= 3) out.push(word.slice(i + 1));
+    return out.map(lit => ({ lit, sk: skeleton(lit) }));
+}
+const foldedTexts = new Map();
+function foldedText(text) {
+    let entry = foldedTexts.get(text);
+    if (!entry) {
+        const folded = fold(text);
+        entry = { folded, stems: folded.split(' ').flatMap(stems) };
+        foldedTexts.set(text, entry);
+    }
+    return entry;
+}
+
+function withinEdits(a, b, max) {
+    if (Math.abs(a.length - b.length) > max) return false;
+    let row = Array.from({ length: b.length + 1 }, (_, i) => i);
+    for (let i = 1; i <= a.length; i++) {
+        const next = [i];
+        for (let j = 1; j <= b.length; j++) next[j] = Math.min(row[j] + 1, next[j - 1] + 1, row[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+        if (Math.min(...next) > max) return false;
+        row = next;
+    }
+    return row[b.length] <= max;
+}
+
+// How well a word of the search fits a text: 0 a whole word, 1 a word's start, 2 inside a word, 3 with a
+// typo; half a point more in another spelling. Short skeletons say little (שני, שנה), so they don't count.
+function tokenRank(token, entry, typos) {
+    const forms = stems(token);
+    let best = Infinity;
+    for (const stem of entry.stems) {
+        for (const form of forms) {
+            if (stem.lit === form.lit) return 0;
+            const long = form.sk.length >= 3;
+            if (long && stem.sk === form.sk) best = Math.min(best, 0.5);
+            else if (stem.lit.startsWith(form.lit)) best = Math.min(best, 1);
+            else if (long && stem.sk.startsWith(form.sk)) best = Math.min(best, 1.5);
+        }
+    }
+    if (best === Infinity && token.length >= 3 && entry.folded.includes(token)) return 2;
+    if (best === Infinity && typos) {
+        const sk = skeleton(token), max = sk.length >= 7 ? 2 : 1;
+        if (sk.length >= 4 && entry.stems.some(stem => withinEdits(sk, stem.sk, max)
+            || (stem.sk.length > sk.length && withinEdits(sk, stem.sk.slice(0, sk.length), max)))) return 3;
+    }
+    return best;
+}
+
+// The search and its other names, as form → added rank: a group's first name is its usual one
+function searchForms(folded) {
+    const forms = new Map([[folded, 0]]);
+    for (const group of SAME_NAMES) {
+        const names = group.map(fold), hit = names.find(n => ` ${folded} `.includes(` ${n} `));
+        if (hit) names.forEach((n, i) => {
+            const form = ` ${folded} `.replace(` ${hit} `, ` ${n} `).trim();
+            if (!forms.has(form)) forms.set(form, i ? 0.25 : 0);
+        });
+    }
+    return [...forms];
+}
+
+// items that match the search, as [{item, rank}] (lower is closer), its words in any order. When nothing
+// matches, the search is tried as typed with the keyboard on the other language, then forgiving typos.
+function searchItems(items, term, textOf) {
+    const lower = term.trim().toLowerCase();
+    const rankWith = (folded, typos = false) => {
+        const forms = searchForms(folded);
+        const rankOf = text => {
+            const entry = foldedText(text);
+            let best = Infinity;
+            for (const [form, added] of forms) {
+                if (entry.folded === form) return added;
+                if (entry.folded.startsWith(form)) { best = Math.min(best, 1 + added); continue; }
+                best = Math.min(best, 2 + added + Math.max(...form.split(' ').map(t => tokenRank(t, entry, typos))));
+            }
+            return best;
+        };
+        const found = items.map(item => ({ item, rank: rankOf(textOf(item)) })).filter(r => r.rank < Infinity);
+        // Several words, all found whole: partial hits are noise ("מדעי המחשב" doesn't mean "מחשבת ישראל")
+        const whole = folded.includes(' ') && found.some(r => r.rank >= 2 && r.rank <= 2.75);
+        return whole ? found.filter(r => r.rank <= 2.75) : found;
+    };
+    const typed = fold(lower);
+    if (!typed) return [];
+    const retyped = fold(/[a-z]/.test(lower) ? retype(lower, LATIN_KEYS, HEBREW_KEYS) : retype(lower, HEBREW_KEYS, LATIN_KEYS));
+    for (const attempt of [() => rankWith(typed), () => (retyped ? rankWith(retyped) : []), () => rankWith(typed, true)]) {
+        const found = attempt();
+        if (found.length) return found;
+    }
+    return [];
+}
+
 let openPicker = null, pickerCount = 0;
 
 function picker({ id, label, onchange, search = false, key, placeholder = '—' }) {
@@ -62,7 +181,7 @@ function picker({ id, label, onchange, search = false, key, placeholder = '—' 
     });
     const fill = () => {
         const term = input ? input.value.trim() : '';
-        shown = options.filter(o => o.label.includes(term) || (o.group || '').includes(term));
+        shown = term ? searchItems(options, term, o => `${o.label} ${o.group || ''}`).map(r => r.item) : options;
         let group;
         list.replaceChildren(...shown.flatMap((o, i) => [
             o.group && o.group !== group && h('li', { class: 'picker-group', role: 'presentation' }, (group = o.group)),
@@ -1392,23 +1511,36 @@ function timeline() {
 }
 
 // Choosing a program: a degree, then a faculty's programs by kind, or a search across the degree's
-// faculties. Shown as the page when no program is chosen yet, and in a dialog from the program's title.
+// faculties, with each degree's matches counted. Shown as the page when no program is chosen yet, and in
+// a dialog from the program's title.
 let programOptions = [];  // [{value, label, group}] in display order
 
 function programChooser() {
     let level = programLevel(state.program) || LEVELS[0].value;
     let faculty = state.program ? programFaculty(state.program) : programFaculties(level)[0]?.value;
-    const levelBar = h('div', { class: 'segmented', role: 'group', 'aria-label': 'תואר' });
+    const levelButtons = LEVELS.map(l => h('button', { type: 'button', onclick: () => {
+        level = l.value;
+        const faculties = programFaculties(level);
+        if (!faculties.some(f => f.value === faculty)) faculty = faculties[0]?.value;
+        fill();
+    } }, h('span', {}, l.label), h('span', { class: 'count' })));
     const list = h('ul', { class: 'chooser-list' });
     const facultyBar = h('div', { class: 'chips', role: 'group', 'aria-label': 'פקולטה' });
     const search = h('input', { type: 'search', class: 'chooser-search', placeholder: 'חיפוש תוכנית', 'aria-label': 'חיפוש תוכנית', autocomplete: 'off' });
     const fill = () => {
-        const term = search.value.trim(), lower = term.toLowerCase();
-        const shown = programOptions.filter(o => programLevel(o.value) === level
-            && (term ? `${shortProgram(o.value)} ${DATA.programs[o.value].degree || ''}`.toLowerCase().includes(lower) : programFaculty(o.value) === faculty));
+        // Every name says it's a program, and the tabs choose the degree: neither narrows a search
+        const term = search.value.replace(/תואר\s+(ראשון|שני)|ת(ו)?כני(ו)?ת/g, ' ').trim();
+        const matches = term ? searchItems(programOptions, term, o => `${shortProgram(o.value)} ${DATA.programs[o.value].degree || ''}`) : programOptions.map(item => ({ item, rank: 0 }));
+        const inLevel = value => matches.filter(r => programLevel(r.item.value) === value);
+        levelButtons.forEach((b, i) => {
+            b.setAttribute('aria-pressed', String(LEVELS[i].value === level));
+            b.lastChild.textContent = inLevel(LEVELS[i].value).length;
+        });
         // closest matches first: the name itself, then names that start with the term, then the shortest
-        const closeness = o => (o.label === term ? 0 : o.label.startsWith(term) ? 1 : 2);
-        if (term) shown.sort((a, b) => closeness(a) - closeness(b) || a.label.length - b.label.length);
+        const closeness = o => (fold(o.label) === fold(term) ? 0 : fold(o.label).startsWith(fold(term)) ? 1 : 2);
+        const shown = term
+            ? inLevel(level).sort((a, b) => closeness(a.item) - closeness(b.item) || a.rank - b.rank || a.item.label.length - b.item.label.length).map(r => r.item)
+            : programOptions.filter(o => programLevel(o.value) === level && programFaculty(o.value) === faculty);
         // while searching, results are grouped by faculty, since they may come from any of them
         const groupOf = o => (term ? programFaculty(o.value) : o.group);
         const groups = [...new Set(shown.map(groupOf))];
@@ -1418,18 +1550,16 @@ function programChooser() {
                 h('button', { class: `chooser-item${o.value === state.program ? ' current' : ''}`, onclick: () => pickProgram(o.value) },
                     term ? shortProgram(o.value) : o.label))),
         ]).flat());
-        if (!shown.length) list.append(h('li', { class: 'muted chooser-empty' }, 'אין תוכניות מתאימות'));
+        if (!shown.length) {
+            const other = LEVELS.findIndex(l => l.value !== level && inLevel(l.value).length);
+            list.append(h('li', { class: 'muted chooser-empty' }, other < 0 ? 'אין תוכניות מתאימות'
+                : h('button', { type: 'button', class: 'btn-link', onclick: () => levelButtons[other].click() }, `${inLevel(LEVELS[other].value).length} תוצאות ב${LEVELS[other].label}`)));
+        }
         replaceChips(facultyBar, programFaculties(level).map(f => chip(f.value, !term && f.value === faculty, () => {
             faculty = f.value;
             search.value = '';
             fill();
         }, f.count)));
-        levelBar.replaceChildren(...LEVELS.map(l => h('button', { 'aria-pressed': String(l.value === level), onclick: () => {
-            level = l.value;
-            const faculties = programFaculties(level);
-            if (!faculties.some(f => f.value === faculty)) faculty = faculties[0]?.value;
-            fill();
-        } }, l.label)));
     };
     search.addEventListener('input', fill);
     search.addEventListener('keydown', e => {
@@ -1437,7 +1567,7 @@ function programChooser() {
         if (e.key === 'Enter' && items.length === 1) items[0].click();
     });
     fill();
-    return h('div', { class: 'chooser' }, h('div', { class: 'chooser-tools' }, levelBar, search, facultyBar), list);
+    return h('div', { class: 'chooser' }, h('div', { class: 'chooser-tools' }, h('div', { class: 'degree-split', role: 'group', 'aria-label': 'תואר' }, levelButtons), search, facultyBar), list);
 }
 
 function pickProgram(name) {
@@ -1732,20 +1862,18 @@ function setupSearch() {
     input.addEventListener('blur', () => document.body.classList.remove('searching'));
 
     input.addEventListener('input', () => {
-        const term = input.value.trim().toLowerCase();
+        const term = input.value.trim();
         const digits = term.replace(/\D/g, '');
         if (!term) return close();
-        // The exact name first, then names that start with the term; within each, the student's program
-        // and the map's courses, then courses offered this year
+        // The exact name first, then names that start with the term, then whole words; within each, the
+        // student's program and the map's courses, then courses offered this year
         const near = new Set([...cy.nodes().map(n => n.id()), ...(programEdition(state.program)?.categories || []).flatMap(c => c.courses)]);
-        const score = c => {
-            const name = c.name.toLowerCase();
-            return (name === term || c.id === digits ? 0 : name.startsWith(term) ? 4 : 8) + (near.has(c.id) ? 0 : 2) + (offeredNow(c) ? 0 : 1);
-        };
-        results = [...COURSES.values()]
-            .filter(c => c.name.toLowerCase().includes(term) || (digits.length >= 3 && c.id.includes(digits)))
-            .sort((a, b) => score(a) - score(b) || a.id.localeCompare(b.id))
-            .slice(0, 12);
+        const score = ({ item: c, rank }) => (c.id === digits ? 0 : 4 * Math.min(rank, 4)) + (near.has(c.id) ? 0 : 2) + (offeredNow(c) ? 0 : 1);
+        const byName = searchItems([...COURSES.values()], term, c => c.name), found = new Set(byName.map(r => r.item.id));
+        const byNumber = digits.length >= 3 ? [...COURSES.values()].filter(c => !found.has(c.id) && c.id.includes(digits)).map(item => ({ item, rank: 2 })) : [];
+        results = [...byName, ...byNumber]
+            .sort((a, b) => score(a) - score(b) || a.item.id.localeCompare(b.item.id))
+            .slice(0, 12).map(r => r.item);
         active = results.length ? 0 : -1;
         list.replaceChildren(...(results.length
             ? results.map((c, i) => h('li', { role: 'option', id: `sr-${i}`, onmousedown: e => { e.preventDefault(); choose(c.id); } },

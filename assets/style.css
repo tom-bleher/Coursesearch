@@ -811,7 +811,24 @@ input.grade:invalid { border-color: var(--warn); }
 .chooser-page { padding-top: 28px; }
 .chooser-page h1 { font-size: 22px; font-weight: 700; margin-bottom: 14px; }
 .chooser-tools { display: flex; flex-direction: column; gap: 10px; }
-.chooser-tools .segmented { align-self: flex-start; }
+.degree-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.degree-split button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.degree-split button:hover { background: var(--surface-2); color: var(--text); }
+.degree-split button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent-border); color: var(--accent); font-weight: 600; }
+.degree-split .count { font-size: 12.5px; font-weight: 400; opacity: 0.8; }
 .chooser-search {
     width: 100%;
     height: 36px;

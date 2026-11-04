@@ -318,6 +318,64 @@ def test_grades_weighted_average(open_page):
     assert page.errors == []
 
 
+@pytest.mark.parametrize("search, finds", [
+    ("אלגברה ליניארית", "אלגברה לינארית"),       # full and defective spelling, both ways
+    ("אלגברה לינארית", "אלגברה ליניארית"),
+    ("חדוא", "חשבון דיפרנציאלי ואינטגרלי"),      # abbreviations, with or without quotes
+    ('חדו"א', "חשבון דיפרנציאלי ואינטגרלי"),
+    ("פיסיקה", "פיזיקה"),                        # another spelling
+    ("נתונים מבני", "מבני נתונים"),              # any word order
+    ("data structures", "מבני נתונים"),          # English names
+    ("ncbh b,ubho", "מבני נתונים"),              # typed with the keyboard on English
+    ("מתמתיקה", "מתמטיקה"),                      # a typo, when nothing else matches
+])
+def test_course_search_variations(open_page, search, finds):
+    page = open_page(f"#program={CS}")
+    names = page.evaluate("t => searchItems([...COURSES.values()], t, c => c.name).map(r => r.item.name)", search)
+    assert any(finds in n for n in names), names[:5]
+
+
+def test_search_stays_precise(open_page):
+    page = open_page(f"#program={CS}")
+    names = lambda t: page.evaluate("t => searchItems([...COURSES.values()], t, c => c.name).map(r => r.item.name)", t)
+    assert names("זזזזזזזזזז") == []
+    # Typos are forgiven only when nothing matches exactly
+    assert all("אלגברה" in n for n in names("אלגברה"))
+    # Every word must match, not any of them
+    assert all("אלגוריתמים" in n and "קוונט" in n for n in names("אלגוריתמים קוונטיים"))
+    # Other spellings must not swallow different words, and keyboard retyping is only a last resort
+    assert names("תכנות")[0].startswith("תכנות") or "תכנות" in names("תכנות")[0]
+    assert not any(n.startswith("שנה") for n in names("שני")[:5])
+    assert not any("התבונה" in n for n in names("בינה"))
+    assert not any(n.startswith("בדיק") for n in names("cs"))
+    # A search of whole words drops partial hits
+    assert not any("מחשבה" in n or "מחשבת" in n for n in names("מדעי המחשב"))
+    # A prefix comes off a word, not its root: "המחשב" isn't "חישוב"
+    assert "חישוב מדעי" not in names("מדעי המחשב")
+    assert all("מחשב" in n or "computer" in n.lower() or "cs" in n.lower() for n in names("מדמח"))
+    assert page.errors == []
+
+
+def test_program_search_variations(open_page):
+    page = open_page("#program=")
+    search = page.locator(".chooser-search")
+    for term, finds in [("תכנית חד חוגית מדעי המחשב", "מדעי המחשב"), ("מדמח", "מדעי המחשב"), ("גיאוגרפיה", "גאוגרפיה"), ("תואר ראשון פיזיקה", "פיזיקה")]:
+        search.fill(term)
+        assert any(finds in t for t in page.locator(".chooser-item").all_inner_texts()), term
+    # A word that resembles "תוכנית" doesn't list every program
+    search.fill("תכנות")
+    assert page.locator(".chooser-item").count() < 30
+    # The degree tabs count each degree's matches, so a search that misses here shows where to look
+    search.fill("mba")
+    assert page.locator(".chooser-item").count() == 0
+    second = page.locator(".degree-split button", has_text="תואר שני")
+    assert int(second.locator(".count").inner_text()) >= 4
+    page.locator(".chooser-empty button", has_text="תוצאות בתואר שני").click()
+    assert second.get_attribute("aria-pressed") == "true"
+    assert page.locator(".chooser-item").count() >= 4
+    assert page.errors == []
+
+
 def test_map_of_program_without_required_courses(open_page):
     # Many second-degree programs mark nothing as required: the map still shows their courses
     page = open_page("#program=תוכנית לתואר שני בפילוסופיה במסלול מחקרי&view=map")
@@ -372,8 +430,8 @@ def test_faculty_and_program_choice(open_page):
     assert page.locator(".chooser-item").count() == page.evaluate(
         f"Object.keys(DATA.programs).filter(n => programFaculty(n) === {first!r} && programLevel(n) === 'ראשון').length")
     # Second-degree programs are a click away, and the search stays within the chosen degree
-    page.locator(".chooser .segmented button", has_text="תואר שני").click()
-    assert page.locator(".chooser .segmented button[aria-pressed=true]").inner_text() == "תואר שני"
+    page.locator(".degree-split button", has_text="תואר שני").click()
+    assert "תואר שני" in page.locator(".degree-split button[aria-pressed=true]").inner_text()
     assert page.evaluate("[...document.querySelectorAll('.chooser-item')].length") > 0
     assert page.locator(".chooser-group", has_text="חד-חוגיות").count() == 0
     page.fill(".chooser-search", "פילוסופיה")
@@ -385,7 +443,7 @@ def test_faculty_and_program_choice(open_page):
     assert page.evaluate("""(() => {
         const keys = programOptions.map(o => [programLevel(o.value), programFaculty(o.value), o.group, o.label].join());
         return keys.length - new Set(keys).size; })()""") == 0
-    page.locator(".chooser .segmented button", has_text="תואר ראשון").click()
+    page.locator(".degree-split button", has_text="תואר ראשון").click()
     page.locator(".chooser .chip", has_text="מדעים מדויקים").click()
     page.get_by_role("button", name="פיזיקה", exact=True).click()
     page.wait_for_function("state.program === 'תוכנית חד-חוגית בפיזיקה'")  # loads the program first
