@@ -95,7 +95,16 @@ def test_catalog_down_keeps_published_programs(tmp_path, monkeypatch):
     assert credits == {"14119101": 4}
 
 
+def test_required_category_counts_listed_groups():
+    # all 3 listed groups of 2 courses are required, or the single course of a "choose 1"
+    assert ud.make_category("שנה א", ["1000000001", "1000000002", "2000000001"], 3)["required"]
+    assert ud.make_category("שנה א", ["1000000001", "1000000002"], 1)["required"]
+    assert not ud.make_category("שנה א", ["10000000", "20000000", "30000000"], 2)["required"]
+
+
 @pytest.mark.parametrize("name, expected", [
+    ("Mandatory Courses", (None, None, True)),
+    ("Elective Courses/ Seminars", (None, None, False)),
     ("שנה א' - סמסטר ב' - קורסי חובה", (1, 2, True)),
     ("שנים ב'+ ג' - קורסי בחירה במתמטיקה", (2, None, False)),
     ("שנה ג' - סמינר במתמטיקה", (3, None, False)),

@@ -181,7 +181,7 @@ def parse_category(name):
     """Extract (year, semester, required) from names like "שנה ב' - סמסטר א' - קורסי חובה"."""
     y = re.search(r"שנה\s+([אבגד])", name) or re.search(r"שנים\s+([אבגד])", name)
     s = re.search(r"סמס(?:טר)?'?\s*([אב])", name)
-    required = "חובה" in name and "בחירה" not in name
+    required = bool(re.search("חובה|mandatory", name, re.I)) and not re.search("בחירה|elective", name, re.I)
     return (HEBREW_ORD[y.group(1)] if y else None,
             HEBREW_ORD[s.group(1)] if s else None,
             required)
@@ -238,12 +238,13 @@ def course_numbers(ids):
 
 
 def make_category(name, courses, count=None, credits=None, note=None):
+    listed = len(courses)  # Arazim may count each listed group of a course
     courses = course_numbers(courses)
     name = re.sub(r"\s+", " ", name).strip()
     year, sem, required = parse_category(name)
     # Mandatory even when not labelled "חובה": every listed course is required, or the official
     # note opens by calling them mandatory ("להלן רשימת קורסי החובה…")
-    required = required or ("בחירה" not in name and (count == len(courses)
+    required = required or (not re.search("בחירה|elective", name, re.I) and (count in (listed, len(courses))
                                                     or bool(re.search(r"קורסי\s+ה?חובה", (note or "")[:60]))))
     cat = {"name": name, "year": year, "sem": sem, "required": required, "count": count,
            "credits": credits, "note": note, "courses": courses}
