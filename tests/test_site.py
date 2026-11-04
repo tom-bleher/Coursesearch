@@ -318,8 +318,15 @@ def test_grades_weighted_average(open_page):
     assert page.errors == []
 
 
+def test_map_of_program_without_required_courses(open_page):
+    # Many second-degree programs mark nothing as required: the map still shows their courses
+    page = open_page("#program=תוכנית לתואר שני בפילוסופיה במסלול מחקרי&view=map")
+    assert page.evaluate("view.noRequired") and page.evaluate("cy.nodes().length") > 0
+    assert page.is_hidden("#electivesBtn")
+    assert page.errors == []
+
+
 def test_joint_program_checklist(open_page):
-    # Joint programs come without catalog credit figures or sections
     page = open_page("#program=תוכנית דו-חוגית במתמטיקה ובמדעי המחשב")
     assert "false" not in page.inner_text("#summary")
     cat = page.evaluate("view.cats.find(isMandatory)")
@@ -363,7 +370,22 @@ def test_faculty_and_program_choice(open_page):
     page = open_page("#program=")
     first = page.evaluate("programFaculties()[0].value")
     assert page.locator(".chooser-item").count() == page.evaluate(
-        f"Object.keys(DATA.programs).filter(n => programFaculty(n) === {first!r}).length")
+        f"Object.keys(DATA.programs).filter(n => programFaculty(n) === {first!r} && programLevel(n) === 'ראשון').length")
+    # Second-degree programs are a click away, and the search stays within the chosen degree
+    page.locator(".chooser .segmented button", has_text="תואר שני").click()
+    assert page.locator(".chooser .segmented button[aria-pressed=true]").inner_text() == "תואר שני"
+    assert page.evaluate("[...document.querySelectorAll('.chooser-item')].length") > 0
+    assert page.locator(".chooser-group", has_text="חד-חוגיות").count() == 0
+    page.fill(".chooser-search", "פילוסופיה")
+    assert any("לתואר שני" in t for t in page.locator(".chooser-item").all_inner_texts())
+    page.fill(".chooser-search", "mba")  # a degree's name is searchable too, in any case
+    assert any("מנהל עסקים" in t for t in page.locator(".chooser-item").all_inner_texts())
+    page.fill(".chooser-search", "")
+    # No two programs look the same within a list
+    assert page.evaluate("""(() => {
+        const keys = programOptions.map(o => [programLevel(o.value), programFaculty(o.value), o.group, o.label].join());
+        return keys.length - new Set(keys).size; })()""") == 0
+    page.locator(".chooser .segmented button", has_text="תואר ראשון").click()
     page.locator(".chooser .chip", has_text="מדעים מדויקים").click()
     page.get_by_role("button", name="פיזיקה", exact=True).click()
     page.wait_for_function("state.program === 'תוכנית חד-חוגית בפיזיקה'")  # loads the program first
@@ -378,7 +400,7 @@ def test_faculty_and_program_choice(open_page):
     other = page.evaluate("programFaculties()[1].value")
     dialog.locator(".chip", has_text=other).click()
     names = dialog.locator(".chooser-item").all_inner_texts()
-    expected = page.evaluate(f"programOptions.filter(o => programFaculty(o.value) === {other!r}).map(o => o.label)")
+    expected = page.evaluate(f"programOptions.filter(o => programFaculty(o.value) === {other!r} && programLevel(o.value) === 'ראשון').map(o => o.label)")
     assert names and names == expected
     # ...and the search looks through every faculty
     dialog.locator(".chooser-search").fill("משפטים")

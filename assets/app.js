@@ -173,7 +173,9 @@ function canvasLabel(name) {
 }
 const shortProgram = name => name.replace(/^(תוכנית|תכנית)\s+(לימודים\s+)?/, '');
 // Under a "חד-חוגיות" / "דו-חוגיות" heading: "חד-חוגית במדעי המחשב" → "מדעי המחשב"
-const programTitle = name => shortProgram(name).replace(/^(חד|דו)[- ]חוגית\s+(לתואר ראשון\s+)?ב(?=\S)/, '');
+// and under a "מסלול מחקרי" heading: "לתואר שני בפילוסופיה במסלול מחקרי" → "פילוסופיה"
+const programTitle = name => shortProgram(name).replace(/^(חד|דו)[- ]חוגית\s+(לתואר ראשון\s+)?ב(?=\S)/, '')
+    .replace(/^לתואר שני\s+ב(?=\S)/, '').replace(/\s+במסלול\s+(מחקרי|עיוני)/, '');
 
 // ── Requirement trees: "id" | {all: [...]} | {any: [...]} ───────────────────
 function reqIds(req) {
@@ -265,9 +267,12 @@ const canTake = (c, done) => satisfied(c.reqT, meets(done));
 const partName = sem => (sem.endsWith('a') ? 'א׳' : 'ב׳');
 
 const yearsText = n => (n === 1 ? 'שנה אחת' : n === 2 ? 'שנתיים' : `־${n} שנים`);  // after ל
-// The program's length in years (3 when unknown)
-const programYears = () => (inProgram() && Math.max(0, ...view.cats.map(c => c.year || 0))) || 3;
-const firstYear = () => +(state.start || DATA.meta.catalog_year) + 1;
+// The program's latest catalog edition: earlier than the current catalog for a program no longer published
+const latestEdition = name => DATA.programs[name]?.year || String(DATA.meta.catalog_year);
+// The program's length in years (when unknown: a second degree 2, a first degree 3)
+const programYears = () => (inProgram() && Math.max(0, ...view.cats.map(c => c.year || 0)))
+    || (programLevel(state.program) === 'שני' ? 2 : 3);
+const firstYear = () => +(state.start || latestEdition(state.program)) + 1;
 
 // From this year to the end of the degree, spread over extra years if the student chose to
 function planSemesters() {
@@ -349,9 +354,11 @@ function programView() {
         .map((cat, i) => ({ ...cat, i }))
         .sort((a, b) => (a.year ?? 9) - (b.year ?? 9) || b.required - a.required || (a.sem ?? 3) - (b.sem ?? 3) || a.i - b.i);
     const required = new Set(), categories = new Map(), bands = [];
-    // Without electives, the map still shows the ones the student passed or planned
+    // Without electives, the map still shows the ones the student passed or planned. A program whose
+    // catalog marks nothing as required has only one view: all of its courses.
+    const noRequired = !cats.some(cat => cat.required && cat.courses.some(id => COURSES.has(id)));
     const shown = cat => cat.courses.filter(id => COURSES.has(id)
-        && (cat.required || state.electives || state.taken.has(id) || state.plan.has(id)));
+        && (cat.required || noRequired || state.electives || state.taken.has(id) || state.plan.has(id)));
     // A course listed in several parts is drawn once, in a required part if it has one (so turning
     // electives on doesn't take courses out of required parts)
     const home = new Map();
@@ -366,7 +373,7 @@ function programView() {
         if (!ids.length) continue;
         bands.push({ parts: bandParts(cat), title: cat.name, credits: cat.credits, category: cat.i, ids });
     }
-    return { bands, required, categories, cats, program };
+    return { bands, required, categories, cats, program, noRequired };
 }
 
 // A program as described in the catalog of the student's start year (students keep their start-year rules)
@@ -374,7 +381,7 @@ function programEdition(name) {
     const p = DATA.programs[name];
     if (!p?.categories) return null;  // not loaded (see loadProgram)
     const edition = state.start && p.previous?.[state.start];
-    return edition ? { ...p, ...edition, year: state.start } : { ...p, year: String(DATA.meta.catalog_year) };
+    return edition ? { ...p, ...edition, year: state.start } : { ...p, year: latestEdition(name) };
 }
 
 // "2027b" → "תשפ״ז ב׳ · שנה ב׳" when the student's start year is known
@@ -922,16 +929,12 @@ function renderProgramInfo() {
             h('h2', {}, shortProgram(state.program)),
             h('div', { class: 'meta' },
                 p.degree && h('span', { class: 'tag' }, p.degree),
-                h('span', { class: 'tag' }, `ידיעון ${hebrewYear(+p.year + 1)}`)),
+                h('span', { class: 'tag' }, `ידיעון ${hebrewYear(+p.year + 1)}`),
+                p.closed && h('span', { class: 'tag' }, 'לתלמידים ממשיכים')),
             p.total && h('div', { class: 'stats' },
                 statBox(p.total, 'ש״ס לתואר'),
                 statBox(p.categories.filter(isMandatory).reduce((n, c) => n + c.courses.length, 0), 'קורסי חובה'),
                 statBox(p.categories.filter(c => !isMandatory(c)).length, 'אשכולות בחירה')),
-            p.parts?.length > 0 && [
-                h('p', { class: 'note' }, 'תוכנית זו מורכבת משני חוגים. הכללים המלאים מופיעים בידיעון של כל חוג:'),
-                h('ul', { class: 'req' }, p.parts.map(x => h('li', {},
-                    DATA.programs[x.name] ? h('button', { class: 'course-link', onclick: () => setProgram(x.name) }, shortProgram(x.name)) : shortProgram(x.name)))),
-            ],
             p.about && h('details', { class: 'about' }, h('summary', {}, 'על התוכנית'), h('div', { class: 'note' }, p.about)),
             p.sections?.length > 0 && [
                 h('h3', {}, 'מבנה התואר'),
@@ -1090,7 +1093,7 @@ const planPicker = (id, empty, key) => picker({ label: `תכנון ${courseName(
     .set([{ value: '', label: 'לא מתוכנן', short: empty },
         ...planSemesters().map(s => ({ value: s, label: semOption(s), short: semLabel(s) }))], state.plan.get(id) || '');
 
-// Required parts without a catalog figure (joint programs) need all their courses' credits
+// Required parts without a catalog figure need all their courses' credits
 const creditsNeeded = cat => minCredits(cat.credits) || (isMandatory(cat) ? creditsOf(cat.courses) : 0);
 const minCredits = text => Number(String(text ?? '').split('-')[0]) || 0;  // "59-61" → 59
 
@@ -1126,7 +1129,7 @@ function degreeSections(program, cats) {
         const home = sections.filter(s => cat.name === s.key || cat.name.startsWith(`${s.key} - `))
             .sort((a, b) => b.key.length - a.key.length)[0];
         if (home) { home.cats.push(cat); continue; }
-        // programs without catalog sections (joint programs) are grouped by year
+        // programs without catalog sections are grouped by year
         const name = cat.year ? `שנה ${'אבגד'[cat.year - 1]}׳` : 'כללי';
         if (!other.has(name)) other.set(name, { name, key: name, cats: [] });
         other.get(name).cats.push(cat);
@@ -1228,7 +1231,7 @@ function renderSectionHeads() {
 function pageHead(program) {
     const years = Object.keys(DATA.programs[state.program].previous || {}).sort().reverse();
     const start = years.length > 0 && picker({ id: 'startYear', label: 'שנת התחלת הלימודים', key: 'start', onchange: setStart })
-        .set([String(DATA.meta.catalog_year), ...years].map((y, i) => ({ value: i ? y : '', label: `התחלתי ב${hebrewYear(+y + 1)}` })),
+        .set([latestEdition(state.program), ...years].map((y, i) => ({ value: i ? y : '', label: `התחלתי ב${hebrewYear(+y + 1)}` })),
             years.includes(state.start) ? state.start : '');
     if (start) start.el.title = 'חלים עליך כללי הידיעון של שנת ההתחלה';
     const length = programYears();
@@ -1388,18 +1391,21 @@ function timeline() {
         })));
 }
 
-// Choosing a program: a faculty's programs by kind, or a search across every faculty. Shown as the
-// page when no program is chosen yet, and in a dialog from the program's title.
+// Choosing a program: a degree, then a faculty's programs by kind, or a search across the degree's
+// faculties. Shown as the page when no program is chosen yet, and in a dialog from the program's title.
 let programOptions = [];  // [{value, label, group}] in display order
 
 function programChooser() {
-    let faculty = state.program ? programFaculty(state.program) : programFaculties()[0]?.value;
+    let level = programLevel(state.program) || LEVELS[0].value;
+    let faculty = state.program ? programFaculty(state.program) : programFaculties(level)[0]?.value;
+    const levelBar = h('div', { class: 'segmented', role: 'group', 'aria-label': 'תואר' });
     const list = h('ul', { class: 'chooser-list' });
     const facultyBar = h('div', { class: 'chips', role: 'group', 'aria-label': 'פקולטה' });
     const search = h('input', { type: 'search', class: 'chooser-search', placeholder: 'חיפוש תוכנית', 'aria-label': 'חיפוש תוכנית', autocomplete: 'off' });
     const fill = () => {
-        const term = search.value.trim();
-        const shown = programOptions.filter(o => (term ? shortProgram(o.value).includes(term) : programFaculty(o.value) === faculty));
+        const term = search.value.trim(), lower = term.toLowerCase();
+        const shown = programOptions.filter(o => programLevel(o.value) === level
+            && (term ? `${shortProgram(o.value)} ${DATA.programs[o.value].degree || ''}`.toLowerCase().includes(lower) : programFaculty(o.value) === faculty));
         // closest matches first: the name itself, then names that start with the term, then the shortest
         const closeness = o => (o.label === term ? 0 : o.label.startsWith(term) ? 1 : 2);
         if (term) shown.sort((a, b) => closeness(a) - closeness(b) || a.label.length - b.label.length);
@@ -1413,11 +1419,17 @@ function programChooser() {
                     term ? shortProgram(o.value) : o.label))),
         ]).flat());
         if (!shown.length) list.append(h('li', { class: 'muted chooser-empty' }, 'אין תוכניות מתאימות'));
-        replaceChips(facultyBar, programFaculties().map(f => chip(f.value, !term && f.value === faculty, () => {
+        replaceChips(facultyBar, programFaculties(level).map(f => chip(f.value, !term && f.value === faculty, () => {
             faculty = f.value;
             search.value = '';
             fill();
         }, f.count)));
+        levelBar.replaceChildren(...LEVELS.map(l => h('button', { 'aria-pressed': String(l.value === level), onclick: () => {
+            level = l.value;
+            const faculties = programFaculties(level);
+            if (!faculties.some(f => f.value === faculty)) faculty = faculties[0]?.value;
+            fill();
+        } }, l.label)));
     };
     search.addEventListener('input', fill);
     search.addEventListener('keydown', e => {
@@ -1425,7 +1437,7 @@ function programChooser() {
         if (e.key === 'Enter' && items.length === 1) items[0].click();
     });
     fill();
-    return h('div', { class: 'chooser' }, h('div', { class: 'chooser-tools' }, search, facultyBar), list);
+    return h('div', { class: 'chooser' }, h('div', { class: 'chooser-tools' }, levelBar, search, facultyBar), list);
 }
 
 function pickProgram(name) {
@@ -1779,14 +1791,16 @@ function toggleIn(set, value) {
 // Faculties: of academic units (the map, from the data's meta) and of programs (the program chooser)
 const unitFaculties = () => DATA.meta.faculties || {};
 const programFaculty = name => DATA.programs[name]?.faculty || 'אחר';
+const programLevel = name => DATA.programs[name]?.level;
 const isUnit = dept => Object.values(unitFaculties()).some(units => units.includes(dept));
 const facultyOfUnits = () => Object.keys(unitFaculties()).find(f => unitFaculties()[f].some(u => state.depts.has(u)))
     || Object.keys(unitFaculties())[0] || '';
 
-// Faculties with programs, the largest first
-function programFaculties() {
+// Faculties with programs of a degree, the largest first
+function programFaculties(level = LEVELS[0].value) {
     const counts = new Map();
-    Object.keys(DATA.programs).forEach(n => counts.set(programFaculty(n), (counts.get(programFaculty(n)) || 0) + 1));
+    Object.keys(DATA.programs).filter(n => programLevel(n) === level)
+        .forEach(n => counts.set(programFaculty(n), (counts.get(programFaculty(n)) || 0) + 1));
     return [...counts].sort((a, b) => b[1] - a[1]).map(([value, count]) => ({ value, count }));
 }
 
@@ -1806,7 +1820,7 @@ function renderChrome() {
     pickers.faculty.el.hidden = !unit;
     $('deptBar').hidden = !unit;
     $('filtersBtn').hidden = !unit;
-    $('electivesBtn').hidden = unit;
+    $('electivesBtn').hidden = unit || Boolean(view?.noRequired);
     if (!unit) { $('filters').hidden = true; $('filtersBtn').setAttribute('aria-expanded', 'false'); }
 
     pickers.faculty.set(Object.keys(unitFaculties()).map(f => ({ value: f, label: f })), state.faculty);
@@ -1956,12 +1970,18 @@ function setupCanvasTools() {
     cy.on('mouseout', 'node', e => peek(e.target).removeClass('peek'));
 }
 
-// Programs (all bachelor's) are grouped by kind
-const GROUPS = ['חד-חוגיות', 'דו-חוגיות', 'אחר'];
-const programGroup = name => /חד[- ]חוגי/.test(name) ? GROUPS[0] : /דו[- ]חוגי/.test(name) ? GROUPS[1] : GROUPS[2];
+// Programs are grouped by kind, those no longer taking new students last
+const LEVELS = [{ value: 'ראשון', label: 'תואר ראשון' }, { value: 'שני', label: 'תואר שני' }];
+const GROUPS = ['חד-חוגיות', 'דו-חוגיות', 'מסלול מחקרי', 'מסלול עיוני', 'אחר', 'לתלמידים ממשיכים'];
+function programGroup(name) {
+    if (DATA.programs[name].closed) return 'לתלמידים ממשיכים';
+    if (programLevel(name) === 'שני') return /מחקרי|עם תזה|\bthesis/i.test(name) && !/non-thesis/i.test(name) ? 'מסלול מחקרי' : /עיוני|ללא תזה|ללא עבודת גמר|non-thesis/i.test(name) ? 'מסלול עיוני' : 'אחר';
+    return /חד[- ]חוגי/.test(name) ? 'חד-חוגיות' : /דו[- ]חוגי/.test(name) ? 'דו-חוגיות' : 'אחר';
+}
 
 function setupControls() {
-    programOptions = Object.keys(DATA.programs).map(n => ({ value: n, label: programTitle(n), group: programGroup(n) }))
+    // A title leaves out what its heading says; the last group's heading doesn't say the program's kind
+    programOptions = Object.keys(DATA.programs).map(n => ({ value: n, label: DATA.programs[n].closed ? shortProgram(n) : programTitle(n), group: programGroup(n) }))
         .sort((a, b) => GROUPS.indexOf(a.group) - GROUPS.indexOf(b.group) || a.label.localeCompare(b.label, 'he'));
     pickers.faculty = picker({ id: 'faculty', label: 'פקולטה', onchange: setFaculty });
     $('facultySlot').replaceWith(pickers.faculty.el);
