@@ -54,6 +54,10 @@ pip install pytest playwright && playwright install chromium-headless-shell
 python3 -m pytest tests
 ```
 
+## Support
+
+[☕ Buy Me a Coffee](https://buymeacoffee.com/tombleher)
+
 ## Contact
 
 Questions and suggestions are welcome as GitHub issues, or contact:
